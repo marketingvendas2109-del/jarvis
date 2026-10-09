@@ -323,6 +323,7 @@ function setCall(s){callState=s;$("cStatus").textContent={listening:"Ouvindo..."
 function callPulse(t){callOrb.energy=Math.min(1.5,callOrb.energy+.5);$("cYou").textContent="… "+t}
 async function handleTalk(t){$("cYou").textContent="“"+t+"”";setCall("thinking");lastReply=null;await sendMessage(t);if(!talk)return;
 if(lastReply){$("cAi").textContent=lastReply;setCall("speaking");speak(lastReply,()=>{if(talk){setCall("listening");setTimeout(listen,400)}})}else{setCall("listening");setTimeout(listen,400)}}
+  if (t.toLowerCase().includes("planilha") || t.toLowerCase().includes("agenda") || t.toLowerCase().includes("marcar")) { enviarParaOMake("Comando Jarvis", t); }
 const _vb=$("voiceBtn").onclick,_st=stopTalk;
 stopTalk=function(){_st();$("call").classList.add("hidden");callState="idle"};
 $("voiceBtn").onclick=()=>{if(talk){stopTalk();return}$("call").classList.remove("hidden");$("cYou").textContent="";$("cAi").textContent="";setCall("listening");_vb()};
@@ -335,4 +336,21 @@ if(role!=="user"&&!opts.error){const a=document.createElement("div");a.className
 a.children[0].onclick=()=>{try{navigator.clipboard.writeText(text);a.children[0].textContent="✅"}catch(e){}};a.children[1].onclick=()=>speak(text);d.querySelector(".bub").appendChild(a)}
 $("msgs").appendChild(d);$("msgs").classList.remove("hidden");$("hero").classList.add("hidden");$("quick").classList.add("hidden");scrollEnd();return d}
 $("txt").placeholder="Pergunte qualquer coisa...";
+async function enviarParaOMake(titulo, detalhes) {
+    const urlMake = "https://hook.eu1.make.com/vbalf9eezx9j3nioplq7lye2xfi9kf8f";
+    try {
+        await fetch(urlMake, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ 
+                title: titulo, 
+                description: detalhes, 
+                start: new Date().toISOString() 
+            })
+        });
+        console.log("Enviado para o Make!");
+    } catch (e) {
+        console.error("Erro no Make:", e);
+    }
+}
 </script></body></html>
