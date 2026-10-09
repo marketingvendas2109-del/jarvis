@@ -537,5 +537,190 @@ async function enviarParaOMake(titulo, detalhes) {
         console.error("Erro no Make:", e);
     }
 }
-</script></body></html>
+</script><script>
+(() => {
+    let chave = "";
+    let vozId = "";
+    let audioAtual = null;
+    let urlAtual = null;
+    let requisicaoAtual = null;
+    let geracao = 0;
+
+    function pararVozFish() {
+        geracao++;
+
+        if (requisicaoAtual) {
+            requisicaoAtual.abort();
+            requisicaoAtual = null;
+        }
+
+        if (audioAtual) {
+            audioAtual.pause();
+            audioAtual = null;
+        }
+
+        if (urlAtual) {
+            URL.revokeObjectURL(urlAtual);
+            urlAtual = null;
+        }
+
+        window.speechSynthesis?.cancel();
+    }
+
+    async function falarFish(texto) {
+        if (typeof texto !== "string" || !texto.trim()) return;
+
+        const textoLimpo = texto
+            .replace(/```[\s\S]*?```/g, " Trecho de código omitido. ")
+            .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
+            .replace(/https?:\/\/\S+/g, " link ")
+            .replace(/[*_`#]/g, "")
+            .trim();
+
+        if (!textoLimpo) return;
+
+        if (!chave) {
+            chave = (prompt(
+                "Cole sua chave da API Fish Audio. Não compartilhe essa chave."
+            ) || "").trim();
+        }
+
+        if (!chave) return;
+
+        if (!vozId) {
+            vozId = (prompt(
+                "Cole o ID da voz escolhida no Fish Audio (reference_id)."
+            ) || "").trim();
+        }
+
+        if (!vozId) return;
+
+        pararVozFish();
+
+        const minhaGeracao = geracao;
+        const controller = new AbortController();
+        requisicaoAtual = controller;
+
+        const timeout = setTimeout(() => controller.abort(), 60000);
+
+        try {
+            const response = await fetch(
+                "https://api.fish.audio/v1/tts",
+                {
+                    method: "POST",
+                    headers: {
+                        "Authorization": `Bearer ${chave}`,
+                        "Content-Type": "application/json",
+                        "model": "s2.1-pro-free"
+                    },
+                    body: JSON.stringify({
+                        text: textoLimpo,
+                        reference_id: vozId,
+                        format: "mp3"
+                    }),
+                    signal: controller.signal
+                }
+            );
+
+            if (!response.ok) {
+                const raw = await response.text();
+                let detalhe = raw;
+
+                try {
+                    const data = JSON.parse(raw);
+                    detalhe = data.message || data.detail || data.error || raw;
+                } catch {
+                    // Mantém o texto original da resposta.
+                }
+
+                if (typeof detalhe !== "string") {
+                    detalhe = JSON.stringify(detalhe);
+                }
+
+                throw new Error(
+                    `Fish Audio HTTP ${response.status}: ` +
+                    detalhe.slice(0, 500)
+                );
+            }
+
+            const blob = await response.blob();
+
+            if (minhaGeracao !== geracao) return;
+
+            if (!blob.size) {
+                throw new Error("O Fish Audio retornou um áudio vazio.");
+            }
+
+            const url = URL.createObjectURL(blob);
+            const audio = new Audio(url);
+
+            urlAtual = url;
+            audioAtual = audio;
+
+            const liberarAudio = () => {
+                URL.revokeObjectURL(url);
+
+                if (audioAtual === audio) {
+                    audioAtual = null;
+                    urlAtual = null;
+                }
+            };
+
+            audio.onended = liberarAudio;
+
+            audio.onerror = () => {
+                liberarAudio();
+                console.error("[Fish Audio] Falha ao reproduzir o áudio.");
+            };
+
+            await audio.play();
+        } catch (error) {
+            if (minhaGeracao !== geracao) return;
+
+            console.error("[Fish Audio]", error);
+
+            if (error.name === "AbortError") {
+                alert("O Fish Audio excedeu o tempo de espera de 60 segundos.");
+            } else if (error.name === "NotAllowedError") {
+                alert(
+                    "O navegador bloqueou a reprodução automática. " +
+                    "Teste usando o botão Configurar e testar voz."
+                );
+            } else {
+                alert(
+                    "Não foi possível gerar ou reproduzir a voz: " +
+                    error.message
+                );
+            }
+        } finally {
+            clearTimeout(timeout);
+
+            if (requisicaoAtual === controller) {
+                requisicaoAtual = null;
+            }
+        }
+    }
+
+    window.falarFish = falarFish;
+    window.pararVozFish = pararVozFish;
+
+    window.configurarVozFish = () => {
+        pararVozFish();
+        chave = "";
+        vozId = "";
+
+        return falarFish(
+            "Certamente, senhor. Minha voz está pronta. Como posso ajudar?"
+        );
+    };
+})();
+</script>
+
+<button type="button" onclick="configurarVozFish()">
+    Configurar e testar voz
+</button>
+
+<button type="button" onclick="pararVozFish()">
+    Parar voz
+</button></body></html>
 <html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="theme-color" content="#050a1a"><title>Jarvis</title><style>...
