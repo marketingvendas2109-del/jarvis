@@ -366,5 +366,302 @@ setTimeout(() => {
 
 showView("vChat");
 </script>
+  <script>
+(() => {
+  "use strict";
+
+  // =====================================================
+  // CHAVE E ID DA VOZ:
+  //
+  // Preencha NO APLICATIVO, em ⚙️ Ajustes:
+  // 🔑 Chave API Fish Audio → sua chave API
+  // 🎤 ID da Voz           → o ID da sua voz
+  //
+  // Não coloque sua chave no código público do GitHub.
+  // =====================================================
+
+  const MODELO_FISH = "s2.1-pro-free";
+
+  const campoAPI = document.getElementById("fishKey");
+  const campoID = document.getElementById("fishVoice");
+  const botaoTeste = document.getElementById("fishTest");
+  const statusVoz = document.getElementById("fishStatus");
+
+  if (!campoAPI || !campoID || !botaoTeste || !statusVoz) {
+    console.error(
+      "Correção de voz: campos do HTML original não encontrados."
+    );
+    return;
+  }
+
+  campoAPI.placeholder = "Cole sua chave API Fish Audio aqui";
+  campoID.placeholder = "Cole o ID da sua voz aqui";
+
+  // Player visível para permitir reprodução manual.
+  const player = document.createElement("audio");
+  player.controls = true;
+  player.preload = "none";
+  player.style.width = "100%";
+  player.style.marginTop = "12px";
+
+  const areaPlayer = document.createElement("div");
+  areaPlayer.style.padding = "12px";
+  areaPlayer.appendChild(player);
+
+  const areaConfiguracao =
+    botaoTeste.closest(".gl") || botaoTeste.parentElement;
+
+  areaConfiguracao.appendChild(areaPlayer);
+
+  let audioURL = null;
+  let controller = null;
+  let gerando = false;
+  let numeroPedido = 0;
+
+  function atualizarStatus(texto, erro = false) {
+    statusVoz.textContent = texto;
+    statusVoz.style.color = erro ? "#ef4444" : "#10b981";
+  }
+
+  function liberarAudio() {
+    player.pause();
+    player.removeAttribute("src");
+    player.load();
+
+    if (audioURL) {
+      URL.revokeObjectURL(audioURL);
+      audioURL = null;
+    }
+  }
+
+  function guardarCampos() {
+    // Mantém o comportamento do HTML original.
+    // Se o navegador não permitir salvar, a leitura dos
+    // campos ainda funciona.
+    try {
+      localStorage.setItem("fish_key", campoAPI.value.trim());
+      localStorage.setItem("fish_voice", campoID.value.trim());
+    } catch (_) {}
+  }
+
+  campoAPI.addEventListener("input", guardarCampos);
+  campoID.addEventListener("input", guardarCampos);
+
+  player.addEventListener("playing", () => {
+    atualizarStatus("▶ Reproduzindo a voz...");
+  });
+
+  player.addEventListener("ended", () => {
+    atualizarStatus("✓ Áudio reproduzido com sucesso.");
+  });
+
+  player.addEventListener("error", () => {
+    if (player.getAttribute("src")) {
+      atualizarStatus(
+        "Não foi possível reproduzir o áudio recebido.",
+        true
+      );
+    }
+  });
+
+  async function gerarEReproduzir(texto) {
+    const textoLimpo = String(texto || "").trim();
+
+    if (!textoLimpo) return;
+
+    // Lê diretamente os espaços de API e ID em Ajustes.
+    const apiKey = campoAPI.value.trim();
+    const voiceId = campoID.value.trim();
+
+    if (!apiKey) {
+      const erro = new Error(
+        "Preencha a chave API Fish Audio em Ajustes."
+      );
+      atualizarStatus(erro.message, true);
+      throw erro;
+    }
+
+    if (!voiceId) {
+      const erro = new Error(
+        "Preencha o ID da voz em Ajustes."
+      );
+      atualizarStatus(erro.message, true);
+      throw erro;
+    }
+
+    guardarCampos();
+
+    // Interrompe uma geração anterior, se houver.
+    if (controller) controller.abort();
+
+    // Para também o player usado pelo código antigo.
+    if (typeof EA !== "undefined") {
+      EA.pause();
+    }
+
+    liberarAudio();
+
+    const pedidoAtual = ++numeroPedido;
+    const abortController = new AbortController();
+
+    controller = abortController;
+    gerando = true;
+    botaoTeste.disabled = true;
+
+    atualizarStatus("🔄 Gerando a voz...");
+
+    const timeout = setTimeout(() => {
+      abortController.abort();
+    }, 90000);
+
+    try {
+      let resposta;
+
+      try {
+        resposta = await fetch(
+          "https://api.fish.audio/v1/tts",
+          {
+            method: "POST",
+
+            headers: {
+              "Authorization": "Bearer " + apiKey,
+              "Content-Type": "application/json",
+              "model": MODELO_FISH
+            },
+
+            body: JSON.stringify({
+              text: textoLimpo,
+              reference_id: voiceId,
+              format: "mp3"
+            }),
+
+            signal: abortController.signal
+          }
+        );
+      } catch (erro) {
+        if (erro.name === "AbortError") throw erro;
+
+        throw new Error(
+          "Falha de conexão ou bloqueio CORS ao acessar " +
+          "o Fish Audio. Se for CORS, será necessário " +
+          "um backend; trocar a chave não resolve."
+        );
+      }
+
+      if (!resposta.ok) {
+        let detalhe = await resposta.text();
+
+        try {
+          const dados = JSON.parse(detalhe);
+
+          detalhe =
+            dados.error?.message ||
+            dados.detail ||
+            dados.message ||
+            detalhe;
+        } catch (_) {}
+
+        throw new Error(
+          "Fish Audio HTTP " +
+          resposta.status +
+          ": " +
+          String(detalhe).slice(0, 400)
+        );
+      }
+
+      const blob = await resposta.blob();
+
+      if (
+        abortController.signal.aborted ||
+        pedidoAtual !== numeroPedido
+      ) {
+        throw new DOMException(
+          "Solicitação interrompida.",
+          "AbortError"
+        );
+      }
+
+      if (!blob.size) {
+        throw new Error("O Fish Audio retornou áudio vazio.");
+      }
+
+      audioURL = URL.createObjectURL(blob);
+      player.src = audioURL;
+
+      atualizarStatus("✓ Áudio pronto. Iniciando reprodução...");
+
+      try {
+        await player.play();
+        atualizarStatus("▶ Reproduzindo a voz...");
+      } catch (erro) {
+        if (erro.name === "NotAllowedError") {
+          atualizarStatus(
+            "Áudio gerado. O navegador bloqueou a reprodução " +
+            "automática: toque em ▶ no player abaixo."
+          );
+          return;
+        }
+
+        throw new Error(
+          "Áudio gerado, mas a reprodução falhou: " +
+          (erro.message || "erro desconhecido")
+        );
+      }
+    } catch (erro) {
+      if (pedidoAtual === numeroPedido) {
+        atualizarStatus(
+          erro.name === "AbortError"
+            ? "Geração interrompida ou tempo de espera esgotado."
+            : erro.message || "Falha ao gerar a voz.",
+          true
+        );
+      }
+
+      throw erro;
+    } finally {
+      clearTimeout(timeout);
+
+      if (pedidoAtual === numeroPedido) {
+        controller = null;
+        gerando = false;
+        botaoTeste.disabled = false;
+      }
+    }
+  }
+
+  // Substitui a função usada pelo chat original.
+  // Uma falha da voz não transforma a resposta de texto
+  // em uma falsa falha do Gemini.
+  window.speak = async function(texto) {
+    try {
+      await gerarEReproduzir(texto);
+    } catch (erro) {
+      console.error("Voz Fish Audio:", erro.message);
+    }
+  };
+
+  // Substitui o teste antigo, que podia indicar falso sucesso.
+  botaoTeste.onclick = async function() {
+    if (gerando) return;
+
+    try {
+      await gerarEReproduzir(
+        "Certamente, senhor. Aqui é Jarvis. " +
+        "Este é o teste da minha voz."
+      );
+    } catch (_) {
+      // O erro real já foi mostrado em fishStatus.
+    }
+  };
+
+  window.addEventListener("pagehide", () => {
+    numeroPedido++;
+
+    if (controller) controller.abort();
+
+    liberarAudio();
+  });
+})();
+</script>
 </body>
 </html>
