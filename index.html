@@ -196,6 +196,28 @@ html[data-theme=light] .tab{color:#364065}html[data-theme=light] #txt::placehold
 .li .go{padding:10px 18px;border-radius:12px;background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;font-weight:600;font-size:14px;flex:none}.dng{color:#ef4444;font-weight:600}.note{font-size:12px;color:var(--dim);margin:22px 6px 6px}
 
 .gbtn{display:flex;align-items:center;gap:8px;padding:9px 14px;border-radius:12px;background:#fff;color:#1f1f1f;border:1px solid #dadce0;font-weight:600;font-size:14px;flex:none;box-shadow:0 1px 2px rgba(0,0,0,.15)}.gbtn:active{background:#f1f3f4}.gbtn.on{background:#e6f4ea;border-color:#34a853;color:#137333}
+
+/* ===== ajustes novos ===== */
+body{background:radial-gradient(ellipse 90% 45% at 50% -8%,color-mix(in srgb,var(--acc) 40%,#000) 0%,transparent 65%),radial-gradient(ellipse 70% 40% at 100% 100%,color-mix(in srgb,var(--acc2) 40%,#000) 0%,transparent 70%),var(--bg)}
+html[data-theme=light] body{background:radial-gradient(ellipse 90% 45% at 50% -8%,color-mix(in srgb,var(--acc) 16%,#fff) 0%,transparent 65%),radial-gradient(ellipse 70% 40% at 100% 100%,color-mix(in srgb,var(--acc2) 16%,#fff) 0%,transparent 70%),#fff}
+.hdr,.tabs,.pill,.gl,.card,.row,.qc,.side,.ed,.chip,.ic,.cb2,.btn,.prof,.snav button{-webkit-backdrop-filter:blur(var(--blur,22px)) saturate(180%);backdrop-filter:blur(var(--blur,22px)) saturate(180%)}
+#sendBtn,#plus{box-shadow:0 0 22px color-mix(in srgb,var(--acc) 55%,transparent)}.m.u .bub{box-shadow:0 8px 28px color-mix(in srgb,var(--acc) 30%,transparent)}
+.cb2.big{box-shadow:0 0 0 10px color-mix(in srgb,var(--acc) 15%,transparent),0 0 34px color-mix(in srgb,var(--acc) 60%,transparent)}
+.m.a .av{background:radial-gradient(circle at 35% 30%,#fff,color-mix(in srgb,var(--acc) 60%,#fff) 40%,var(--acc2) 85%)}
+#call{background:radial-gradient(ellipse 85% 55% at 50% 38%,color-mix(in srgb,var(--acc) 35%,#000) 0%,var(--bg) 72%)}html[data-theme=light] #call{background:radial-gradient(ellipse 85% 55% at 50% 38%,color-mix(in srgb,var(--acc) 18%,#fff) 0%,#fff 72%)}
+.m .bub,.m.a .bub{font-size:var(--fs,16px)}
+html.no-orb #heroOrb{display:none}html.no-motion *{animation:none!important;transition:none!important}html.no-quick #quick{display:none!important}html.no-acts .act{display:none}
+.prof{display:flex;align-items:center;gap:14px;padding:16px;border-radius:22px;border:1px solid var(--line);background:var(--cardbg);margin-top:6px}
+.pav{width:58px;height:58px;border-radius:50%;background:linear-gradient(135deg,var(--acc),var(--acc2));display:grid;place-items:center;font-size:24px;font-weight:700;color:#fff;box-shadow:0 0 24px color-mix(in srgb,var(--acc) 50%,transparent);flex:none}
+.pst{display:flex;flex-wrap:wrap;gap:4px 14px;margin-top:5px;font-size:12.5px;color:var(--dim)}
+.snav{display:flex;gap:8px;overflow-x:auto;margin:14px -4px 2px;padding:2px 4px 6px;scrollbar-width:none}.snav::-webkit-scrollbar{display:none}
+.snav button{flex:none;padding:9px 16px;border-radius:999px;background:var(--glass);border:1px solid var(--line);font-size:14px;font-weight:600;color:var(--dim)}.snav button.on{background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;border-color:transparent}
+.cat{animation:fi .3s both}.seg{display:flex;background:rgba(127,127,170,.16);border-radius:12px;padding:3px;gap:3px}
+.seg button{flex:1;padding:9px 6px;border-radius:10px;font-size:13.5px;font-weight:600;color:var(--dim)}.seg button.on{background:var(--glass2);color:var(--txt);box-shadow:0 1px 4px rgba(0,0,0,.25)}
+.swa{display:flex;gap:14px;padding:4px 2px}.swa button{width:38px;height:38px;border-radius:50%;border:2px solid transparent}.swa button.on{border-color:#fff;box-shadow:0 0 0 2px var(--acc)}
+.li input[type=range]{width:100%;accent-color:var(--acc)}.val{font-size:13px;color:var(--dim)}
+.li textarea{width:100%;min-height:90px;background:rgba(127,127,170,.14);border:1px solid var(--line);border-radius:12px;padding:12px;font-size:15px;color:var(--txt);resize:vertical;outline:none;font-family:inherit}
+.li select{background:rgba(127,127,170,.14);border:1px solid var(--line);border-radius:10px;padding:9px 10px;color:var(--txt);font-size:14px;max-width:52%}
 </style></head><body>
 <div id="splash"><div class="nm">JARVIS</div><div class="ln"></div><div class="sy">SINCRONIZANDO DADOS...</div></div>
 <div id="app">
@@ -205,22 +227,20 @@ html[data-theme=light] .tab{color:#364065}html[data-theme=light] #txt::placehold
 <section id="vChat" class="view"><div id="hero"><canvas id="heroOrb"></canvas><h1 id="greet"></h1><p>Como posso ajudar você hoje?</p><button class="modeChip" id="modeChip" type="button"></button></div><div id="quick"></div><div id="msgs"></div></section>
 <section id="vExplore" class="view hidden"><div class="pg">Explorar</div><div class="sec">MODOS DO JARVIS</div><div id="modes"></div><div class="sec">TÓPICOS POPULARES</div><div id="topics"></div></section>
 <section id="vMemory" class="view hidden"><div class="bhero"><div class="pg">Second Brain</div><div style="display:flex;gap:8px;align-items:center"><span id="bCount"></span><button class="ic" id="addBtn" type="button" aria-label="Nova nota" style="width:38px;height:38px"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button></div></div><div id="graph"></div><div class="legend" id="legend"></div><div class="sec">SUAS NOTAS</div><div id="notesList"></div><div class="legend" style="color:#10b981">✓ contexto injetado em todas as conversas do Jarvis</div></section>
-<section id="vSettings" class="view hidden"><div class="pg">Ajustes</div>
-<div class="grp"><div class="gt">Aparência</div><div class="gl"><label class="li"><span><b>Tema claro</b><small>Fundo branco com azul e roxo</small></span><input type="checkbox" id="themeSw"></label></div></div>
-<div class="grp"><div class="gt">Inteligência</div><div class="gl">
+<section id="vSettings" class="view hidden"><div class="pg">Ajustes</div><div class="prof"><div class="pav" id="pAv">J</div><div><b id="pName" style="font-size:18px"></b><div class="pst"><span id="pC"></span><span id="pM"></span><span id="pN"></span></div></div></div><div class="snav" id="snav"><button type="button" data-c="look">Aparência</button><button type="button" data-c="jarvis">Jarvis</button><button type="button" data-c="voz">Voz</button><button type="button" data-c="chat">Chat</button><button type="button" data-c="google">Google</button><button type="button" data-c="dados">Dados</button></div><div class="cat" data-c="look"><div class="grp"><div class="gt">Tema e cores</div><div class="gl"><div class="li col"><b>Tema</b><div class="seg" id="uTheme"><button type="button" data-v="dark">Escuro</button><button type="button" data-v="light">Claro</button><button type="button" data-v="auto">Automático</button></div></div><div class="li col"><b>Cor de destaque</b><div class="swa" id="uAcc"><button type="button" data-v="blue" aria-label="blue" style="background:linear-gradient(135deg,#3b82f6,#7c3aed)"></button><button type="button" data-v="green" aria-label="green" style="background:linear-gradient(135deg,#10b981,#0ea5e9)"></button><button type="button" data-v="orange" aria-label="orange" style="background:linear-gradient(135deg,#f97316,#ec4899)"></button><button type="button" data-v="pink" aria-label="pink" style="background:linear-gradient(135deg,#ec4899,#8b5cf6)"></button><button type="button" data-v="cyan" aria-label="cyan" style="background:linear-gradient(135deg,#06b6d4,#3b82f6)"></button></div></div></div></div><div class="grp"><div class="gt">Visual</div><div class="gl"><div class="li col"><div style="display:flex;justify-content:space-between"><b>Tamanho do texto</b><span class="val" id="uFsV"></span></div><input type="range" id="uFs" min="14" max="20" step="1"></div><div class="li col"><div style="display:flex;justify-content:space-between"><b>Vidro fosco (desfoque)</b><span class="val" id="uBlurV"></span></div><input type="range" id="uBlur" min="0" max="40" step="2"></div><label class="li"><span><b>Esfera de partículas</b><small>Mostrar na tela inicial</small></span><input type="checkbox" id="uOrb"></label><label class="li"><span><b>Animações</b><small>Desligue para economizar bateria</small></span><input type="checkbox" id="uMotion"></label></div></div></div><div class="cat" data-c="jarvis"><div class="grp"><div class="gt">Personalidade</div><div class="gl"><div class="li col"><label for="uName"><b>Seu nome</b></label><input id="uName" type="text" autocomplete="off" spellcheck="false" placeholder="Wagner"></div><div class="li col"><label for="uAddr"><b>Como o Jarvis te chama</b></label><input id="uAddr" type="text" autocomplete="off" spellcheck="false" placeholder="senhor"></div><div class="li"><span><b>Jeito de falar</b><small>Muda o tom das respostas</small></span><select id="uPers"><option value="mordomo">Mordomo britânico</option><option value="amigo">Amigo descontraído</option><option value="coach">Coach motivador</option><option value="direto">Direto e objetivo</option><option value="sarcastico">Sarcástico e espirituoso</option><option value="professor">Professor paciente</option></select></div><div class="li col"><b>Tamanho das respostas</b><div class="seg" id="uLen"><button type="button" data-v="short">Curtas</button><button type="button" data-v="normal">Normais</button><button type="button" data-v="long">Detalhadas</button></div></div><div class="li col"><div style="display:flex;justify-content:space-between"><b>Criatividade</b><span class="val" id="uTempV"></span></div><input type="range" id="uTemp" min="0" max="1.5" step="0.1"></div><div class="li col"><label for="uExtra"><b>Instruções extras</b></label><textarea id="uExtra" placeholder="Ex.: Sempre me responda com exemplos de marketing. Nunca use emojis."></textarea></div></div></div><div class="grp"><div class="gt">Inteligência</div><div class="gl">
 <div class="li"><span><b>Provedor</b><small>Gemini (Google)</small></span><select id="provSel" class="hidden"><option value="gemini">Gemini (Google)</option></select></div>
 <div class="li col"><label for="gemKey"><b>Chave do Gemini</b></label><input id="gemKey" type="password" autocomplete="off" spellcheck="false" placeholder="Cole sua chave aqui"></div>
 <div class="hidden"><input id="gemModel" type="text"></div>
-<div class="li"><span><b>Testar conexão</b><small id="testOut">Verifica se a chave funciona</small></span><button class="go" id="testAI" type="button">Testar</button></div></div></div>
-<div class="grp"><div class="gt">Voz</div><div class="gl"><div id="vlist" class="hidden"></div>
+<div class="li"><span><b>Modelo do Gemini</b><small>Automático tenta os melhores</small></span><select id="uModel"><option value="">Automático</option><option value="gemini-3.5-flash">Gemini 3.5 Flash</option><option value="gemini-3-flash-preview">Gemini 3 Flash</option><option value="gemini-3.5-flash-lite">Lite (mais rápido)</option></select></div><div class="li"><span><b>Testar conexão</b><small id="testOut">Verifica se a chave funciona</small></span><button class="go" id="testAI" type="button">Testar</button></div></div></div>
+<div class="grp"><div class="gt">Memória</div><div class="gl"><label class="li"><span><b>Memória viva</b><small>O Jarvis salva fatos novos no Second Brain sozinho</small></span><input type="checkbox" id="uMem"></label></div></div></div><div class="cat" data-c="voz"><div class="grp"><div class="gt">Voz</div><div class="gl"><div id="vlist" class="hidden"></div>
 <label class="li"><span><b>Ler respostas em voz alta</b><small>No chat de texto</small></span><input type="checkbox" id="speakReplies"></label>
 <div class="li col"><label for="fishKey"><b>Chave do Fish Audio</b></label><input id="fishKey" type="password" autocomplete="off" spellcheck="false"></div>
 <div class="li col"><label for="fishVoice"><b>ID da voz (Fish Audio)</b></label><input id="fishVoice" type="text" autocomplete="off" spellcheck="false"></div>
 <div class="li"><span><b>Testar voz</b><small id="fishOut">Se o Fish falhar, usa a voz masculina do Gemini</small></span><button class="go" id="fishTest" type="button">Testar</button></div>
-<button class="hidden" id="testVoice" type="button"></button></div></div>
-<div class="grp"><div class="gt">Google (Agenda, Planilhas e Gmail)</div><div class="gl"><div class="li"><span><b>1. Copiar o código do script</b><small>Gera a senha sozinho e copia o código</small></span><button class="go" id="gCopy" type="button">Copiar</button></div><div class="li"><span><b>2. Abrir o Google Script</b><small>Cole o código lá. No iPhone: aA → Solicitar site para desktop</small></span><a class="go" href="https://script.google.com/home/projects/create" target="_blank" rel="noopener" style="text-decoration:none">Abrir</a></div><div class="li col"><label for="gUrl"><b>3. Link do script (depois de implantar)</b></label><input id="gUrl" type="text" autocomplete="off" spellcheck="false" placeholder="https://script.google.com/macros/s/.../exec"></div><div class="li col"><label for="gPass"><b>Senha do script</b></label><input id="gPass" type="password" autocomplete="off" spellcheck="false"></div><div class="li col"><label for="gSheet"><b>Planilha padrão (link ou ID)</b></label><input id="gSheet" type="text" autocomplete="off" spellcheck="false" placeholder="Cole o link da planilha"></div><div class="li"><span><b>Conectar Google</b><small id="gStat">Toque para testar</small></span><button class="gbtn" id="gBtn" type="button"><svg viewBox="0 0 48 48" width="18" height="18"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.9 2.4 30.4 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.9 6.1C12.4 13.6 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.7c-.6 3-2.3 5.5-4.8 7.2l7.5 5.8c4.4-4.1 7.1-10.1 7.1-17.5z"/><path fill="#FBBC05" d="M10.5 28.7A14.5 14.5 0 0 1 9.5 24c0-1.6.3-3.2.8-4.7l-7.9-6.1A24 24 0 0 0 0 24c0 3.9.9 7.5 2.6 10.8l7.9-6.1z"/><path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.5-5.8c-2.1 1.4-4.8 2.3-8.4 2.3-6.3 0-11.6-4.1-13.5-9.8l-7.9 6.1C6.5 42.6 14.6 48 24 48z"/></svg>Conectar</button></div></div></div>
-<div class="grp"><div class="gt">Dados</div><div class="gl"><button class="li" id="clearChat" type="button"><span class="dng">Limpar conversa atual</span></button></div></div>
-<div class="note" style="text-align:center">Jarvis · tudo é salvo só neste navegador</div></section>
+<div class="li"><span><b>Voz de reserva (Gemini)</b><small>Fala quando o Fish não responde</small></span><select id="uGv"><option value="Charon">Charon · masculina grave</option><option value="Orus">Orus · masculina firme</option><option value="Fenrir">Fenrir · masculina animada</option><option value="Puck">Puck · masculina jovem</option><option value="Kore">Kore · feminina firme</option><option value="Zephyr">Zephyr · feminina brilhante</option><option value="Aoede">Aoede · feminina leve</option></select></div><div class="li col"><div style="display:flex;justify-content:space-between"><b>Velocidade (voz do aparelho)</b><span class="val" id="uVrV"></span></div><input type="range" id="uVr" min="0.6" max="1.4" step="0.05"></div><div class="li col"><b>Se o Fish falhar</b><div class="seg" id="uFb"><button type="button" data-v="1">Usar outra voz</button><button type="button" data-v="0">Avisar o erro</button></div></div><button class="hidden" id="testVoice" type="button"></button></div></div>
+</div><div class="cat" data-c="chat"><div class="grp"><div class="gt">Conversa</div><div class="gl"><label class="li"><span><b>Enter envia a mensagem</b><small>Desligado: Enter pula linha</small></span><input type="checkbox" id="uEnter"></label><label class="li"><span><b>Botões copiar e ouvir</b><small>Embaixo de cada resposta</small></span><input type="checkbox" id="uActs"></label><label class="li"><span><b>Atalhos na tela inicial</b><small>Cartões de sugestões</small></span><input type="checkbox" id="uQuick"></label></div></div></div><div class="cat" data-c="google"><div class="grp"><div class="gt">Google (Agenda, Planilhas e Gmail)</div><div class="gl"><div class="li"><span><b>1. Copiar o código do script</b><small>Gera a senha sozinho e copia o código</small></span><button class="go" id="gCopy" type="button">Copiar</button></div><div class="li"><span><b>2. Abrir o Google Script</b><small>Cole o código lá. No iPhone: aA → Solicitar site para desktop</small></span><a class="go" href="https://script.google.com/home/projects/create" target="_blank" rel="noopener" style="text-decoration:none">Abrir</a></div><div class="li col"><label for="gUrl"><b>3. Link do script (depois de implantar)</b></label><input id="gUrl" type="text" autocomplete="off" spellcheck="false" placeholder="https://script.google.com/macros/s/.../exec"></div><div class="li col"><label for="gPass"><b>Senha do script</b></label><input id="gPass" type="password" autocomplete="off" spellcheck="false"></div><div class="li col"><label for="gSheet"><b>Planilha padrão (link ou ID)</b></label><input id="gSheet" type="text" autocomplete="off" spellcheck="false" placeholder="Cole o link da planilha"></div><div class="li"><span><b>Conectar Google</b><small id="gStat">Toque para testar</small></span><button class="gbtn" id="gBtn" type="button"><svg viewBox="0 0 48 48" width="18" height="18"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.9 2.4 30.4 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.9 6.1C12.4 13.6 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.7c-.6 3-2.3 5.5-4.8 7.2l7.5 5.8c4.4-4.1 7.1-10.1 7.1-17.5z"/><path fill="#FBBC05" d="M10.5 28.7A14.5 14.5 0 0 1 9.5 24c0-1.6.3-3.2.8-4.7l-7.9-6.1A24 24 0 0 0 0 24c0 3.9.9 7.5 2.6 10.8l7.9-6.1z"/><path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.5-5.8c-2.1 1.4-4.8 2.3-8.4 2.3-6.3 0-11.6-4.1-13.5-9.8l-7.9 6.1C6.5 42.6 14.6 48 24 48z"/></svg>Conectar</button></div></div></div>
+</div><div class="cat" data-c="dados"><div class="grp"><div class="gt">Dados</div><div class="gl"><button class="li" id="clearChat" type="button"><span class="dng">Limpar conversa atual</span></button><button class="li" id="exportBtn" type="button"><span><b>Exportar conversas</b><small>Baixa um arquivo com tudo</small></span></button><button class="li" id="delAll" type="button"><span class="dng">Apagar todas as conversas</span></button><button class="li" id="resetUI" type="button"><span class="dng">Restaurar ajustes visuais e do Jarvis</span></button></div></div>
+</div><input type="checkbox" id="themeSw" class="hidden"><div class="note" style="text-align:center">Jarvis · tudo é salvo só neste navegador</div></section>
 
 </main>
 <aside id="side" class="side" aria-label="Conversas"><div class="sh"><div class="brand">Jarvis</div><button class="ic" id="sClose" type="button" aria-label="Fechar"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div><button class="snew" id="sNew" type="button"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Nova conversa</button><input id="sSearch" type="search" placeholder="Buscar conversas" autocomplete="off"><div id="sList"></div><button class="sset" id="sSet" type="button"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg>Ajustes</button></aside><div id="scrim"></div>
@@ -290,6 +310,7 @@ async function callAI(turns, system) {
         "gemini-3.5-flash-lite"
     ];
 
+    const pm = lsGet("ai_model", ""); if (pm) { const ix = modelos.indexOf(pm); if (ix > 0) { modelos.splice(ix, 1); modelos.unshift(pm); } }
     const key = String(lsGet("gemini_key", "") || "").trim();
 
     if (!key) {
@@ -372,7 +393,7 @@ async function callAI(turns, system) {
         throw new Error("O histórico não contém mensagens utilizáveis.");
     }
 
-    const payload = { contents };
+    const payload = { contents }; payload.generationConfig = { temperature: parseFloat(lsGet("ai_temp", "0.8")) };
 
     if (instrucoes.length > 0) {
         payload.systemInstruction = {
@@ -500,7 +521,7 @@ function voiceFor(p){const pt=VS.filter(v=>/^pt/i.test(v.lang)),base=pt.length?p
 function renderVoices(){$("vlist").innerHTML=PRESETS.map(p=>{const v=voiceFor(p);return'<button class="row'+(p.id===curPreset().id?" sel":"")+'" data-p="'+p.id+'" type="button"><span class="em">'+p.em+'</span><span><b>'+p.n+"</b><small>"+p.d+(v?" · "+esc(v.name):"")+"</small></span></button>"}).join("");$("vlist").querySelectorAll(".row").forEach(b=>b.onclick=()=>{lsSet("jarvis_vp",b.dataset.p);renderVoices();speak("Às suas ordens, "+CONFIG.address+". Esta é a minha voz.")})}
 function loadVoices(){VS=("speechSynthesis" in window)?speechSynthesis.getVoices():[];renderVoices()}
 const cleanT=t=>String(t).replace(/[*_`#>]/g,"").replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/gu,"").replace(/\s+/g," ").trim();
-function speak(t){try{if(!("speechSynthesis" in window))return;if(!VS.length)VS=speechSynthesis.getVoices();const p=curPreset(),v=voiceFor(p);speechSynthesis.cancel();const parts=cleanT(t).match(/[^.!?\n]+[.!?]*/g)||[cleanT(t)];setTimeout(()=>{parts.forEach(x=>{x=x.trim();if(!x)return;const u=new SpeechSynthesisUtterance(x);u.lang=v?v.lang:"pt-BR";if(v)u.voice=v;u.pitch=p.p;u.rate=p.r;u.volume=1;speechSynthesis.speak(u)})},80)}catch(e){}}
+function speak(t){try{if(!("speechSynthesis" in window))return;if(!VS.length)VS=speechSynthesis.getVoices();const p=curPreset(),v=voiceFor(p);speechSynthesis.cancel();const parts=cleanT(t).match(/[^.!?\n]+[.!?]*/g)||[cleanT(t)];setTimeout(()=>{parts.forEach(x=>{x=x.trim();if(!x)return;const u=new SpeechSynthesisUtterance(x);u.lang=v?v.lang:"pt-BR";if(v)u.voice=v;u.pitch=p.p;u.rate=p.r*parseFloat(lsGet("v_rate","1"));u.volume=1;speechSynthesis.speak(u)})},80)}catch(e){}}
 if("speechSynthesis" in window){speechSynthesis.onvoiceschanged=loadVoices;loadVoices();setTimeout(loadVoices,600);setTimeout(loadVoices,2000)}else renderVoices();
 let rec=null;$("voiceBtn").onclick=()=>{const SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR){alert("Use o Google Chrome ou Edge para ditar por voz.");return}if(rec){rec.abort();return}rec=new SR();rec.lang="pt-BR";rec.interimResults=true;rec.onresult=e=>{let t="";for(let i=0;i<e.results.length;i++)t+=e.results[i][0].transcript;$("txt").value=t;autoGrow();if(e.results[e.results.length-1].isFinal){$("txt").value="";autoGrow();sendMessage(t)}};rec.onend=rec.onerror=()=>{rec=null};try{rec.start()}catch(e){rec=null}};
 /* esfera */
@@ -536,7 +557,7 @@ loadStore();refreshSet();renderBar();renderModes();renderQuick();chatLog.forEach
 /* ===== voz: microfone e conversa ===== */
 let talk=false,recog=null,lastReply=null;const EA=new Audio();
 function speakBrowser(t,done){let fin=false;const f=()=>{if(fin)return;fin=true;if(done)done()};try{if(!("speechSynthesis" in window)){f();return}if(!VS.length)VS=speechSynthesis.getVoices();const p=curPreset(),v=voiceFor(p);speechSynthesis.cancel();const parts=(cleanT(t).match(/[^.!?\n]+[.!?]*/g)||[cleanT(t)]).map(x=>x.trim()).filter(Boolean);if(!parts.length){f();return}
-setTimeout(()=>{parts.forEach((x,i)=>{const u=new SpeechSynthesisUtterance(x);u.lang=v?v.lang:"pt-BR";if(v)u.voice=v;u.pitch=p.p;u.rate=p.r;u.volume=1;if(i===parts.length-1){u.onend=f;u.onerror=f}speechSynthesis.speak(u)})},80);setTimeout(f,Math.max(8000,cleanT(t).length*140))}catch(e){f()}}
+setTimeout(()=>{parts.forEach((x,i)=>{const u=new SpeechSynthesisUtterance(x);u.lang=v?v.lang:"pt-BR";if(v)u.voice=v;u.pitch=p.p;u.rate=p.r*parseFloat(lsGet("v_rate","1"));u.volume=1;if(i===parts.length-1){u.onend=f;u.onerror=f}speechSynthesis.speak(u)})},80);setTimeout(f,Math.max(8000,cleanT(t).length*140))}catch(e){f()}}
 async function speak(t,done){const p=curPreset(),k=lsGet("el_key","").trim(),vid=lsGet("el_"+p.id,typeof EL_DEF!=="undefined"?EL_DEF[p.id]:"").trim();
 if(k&&vid){try{const r=await fetch("https://api.elevenlabs.io/v1/text-to-speech/"+encodeURIComponent(vid)+"?output_format=mp3_44100_128",{method:"POST",headers:{"xi-api-key":k,"content-type":"application/json",accept:"audio/mpeg"},body:JSON.stringify({text:cleanT(t),model_id:"eleven_multilingual_v2",voice_settings:{stability:.5,similarity_boost:.8}})});if(r.ok){try{speechSynthesis.cancel()}catch(e){}EA.src=URL.createObjectURL(await r.blob());EA.onended=EA.onerror=()=>{if(done)done()};await EA.play();return}}catch(e){}}
 speakBrowser(t,done)}
@@ -778,6 +799,16 @@ function run(a) {
     return v.map(r => r.concat(Array(w - r.length).fill("")));
   };
   switch (a.a) {
+    case "tts": {
+      const r = UrlFetchApp.fetch("https://api.fish.audio/v1/tts", {
+        method: "post", contentType: "application/json",
+        headers: { Authorization: "Bearer " + a.fishKey },
+        payload: JSON.stringify({ text: a.text, reference_id: a.voice, format: "mp3" }),
+        muteHttpExceptions: true
+      });
+      if (r.getResponseCode() !== 200) throw new Error("Fish HTTP " + r.getResponseCode() + ": " + r.getContentText().slice(0, 160));
+      return Utilities.base64Encode(r.getBlob().getBytes());
+    }
     case "ping":
       return "Conectado como " + Session.getEffectiveUser().getEmail();
     case "cal_list":
@@ -843,6 +874,78 @@ $("gCopy").onclick=async()=>{let pw=lsGet("g_pass","").trim();if(!pw){pw="jarvis
 const txt=GSCODE.replace("__SENHA__",pw);let ok=false;
 try{await navigator.clipboard.writeText(txt);ok=true}catch(e){try{const t=document.createElement("textarea");t.value=txt;t.style.cssText="position:fixed;top:0;left:0;opacity:0";document.body.appendChild(t);t.focus();t.select();ok=document.execCommand("copy");t.remove()}catch(x){}}
 gStat(ok?"✓ Código copiado! Agora toque em Abrir e cole lá.":"Não consegui copiar. Tente de novo.",ok)};
+
+/* ===== AJUSTES: aparência e comportamento do Jarvis ===== */
+const PAL={blue:["#3b82f6","#7c3aed",["#93c5fd","#a78bfa","#ffffff","#60a5fa"]],green:["#10b981","#0ea5e9",["#6ee7b7","#7dd3fc","#ffffff","#34d399"]],orange:["#f97316","#ec4899",["#fdba74","#f9a8d4","#ffffff","#fb923c"]],pink:["#ec4899","#8b5cf6",["#f9a8d4","#c4b5fd","#ffffff","#f472b6"]],cyan:["#06b6d4","#3b82f6",["#67e8f9","#93c5fd","#ffffff","#22d3ee"]]};
+const PERS={mordomo:"formal britânico, no estilo de um mordomo: educado, elegante, preciso e com leve fineza irônica, sempre muito respeitoso",amigo:"descontraído e amigável, fala como um amigo próximo, com bom humor e linguagem leve",coach:"motivador e energético, como um coach: incentiva, cobra com carinho e foca em ação",direto:"direto, objetivo e sem enrolação, respostas práticas",sarcastico:"sarcástico e espirituoso, com humor ácido, mas sempre útil e respeitoso",professor:"paciente e didático, explica passo a passo com exemplos simples"};
+const ORIG_NAME=CONFIG.userName;
+function applyUI(){const R=document.documentElement,L=(k,d)=>lsGet(k,d);
+let th=L("ui_theme",L("jarvis_theme","dark"));if(th==="auto")th=matchMedia("(prefers-color-scheme: light)").matches?"light":"dark";R.dataset.theme=th;
+const pal=PAL[L("ui_acc","blue")]||PAL.blue;R.style.setProperty("--acc",pal[0]);R.style.setProperty("--acc2",pal[1]);COL.splice(0,4,...pal[2]);COLL.splice(0,4,pal[0],pal[1],pal[0],pal[1]);
+R.style.setProperty("--fs",L("ui_fs","16")+"px");R.style.setProperty("--blur",L("ui_blur","22")+"px");
+R.classList.toggle("no-orb",L("ui_orb","1")==="0");R.classList.toggle("no-motion",L("ui_motion","1")==="0");R.classList.toggle("no-quick",L("ui_quick","1")==="0");R.classList.toggle("no-acts",L("ui_acts","1")==="0");
+CONFIG.userName=L("u_name","").trim()||ORIG_NAME;CONFIG.address=L("u_addr","").trim()||"senhor";CONFIG.persona=PERS[L("u_pers","mordomo")]||PERS.mordomo;
+$("pName").textContent=CONFIG.userName;$("pAv").textContent=CONFIG.userName.charAt(0).toUpperCase();try{updateHome()}catch(e){}}
+function statsUpdate(){const c=SESS.filter(x=>x.log.length).length,m=SESS.reduce((a,x)=>a+x.log.length,0);$("pC").textContent=c+" conversas";$("pM").textContent=m+" mensagens";$("pN").textContent=NOTES.length+" notas na memória"}
+const bSeg=(id,key,def,cb)=>{const e=$(id),r=()=>e.querySelectorAll("button").forEach(b=>b.classList.toggle("on",b.dataset.v===lsGet(key,def)));e.querySelectorAll("button").forEach(b=>b.onclick=()=>{lsSet(key,b.dataset.v);r();cb&&cb()});r()};
+const bTog=(id,key,def,cb)=>{const e=$(id);e.checked=lsGet(key,def)==="1";e.onchange=()=>{lsSet(key,e.checked?"1":"0");cb&&cb()}};
+const bRng=(id,key,def,cb)=>{const e=$(id),v=$(id+"V");e.value=lsGet(key,def);const sh=()=>{v.textContent=e.value};sh();e.oninput=()=>{lsSet(key,e.value);sh();cb&&cb()}};
+const bTxt=(id,key,def,cb)=>{const e=$(id);e.value=lsGet(key,def);e.addEventListener("input",()=>{lsSet(key,e.value.trim());cb&&cb()})};
+const bSel=(id,key,def,cb)=>{const e=$(id);e.value=lsGet(key,def);e.onchange=()=>{lsSet(key,e.value);cb&&cb()}};
+bSeg("uTheme","ui_theme",lsGet("jarvis_theme","dark"),applyUI);bSeg("uAcc","ui_acc","blue",applyUI);bRng("uFs","ui_fs","16",applyUI);bRng("uBlur","ui_blur","22",applyUI);
+bTog("uOrb","ui_orb","1",applyUI);bTog("uMotion","ui_motion","1",applyUI);bTog("uQuick","ui_quick","1",applyUI);bTog("uActs","ui_acts","1",applyUI);bTog("uEnter","enter_send","1");bTog("uMem","mem_live","1");
+bTxt("uName","u_name","",applyUI);bTxt("uAddr","u_addr","",applyUI);bSel("uPers","u_pers","mordomo",applyUI);bSeg("uLen","u_len","normal");bRng("uTemp","ai_temp","0.8");
+bSel("uModel","ai_model","");bSel("uGv","gem_voice","Charon");bRng("uVr","v_rate","1");
+$("uExtra").value=lsGet("ai_extra","");$("uExtra").addEventListener("input",e=>lsSet("ai_extra",e.target.value));
+matchMedia("(prefers-color-scheme: light)").addEventListener("change",()=>{if(lsGet("ui_theme","")==="auto")applyUI()});
+function showCat(c){lsSet("s_cat",c);document.querySelectorAll("#snav button").forEach(b=>b.classList.toggle("on",b.dataset.c===c));document.querySelectorAll("#vSettings .cat").forEach(x=>x.classList.toggle("hidden",x.dataset.c!==c))}
+document.querySelectorAll("#snav button").forEach(b=>b.onclick=()=>showCat(b.dataset.c));showCat(lsGet("s_cat","look"));
+const _sv=showView;showView=function(id){_sv(id);if(id==="vSettings")statsUpdate()};
+const _bs4=buildSystem;buildSystem=function(){let x=_bs4();const l=lsGet("u_len","normal"),e=lsGet("ai_extra","").trim();
+if(l==="short")x+="\n\nTAMANHO: responda sempre de forma curta (no máximo 3 frases).";else if(l==="long")x+="\n\nTAMANHO: responda de forma detalhada e completa, com exemplos quando ajudar.";
+if(lsGet("mem_live","1")==="0")x+="\n\nNÃO use [[SAVE:...]] nesta conversa.";if(e)x+="\n\nINSTRUÇÕES EXTRAS DO USUÁRIO (siga sempre): "+e;return x};
+const _ps=processSave;processSave=function(t){if(lsGet("mem_live","1")==="0")return String(t).replace(/\[\[SAVE:[\s\S]*?\]\]/g,"").trim();return _ps(t)};
+$("txt").addEventListener("keydown",e=>{if(e.key==="Enter"&&!e.shiftKey&&lsGet("enter_send","1")==="0")e.stopImmediatePropagation()},true);
+$("exportBtn").onclick=()=>{const bl=new Blob([JSON.stringify({conversas:SESS,notas:NOTES},null,1)],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(bl);a.download="jarvis-conversas.json";document.body.appendChild(a);a.click();a.remove()};
+$("delAll").onclick=()=>{if(!confirm("Apagar TODAS as conversas? Isso não tem volta."))return;SESS=[{id:"s"+Date.now().toString(36),ts:Date.now(),log:[]}];curId=SESS[0].id;chatLog=SESS[0].log;saveSess();$("msgs").innerHTML="";updateHome();renderSide();statsUpdate()};
+$("resetUI").onclick=()=>{if(!confirm("Voltar tema, cores e comportamento do Jarvis ao padrão? (Suas chaves e conversas não mudam.)"))return;["ui_theme","ui_acc","ui_fs","ui_blur","ui_orb","ui_motion","ui_quick","ui_acts","enter_send","u_name","u_addr","u_pers","u_len","ai_temp","ai_extra","ai_model","mem_live","gem_voice","v_rate"].forEach(k=>{try{localStorage.removeItem(k)}catch(e){}});location.reload()};
+applyUI();statsUpdate();
+
+/* ===== VOZ v2: rápida, com atalho pelo Google e sem esconder erros ===== */
+const b64blob=(b,t)=>{const bin=atob(b),u=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)u[i]=bin.charCodeAt(i);return new Blob([u],{type:t})};
+async function fishDirect(txt,k,v){const sv=lsGet("fish_model_ok",null),order=sv!==null?[sv].concat(["","s1"].filter(m=>m!==sv)):["","s1"];let last=null;
+for(const m of order){try{const h={"Authorization":"Bearer "+k,"Content-Type":"application/json"};if(m)h.model=m;
+const r=await withTimeout(fetch("https://api.fish.audio/v1/tts",{method:"POST",headers:h,body:JSON.stringify({text:txt,reference_id:v,format:"mp3"})}),12000);
+if(!r.ok){const raw=await r.text(),e=new Error("Fish HTTP "+r.status+": "+raw.slice(0,140));e.http=r.status;throw e}
+const bl=await r.blob();if(!bl.size)throw new Error("áudio vazio");lsSet("fish_model_ok",m);return bl}
+catch(e){if(!e.http){const n=new Error("o navegador não conseguiu falar direto com o Fish ("+(e.message||e)+")");n.net=true;throw n}last=e;if([401,402,403].includes(e.http))throw e}}throw last}
+async function fishProxy(txt,k,v){if(!gOn())throw new Error("conecte o Google em Ajustes → Google");return b64blob(await gs({a:"tts",fishKey:k,voice:v,text:txt}),"audio/mpeg")}
+async function geminiTTS(txt){const key=lsGet("gemini_key","").trim();if(!key)throw new Error("falta a chave do Gemini");const sv=lsGet("gem_tts_ok",""),ms=sv?[sv]:["gemini-2.5-flash-preview-tts","gemini-2.5-flash-tts"];let last=null;
+for(const m of ms){try{const r=await withTimeout(fetch("https://generativelanguage.googleapis.com/v1beta/models/"+m+":generateContent",{method:"POST",headers:{"Content-Type":"application/json","x-goog-api-key":key},body:JSON.stringify({contents:[{parts:[{text:"Diga em português do Brasil, com voz masculina grave, calma e elegante: "+txt}]}],generationConfig:{responseModalities:["AUDIO"],speechConfig:{voiceConfig:{prebuiltVoiceConfig:{voiceName:lsGet("gem_voice","Charon")}}}}})}),20000);
+const d=await r.json();if(!r.ok)throw new Error((d.error&&d.error.message)||"HTTP "+r.status);lsSet("gem_tts_ok",m);return pcmToWav(d.candidates[0].content.parts[0].inlineData.data)}catch(e){last=e}}throw last}
+async function ttsBlob(txt,errs){const k=lsGet("fish_key","").trim(),v=lsGet("fish_voice","").trim(),gk=lsGet("gemini_key","").trim(),fb=lsGet("v_fb","1")==="1";
+if(k&&v){if(Date.now()<+lsGet("fish_down","0")){if(!errs.includes("Fish pausado por 3 min (falhou agora há pouco)"))errs.push("Fish pausado por 3 min (falhou agora há pouco)")}
+else{const seq=lsGet("fish_mode","direct")==="proxy"?["proxy","direct"]:["direct","proxy"];
+for(const m of seq){if(m==="proxy"&&!gOn())continue;try{const bl=m==="direct"?await fishDirect(txt,k,v):await fishProxy(txt,k,v);lsSet("fish_mode",m);return{bl,src:"Fish Audio"+(m==="proxy"?" (via Google)":"")}}
+catch(e){const msg=(m==="proxy"?"Fish via Google: ":"Fish: ")+(e.message||e);if(!errs.includes(msg))errs.push(msg);if([401,402,403].includes(e.http))break}}
+if(fb)lsSet("fish_down",String(Date.now()+180000))}}
+if((fb||!(k&&v))&&gk){try{return{bl:await geminiTTS(txt),src:"voz do Gemini"}}catch(e){errs.push("Gemini voz: "+(e.message||e))}}return null}
+function chunkText(t){const s=t.match(/[^.!?…]+[.!?…]*\s*/g)||[t],o=[];let c="";s.forEach(x=>{const lim=o.length===0?140:260;if(c&&(c+x).length>lim){o.push(c.trim());c=x}else c+=x});if(c.trim())o.push(c.trim());if(o.length>6){const h=o.slice(0,5);h.push(o.slice(5).join(" "));return h}return o}
+const playBlob=bl=>new Promise((res,rej)=>{const u=URL.createObjectURL(bl);EA.src=u;EA.onended=()=>{URL.revokeObjectURL(u);res()};EA.onerror=()=>{URL.revokeObjectURL(u);rej(new Error("o navegador não conseguiu tocar o áudio"))};EA.play().catch(rej)});
+speak=async function(t,done){const txt=cleanT(t).replace(/https?:\/\/\S+/g," link ").slice(0,1200);if(!txt){if(done)done();return}
+const k=lsGet("fish_key","").trim(),v=lsGet("fish_voice","").trim(),gk=lsGet("gemini_key","").trim();haltAudio();if(!(k&&v)&&!gk)return speakBrowser(t,done);
+const ctl={abort(){}};fishCtl=ctl;fishDone=done||null;const parts=chunkText(txt),errs=[],ps=[],get=i=>i<parts.length?(ps[i]=ps[i]||ttsBlob(parts[i],errs)):null;let src="",spoken=0;
+get(0);get(1);
+for(let i=0;i<parts.length;i++){get(i+1);const r=await ps[i];if(fishCtl!==ctl)return;
+if(!r){const rest=parts.slice(i).join(" ");fishMsg("✗ "+errs.join(" | ")+(lsGet("v_fb","1")==="1"?" → usando a voz do aparelho.":" (nenhuma voz foi usada porque você escolheu \"Avisar o erro\")."),false);
+if(fishCtl===ctl){fishCtl=null;const d=fishDone;fishDone=null;if(lsGet("v_fb","1")==="1")speakBrowser(rest,d);else if(d)d()}return}
+try{src=r.src;await playBlob(r.bl);spoken++}catch(e){errs.push(String(e.message||e));if(fishCtl!==ctl)return;
+fishMsg(e.name==="NotAllowedError"?"O navegador bloqueou o som. Toque em Testar voz uma vez e tente de novo.":"✗ "+errs.join(" | "),false);fishCtl=null;const d=fishDone;fishDone=null;speakBrowser(parts.slice(i).join(" "),d);return}
+if(fishCtl!==ctl)return}
+fishMsg(errs.length?"⚠ "+errs.join(" | ")+" → falou com a "+src+".":"✓ Falando com "+src+".",!errs.length);
+if(fishCtl===ctl){fishCtl=null;const d=fishDone;fishDone=null;if(d)d()}};
+$("fishTest").onclick=()=>{unlockAudio();lsSet("fish_down","0");fishMsg("Gerando a voz...",true);speak("Certamente, senhor. Minha voz está pronta. Como posso ajudar?")};
+bSeg("uFb","v_fb","1");
 </script>
 </body>
 </html>
