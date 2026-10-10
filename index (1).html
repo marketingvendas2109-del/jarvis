@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="theme-color" content="#050a1a"><title>Jarvis</title><style>
-:root{--bg:#050a1a;--acc:#4f7cff;--acc2:#8b5cf6;--txt:#e8eeff;--dim:#8a97bd;--glass:rgba(255,255,255,.05);--glass2:rgba(255,255,255,.09);--line:rgba(140,170,255,.18);--sans:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;--mono:"SF Mono","Cascadia Mono",Consolas,Menlo,monospace;color-scheme:dark}
+<html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="theme-color" content="#050a1a"><title>Jarvis</title><style>:root{--bg:#050a1a;--acc:#4f7cff;--acc2:#8b5cf6;--txt:#e8eeff;--dim:#8a97bd;--glass:rgba(255,255,255,.05);--glass2:rgba(255,255,255,.09);--line:rgba(140,170,255,.18);--sans:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",sans-serif;--mono:"SF Mono",Monaco,"Cascadia Code",Menlo,Courier,monospace}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html,body{height:100%;background:var(--bg);color:var(--txt);font-family:var(--sans)}
 body{background:radial-gradient(ellipse 80% 50% at 50% -5%,#1b2f78 0%,transparent 70%),radial-gradient(ellipse 70% 40% at 90% 100%,#2a1a6a 0%,transparent 70%),var(--bg);overflow:hidden}
@@ -29,7 +28,7 @@ svg.i{width:22px;height:22px;display:block}
 #hero p{color:var(--dim);margin-top:6px;font-size:15px}
 .modeChip{margin-top:12px;font-size:12px;color:var(--acc);border:1px solid var(--line);background:var(--glass);padding:6px 12px;border-radius:999px}
 #quick{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:20px}
-.qc{display:flex;align-items:center;gap:10px;text-align:left;padding:13px;border-radius:16px;background:var(--glass);border:1px solid var(--line);backdrop-filter:blur(12px);font-size:14px;line-height:1.25}
+.qc{display:flex;align-items:center;gap:10px;text-align:left;padding:13px;border-radius:16px;background:var(--glass);border:1px solid var(--line);backdrop-filter:blur(12px);font-size:14px;line-height:1.5}
 .qc:active{background:var(--glass2)}
 .qc .em{width:34px;height:34px;flex:none;border-radius:10px;background:rgba(79,124,255,.16);display:grid;place-items:center;font-size:17px}
 #msgs{display:flex;flex-direction:column;gap:14px;padding-top:6px}
@@ -52,11 +51,11 @@ svg.i{width:22px;height:22px;display:block}
 .rb{width:42px;height:42px;flex:none;border-radius:50%;display:grid;place-items:center}
 #sendBtn{background:linear-gradient(135deg,var(--acc),var(--acc2));box-shadow:0 0 18px rgba(79,124,255,.5)}
 #voiceBtn{background:rgba(79,124,255,.22);border:1px solid var(--line);color:#bcd0ff}
-.tabs{display:grid;grid-template-columns:1fr 1fr 74px 1fr 1fr;align-items:end;padding:8px 10px calc(8px + env(safe-area-inset-bottom,0px));border-top:1px solid var(--line);background:rgba(8,14,34,.8);backdrop-filter:blur(16px)}
+.tabs{display:grid;grid-template-columns:1fr 1fr 74px 1fr 1fr;align-items:end;padding:8px 10px calc(8px + env(safe-area-inset-bottom,0px));border-top:1px solid var(--line);background:rgba(8,14,34,.8);backdrop-filter:blur(12px)}
 .tab{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:11px;color:var(--dim);padding:4px 0}
 .tab .e{font-size:20px;filter:grayscale(1) brightness(1.2);opacity:.75}
 .tab.on{color:#fff}.tab.on .e{filter:none;opacity:1}
-#plus{width:58px;height:58px;margin:0 auto;border-radius:50%;background:linear-gradient(135deg,var(--acc),var(--acc2));display:grid;place-items:center;transform:translateY(-14px);box-shadow:0 0 26px rgba(120,100,255,.65);border:2px solid rgba(255,255,255,.15)}
+#plus{width:58px;height:58px;margin:0 auto;border-radius:50%;background:linear-gradient(135deg,var(--acc),var(--acc2));display:grid;place-items:center;transform:translateY(-14px);box-shadow:0 0 26px rgba(79,124,255,.5)}
 .sec{font-size:13px;color:var(--dim);margin:18px 2px 8px;letter-spacing:.04em}
 .card{background:var(--glass);border:1px solid var(--line);border-radius:18px;backdrop-filter:blur(12px);padding:14px}
 .row{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:16px;background:var(--glass);border:1px solid var(--line);margin-bottom:8px;text-align:left;width:100%}
@@ -98,854 +97,274 @@ svg.i{width:22px;height:22px;display:block}
 .ed input,.ed select,.ed textarea{width:100%;background:rgba(0,0,0,.3);border:1px solid var(--line);border-radius:12px;padding:11px;font-size:15px}
 .ed textarea{min-height:120px;resize:vertical}
 .ed .rw{display:flex;gap:8px;justify-content:flex-end}.ed .rw .del{margin-right:auto}
-.cbar{display:flex;gap:8px;overflow-x:auto;padding:0 14px 8px;scrollbar-width:none}.cbar::-webkit-scrollbar{display:none}.cb{flex:none;max-width:170px;padding:7px 12px;border-radius:999px;background:var(--glass);border:1px solid var(--line);font-size:12.5px;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.cb.on{color:#fff;border-color:var(--acc);box-shadow:0 0 0 1px var(--acc) inset}.cb.d{color:#ff7a6b;border-color:#ff7a6b55}.ic.on{border-color:var(--acc);box-shadow:0 0 12px rgba(79,124,255,.5)}
-@media (prefers-reduced-motion:reduce){.nring,.coreC,.edge,.dots span,#splash .sy{animation:none}}
-
-:root{--bg:#0b0615;--acc:#8b5cf6;--acc2:#d946ef;--txt:#f3eeff;--dim:#a79bc9;--glass:rgba(255,255,255,.06);--glass2:rgba(255,255,255,.1);--line:rgba(190,150,255,.2)}
-body{background:radial-gradient(ellipse 90% 45% at 50% -8%,#5a34c8 0%,transparent 65%),radial-gradient(ellipse 70% 40% at 100% 100%,#8a1f8f 0%,transparent 70%),var(--bg)}
-@media(min-width:600px){#app{background:rgba(11,6,21,.55)}}
-.hdr .ttl::after{content:"BETA";margin-left:7px;font-size:9px;letter-spacing:.08em;padding:3px 7px;border-radius:999px;background:linear-gradient(135deg,var(--acc),var(--acc2));vertical-align:middle}
-.chip,.ic{border-radius:999px;transition:transform .15s,background .2s}.ic:active,.chip:active,.rb:active,.qc:active,.row:active{transform:scale(.94)}
-.view:not(.hidden){animation:fi .35s ease both}@keyframes fi{from{opacity:0;transform:translateY(8px)}}
-#quick{gap:12px}.qc{flex-direction:column;align-items:flex-start;justify-content:space-between;min-height:104px;background:transparent;border:1px solid rgba(255,255,255,.26);border-radius:22px;position:relative;transition:transform .15s,border-color .2s}
-.qc::after{content:"↗";position:absolute;right:14px;bottom:10px;color:var(--dim);font-size:15px}.qc:hover{border-color:var(--acc2)}.qc .em{background:rgba(217,70,239,.16)}
-#hero h1{background:linear-gradient(90deg,#fff,#e9d5ff);-webkit-background-clip:text;background-clip:text;color:transparent}
-.m{animation:up .35s cubic-bezier(.2,.8,.2,1) both}@keyframes up{from{opacity:0;transform:translateY(12px) scale(.98)}}
-.m.u .bub{background:linear-gradient(135deg,#8b5cf6,#d946ef);border-radius:22px 22px 6px 22px;box-shadow:0 8px 28px rgba(217,70,239,.28)}
-.m.a .av{background:radial-gradient(circle at 35% 30%,#fff,#e879f9 40%,#7c3aed 85%);box-shadow:0 0 16px rgba(217,70,239,.6);animation:gl 3s ease-in-out infinite}
-@keyframes gl{50%{box-shadow:0 0 26px rgba(217,70,239,.95)}}
-.m.a .bub{font-size:16px;line-height:1.62}.dots span{background:var(--acc2)}
-.act{display:flex;gap:4px;margin-top:6px}.act button{font-size:14px;padding:4px 9px;border-radius:999px;color:var(--dim);background:var(--glass)}.act button:active{background:var(--glass2)}
-.pill{background:rgba(255,255,255,.08);border:1px solid var(--line);border-radius:30px;box-shadow:0 8px 30px rgba(0,0,0,.35)}
-#sendBtn{background:linear-gradient(135deg,var(--acc),var(--acc2));box-shadow:0 0 20px rgba(217,70,239,.5)}
-#voiceBtn{background:linear-gradient(135deg,rgba(139,92,246,.45),rgba(217,70,239,.45));color:#fff;border:1px solid var(--line)}
-.tabs{background:rgba(14,8,28,.82)}#plus{background:linear-gradient(135deg,var(--acc),var(--acc2));box-shadow:0 0 28px rgba(217,70,239,.6)}
-.row .em{background:rgba(217,70,239,.16)}.row.sel{box-shadow:0 0 0 1px var(--acc) inset,0 0 18px rgba(139,92,246,.3)}
-.cb.on{border-color:var(--acc2);box-shadow:0 0 0 1px var(--acc2) inset}.ed{background:#150b2a}
-#call{position:fixed;inset:0;z-index:80;display:flex;flex-direction:column;align-items:center;background:radial-gradient(ellipse 85% 55% at 50% 38%,#3b1b86 0%,#0b0615 72%);padding:calc(14px + env(safe-area-inset-top,0px)) 16px calc(24px + env(safe-area-inset-bottom,0px));animation:fi .3s both}
-.ctop{width:100%;max-width:560px;display:flex;justify-content:space-between;align-items:center}.cttl{font-weight:600;font-size:17px}
-#callOrb{width:min(88vw,46vh,420px);aspect-ratio:1;margin:auto 0 0}
-#cStatus{font-size:13px;letter-spacing:.2em;color:#e9d5ff;text-transform:uppercase;margin-top:4px;min-height:18px}
-.ctxt{width:min(560px,100%);text-align:center;margin:10px 0 auto;max-height:26vh;overflow:auto;display:flex;flex-direction:column;gap:8px}
-#cYou{color:var(--dim);font-size:14px;font-style:italic;min-height:20px}#cAi{font-size:18px;line-height:1.45}
-.cctl{display:flex;gap:22px;align-items:center;margin-top:14px}.cb2{width:58px;height:58px;border-radius:50%;background:var(--glass2);border:1px solid var(--line);font-size:20px;display:grid;place-items:center}
-.cb2.big{width:84px;height:84px;font-size:30px;background:linear-gradient(135deg,var(--acc),var(--acc2));box-shadow:0 0 0 10px rgba(217,70,239,.14),0 0 34px rgba(217,70,239,.6);animation:pl 2s ease-in-out infinite}
-@keyframes pl{50%{box-shadow:0 0 0 18px rgba(217,70,239,.08),0 0 44px rgba(217,70,239,.8)}}
-#heroOrb{flex:none;width:min(62vw,230px);height:min(62vw,230px)}
-#callOrb{flex:none;height:min(88vw,46vh,420px)}
-#call[data-s="thinking"] .cb2.big{animation-duration:.7s}
-
-:root{--bg:#04050c;--txt:#f4f6ff;--dim:#9aa3c7;--acc:#3b82f6;--acc2:#7c3aed;--glass:rgba(255,255,255,.06);--glass2:rgba(255,255,255,.1);--line:rgba(130,160,255,.22);color-scheme:dark}
-body{background:radial-gradient(ellipse 90% 45% at 50% -8%,#1e3a8a 0%,transparent 65%),radial-gradient(ellipse 70% 40% at 100% 100%,#4c1d95 0%,transparent 70%),var(--bg)}
-@media(min-width:600px){#app{background:rgba(4,5,12,.6)}}
-.qc .em,.row .em{background:rgba(59,130,246,.16)}.row.sel{box-shadow:0 0 0 1px var(--acc) inset,0 0 18px rgba(59,130,246,.3)}
-.m.u .bub{background:linear-gradient(135deg,var(--acc),var(--acc2));box-shadow:0 8px 28px rgba(59,130,246,.3)}
-.m.a .av{background:radial-gradient(circle at 35% 30%,#fff,#93c5fd 40%,#6d28d9 85%);box-shadow:0 0 16px rgba(59,130,246,.6)}
-@keyframes gl{50%{box-shadow:0 0 26px rgba(99,102,241,.95)}}
-#sendBtn,#plus{box-shadow:0 0 22px rgba(59,130,246,.55)}#voiceBtn{background:linear-gradient(135deg,rgba(59,130,246,.5),rgba(124,58,237,.5))}
-.tabs{background:rgba(6,8,18,.85)}.cb.on{border-color:var(--acc);box-shadow:0 0 0 1px var(--acc) inset}.ed{background:#0b0e1c}
-#call{background:radial-gradient(ellipse 85% 55% at 50% 38%,#1e2f78 0%,#04050c 72%)}#cStatus{color:#bfdbfe}
-.cb2.big{box-shadow:0 0 0 10px rgba(59,130,246,.15),0 0 34px rgba(59,130,246,.6)}
-@keyframes pl{50%{box-shadow:0 0 0 18px rgba(59,130,246,.08),0 0 44px rgba(99,102,241,.8)}}
-#hero h1{background:linear-gradient(90deg,#fff,#bfdbfe);-webkit-background-clip:text;background-clip:text;color:transparent}
-html[data-theme=light]{--bg:#fff;--txt:#0b1020;--dim:#5b6488;--glass:rgba(30,50,140,.05);--glass2:rgba(30,50,140,.09);--line:rgba(40,70,200,.2);color-scheme:light}
-html[data-theme=light] body{background:radial-gradient(ellipse 90% 45% at 50% -8%,#dbeafe 0%,transparent 65%),radial-gradient(ellipse 70% 40% at 100% 100%,#ede9fe 0%,transparent 70%),#fff}
-@media(min-width:600px){html[data-theme=light] #app{background:rgba(255,255,255,.6)}}
-html[data-theme=light] .tabs{background:rgba(255,255,255,.92)}html[data-theme=light] .tab.on,html[data-theme=light] .cb.on{color:#1d4ed8}
-html[data-theme=light] .pill{background:#fff;box-shadow:0 8px 28px rgba(30,60,180,.12)}html[data-theme=light] .qc{border-color:rgba(30,60,180,.25)}
-html[data-theme=light] #hero h1{background:linear-gradient(90deg,#1d4ed8,#7c3aed);-webkit-background-clip:text;background-clip:text}
-html[data-theme=light] .f input,html[data-theme=light] .f select,html[data-theme=light] .ed input,html[data-theme=light] .ed select,html[data-theme=light] .ed textarea{background:#f3f5fd;color:#0b1020}
-html[data-theme=light] .ed{background:#fff}html[data-theme=light] .bub code{background:rgba(30,50,140,.08)}html[data-theme=light] .bub pre{background:#f1f3fb}
-html[data-theme=light] .m.a.err .bub{color:#c2410c}html[data-theme=light] .sw input{background:rgba(30,50,140,.22)}
-html[data-theme=light] #call{background:radial-gradient(ellipse 85% 55% at 50% 38%,#dbeafe 0%,#fff 72%)}html[data-theme=light] #cStatus{color:#4338ca}
-html[data-theme=light] #voiceBtn{color:#fff}html[data-theme=light] .btn{color:#0b1020}html[data-theme=light] .btn.pri{color:#fff}
-
-/* ===== vidro fosco estilo Apple, menu lateral, anexos, ajustes ===== */
-:root{--sbg:rgba(14,18,40,.58);--cardbg:rgba(255,255,255,.07);--hl:rgba(255,255,255,.12)}
-html[data-theme=light]{--sbg:rgba(255,255,255,.78);--cardbg:rgba(255,255,255,.7);--hl:rgba(255,255,255,.95);--txt:#0a0f1f;--dim:#364065;--line:rgba(25,45,140,.3);--glass:rgba(255,255,255,.66);--glass2:rgba(255,255,255,.9)}
-.hdr,.tabs,.pill,.gl,.card,.row,.qc,.side,.ed,.chip,.ic,.cb2,.btn{-webkit-backdrop-filter:blur(22px) saturate(180%);backdrop-filter:blur(22px) saturate(180%)}
-.pill,.gl,.qc,.row,.side{box-shadow:0 1px 0 var(--hl) inset,0 10px 30px rgba(0,0,0,.2)}
-html[data-theme=light] .pill,html[data-theme=light] .gl,html[data-theme=light] .qc,html[data-theme=light] .row,html[data-theme=light] .side{box-shadow:0 1px 0 #fff inset,0 10px 30px rgba(30,60,160,.14)}
-.qc{background:rgba(255,255,255,.04)}html[data-theme=light] .qc{background:rgba(255,255,255,.72);border-color:rgba(25,45,140,.3)}
-html[data-theme=light] .chip,html[data-theme=light] .ic,html[data-theme=light] .tab,html[data-theme=light] .m.a .bub,html[data-theme=light] #txt{color:#0a0f1f}
-html[data-theme=light] .tab.on,html[data-theme=light] .modeChip{color:#1d4ed8}html[data-theme=light] .modeChip{background:rgba(255,255,255,.75)}
-html[data-theme=light] .tab{color:#364065}html[data-theme=light] #txt::placeholder{color:#5a6590}html[data-theme=light] .tabs{background:rgba(255,255,255,.82)}
-.tab .e{filter:none;opacity:.72}.tab.on .e{opacity:1;color:var(--acc)}.tab .e svg{width:25px;height:25px}.cb2 svg{width:24px;height:24px}.cb2.big svg{width:34px;height:34px}
-.cbar{display:none!important}
-.side{position:fixed;top:0;bottom:0;left:0;width:min(84vw,330px);z-index:60;transform:translateX(-104%);transition:transform .34s cubic-bezier(.2,.8,.2,1);display:flex;flex-direction:column;gap:10px;padding:calc(14px + env(safe-area-inset-top,0px)) 12px calc(12px + env(safe-area-inset-bottom,0px));background:var(--sbg);border-right:1px solid var(--line)}
-.side.open{transform:none}#scrim{position:fixed;inset:0;z-index:55;background:rgba(0,0,10,.5);opacity:0;pointer-events:none;transition:opacity .3s}#scrim.on{opacity:1;pointer-events:auto}
-.sh{display:flex;justify-content:space-between;align-items:center}.brand{font-size:20px;font-weight:700;letter-spacing:.02em}
-.snew{display:flex;align-items:center;gap:10px;padding:13px 14px;border-radius:16px;background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;font-weight:600;font-size:15px}
-#sSearch{width:100%;padding:11px 14px;border-radius:14px;border:1px solid var(--line);background:var(--glass);font-size:15px;color:var(--txt);outline:none}
-#sList{flex:1;overflow-y:auto;margin:0 -4px;padding:0 4px}.sg{font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--dim);margin:14px 8px 6px}
-.si{display:flex;align-items:center;gap:6px;padding:11px 12px;border-radius:13px;font-size:15px;cursor:pointer}.si:active,.si:hover{background:var(--glass2)}.si.on{background:var(--glass2);box-shadow:0 0 0 1px var(--line) inset}
-.si .st{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.si .sd{width:30px;height:30px;border-radius:9px;color:var(--dim);display:grid;place-items:center;flex:none}.si .sd svg{width:17px;height:17px}.si .sd.arm{background:#ef4444;color:#fff;width:auto;padding:0 9px;font-size:12px}
-.sset{display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:14px;background:var(--glass);border:1px solid var(--line);font-size:15px}
-#attBtn{background:var(--glass2);color:var(--txt)}#attBtn svg{width:21px;height:21px}.pill{padding-left:6px}
-#attPrev{display:flex;padding:0 8px 8px}.ap{display:flex;align-items:center;gap:10px;padding:7px 8px 7px 7px;border-radius:16px;background:var(--glass2);border:1px solid var(--line);max-width:100%}.ap img{width:44px;height:44px;border-radius:10px;object-fit:cover}
-.ap .fi{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;display:grid;place-items:center;flex:none}.ap .fi svg{width:22px;height:22px}.ap span.n{font-size:13.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:46vw}.ap button{width:28px;height:28px;border-radius:50%;background:var(--glass);flex:none}
-.attm{display:block;max-width:230px;max-height:230px;border-radius:16px;margin:0 0 8px;object-fit:cover}.u .attm{margin-left:auto}.attf{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:14px;background:rgba(255,255,255,.2);font-size:13.5px;margin-bottom:6px}.attf svg{width:18px;height:18px}
-.grp{margin-top:20px}.gt{font-size:12px;letter-spacing:.07em;text-transform:uppercase;color:var(--dim);margin:0 8px 8px}
-.gl{border:1px solid var(--line);border-radius:22px;background:var(--cardbg);overflow:hidden}
-.li{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;border-top:1px solid var(--line);width:100%;text-align:left;font-size:15px}.gl>.li:first-child,.gl>div:first-child+.li{border-top:0}.gl>.li:first-child{border-top:0}
-.li.col{flex-direction:column;align-items:stretch;gap:8px}.li b{display:block;font-size:15px;font-weight:600}.li small{display:block;font-size:12.5px;color:var(--dim);margin-top:2px;line-height:1.4}
-.li input[type=text],.li input[type=password]{width:100%;background:rgba(127,127,170,.14);border:1px solid var(--line);border-radius:12px;padding:12px;font-size:15px;color:var(--txt);outline:none}
-.li input[type=checkbox]{width:48px;height:29px;appearance:none;-webkit-appearance:none;background:rgba(127,127,170,.38);border-radius:999px;position:relative;transition:.2s;flex:none}
-.li input[type=checkbox]::after{content:"";position:absolute;top:3px;left:3px;width:23px;height:23px;border-radius:50%;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.35);transition:.2s}
-.li input[type=checkbox]:checked{background:linear-gradient(135deg,var(--acc),var(--acc2))}.li input[type=checkbox]:checked::after{left:22px}
-.li .go{padding:10px 18px;border-radius:12px;background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;font-weight:600;font-size:14px;flex:none}.dng{color:#ef4444;font-weight:600}.note{font-size:12px;color:var(--dim);margin:22px 6px 6px}
-
-.gbtn{display:flex;align-items:center;gap:8px;padding:9px 14px;border-radius:12px;background:#fff;color:#1f1f1f;border:1px solid #dadce0;font-weight:600;font-size:14px;flex:none;box-shadow:0 1px 2px rgba(0,0,0,.15)}.gbtn:active{background:#f1f3f4}.gbtn.on{background:#e6f4ea;border-color:#34a853;color:#137333}
-
-/* ===== ajustes novos ===== */
-body{background:radial-gradient(ellipse 90% 45% at 50% -8%,color-mix(in srgb,var(--acc) 40%,#000) 0%,transparent 65%),radial-gradient(ellipse 70% 40% at 100% 100%,color-mix(in srgb,var(--acc2) 40%,#000) 0%,transparent 70%),var(--bg)}
-html[data-theme=light] body{background:radial-gradient(ellipse 90% 45% at 50% -8%,color-mix(in srgb,var(--acc) 16%,#fff) 0%,transparent 65%),radial-gradient(ellipse 70% 40% at 100% 100%,color-mix(in srgb,var(--acc2) 16%,#fff) 0%,transparent 70%),#fff}
-.hdr,.tabs,.pill,.gl,.card,.row,.qc,.side,.ed,.chip,.ic,.cb2,.btn,.prof,.snav button{-webkit-backdrop-filter:blur(var(--blur,22px)) saturate(180%);backdrop-filter:blur(var(--blur,22px)) saturate(180%)}
-#sendBtn,#plus{box-shadow:0 0 22px color-mix(in srgb,var(--acc) 55%,transparent)}.m.u .bub{box-shadow:0 8px 28px color-mix(in srgb,var(--acc) 30%,transparent)}
-.cb2.big{box-shadow:0 0 0 10px color-mix(in srgb,var(--acc) 15%,transparent),0 0 34px color-mix(in srgb,var(--acc) 60%,transparent)}
-.m.a .av{background:radial-gradient(circle at 35% 30%,#fff,color-mix(in srgb,var(--acc) 60%,#fff) 40%,var(--acc2) 85%)}
-#call{background:radial-gradient(ellipse 85% 55% at 50% 38%,color-mix(in srgb,var(--acc) 35%,#000) 0%,var(--bg) 72%)}html[data-theme=light] #call{background:radial-gradient(ellipse 85% 55% at 50% 38%,color-mix(in srgb,var(--acc) 18%,#fff) 0%,#fff 72%)}
-.m .bub,.m.a .bub{font-size:var(--fs,16px)}
-html.no-orb #heroOrb{display:none}html.no-motion *{animation:none!important;transition:none!important}html.no-quick #quick{display:none!important}html.no-acts .act{display:none}
-.prof{display:flex;align-items:center;gap:14px;padding:16px;border-radius:22px;border:1px solid var(--line);background:var(--cardbg);margin-top:6px}
-.pav{width:58px;height:58px;border-radius:50%;background:linear-gradient(135deg,var(--acc),var(--acc2));display:grid;place-items:center;font-size:24px;font-weight:700;color:#fff;box-shadow:0 0 24px color-mix(in srgb,var(--acc) 50%,transparent);flex:none}
-.pst{display:flex;flex-wrap:wrap;gap:4px 14px;margin-top:5px;font-size:12.5px;color:var(--dim)}
-.snav{display:flex;gap:8px;overflow-x:auto;margin:14px -4px 2px;padding:2px 4px 6px;scrollbar-width:none}.snav::-webkit-scrollbar{display:none}
-.snav button{flex:none;padding:9px 16px;border-radius:999px;background:var(--glass);border:1px solid var(--line);font-size:14px;font-weight:600;color:var(--dim)}.snav button.on{background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;border-color:transparent}
-.cat{animation:fi .3s both}.seg{display:flex;background:rgba(127,127,170,.16);border-radius:12px;padding:3px;gap:3px}
-.seg button{flex:1;padding:9px 6px;border-radius:10px;font-size:13.5px;font-weight:600;color:var(--dim)}.seg button.on{background:var(--glass2);color:var(--txt);box-shadow:0 1px 4px rgba(0,0,0,.25)}
-.swa{display:flex;gap:14px;padding:4px 2px}.swa button{width:38px;height:38px;border-radius:50%;border:2px solid transparent}.swa button.on{border-color:#fff;box-shadow:0 0 0 2px var(--acc)}
-.li input[type=range]{width:100%;accent-color:var(--acc)}.val{font-size:13px;color:var(--dim)}
-.li textarea{width:100%;min-height:90px;background:rgba(127,127,170,.14);border:1px solid var(--line);border-radius:12px;padding:12px;font-size:15px;color:var(--txt);resize:vertical;outline:none;font-family:inherit}
-.li select{background:rgba(127,127,170,.14);border:1px solid var(--line);border-radius:10px;padding:9px 10px;color:var(--txt);font-size:14px;max-width:52%}
-</style></head><body>
+.cbar{display:flex;gap:8px;overflow-x:auto;padding:0 14px 8px;scrollbar-width:none}.cbar::-webkit-scrollbar{display:none}.cb{flex:none;max-width:170px;padding:7px 12px;border-radius:999px;background:var(--glass);border:1px solid var(--line);font-size:11px;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media (prefers-reduced-motion:reduce){.nring,.coreC,.edge,.dots span,#splash .sy{animation:none}}</style></head><body>
 <div id="splash"><div class="nm">JARVIS</div><div class="ln"></div><div class="sy">SINCRONIZANDO DADOS...</div></div>
 <div id="app">
-<header class="hdr"><button class="ic" id="hMenu" type="button" aria-label="Histórico de conversas"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h16M4 16h10"/></svg></button><div class="ttl">Jarvis</div><button class="chip" id="provChip" type="button"><i></i><span id="provTxt">Gemini</span></button><span id="hBar" class="hidden"></span><span id="hNew" class="hidden"></span></header>
-<div class="cbar hidden" id="cbar"></div>
+<header class="hdr"><button class="ic" id="hMenu" type="button" aria-label="Histórico"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></button><div class="ttl">Jarvis</div><button class="ic chip" id="provChip" type="button"><span>Gemini</span></button></header>
 <main id="main">
 <section id="vChat" class="view"><div id="hero"><canvas id="heroOrb"></canvas><h1 id="greet"></h1><p>Como posso ajudar você hoje?</p><button class="modeChip" id="modeChip" type="button"></button></div><div id="quick"></div><div id="msgs"></div></section>
-<section id="vExplore" class="view hidden"><div class="pg">Explorar</div><div class="sec">MODOS DO JARVIS</div><div id="modes"></div><div class="sec">TÓPICOS POPULARES</div><div id="topics"></div></section>
-<section id="vMemory" class="view hidden"><div class="bhero"><div class="pg">Second Brain</div><div style="display:flex;gap:8px;align-items:center"><span id="bCount"></span><button class="ic" id="addBtn" type="button" aria-label="Nova nota" style="width:38px;height:38px"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button></div></div><div id="graph"></div><div class="legend" id="legend"></div><div class="sec">SUAS NOTAS</div><div id="notesList"></div><div class="legend" style="color:#10b981">✓ contexto injetado em todas as conversas do Jarvis</div></section>
-<section id="vSettings" class="view hidden"><div class="pg">Ajustes</div><div class="prof"><div class="pav" id="pAv">J</div><div><b id="pName" style="font-size:18px"></b><div class="pst"><span id="pC"></span><span id="pM"></span><span id="pN"></span></div></div></div><div class="snav" id="snav"><button type="button" data-c="look">Aparência</button><button type="button" data-c="jarvis">Jarvis</button><button type="button" data-c="voz">Voz</button><button type="button" data-c="chat">Chat</button><button type="button" data-c="google">Google</button><button type="button" data-c="dados">Dados</button></div><div class="cat" data-c="look"><div class="grp"><div class="gt">Tema e cores</div><div class="gl"><div class="li col"><b>Tema</b><div class="seg" id="uTheme"><button type="button" data-v="dark">Escuro</button><button type="button" data-v="light">Claro</button><button type="button" data-v="auto">Automático</button></div></div><div class="li col"><b>Cor de destaque</b><div class="swa" id="uAcc"><button type="button" data-v="blue" aria-label="blue" style="background:linear-gradient(135deg,#3b82f6,#7c3aed)"></button><button type="button" data-v="green" aria-label="green" style="background:linear-gradient(135deg,#10b981,#0ea5e9)"></button><button type="button" data-v="orange" aria-label="orange" style="background:linear-gradient(135deg,#f97316,#ec4899)"></button><button type="button" data-v="pink" aria-label="pink" style="background:linear-gradient(135deg,#ec4899,#8b5cf6)"></button><button type="button" data-v="cyan" aria-label="cyan" style="background:linear-gradient(135deg,#06b6d4,#3b82f6)"></button></div></div></div></div><div class="grp"><div class="gt">Visual</div><div class="gl"><div class="li col"><div style="display:flex;justify-content:space-between"><b>Tamanho do texto</b><span class="val" id="uFsV"></span></div><input type="range" id="uFs" min="14" max="20" step="1"></div><div class="li col"><div style="display:flex;justify-content:space-between"><b>Vidro fosco (desfoque)</b><span class="val" id="uBlurV"></span></div><input type="range" id="uBlur" min="0" max="40" step="2"></div><label class="li"><span><b>Esfera de partículas</b><small>Mostrar na tela inicial</small></span><input type="checkbox" id="uOrb"></label><label class="li"><span><b>Animações</b><small>Desligue para economizar bateria</small></span><input type="checkbox" id="uMotion"></label></div></div></div><div class="cat" data-c="jarvis"><div class="grp"><div class="gt">Personalidade</div><div class="gl"><div class="li col"><label for="uName"><b>Seu nome</b></label><input id="uName" type="text" autocomplete="off" spellcheck="false" placeholder="Wagner"></div><div class="li col"><label for="uAddr"><b>Como o Jarvis te chama</b></label><input id="uAddr" type="text" autocomplete="off" spellcheck="false" placeholder="senhor"></div><div class="li"><span><b>Jeito de falar</b><small>Muda o tom das respostas</small></span><select id="uPers"><option value="mordomo">Mordomo britânico</option><option value="amigo">Amigo descontraído</option><option value="coach">Coach motivador</option><option value="direto">Direto e objetivo</option><option value="sarcastico">Sarcástico e espirituoso</option><option value="professor">Professor paciente</option></select></div><div class="li col"><b>Tamanho das respostas</b><div class="seg" id="uLen"><button type="button" data-v="short">Curtas</button><button type="button" data-v="normal">Normais</button><button type="button" data-v="long">Detalhadas</button></div></div><div class="li col"><div style="display:flex;justify-content:space-between"><b>Criatividade</b><span class="val" id="uTempV"></span></div><input type="range" id="uTemp" min="0" max="1.5" step="0.1"></div><div class="li col"><label for="uExtra"><b>Instruções extras</b></label><textarea id="uExtra" placeholder="Ex.: Sempre me responda com exemplos de marketing. Nunca use emojis."></textarea></div></div></div><div class="grp"><div class="gt">Inteligência</div><div class="gl">
-<div class="li"><span><b>Provedor</b><small>Gemini (Google)</small></span><select id="provSel" class="hidden"><option value="gemini">Gemini (Google)</option></select></div>
-<div class="li col"><label for="gemKey"><b>Chave do Gemini</b></label><input id="gemKey" type="password" autocomplete="off" spellcheck="false" placeholder="Cole sua chave aqui"></div>
-<div class="hidden"><input id="gemModel" type="text"></div>
-<div class="li"><span><b>Modelo do Gemini</b><small>Automático tenta os melhores</small></span><select id="uModel"><option value="">Automático</option><option value="gemini-3.5-flash">Gemini 3.5 Flash</option><option value="gemini-3-flash-preview">Gemini 3 Flash</option><option value="gemini-3.5-flash-lite">Lite (mais rápido)</option></select></div><div class="li"><span><b>Testar conexão</b><small id="testOut">Verifica se a chave funciona</small></span><button class="go" id="testAI" type="button">Testar</button></div></div></div>
-<div class="grp"><div class="gt">Memória</div><div class="gl"><label class="li"><span><b>Memória viva</b><small>O Jarvis salva fatos novos no Second Brain sozinho</small></span><input type="checkbox" id="uMem"></label></div></div></div><div class="cat" data-c="voz"><div class="grp"><div class="gt">Voz</div><div class="gl"><div id="vlist" class="hidden"></div>
-<label class="li"><span><b>Ler respostas em voz alta</b><small>No chat de texto</small></span><input type="checkbox" id="speakReplies"></label>
-<div class="li col"><label for="fishKey"><b>Chave do Fish Audio</b></label><input id="fishKey" type="password" autocomplete="off" spellcheck="false"></div>
-<div class="li col"><label for="fishVoice"><b>ID da voz (Fish Audio)</b></label><input id="fishVoice" type="text" autocomplete="off" spellcheck="false"></div>
-<div class="li"><span><b>Testar voz</b><small id="fishOut">Se o Fish falhar, usa a voz masculina do Gemini</small></span><button class="go" id="fishTest" type="button">Testar</button></div>
-<div class="li"><span><b>Voz de reserva (Gemini)</b><small>Fala quando o Fish não responde</small></span><select id="uGv"><option value="Charon">Charon · masculina grave</option><option value="Orus">Orus · masculina firme</option><option value="Fenrir">Fenrir · masculina animada</option><option value="Puck">Puck · masculina jovem</option><option value="Kore">Kore · feminina firme</option><option value="Zephyr">Zephyr · feminina brilhante</option><option value="Aoede">Aoede · feminina leve</option></select></div><div class="li col"><div style="display:flex;justify-content:space-between"><b>Velocidade (voz do aparelho)</b><span class="val" id="uVrV"></span></div><input type="range" id="uVr" min="0.6" max="1.4" step="0.05"></div><div class="li col"><b>Se o Fish falhar</b><div class="seg" id="uFb"><button type="button" data-v="1">Usar outra voz</button><button type="button" data-v="0">Avisar o erro</button></div></div><button class="hidden" id="testVoice" type="button"></button></div></div>
-</div><div class="cat" data-c="chat"><div class="grp"><div class="gt">Conversa</div><div class="gl"><label class="li"><span><b>Enter envia a mensagem</b><small>Desligado: Enter pula linha</small></span><input type="checkbox" id="uEnter"></label><label class="li"><span><b>Botões copiar e ouvir</b><small>Embaixo de cada resposta</small></span><input type="checkbox" id="uActs"></label><label class="li"><span><b>Atalhos na tela inicial</b><small>Cartões de sugestões</small></span><input type="checkbox" id="uQuick"></label></div></div></div><div class="cat" data-c="google"><div class="grp"><div class="gt">Google (Agenda, Planilhas e Gmail)</div><div class="gl"><div class="li"><span><b>1. Copiar o código do script</b><small>Gera a senha sozinho e copia o código</small></span><button class="go" id="gCopy" type="button">Copiar</button></div><div class="li"><span><b>2. Abrir o Google Script</b><small>Cole o código lá. No iPhone: aA → Solicitar site para desktop</small></span><a class="go" href="https://script.google.com/home/projects/create" target="_blank" rel="noopener" style="text-decoration:none">Abrir</a></div><div class="li col"><label for="gUrl"><b>3. Link do script (depois de implantar)</b></label><input id="gUrl" type="text" autocomplete="off" spellcheck="false" placeholder="https://script.google.com/macros/s/.../exec"></div><div class="li col"><label for="gPass"><b>Senha do script</b></label><input id="gPass" type="password" autocomplete="off" spellcheck="false"></div><div class="li col"><label for="gSheet"><b>Planilha padrão (link ou ID)</b></label><input id="gSheet" type="text" autocomplete="off" spellcheck="false" placeholder="Cole o link da planilha"></div><div class="li"><span><b>Conectar Google</b><small id="gStat">Toque para testar</small></span><button class="gbtn" id="gBtn" type="button"><svg viewBox="0 0 48 48" width="18" height="18"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.9 2.4 30.4 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.9 6.1C12.4 13.6 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.7c-.6 3-2.3 5.5-4.8 7.2l7.5 5.8c4.4-4.1 7.1-10.1 7.1-17.5z"/><path fill="#FBBC05" d="M10.5 28.7A14.5 14.5 0 0 1 9.5 24c0-1.6.3-3.2.8-4.7l-7.9-6.1A24 24 0 0 0 0 24c0 3.9.9 7.5 2.6 10.8l7.9-6.1z"/><path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.5-5.8c-2.1 1.4-4.8 2.3-8.4 2.3-6.3 0-11.6-4.1-13.5-9.8l-7.9 6.1C6.5 42.6 14.6 48 24 48z"/></svg>Conectar</button></div></div></div>
-</div><div class="cat" data-c="dados"><div class="grp"><div class="gt">Dados</div><div class="gl"><button class="li" id="clearChat" type="button"><span class="dng">Limpar conversa atual</span></button><button class="li" id="exportBtn" type="button"><span><b>Exportar conversas</b><small>Baixa um arquivo com tudo</small></span></button><button class="li" id="delAll" type="button"><span class="dng">Apagar todas as conversas</span></button><button class="li" id="resetUI" type="button"><span class="dng">Restaurar ajustes visuais e do Jarvis</span></button></div></div>
-</div><input type="checkbox" id="themeSw" class="hidden"><div class="note" style="text-align:center">Jarvis · tudo é salvo só neste navegador</div></section>
-
+<section id="vSettings" class="view hidden"><div class="pg">⚙️ Ajustes</div><div class="sec">FISH AUDIO (Voz IA)</div><div class="gl"><div class="li col"><label for="fishKey"><b>🔑 Chave API Fish Audio</b><small>De https://fish.audio</small></label><input id="fishKey" type="password" autocomplete="off" spellcheck="false" placeholder="sk_..."></div><div class="li col"><label for="fishVoice"><b>🎤 ID da Voz</b><small>ID único da voz no Fish</small></label><input id="fishVoice" type="text" autocomplete="off" spellcheck="false" placeholder="voice-id-aqui"></div><div class="li"><span><b>✅ Testar Voz</b><small id="fishStatus">Clique para testar o áudio</small></span><button class="go" id="fishTest" type="button">▶ Testar</button></div></div><div class="sec">GEMINI (IA)</div><div class="gl"><div class="li col"><label for="gemKey"><b>🔑 Chave API Gemini</b><small>De https://aistudio.google.com</small></label><input id="gemKey" type="password" autocomplete="off" spellcheck="false" placeholder="AIza..."></div></div></section>
 </main>
-<aside id="side" class="side" aria-label="Conversas"><div class="sh"><div class="brand">Jarvis</div><button class="ic" id="sClose" type="button" aria-label="Fechar"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div><button class="snew" id="sNew" type="button"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Nova conversa</button><input id="sSearch" type="search" placeholder="Buscar conversas" autocomplete="off"><div id="sList"></div><button class="sset" id="sSet" type="button"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg>Ajustes</button></aside><div id="scrim"></div>
-<div id="composer"><div id="attPrev" class="hidden"></div><input type="file" id="fileIn" class="hidden" accept="image/*,.pdf,.txt,.md,.csv,.json,.js,.html,.css,.py,.xml,.log,.yml,.yaml"><div class="pill"><button class="rb" id="attBtn" type="button" aria-label="Anexar foto ou arquivo"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="m21 11-8.5 8.5a5 5 0 0 1-7-7L14 4a3.3 3.3 0 0 1 4.7 4.7l-8.6 8.6a1.7 1.7 0 0 1-2.4-2.4L15 7"/></svg></button><textarea id="txt" rows="1" placeholder="Mensagem para o Jarvis..."></textarea>
-<button class="rb hidden" id="sendBtn" type="button" aria-label="Enviar"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
-<button class="rb" id="voiceBtn" type="button" aria-label="Ditar por voz"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 10v4M8 6v12M12 3v18M16 7v10M20 10v4"/></svg></button></div></div>
-<nav class="tabs"><button class="tab on" data-v="vChat" type="button"><span class="e"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/></svg></span>Chat</button><button class="tab" data-v="vExplore" type="button"><span class="e"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2 5-5 2 2-5 5-2Z"/></svg></span>Explorar</button><button id="plus" type="button" aria-label="Nova conversa"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button><button class="tab" data-v="vMemory" type="button"><span class="e"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="7" r="2.2"/><circle cx="18" cy="7" r="2.2"/><circle cx="12" cy="18" r="2.2"/><path d="M8 8l3 8M16 8l-3 8M8.3 7h7.4"/></svg></span>Memória</button><button class="tab" data-v="vSettings" type="button"><span class="e"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg></span>Ajustes</button></nav>
+<div id="composer"><div class="pill"><input id="txt" type="text" placeholder="Pergunte qualquer coisa..." autocomplete="off"><button class="rb hidden" id="sendBtn" type="button" aria-label="Enviar">➤</button><button class="rb" id="voiceBtn" type="button" aria-label="Voz">🎤</button></div></div>
+<nav class="tabs"><button class="tab on" data-v="vChat" type="button"><span class="e">💬</span><span>Chat</span></button><button class="tab" data-v="vSettings" type="button"><span class="e">⚙️</span><span>Ajustes</span></button></nav>
 </div>
-<div id="editor" class="hidden"><div class="ed"><h3 id="edTitle">Nota</h3><label for="edT">Título</label><input id="edT" type="text" maxlength="40"><label for="edA">Área</label><select id="edA"></select><label for="edB">Conteúdo</label><textarea id="edB"></textarea><div class="rw"><button class="btn del" id="edDel" type="button">Excluir</button><button class="btn" id="edCancel" type="button">Cancelar</button><button class="btn pri" id="edSave" type="button">Salvar</button></div></div></div>
-<div id="call" class="hidden"><div class="ctop"><button class="ic" id="cMin" type="button" aria-label="Voltar ao chat">⌄</button><div class="cttl">Jarvis · voz</div><span style="width:42px"></span></div><canvas id="callOrb"></canvas><div id="cStatus"></div><div class="ctxt"><div id="cYou"></div><div id="cAi"></div></div><div class="cctl"><button class="cb2" id="cStop" type="button" aria-label="Interromper fala">⏹</button><button class="cb2 big" id="cMic" type="button" aria-label="Falar agora">🎙️</button><button class="cb2" id="cEnd" type="button" aria-label="Encerrar">✕</button></div></div>
 <script>
-const CONFIG={name:"Jarvis",userName:"Wagner",address:"senhor",persona:"formal britânico, no estilo de um mordomo: educado, elegante, preciso e com leve fineza irônica, sempre muito respeitoso"};
-const MODES=[{id:"normal",em:"🤖",label:"Normal",desc:"Assistente pessoal geral, do dia a dia.",extra:""},{id:"zenon",em:"👕",label:"ZENON",desc:"Foco na marca de roupas: estratégia, marketing, vendas e operação.",extra:"MODO ZENON ATIVO: priorize ajudar com a marca ZENON (roupas masculinas): estratégia de marca, conteúdo, marketing, vendas na Shopee, crescimento e organização dos pedidos. Dê ideias práticas e acionáveis."},{id:"estudo",em:"📚",label:"Estudos",desc:"Explica conceitos de forma simples e ajuda a revisar.",extra:"MODO ESTUDOS ATIVO: explique de forma simples e didática, com exemplos curtos, e ajude a revisar e memorizar."},{id:"criativo",em:"💡",label:"Criativo",desc:"Brainstorm de ideias, nomes, textos e campanhas.",extra:"MODO CRIATIVO ATIVO: traga ideias originais, ousadas e variadas; ofereça várias opções curtas."}];
-const TOPICS=[["📝","Escrever um e-mail","Escreva um e-mail profissional sobre: "],["📄","Resumir um texto","Resuma o texto a seguir em poucos pontos:\n"],["💡","Explicar um conceito","Explique de forma simples: "],["📊","Analisar dados","Analise estes dados e me dê os principais insights:\n"],["👕","Ideias para a ZENON","Me dê 5 ideias de conteúdo para a marca ZENON esta semana."],["🗓️","Planejar meu dia","Me ajude a planejar meu dia de hoje. Minhas tarefas são: "]];
-const AREA={metas:{label:"Metas",color:"#fbbf24"},trabalho:{label:"Carreira",color:"#ff5547"},projetos:{label:"Projetos",color:"#8b7cff"},financas:{label:"Finanças",color:"#f7931a"},aprendizado:{label:"Aprendizado",color:"#2dd4ff"},saude:{label:"Saúde",color:"#10b981"},relacoes:{label:"Relações",color:"#ec4899"},meta:{label:"Você",color:"#8a90a6"}};
-const SEED_NOTES=[{id:"n1",area:"meta",title:"Wagner",body:"Wagner é estudante e empreendedor. Perfil de criador, estrategista e visionário; gosta de criar ideias, pesquisar tendências, tecnologia e marketing."},{id:"n2",area:"trabalho",title:"Diretor",body:"Fundador e Diretor de Marca e Estratégia da ZENON, marca de roupas masculinas."},{id:"n3",area:"projetos",title:"ZENON",body:"Marca de roupas masculinas vendida pela Shopee, com plano de crescimento de 30 dias. O estoque fica na casa do Wagner, que separa, embala e envia os pedidos. Os melhores dias para trabalhar nela são segunda, quarta, sexta e sábado."},{id:"n4",area:"projetos",title:"Jarvis",body:"Está criando um assistente pessoal com IA no estilo Jarvis."},{id:"n5",area:"aprendizado",title:"Estudos",body:"Estuda de segunda a sexta, das 7h às 14h."},{id:"n6",area:"saude",title:"Karatê",body:"Treina karatê às terças e quintas, das 14h às 16h30 aproximadamente."},{id:"n7",area:"relacoes",title:"Samuel",body:"Amigo e sócio na ZENON, Diretor Comercial e de Crescimento."},{id:"n8",area:"metas",title:"Crescer",body:"Fazer a ZENON crescer, seguindo o plano de 30 dias."}];
-const SEED_REL=[["n1","n2"],["n1","n5"],["n1","n6"],["n1","n8"],["n2","n3"],["n2","n7"],["n3","n7"],["n3","n8"],["n4","n1"],["n4","n8"],["n5","n6"],["n7","n8"],["n2","n8"]];
+const CONFIG={name:"Jarvis",userName:"Wagner",persona:"assistente profissional, educado e preciso"};
+const EA=new Audio();
+let chatLog=[],sending=false,lastReply="";
+
 const $=id=>document.getElementById(id);
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-const norm=s=>String(s).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
+
 function lsGet(k,d){try{const v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}}
 function lsSet(k,v){try{localStorage.setItem(k,v)}catch(e){}}
-let NOTES,REL,sample=null;
-function loadStore(){try{const n=JSON.parse(lsGet("jarvis_notes","null")),r=JSON.parse(lsGet("jarvis_rel","null"));if(Array.isArray(n)&&n.length){NOTES=n;REL=Array.isArray(r)?r:[];return}}catch(e){}NOTES=JSON.parse(JSON.stringify(SEED_NOTES));REL=JSON.parse(JSON.stringify(SEED_REL));saveStore()}
-function saveStore(){lsSet("jarvis_notes",JSON.stringify(NOTES));lsSet("jarvis_rel",JSON.stringify(REL))}
-function md(t){const bl=[];let h=esc(t).replace(/```[a-z]*\n?([\s\S]*?)```/g,(m,c)=>{bl.push(c);return"\u0000"+(bl.length-1)+"\u0000"});h=h.replace(/`([^`\n]+)`/g,"<code>$1</code>").replace(/\*\*([^*\n]+)\*\*/g,"<b>$1</b>");let o="",li=false;h.split("\n").forEach(l=>{const m=/^\s*[-*•]\s+(.*)/.exec(l);if(m){if(!li){o+="<ul>";li=true}o+="<li>"+m[1]+"</li>"}else{if(li){o+="</ul>";li=false}o+=l.trim()===""?"<br>":l+"<br>"}});if(li)o+="</ul>";return o.replace(/\u0000(\d+)\u0000/g,(m,i)=>"<pre>"+bl[+i]+"</pre>")}
-setTimeout(()=>{$("splash").classList.add("fade");setTimeout(()=>$("splash").classList.add("hidden"),750)},1700);
-function showView(id){["vChat","vExplore","vMemory","vSettings"].forEach(v=>$(v).classList.toggle("hidden",v!==id));document.querySelectorAll(".tab").forEach(t=>t.classList.toggle("on",t.dataset.v===id));$("composer").classList.toggle("hidden",id!=="vChat");if(id==="vMemory")renderBrain();$("main").scrollTop=(id==="vChat"&&chatLog.length)?$("main").scrollHeight:0}
-document.querySelectorAll(".tab").forEach(t=>t.addEventListener("click",()=>showView(t.dataset.v)));
-$("provChip").onclick=()=>showView("vSettings");$("modeChip").onclick=()=>showView("vExplore");$("hNew").onclick=newChat;$("plus").onclick=()=>{newChat();$("txt").focus()};
-function refreshSet(){$("provSel").value=prov();$("gemKey").value=lsGet("gemini_key","");$("gemModel").value=lsGet("gemini_model","gemini-2.5-flash");$("provTxt").textContent=prov()==="gemini"?"Gemini":"Claude"}
-[["provSel","jarvis_provider","change"],["gemKey","gemini_key","input"],["gemModel","gemini_model","input"]].forEach(a=>$(a[0]).addEventListener(a[2],e=>{lsSet(a[1],e.target.value.trim());refreshSet()}));
-$("speakReplies").checked=lsGet("speak_replies","0")==="1";$("speakReplies").onchange=e=>lsSet("speak_replies",e.target.checked?"1":"0");
-$("testVoice").onclick=()=>speak("Às suas ordens, "+CONFIG.address+".");$("clearChat").onclick=delChat;
-$("testAI").onclick=async()=>{const o=$("testOut");o.className="";o.textContent="Testando...";try{const t=await callAI([{role:"user",content:"teste"}],"Responda apenas: ok");o.className="ok";o.textContent="✓ Conectado! Resposta: "+t.slice(0,40)}catch(e){o.textContent=aiErr(e)}};
-function curMode(){return MODES.find(m=>m.id===lsGet("jarvis_mode","normal"))||MODES[0]}
-function renderModes(){$("modes").innerHTML=MODES.map(m=>'<button class="row'+(m.id===curMode().id?" sel":"")+'" data-m="'+m.id+'" type="button"><span class="em">'+m.em+'</span><span><b>'+m.label+"</b><small>"+esc(m.desc)+"</small></span></button>").join("");$("modes").querySelectorAll(".row").forEach(b=>b.onclick=()=>{lsSet("jarvis_mode",b.dataset.m);renderModes();updateHome()});$("topics").innerHTML=TOPICS.map((t,i)=>'<button class="row" data-t="'+i+'" type="button"><span class="em">'+t[0]+"</span><span><b>"+esc(t[1])+"</b></span></button>").join("");$("topics").querySelectorAll(".row").forEach(b=>b.onclick=()=>useTopic(+b.dataset.t))}
-function useTopic(i){showView("vChat");$("txt").value=TOPICS[i][2];autoGrow();$("txt").focus()}
-function renderQuick(){$("quick").innerHTML=TOPICS.map((t,i)=>'<button class="qc" data-t="'+i+'" type="button"><span class="em">'+t[0]+"</span><span>"+esc(t[1])+"</span></button>").join("");$("quick").querySelectorAll(".qc").forEach(b=>b.onclick=()=>useTopic(+b.dataset.t))}
-let chatLog=[],SESS=[],curId=null;
-try{const x=JSON.parse(lsGet("jarvis_sessions","null"));if(Array.isArray(x))SESS=x}catch(e){}
-if(!SESS.length){try{const c=JSON.parse(lsGet("jarvis_chat","[]"));if(Array.isArray(c)&&c.length)SESS.push({id:"s0",ts:Date.now(),log:c})}catch(e){}}
-curId=lsGet("jarvis_cur","");let curS=SESS.find(x=>x.id===curId);if(!curS){curS={id:"s"+Date.now().toString(36),ts:Date.now(),log:[]};SESS.push(curS);curId=curS.id}
-chatLog=curS.log;
-function saveSess(){lsSet("jarvis_sessions",JSON.stringify(SESS));lsSet("jarvis_cur",curId)}
-function sTitle(x){const u=x.log.find(m=>m.role==="user");return u?u.content.replace(/\s+/g," ").slice(0,28):"Nova conversa"}
-function renderBar(){const bar=$("cbar"),on=lsGet("jarvis_bar","1")==="1";bar.classList.toggle("hidden",!on);$("hBar").classList.toggle("on",on);if(!on)return;
-const l=SESS.slice().sort((a,b)=>b.ts-a.ts);bar.innerHTML='<button class="cb" id="cbNew" type="button">＋ Nova</button>'+l.map(x=>'<button class="cb'+(x.id===curId?" on":"")+'" data-id="'+x.id+'" type="button">'+esc(sTitle(x))+"</button>").join("")+'<button class="cb d" id="cbDel" type="button">🗑 Apagar</button>';
-bar.querySelectorAll(".cb[data-id]").forEach(b=>b.onclick=()=>switchChat(b.dataset.id));$("cbDel").onclick=delChat;$("cbNew").onclick=newChat}
-function switchChat(id){const x=SESS.find(y=>y.id===id);if(!x)return;curId=id;chatLog=x.log;saveSess();$("msgs").innerHTML="";chatLog.forEach(m=>pushMsg(m.role,m.content,{att:m.att}));updateHome();renderBar();showView("vChat")}
-function delChat(){if(!confirm("Apagar esta conversa?"))return;SESS=SESS.filter(x=>x.id!==curId);if(!SESS.length)SESS.push({id:"s"+Date.now().toString(36),ts:Date.now(),log:[]});const n=SESS.slice().sort((a,b)=>b.ts-a.ts)[0];switchChat(n.id)}
-$("hBar").onclick=()=>{lsSet("jarvis_bar",lsGet("jarvis_bar","1")==="1"?"0":"1");renderBar()};
-let sending=false;
-function updateHome(){const e=chatLog.length===0,h=new Date().getHours();$("hero").classList.toggle("hidden",!e);$("quick").classList.toggle("hidden",!e);$("msgs").classList.toggle("hidden",e);$("greet").textContent=(h<5?"Boa noite":h<12?"Bom dia":h<18?"Boa tarde":"Boa noite")+", "+CONFIG.userName;$("modeChip").textContent="Modo: "+curMode().label}
-function scrollEnd(){$("main").scrollTop=$("main").scrollHeight}
-function pushMsg(role,text,opts){opts=opts||{};const d=document.createElement("div");d.className="m "+(role==="user"?"u":"a")+(opts.error?" err":"");d.innerHTML=(role==="user"?"":'<div class="av"></div>')+'<div class="bub">'+(role==="user"?esc(text).replace(/\n/g,"<br>"):md(text))+"</div>";$("msgs").appendChild(d);$("msgs").classList.remove("hidden");$("hero").classList.add("hidden");$("quick").classList.add("hidden");scrollEnd();return d}
-function setThinking(on){const old=$("thinkRow");if(old)old.remove();if(on){const d=document.createElement("div");d.id="thinkRow";d.className="m a";d.innerHTML='<div class="av"></div><div class="bub"><div class="dots"><span></span><span></span><span></span></div></div>';$("msgs").appendChild(d);scrollEnd()}}
-function persistLog(){if(chatLog.length>60){chatLog=chatLog.slice(-60);const c=SESS.find(x=>x.id===curId);if(c)c.log=chatLog}const c=SESS.find(x=>x.id===curId);if(c)c.ts=Date.now();saveSess();renderBar()}
-function newChat(){if(chatLog.length){const x={id:"s"+Date.now().toString(36),ts:Date.now(),log:[]};SESS.push(x);curId=x.id;chatLog=x.log;saveSess()}$("msgs").innerHTML="";updateHome();renderBar();showView("vChat")}
-function buildSystem(){const g={};NOTES.forEach(n=>(g[n.area]=g[n.area]||[]).push(n));let brain="";Object.keys(AREA).forEach(k=>{if(!g[k])return;brain+="\n["+AREA[k].label.toUpperCase()+"]\n";g[k].forEach(n=>brain+="- "+n.title+": "+n.body+"\n")});
-return["Você é "+CONFIG.name+", o assistente pessoal do usuário ("+CONFIG.userName+"). Personalidade: "+CONFIG.persona+'. Trate o usuário por "'+CONFIG.address+'".',"Responda sempre em português do Brasil. Responda de forma clara e objetiva. Pode usar listas curtas e **negrito** quando ajudar; evite textos longos demais e use poucos emojis.",curMode().extra,"Agora é "+new Date().toLocaleString("pt-BR",{dateStyle:"full",timeStyle:"short"})+".","SECOND BRAIN DO USUÁRIO (o que você sabe sobre a vida dele; use para personalizar toda resposta):\n"+(brain||"(vazio)"),"MEMÓRIA VIVA: se o usuário revelar algo novo e duradouro sobre a vida dele, TERMINE a resposta com uma linha no formato EXATO [[SAVE:area|titulo|texto]] (area: metas, trabalho, projetos, financas, aprendizado, saude, relacoes, meta). Se já existir nota com esse título, ela é atualizada; senão nasce uma nova. Título com 1 ou 2 palavras. Só quando houver algo realmente novo."].filter(Boolean).join("\n\n")}
-const prov=()=>"gemini";
-async function callAI(turns, system) {
-    const modelos = [
-        "gemini-3.5-flash",
-        "gemini-3-flash-preview",
-        "gemini-3.5-flash-lite"
-    ];
 
-    const pm = lsGet("ai_model", ""); if (pm) { const ix = modelos.indexOf(pm); if (ix > 0) { modelos.splice(ix, 1); modelos.unshift(pm); } }
-    const key = String(lsGet("gemini_key", "") || "").trim();
+// ========== FUNÇÃO PRINCIPAL: FISH AUDIO ==========
+async function fishAudio(texto, apiKey, voiceId) {
+  if (!apiKey || !voiceId) {
+    throw new Error("Configure a chave e ID da voz do Fish Audio");
+  }
 
-    if (!key) {
-        throw Object.assign(
-            new Error("Configure a chave da API Gemini nos ajustes."),
-            { code: "nokey" }
-        );
-    }
+  const models = ["", "s1"];
+  let lastError = null;
 
-    if (!Array.isArray(turns) || turns.length === 0) {
-        throw new Error("Não há mensagens para enviar.");
-    }
-
-    const instrucoes = [];
-    const contents = [];
-
-    if (typeof system === "string" && system.trim()) {
-        instrucoes.push(system.trim());
-    }
-
-    for (let i = 0; i < turns.length; i++) {
-        const turn = turns[i];
-
-        if (!turn || typeof turn !== "object") {
-            throw new Error(`Mensagem inválida na posição ${i}.`);
-        }
-
-        if (turn.role === "system") {
-            if (typeof turn.content === "string" && turn.content.trim()) {
-                instrucoes.push(turn.content.trim());
-            } else if (Array.isArray(turn.parts)) {
-                const texto = turn.parts
-                    .filter(part => typeof part?.text === "string")
-                    .map(part => part.text)
-                    .join("\n");
-
-                if (texto.trim()) instrucoes.push(texto);
-            }
-
-            continue;
-        }
-
-        const role = turn.role === "assistant"
-            ? "model"
-            : (turn.role || "user");
-
-        if (role !== "user" && role !== "model") {
-            throw new Error(`Papel de mensagem não suportado: ${role}.`);
-        }
-
-        let parts;
-
-        if (Array.isArray(turn.parts)) {
-            parts = turn.parts;
-        } else if (typeof turn.content === "string") {
-            parts = [{ text: turn.content }];
-        } else {
-            throw new Error(
-                `A mensagem ${i} precisa conter content como texto ou parts como array.`
-            );
-        }
-
-        if (parts.length === 0) continue;
-
-        if (
-            parts.every(
-                part =>
-                    typeof part?.text === "string" &&
-                    !part.text.trim()
-            )
-        ) {
-            continue;
-        }
-
-        // Envia somente os campos aceitos no objeto da mensagem.
-        contents.push({ role, parts });
-    }
-
-    if (contents.length === 0) {
-        throw new Error("O histórico não contém mensagens utilizáveis.");
-    }
-
-    const payload = { contents }; payload.generationConfig = { temperature: parseFloat(lsGet("ai_temp", "0.8")) };
-
-    if (instrucoes.length > 0) {
-        payload.systemInstruction = {
-            parts: [{ text: instrucoes.join("\n\n") }]
-        };
-    }
-
-    let ultimoErro = new Error("Nenhum modelo conseguiu responder.");
-
-    for (const modelo of modelos) {
-        const timeout = 0;
-
-        try {
-            console.log(`[Gemini] Tentando: ${modelo}`);
-
-            const response = await withTimeout(fetch(
-                `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(modelo)}:generateContent`,
-                {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "x-goog-api-key": key
-                    },
-                    body: JSON.stringify(payload)
-                }
-            ), 60000);
-
-            const raw = await response.text();
-            let data;
-
-            try {
-                data = JSON.parse(raw);
-            } catch {
-                throw Object.assign(
-                    new Error(
-                        `A API retornou uma resposta inválida (HTTP ${response.status}).`
-                    ),
-                    { status: response.status }
-                );
-            }
-
-            if (!response.ok) {
-                throw Object.assign(
-                    new Error(
-                        data.error?.message ||
-                        `Erro HTTP ${response.status} no modelo ${modelo}.`
-                    ),
-                    { status: response.status, modelo }
-                );
-            }
-
-            const candidato = data.candidates?.[0];
-
-            const texto = (candidato?.content?.parts || [])
-                .filter(
-                    part =>
-                        typeof part.text === "string" &&
-                        part.thought !== true
-                )
-                .map(part => part.text)
-                .join("");
-
-            if (!texto.trim()) {
-                const motivo =
-                    data.promptFeedback?.blockReason ||
-                    candidato?.finishReason ||
-                    "resposta sem texto";
-
-                throw Object.assign(
-                    new Error(`O Gemini não retornou texto: ${motivo}.`),
-                    { code: "empty_response" }
-                );
-            }
-
-            return texto;
-        } catch (error) {
-            ultimoErro = error.name === "AbortError"
-                ? new Error(
-                    `O modelo ${modelo} excedeu o tempo de espera de 60 segundos.`
-                )
-                : error;
-
-            console.error(`[Gemini] Falha em ${modelo}:`, ultimoErro);
-
-            // Não repete erros de requisição ou autorização
-            // nem tenta contornar respostas sem texto.
-            if (
-                [400, 401, 403].includes(ultimoErro.status) ||
-                ultimoErro.code === "empty_response"
-            ) {
-                throw ultimoErro;
-            }
-        } finally {
-            clearTimeout(timeout);
-        }
-    }
-
-    throw ultimoErro;
-}
-function aiErr(e){const a=CONFIG.address,c=e&&e.code;
-if(c==="nokey")return "Falta a chave do Gemini, "+a+". Cole-a em Ajustes.";
-if(c==="net")return "Não consegui me conectar ao Gemini, "+a+". A página publicada bloqueia sites externos; use o provedor Claude aqui, ou abra o Jarvis como arquivo no Chrome.";
-if(c==="http"){const s=e.status;return s===429?"O limite de uso foi atingido, "+a+". Aguarde alguns minutos.":s===404?"Modelo não encontrado, "+a+" (404). Verifique em Ajustes.":(s===400||s===401||s===403)?"A chave foi recusada, "+a+" (erro "+s+"). Verifique em Ajustes.":"Erro no servidor, "+a+" ("+s+")."}
-if(c==="nosample")return "Receio que a IA do Claude não esteja disponível nesta visualização, "+a+". Abra pelo link publicado e conceda a permissão.";
-if(c==="rate_limited")return "O limite de uso da IA foi atingido, "+a+". Aguarde alguns minutos.";
-return "Houve um erro, "+a+". Tente novamente."}
-async function sendMessage(text){text=(text||"").trim();if(!text||sending)return;
-sending=true;pushMsg("user",text);chatLog.push({role:"user",content:text});persistLog();setThinking(true);
-let c=chatLog.slice(-20);while(c.length&&c[0].role!=="user")c.shift();
-try{const raw=await callAI(c,buildSystem());setThinking(false);const out=processSave(raw)||"…";lastReply=out;chatLog.push({role:"assistant",content:out});persistLog();pushMsg("assistant",out);if(!talk&&lsGet("speak_replies","0")==="1")speak(out)}
-catch(e){setThinking(false);chatLog.pop();pushMsg("assistant",aiErr(e),{error:true})}
-sending=false}
-function autoGrow(){const t=$("txt");t.style.height="auto";t.style.height=Math.min(120,t.scrollHeight)+"px";const h=t.value.trim().length>0;$("sendBtn").classList.toggle("hidden",!h);$("voiceBtn").classList.toggle("hidden",h)}
-$("txt").addEventListener("input",autoGrow);$("txt").addEventListener("keydown",e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();submitText()}});$("sendBtn").onclick=submitText;
-function submitText(){const v=$("txt").value.trim();if(!v)return;$("txt").value="";autoGrow();sendMessage(v)}
-function processSave(text){const re=/\[\[SAVE:([a-z_]+)\|([^|]+)\|([\s\S]+?)\]\]/g;let m,ch=false,last=null;while((m=re.exec(text))!==null){const a=AREA[m[1].trim()]?m[1].trim():"meta",t=m[2].trim().slice(0,40),b=m[3].trim(),f=NOTES.find(n=>norm(n.title)===norm(t));if(f){f.body=b;f.area=a;last=f.id}else last=addNote(a,t,b);ch=true}text=text.replace(re,"").trim();if(ch){saveStore();renderBrain();if(last)flashNode(last)}return text}
-function addNote(area,title,body){const id="n"+Date.now().toString(36)+Math.floor(Math.random()*99);NOTES.push({id,area,title,body});const mate=NOTES.find(n=>n.id!==id&&n.area===area)||NOTES.find(n=>n.id!==id);if(mate)REL.push([id,mate.id]);const hub=NOTES.find(n=>n.id!==id&&n.area==="metas"&&(!mate||n.id!==mate.id));if(hub)REL.push([id,hub.id]);return id}
-function flashNode(id){const el=document.querySelector('.node[data-id="'+id+'"]');if(!el)return;el.classList.add("flash");setTimeout(()=>el.classList.remove("flash"),2000)}
-/* voz */
-const MALE=/antonio|antônio|daniel|felipe|ricardo|donato|humberto|valerio|valério|jorge|marcos|luciano|male|masculin|x-ptd|ptd-|ptc-/i,FEMALE=/maria|luciana|francisca|fernanda|female|feminin|fem\b|vitoria|vitória|brenda|camila|thalita|leticia|giovanna|google português|x-afs|afs-/i;
-const PRESETS=[{id:"m1",em:"🎙️",n:"Jarvis",d:"Masculina · grave e calma",g:"m",i:0,p:.25,r:.88},{id:"m2",em:"🎧",n:"Atlas",d:"Masculina · firme e clara",g:"m",i:1,p:.5,r:.96},{id:"f1",em:"🌅",n:"Aurora",d:"Feminina · suave e natural",g:"f",i:0,p:1,r:1},{id:"f2",em:"✨",n:"Íris",d:"Feminina · jovem e ágil",g:"f",i:1,p:1.3,r:1.06}];
-let VS=[];
-const curPreset=()=>PRESETS.find(p=>p.id===lsGet("jarvis_vp","m1"))||PRESETS[0];
-function voiceFor(p){const pt=VS.filter(v=>/^pt/i.test(v.lang)),base=pt.length?pt:VS,m=base.filter(v=>MALE.test(v.name)&&!FEMALE.test(v.name)),f=base.filter(v=>!MALE.test(v.name)),pool=p.g==="m"?(m.length?m:base):(f.length?f:base);return pool[p.i]||pool[0]||null}
-function renderVoices(){$("vlist").innerHTML=PRESETS.map(p=>{const v=voiceFor(p);return'<button class="row'+(p.id===curPreset().id?" sel":"")+'" data-p="'+p.id+'" type="button"><span class="em">'+p.em+'</span><span><b>'+p.n+"</b><small>"+p.d+(v?" · "+esc(v.name):"")+"</small></span></button>"}).join("");$("vlist").querySelectorAll(".row").forEach(b=>b.onclick=()=>{lsSet("jarvis_vp",b.dataset.p);renderVoices();speak("Às suas ordens, "+CONFIG.address+". Esta é a minha voz.")})}
-function loadVoices(){VS=("speechSynthesis" in window)?speechSynthesis.getVoices():[];renderVoices()}
-const cleanT=t=>String(t).replace(/[*_`#>]/g,"").replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/gu,"").replace(/\s+/g," ").trim();
-function speak(t){try{if(!("speechSynthesis" in window))return;if(!VS.length)VS=speechSynthesis.getVoices();const p=curPreset(),v=voiceFor(p);speechSynthesis.cancel();const parts=cleanT(t).match(/[^.!?\n]+[.!?]*/g)||[cleanT(t)];setTimeout(()=>{parts.forEach(x=>{x=x.trim();if(!x)return;const u=new SpeechSynthesisUtterance(x);u.lang=v?v.lang:"pt-BR";if(v)u.voice=v;u.pitch=p.p;u.rate=p.r*parseFloat(lsGet("v_rate","1"));u.volume=1;speechSynthesis.speak(u)})},80)}catch(e){}}
-if("speechSynthesis" in window){speechSynthesis.onvoiceschanged=loadVoices;loadVoices();setTimeout(loadVoices,600);setTimeout(loadVoices,2000)}else renderVoices();
-let rec=null;$("voiceBtn").onclick=()=>{const SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR){alert("Use o Google Chrome ou Edge para ditar por voz.");return}if(rec){rec.abort();return}rec=new SR();rec.lang="pt-BR";rec.interimResults=true;rec.onresult=e=>{let t="";for(let i=0;i<e.results.length;i++)t+=e.results[i][0].transcript;$("txt").value=t;autoGrow();if(e.results[e.results.length-1].isFinal){$("txt").value="";autoGrow();sendMessage(t)}};rec.onend=rec.onerror=()=>{rec=null};try{rec.start()}catch(e){rec=null}};
-/* esfera */
-function makeOrb(cv,N,st){const parts=[];for(let i=0;i<N;i++){const u=Math.random()*2-1,y=Math.sign(u)*Math.pow(Math.abs(u),.55),th=Math.random()*6.2832,rr=Math.sqrt(1-y*y),R=Math.random()<.22?.25+Math.random()*.7:.94+Math.random()*.08;parts.push({x:rr*Math.cos(th)*R,y:y*R,z:rr*Math.sin(th)*R,k:.3+Math.random()*.9,ph:Math.random()*6.28,s:Math.random()<.15?2.2:1.4})}return{cv,ctx:cv.getContext("2d"),parts,N,st,energy:0,ang:0}}
-const heroOrb=makeOrb($("heroOrb"),1500,()=>sending?"thinking":"idle");let lastT=performance.now();
-function drawOrb(o,now,dt){const cv=o.cv,w=cv.clientWidth,h=cv.clientHeight;if(!w)return;const dpr=window.devicePixelRatio||1;if(cv.width!==Math.round(w*dpr)){cv.width=Math.round(w*dpr);cv.height=Math.round(h*dpr)}const st=o.st();o.energy*=Math.exp(-3.2*dt);o.ang+=(st==="thinking"?2.4:.3)*dt;const c=o.ctx;c.setTransform(dpr,0,0,dpr,0,0);c.clearRect(0,0,w,h);c.fillStyle="#e8f2ff";const cx=w/2,cy=h/2,base=Math.min(w,h)*.34,t=now/1000,ca=Math.cos(o.ang),sa=Math.sin(o.ang),ct=Math.cos(.3),stl=Math.sin(.3);
-for(let i=0;i<o.N;i++){const p=o.parts[i];let f=1+.02*Math.sin(t*1.2);if(st==="thinking")f+=.03*Math.sin(t*14+p.ph);const x1=p.x*ca+p.z*sa,z1=-p.x*sa+p.z*ca,y2=p.y*ct-z1*stl,z2=p.y*stl+z1*ct,d=(z2+1)/2;c.globalAlpha=Math.max(.12,Math.min(1,.25+.75*d));const sz=p.s*(.75+.5*d);c.fillRect(cx+x1*f*base,cy+y2*f*base,sz,sz)}c.globalAlpha=1}
-function orbLoop(now){requestAnimationFrame(orbLoop);const dt=Math.min(.05,(now-lastT)/1000);lastT=now;if(!$("vChat").classList.contains("hidden")&&!$("hero").classList.contains("hidden"))drawOrb(heroOrb,now,dt)}
-requestAnimationFrame(orbLoop);
-/* grafo */
-let edges=[],pulses=[],rafOn=false;const reduceMotion=matchMedia("(prefers-reduced-motion: reduce)").matches;
-function renderBrain(){const W=1000,H=640,cx=500,cy=320,rx=370,ry=230,n=NOTES.length,by={};NOTES.forEach(x=>by[x.id]=x);const rels=REL.filter(r=>by[r[0]]&&by[r[1]]&&r[0]!==r[1]),deg={};NOTES.forEach(x=>deg[x.id]=0);rels.forEach(r=>{deg[r[0]]++;deg[r[1]]++});const pos={};NOTES.forEach((note,i)=>{const a=-Math.PI/2+i*2*Math.PI/n;pos[note.id]={x:cx+rx*Math.cos(a),y:cy+ry*Math.sin(a)}});
-const defs='<defs><linearGradient id="eg" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1000" y2="0"><stop offset="0" stop-color="#8b7cff"/><stop offset="1" stop-color="#2dd4ff"/></linearGradient><radialGradient id="cg"><stop offset="0" stop-color="#c9b8ff"/><stop offset="60%" stop-color="#7c5cff"/><stop offset="100%" stop-color="#3b1a9e"/></radialGradient><filter id="glow" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter><filter id="glowS" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>';
-edges=[];let eS="",rays="",nodes="";const f1=v=>v.toFixed(1);
-rels.forEach(r=>{const A=pos[r[0]],B=pos[r[1]],mx=(A.x+B.x)/2,my=(A.y+B.y)/2,C={x:mx+(cx-mx)*.35,y:my+(cy-my)*.35};edges.push({A,B,C});eS+='<path class="edge" d="M'+f1(A.x)+" "+f1(A.y)+" Q"+f1(C.x)+" "+f1(C.y)+" "+f1(B.x)+" "+f1(B.y)+'" stroke="url(#eg)"/>'});
-NOTES.forEach((note,i)=>{const p=pos[note.id],col=(AREA[note.area]||AREA.meta).color,r=Math.min(32,15+deg[note.id]*2.6);rays+='<line x1="'+cx+'" y1="'+cy+'" x2="'+f1(p.x)+'" y2="'+f1(p.y)+'" stroke="'+col+'" stroke-width="1" opacity=".3"/>';nodes+='<g class="node" data-id="'+esc(note.id)+'"><circle class="nring" cx="'+f1(p.x)+'" cy="'+f1(p.y)+'" r="'+(r+9)+'" stroke="'+col+'" style="animation-delay:'+(i*.35).toFixed(2)+'s"/><circle class="ncircle" cx="'+f1(p.x)+'" cy="'+f1(p.y)+'" r="'+f1(r)+'" fill="'+col+'" fill-opacity=".9" filter="url(#glowS)"/><circle cx="'+f1(p.x)+'" cy="'+f1(p.y)+'" r="'+(r+14)+'" fill="transparent"/><text x="'+f1(p.x)+'" y="'+f1(p.y+r+22)+'">'+esc(note.title)+"</text></g>"});
-const core='<circle class="coreC" cx="'+cx+'" cy="'+cy+'" r="56" fill="none" stroke="#8b7cff" stroke-width="1.5"/><circle cx="'+cx+'" cy="'+cy+'" r="40" fill="url(#cg)" filter="url(#glow)"/><text x="'+cx+'" y="'+(cy+12)+'" font-size="36" text-anchor="middle">🧠</text>';
-let ps="";for(let i=0;i<12;i++)ps+='<circle class="pulse" r="3.6" fill="#fff" filter="url(#glowS)" opacity="0" cx="-20" cy="-20"/>';
-$("graph").innerHTML='<svg viewBox="0 0 '+W+" "+H+'" role="img" aria-label="Grafo do Second Brain">'+defs+rays+eS+core+nodes+ps+"</svg>";pulses=[];if(edges.length)$("graph").querySelectorAll(".pulse").forEach(el=>pulses.push({el,e:Math.floor(Math.random()*edges.length),t:Math.random(),sp:.004+Math.random()*.004}));if(!rafOn){rafOn=true;requestAnimationFrame(tick)}
-const areas=[...new Set(NOTES.map(x=>x.area))];$("bCount").textContent=n+" notas · "+areas.length+" áreas";$("legend").innerHTML=areas.map(a=>'<span><i style="background:'+(AREA[a]||AREA.meta).color+'"></i>'+esc((AREA[a]||AREA.meta).label)+"</span>").join("");renderNotes()}
-function tick(){requestAnimationFrame(tick);if($("vMemory").classList.contains("hidden"))return;for(const p of pulses){p.t+=p.sp;if(p.t>=1){p.t=0;p.e=Math.floor(Math.random()*edges.length);p.sp=.004+Math.random()*.004}const E=edges[p.e];if(!E)continue;const t=p.t,u=1-t;p.el.setAttribute("cx",(u*u*E.A.x+2*u*t*E.C.x+t*t*E.B.x).toFixed(1));p.el.setAttribute("cy",(u*u*E.A.y+2*u*t*E.C.y+t*t*E.B.y).toFixed(1));p.el.setAttribute("opacity",reduceMotion?0:Math.sin(Math.PI*t).toFixed(2))}}
-function renderNotes(){$("notesList").innerHTML=NOTES.map(n=>{const a=AREA[n.area]||AREA.meta;return'<button class="row" data-id="'+esc(n.id)+'" type="button"><span class="dot" style="background:'+a.color+";box-shadow:0 0 10px "+a.color+'"></span><span style="min-width:0"><b>'+esc(n.title)+"</b><small>"+esc(a.label)+" · "+esc(n.body.length>90?n.body.slice(0,90)+"…":n.body)+"</small></span></button>"}).join("");$("notesList").querySelectorAll(".row").forEach(b=>b.onclick=()=>openEditor(b.dataset.id))}
-$("graph").addEventListener("click",e=>{const g=e.target.closest?e.target.closest(".node"):null;if(g)openEditor(g.getAttribute("data-id"))});
-let editingId=null;$("edA").innerHTML=Object.keys(AREA).map(k=>'<option value="'+k+'">'+AREA[k].label+"</option>").join("");
-function openEditor(id){editingId=id;const note=id?NOTES.find(n=>n.id===id):null;$("edTitle").textContent=note?"Editar nota":"Nova nota";$("edT").value=note?note.title:"";$("edA").value=note?note.area:"projetos";$("edB").value=note?note.body:"";$("edDel").classList.toggle("hidden",!note);$("editor").classList.remove("hidden");$("edT").focus()}
-function closeEditor(){$("editor").classList.add("hidden");editingId=null}
-$("addBtn").onclick=()=>openEditor(null);$("edCancel").onclick=closeEditor;$("editor").onclick=e=>{if(e.target===$("editor"))closeEditor()};
-$("edSave").onclick=()=>{const t=$("edT").value.trim(),b=$("edB").value.trim();if(!t){$("edT").focus();return}if(editingId){const n=NOTES.find(x=>x.id===editingId);if(n){n.title=t;n.area=$("edA").value;n.body=b}}else editingId=addNote($("edA").value,t,b);saveStore();const id=editingId;closeEditor();renderBrain();flashNode(id)};
-$("edDel").onclick=()=>{if(!editingId)return;NOTES=NOTES.filter(n=>n.id!==editingId);REL=REL.filter(r=>r[0]!==editingId&&r[1]!==editingId);saveStore();closeEditor();renderBrain()};
-loadStore();refreshSet();renderBar();renderModes();renderQuick();chatLog.forEach(m=>pushMsg(m.role,m.content,{att:m.att}));updateHome();renderBrain();autoGrow();showView("vChat");
-(async()=>{try{if(window.claude&&claude.use)sample=await claude.use("sample")}catch(e){}})();
-
-/* ===== voz: microfone e conversa ===== */
-let talk=false,recog=null,lastReply=null;const EA=new Audio();
-function speakBrowser(t,done){let fin=false;const f=()=>{if(fin)return;fin=true;if(done)done()};try{if(!("speechSynthesis" in window)){f();return}if(!VS.length)VS=speechSynthesis.getVoices();const p=curPreset(),v=voiceFor(p);speechSynthesis.cancel();const parts=(cleanT(t).match(/[^.!?\n]+[.!?]*/g)||[cleanT(t)]).map(x=>x.trim()).filter(Boolean);if(!parts.length){f();return}
-setTimeout(()=>{parts.forEach((x,i)=>{const u=new SpeechSynthesisUtterance(x);u.lang=v?v.lang:"pt-BR";if(v)u.voice=v;u.pitch=p.p;u.rate=p.r*parseFloat(lsGet("v_rate","1"));u.volume=1;if(i===parts.length-1){u.onend=f;u.onerror=f}speechSynthesis.speak(u)})},80);setTimeout(f,Math.max(8000,cleanT(t).length*140))}catch(e){f()}}
-async function speak(t,done){const p=curPreset(),k=lsGet("el_key","").trim(),vid=lsGet("el_"+p.id,typeof EL_DEF!=="undefined"?EL_DEF[p.id]:"").trim();
-if(k&&vid){try{const r=await fetch("https://api.elevenlabs.io/v1/text-to-speech/"+encodeURIComponent(vid)+"?output_format=mp3_44100_128",{method:"POST",headers:{"xi-api-key":k,"content-type":"application/json",accept:"audio/mpeg"},body:JSON.stringify({text:cleanT(t),model_id:"eleven_multilingual_v2",voice_settings:{stability:.5,similarity_boost:.8}})});if(r.ok){try{speechSynthesis.cancel()}catch(e){}EA.src=URL.createObjectURL(await r.blob());EA.onended=EA.onerror=()=>{if(done)done()};await EA.play();return}}catch(e){}}
-speakBrowser(t,done)}
-function delChat(){const b=$("cbDel");if(b&&b.dataset.arm!=="1"){b.dataset.arm="1";b.textContent="Toque de novo p/ apagar";setTimeout(()=>{if(b.isConnected){b.dataset.arm="";b.textContent="🗑 Apagar"}},3000);return}
-SESS=SESS.filter(x=>x.id!==curId);if(!SESS.length)SESS.push({id:"s"+Date.now().toString(36),ts:Date.now(),log:[]});const n=SESS.slice().sort((a,b)=>b.ts-a.ts)[0];switchChat(n.id)}
-const EMB=(()=>{try{return window.top!==window.self}catch(e){return true}})();const MIC_DENIED=EMB?"O Jarvis está aberto dentro do Claude, "+CONFIG.address+", e aqui o iPhone não deixa a página pedir o microfone (nem eu consigo mudar isso). Abra o Jarvis direto no Safari, como página própria: lá o iPhone mostra o aviso \"Permitir microfone\" sozinho.":"O microfone está bloqueado, "+CONFIG.address+". No iPhone: Ajustes → Safari → Microfone → Permitir, e em Ajustes → Geral → Teclado ligue o Ditado. Depois recarregue a página. Dentro do app do Claude o microfone costuma ficar bloqueado; abra o Jarvis no Safari.";
-function micUI(on){$("voiceBtn").style.background=on?"rgba(255,80,60,.55)":"";if(!on)$("txt").placeholder="Mensagem para o Jarvis..."}
-function stopTalk(){talk=false;try{recog&&recog.abort()}catch(e){}recog=null;try{speechSynthesis.cancel();EA.pause()}catch(e){}micUI(false)}
-async function handleTalk(t){lastReply=null;await sendMessage(t);if(!talk)return;if(lastReply)speak(lastReply,()=>{if(talk)setTimeout(listen,400)});else setTimeout(listen,400)}
-function listen(){if(!talk||sending)return;const SR=window.SpeechRecognition||window.webkitSpeechRecognition;recog=new SR();recog.lang="pt-BR";recog.interimResults=true;recog.continuous=false;let got=false;
-$("txt").placeholder="🎤 Ouvindo, "+CONFIG.address+"...";
-recog.onresult=e=>{let t="";for(let i=0;i<e.results.length;i++)t+=e.results[i][0].transcript;$("txt").placeholder="🎤 "+t;if(typeof callPulse==="function")callPulse(t);if(e.results[e.results.length-1].isFinal&&t.trim()){got=true;try{recog.stop()}catch(x){}micUI(true);handleTalk(t)}};
-recog.onerror=e=>{const c=e.error;if(c==="not-allowed"||c==="service-not-allowed"){stopTalk();pushMsg("assistant",MIC_DENIED,{error:true})}else if(c==="network"){stopTalk();pushMsg("assistant","O serviço de voz do navegador não respondeu, "+CONFIG.address+". Verifique a internet e tente de novo.",{error:true})}};
-recog.onend=()=>{if(talk&&!got&&!sending)setTimeout(listen,300)};
-try{recog.start()}catch(e){}}
-$("voiceBtn").onclick=async()=>{if(talk){stopTalk();return}
-const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
-if(!SR){pushMsg("assistant","Este navegador não reconhece voz, "+CONFIG.address+". No iPhone use o Safari (iOS 14.5 ou superior); no Android, o Chrome.",{error:true});return}
-talk=true;micUI(true);
-if(navigator.mediaDevices&&navigator.mediaDevices.getUserMedia){try{const st=await navigator.mediaDevices.getUserMedia({audio:true});st.getTracks().forEach(t=>t.stop())}catch(e){stopTalk();pushMsg("assistant",MIC_DENIED,{error:true});return}}
-listen()};
-
-/* ===== visual novo: esfera morfando, tela de ligação, mensagens ===== */
-const COL=["#93c5fd","#a78bfa","#ffffff","#60a5fa"],COLL=["#2563eb","#7c3aed","#1e40af","#6d28d9"];let callState="idle";
-function drawOrb(o,now,dt){const cv=o.cv,w=cv.clientWidth,h=cv.clientHeight;if(!w)return;const dpr=window.devicePixelRatio||1;if(cv.width!==Math.round(w*dpr)){cv.width=Math.round(w*dpr);cv.height=Math.round(h*dpr)}
-const st=o.st(),t=now/1000;o.energy*=Math.exp(-2.6*dt);
-const amp=st==="thinking"?.34:st==="speaking"?.2+.14*Math.pow(Math.sin(t*6),2):st==="listening"?.14+o.energy*.5:.12;
-o.ang+=(st==="thinking"?1.6:st==="speaking"?.7:st==="listening"?.45+o.energy:.25)*dt;
-const c=o.ctx;c.setTransform(dpr,0,0,dpr,0,0);c.clearRect(0,0,w,h);
-const cx=w/2,cy=h/2,base=Math.min(w,h)*.33,ca=Math.cos(o.ang),sa=Math.sin(o.ang),ct=Math.cos(.35),stl=Math.sin(.35);
-for(let i=0;i<o.N;i++){const p=o.parts[i],n=Math.sin(p.x*2.3+t*.9)*Math.cos(p.y*2.1-t*.8)*Math.sin(p.z*2.2+t*.7),f=1+amp*n+.03*Math.sin(t*1.3);
-const x1=p.x*ca+p.z*sa,z1=-p.x*sa+p.z*ca,y2=p.y*ct-z1*stl,z2=p.y*stl+z1*ct,d=(z2+1)/2;
-c.globalAlpha=Math.max(.12,Math.min(1,.2+.8*d));c.fillStyle=(document.documentElement.dataset.theme==="light"?COLL:COL)[i&3];const sz=p.s*(.75+.55*d);c.fillRect(cx+x1*f*base,cy+y2*f*base,sz,sz)}c.globalAlpha=1}
-const callOrb=makeOrb($("callOrb"),2600,()=>callState);let lt2=performance.now();
-(function cl(now){requestAnimationFrame(cl);const dt=Math.min(.05,(now-lt2)/1000);lt2=now;if(!$("call").classList.contains("hidden"))drawOrb(callOrb,now,dt)})(performance.now());
-function setCall(s){callState=s;$("cStatus").textContent={listening:"Ouvindo...",thinking:"Pensando...",speaking:"Falando..."}[s]||"";$("call").dataset.s=s}
-function callPulse(t){callOrb.energy=Math.min(1.5,callOrb.energy+.5);$("cYou").textContent="… "+t}
-async function handleTalk(t){$("cYou").textContent="“"+t+"”";if(/planilha|agenda|marcar/i.test(t)){enviarParaOMake("Comando Jarvis",t)}setCall("thinking");lastReply=null;await sendMessage(t);if(!talk)return;
-if(lastReply){$("cAi").textContent=lastReply;setCall("speaking");speak(lastReply,()=>{if(talk){setCall("listening");setTimeout(listen,400)}})}else{setCall("listening");setTimeout(listen,400)}}
-const _vb=$("voiceBtn").onclick,_st=stopTalk;
-stopTalk=function(){_st();$("call").classList.add("hidden");callState="idle"};
-$("voiceBtn").onclick=()=>{if(talk){stopTalk();return}$("call").classList.remove("hidden");$("cYou").textContent="";$("cAi").textContent="";setCall("listening");_vb()};
-$("cEnd").onclick=$("cMin").onclick=()=>stopTalk();
-$("cStop").onclick=()=>{try{speechSynthesis.cancel();EA.pause()}catch(e){}};
-$("cMic").onclick=()=>{try{speechSynthesis.cancel();EA.pause();recog&&recog.abort()}catch(e){}if(talk){setCall("listening");setTimeout(listen,200)}};
-function pushMsg(role,text,opts){opts=opts||{};const d=document.createElement("div");d.className="m "+(role==="user"?"u":"a")+(opts.error?" err":"");
-d.innerHTML=(role==="user"?"":'<div class="av"></div>')+'<div class="bub">'+(role==="user"?esc(text).replace(/\n/g,"<br>"):md(text))+"</div>";
-if(role!=="user"&&!opts.error){const a=document.createElement("div");a.className="act";a.innerHTML='<button type="button" title="Copiar">📋</button><button type="button" title="Ouvir">🔊</button>';
-a.children[0].onclick=()=>{try{navigator.clipboard.writeText(text);a.children[0].textContent="✅"}catch(e){}};a.children[1].onclick=()=>speak(text);d.querySelector(".bub").appendChild(a)}
-$("msgs").appendChild(d);$("msgs").classList.remove("hidden");$("hero").classList.add("hidden");$("quick").classList.add("hidden");scrollEnd();return d}
-$("txt").placeholder="Pergunte qualquer coisa...";
-async function enviarParaOMake(titulo, detalhes) {
-    const urlMake = "https://hook.eu1.make.com/vbalf9eezx9j3nioplq7lye2xfi9kf8f";
+  for (const model of models) {
     try {
-        await fetch(urlMake, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ 
-                title: titulo, 
-                description: detalhes, 
-                start: new Date().toISOString() 
-            })
-        });
-        console.log("Enviado para o Make!");
-    } catch (e) {
-        console.error("Erro no Make:", e);
-    }
-}
+      const headers = {
+        "Authorization": `Bearer ${apiKey}`,
+        "Content-Type": "application/json"
+      };
+      
+      if (model) headers.model = model;
 
-function withTimeout(p,ms){return new Promise((res,rej)=>{const t=setTimeout(()=>{const e=new Error("timeout");e.name="AbortError";rej(e)},ms);p.then(v=>{clearTimeout(t);res(v)},e=>{clearTimeout(t);rej(e)})})}
-/* ===== Fish Audio integrado + chamada que responde por voz ===== */
-let fishCtl=null,fishDone=null;
-const SILENT="data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA=";
-function unlockAudio(){try{EA.src=SILENT;EA.play().catch(()=>{})}catch(e){}}
-function haltAudio(){fishDone=null;if(fishCtl){fishCtl.abort();fishCtl=null}try{speechSynthesis.cancel()}catch(e){}try{EA.onended=EA.onerror=null;EA.pause()}catch(e){}}
-function stopSpeech(){const d=fishDone;haltAudio();if(d)d()}
-function fishMsg(m,ok){const o=$("fishOut");o.style.color=ok?"#10b981":"#ffb4a8";o.textContent=m;if(!$("call").classList.contains("hidden"))$("cAi").textContent=m}
-const FISH_MODELS=["","s1","s2-pro","s2.1-pro-free"];
-async function fishTTS(txt,k,v){const sv=lsGet("fish_model_ok",null),order=sv!==null?[sv].concat(FISH_MODELS.filter(m=>m!==sv)):FISH_MODELS;let last=null;
-for(const m of order){try{const h={"Authorization":"Bearer "+k,"Content-Type":"application/json"};if(m)h.model=m;
-const r=await withTimeout(fetch("https://api.fish.audio/v1/tts",{method:"POST",headers:h,body:JSON.stringify({text:txt,reference_id:v,format:"mp3"})}),45000);
-if(!r.ok){const raw=await r.text();last=new Error("Fish HTTP "+r.status+": "+raw.slice(0,140));if(r.status===401||r.status===402||r.status===403)throw last;continue}
-const bl=await r.blob();if(!bl.size){last=new Error("áudio vazio");continue}lsSet("fish_model_ok",m);return bl}
-catch(e){last=e;if(/HTTP 40[123]/.test(String(e.message)))throw e}}
-throw last&&/fetch|network|Load failed|timeout/i.test(String(last.message))?new Error("o navegador não conseguiu falar com o Fish Audio (rede ou bloqueio do site)"):last}
-function pcmToWav(b64){const bin=atob(b64),n=bin.length,buf=new ArrayBuffer(44+n),v=new DataView(buf),w=(o,t)=>{for(let i=0;i<t.length;i++)v.setUint8(o+i,t.charCodeAt(i))};
-w(0,"RIFF");v.setUint32(4,36+n,true);w(8,"WAVEfmt ");v.setUint32(16,16,true);v.setUint16(20,1,true);v.setUint16(22,1,true);v.setUint32(24,24000,true);v.setUint32(28,48000,true);v.setUint16(32,2,true);v.setUint16(34,16,true);w(36,"data");v.setUint32(40,n,true);for(let i=0;i<n;i++)v.setUint8(44+i,bin.charCodeAt(i));return new Blob([buf],{type:"audio/wav"})}
-async function geminiTTS(txt){const key=lsGet("gemini_key","").trim();if(!key)throw new Error("falta a chave do Gemini");let last=null;
-for(const m of ["gemini-2.5-flash-preview-tts","gemini-2.5-flash-tts"]){try{
-const r=await withTimeout(fetch("https://generativelanguage.googleapis.com/v1beta/models/"+m+":generateContent",{method:"POST",headers:{"Content-Type":"application/json","x-goog-api-key":key},body:JSON.stringify({contents:[{parts:[{text:"Diga em português do Brasil, com voz masculina grave, calma e elegante: "+txt}]}],generationConfig:{responseModalities:["AUDIO"],speechConfig:{voiceConfig:{prebuiltVoiceConfig:{voiceName:lsGet("gem_voice","Charon")}}}}})}),45000);
-const d=await r.json();if(!r.ok)throw new Error((d.error&&d.error.message)||"HTTP "+r.status);
-return pcmToWav(d.candidates[0].content.parts[0].inlineData.data)}catch(e){last=e}}throw last}
-speak=async function(t,done){const k=lsGet("fish_key","").trim(),v=lsGet("fish_voice","").trim(),gk=lsGet("gemini_key","").trim();
-const txt=cleanT(t).replace(/https?:\/\/\S+/g," link ").slice(0,1500);if(!txt){if(done)done();return}
-haltAudio();if(!k&&!gk)return speakBrowser(t,done);
-const ctl={abort(){}};fishCtl=ctl;fishDone=done||null;let blob=null,src="",errs=[];
-if(k&&v){try{blob=await fishTTS(txt,k,v);src="Fish Audio"}catch(e){errs.push("Fish: "+(e.message||e))}}
-if(!blob&&gk){try{blob=await geminiTTS(txt);src="voz do Gemini"}catch(e){errs.push("Gemini voz: "+(e.message||e))}}
-if(fishCtl!==ctl)return;
-if(blob){try{const url=URL.createObjectURL(blob);EA.src=url;EA.onended=EA.onerror=()=>{URL.revokeObjectURL(url);const d=fishDone;fishDone=null;fishCtl=null;if(d)d()};await EA.play();
-fishMsg(errs.length?"⚠ "+errs.join(" | ")+" → usando a "+src+".":"✓ Falando com "+src+".",!errs.length);return}
-catch(e){errs.push(e.name==="NotAllowedError"?"o navegador bloqueou o som (toque em Testar voz uma vez)":String(e.message||e))}}
-if(fishCtl===ctl){fishCtl=null;fishDone=null}
-fishMsg("✗ "+errs.join(" | ")+" → usando a voz do aparelho.",false);speakBrowser(t,done)};
-window.falarFish=t=>speak(t);window.pararVozFish=haltAudio;
-$("fishKey").value=lsGet("fish_key","");$("fishVoice").value=lsGet("fish_voice","");
-$("fishKey").addEventListener("input",e=>lsSet("fish_key",e.target.value.trim()));$("fishVoice").addEventListener("input",e=>lsSet("fish_voice",e.target.value.trim()));
-$("fishTest").onclick=()=>{unlockAudio();fishMsg("Gerando a voz...",true);speak("Certamente, senhor. Minha voz está pronta. Como posso ajudar?")};
-const _bs=buildSystem;buildSystem=function(){return _bs()+(talk?"\n\nVOCÊ ESTÁ EM UMA CHAMADA POR VOZ: sua resposta será FALADA. Responda em 1 a 3 frases curtas e naturais, sem listas, sem markdown, sem emojis, sem asteriscos.":"")};
-const _st2=stopTalk;stopTalk=function(){haltAudio();_st2()};
-const _vb2=$("voiceBtn").onclick;$("voiceBtn").onclick=()=>{if(!talk)unlockAudio();_vb2()};
-$("cStop").onclick=stopSpeech;
-$("cMic").onclick=()=>{haltAudio();try{recog&&recog.abort()}catch(e){}if(talk){setCall("listening");setTimeout(listen,200)}};
-
-document.documentElement.dataset.theme=lsGet("jarvis_theme","dark");$("themeSw").checked=lsGet("jarvis_theme","dark")==="light";
-$("themeSw").onchange=e=>{const t=e.target.checked?"light":"dark";lsSet("jarvis_theme",t);document.documentElement.dataset.theme=t};
-
-/* ===== menu lateral, anexos, ícones ===== */
-const IC={down:'<path d="m6 9 6 6 6-6"/>',stop:'<rect x="7" y="7" width="10" height="10" rx="2" fill="currentColor"/>',mic:'<rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/>',x:'<path d="M6 6l12 12M18 6 6 18"/>',copy:'<rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/>',spk:'<path d="M4 9v6h4l5 4V5L8 9H4Z"/><path d="M16.5 8.5a5 5 0 0 1 0 7"/>',trash:'<path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/>',file:'<path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5"/>',ok:'<path d="m5 13 4 4L19 7"/>'};
-const ico=k=>'<svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">'+IC[k]+"</svg>";
-$("cMin").innerHTML=ico("down");$("cStop").innerHTML=ico("stop");$("cMic").innerHTML=ico("mic");$("cEnd").innerHTML=ico("x");
-let sideOpen=false;const side=$("side"),scrim=$("scrim");
-function setSide(on){sideOpen=on;side.classList.toggle("open",on);scrim.classList.toggle("on",on);if(on)renderSide()}
-$("hMenu").onclick=()=>setSide(true);$("sClose").onclick=scrim.onclick=()=>setSide(false);
-$("sNew").onclick=()=>{newChat();setSide(false)};$("sSet").onclick=()=>{showView("vSettings");setSide(false)};$("sSearch").addEventListener("input",renderSide);
-renderBar=function(){renderSide()};
-function dayGroup(ts){const d=new Date(ts),n=new Date(),a=new Date(n.getFullYear(),n.getMonth(),n.getDate()).getTime(),df=Math.floor((a-new Date(d.getFullYear(),d.getMonth(),d.getDate()).getTime())/864e5);return df<=0?"Hoje":df===1?"Ontem":df<=7?"Últimos 7 dias":"Mais antigos"}
-function renderSide(){const q=norm($("sSearch").value||""),l=SESS.filter(x=>(x.id===curId||x.log.length)&&(!q||norm(sTitle(x)+" "+x.log.map(m=>m.content).join(" ")).includes(q))).sort((a,b)=>b.ts-a.ts);let h="",g="";
-l.forEach(x=>{const k=dayGroup(x.ts);if(k!==g){g=k;h+='<div class="sg">'+k+"</div>"}h+='<div class="si'+(x.id===curId?" on":"")+'" data-id="'+x.id+'"><span class="st">'+esc(sTitle(x))+'</span><button class="sd" data-d="'+x.id+'" type="button" aria-label="Apagar">'+ico("trash")+"</button></div>"});
-$("sList").innerHTML=h||'<div class="sg">Nenhuma conversa</div>';
-$("sList").querySelectorAll(".si").forEach(e=>e.onclick=ev=>{if(ev.target.closest(".sd"))return;switchChat(e.dataset.id);setSide(false)});
-$("sList").querySelectorAll(".sd").forEach(b=>b.onclick=ev=>{ev.stopPropagation();if(!b.classList.contains("arm")){b.classList.add("arm");b.textContent="Apagar?";setTimeout(()=>{if(b.isConnected){b.classList.remove("arm");b.innerHTML=ico("trash")}},3000);return}delSess(b.dataset.d)})}
-function delSess(id){SESS=SESS.filter(x=>x.id!==id);if(!SESS.length)SESS.push({id:"s"+Date.now().toString(36),ts:Date.now(),log:[]});if(id===curId){switchChat(SESS.slice().sort((a,b)=>b.ts-a.ts)[0].id)}else{saveSess();renderSide()}}
-delChat=function(){delSess(curId)};
-let tx=null;
-document.addEventListener("touchstart",e=>{const t=e.touches[0];tx={x:t.clientX,y:t.clientY,open:sideOpen,drag:false}},{passive:true});
-document.addEventListener("touchmove",e=>{if(!tx)return;const t=e.touches[0],dx=t.clientX-tx.x,dy=t.clientY-tx.y;
-if(!tx.drag){if(Math.abs(dx)>12&&Math.abs(dx)>Math.abs(dy)*1.5&&((!tx.open&&tx.x<70&&dx>0)||(tx.open&&dx<0)))tx.drag=true;else return}
-const W=side.offsetWidth;let pp=tx.open?W+dx:dx;pp=Math.max(0,Math.min(W,pp));side.style.transition="none";side.style.transform="translateX("+(pp-W)+"px)";scrim.style.opacity=pp/W;scrim.style.pointerEvents="auto"},{passive:true});
-document.addEventListener("touchend",e=>{if(!tx||!tx.drag){tx=null;return}const dx=e.changedTouches[0].clientX-tx.x;side.style.transition="";side.style.transform="";scrim.style.opacity="";scrim.style.pointerEvents="";const o=tx.open;tx=null;setSide(o?dx>-80:dx>80)});
-/* anexos */
-let pendingAtt=null;
-const rd=f=>new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result);r.onerror=rej;r.readAsDataURL(f)});
-const ldImg=src=>new Promise((res,rej)=>{const i=new Image();i.onload=()=>res(i);i.onerror=rej;i.src=src});
-function scaled(img,max,q){const k=Math.min(1,max/Math.max(img.width,img.height)),c=document.createElement("canvas");c.width=Math.max(1,Math.round(img.width*k));c.height=Math.max(1,Math.round(img.height*k));c.getContext("2d").drawImage(img,0,0,c.width,c.height);return c.toDataURL("image/jpeg",q)}
-function sendVis(){const h=$("txt").value.trim().length>0||!!pendingAtt;$("sendBtn").classList.toggle("hidden",!h);$("voiceBtn").classList.toggle("hidden",h)}
-function showAtt(){const a=pendingAtt,b=$("attPrev");b.classList.toggle("hidden",!a);if(!a){b.innerHTML="";sendVis();return}
-b.innerHTML='<div class="ap">'+(a.kind==="img"?'<img src="'+a.thumb+'" alt="">':'<span class="fi">'+ico("file")+"</span>")+'<span class="n">'+esc(a.name)+'</span><button type="button" id="apX" aria-label="Remover">'+ico("x")+"</button></div>";$("apX").onclick=()=>{pendingAtt=null;showAtt()};sendVis()}
-$("attBtn").onclick=()=>$("fileIn").click();
-$("fileIn").onchange=async e=>{const f=e.target.files[0];e.target.value="";if(!f)return;
-try{const n=f.name||"arquivo",t=f.type||"",ext=(n.split(".").pop()||"").toLowerCase();
-if(t.startsWith("image/")){const src=await rd(f),img=await ldImg(src),big=scaled(img,1600,.85);pendingAtt={name:n,kind:"img",mime:"image/jpeg",data:big.split(",")[1],thumb:scaled(img,360,.6)}}
-else if(t==="application/pdf"||ext==="pdf"){if(f.size>18e6)throw new Error("O PDF passa de 18 MB.");const src=await rd(f);pendingAtt={name:n,kind:"pdf",mime:"application/pdf",data:src.split(",")[1]}}
-else if(t.startsWith("text/")||/^(txt|md|csv|json|js|html|css|py|xml|log|yml|yaml)$/.test(ext)){pendingAtt={name:n,kind:"text",text:(await f.text()).slice(0,60000)}}
-else throw new Error("Tipo de arquivo não suportado. Use foto, PDF ou texto (txt, csv, json, código).");
-showAtt()}catch(err){pushMsg("assistant",String(err.message||err),{error:true})}};
-$("txt").addEventListener("input",sendVis);
-$("txt").addEventListener("keydown",e=>{if(e.key==="Enter"&&!e.shiftKey&&!$("txt").value.trim()&&pendingAtt){e.preventDefault();submit2()}});
-function submit2(){const v=$("txt").value.trim();if(!v&&!pendingAtt)return;$("txt").value="";autoGrow();sendVis();sendMessage(v||"Analise este anexo: diga o que é e o que importa nele.")}
-$("sendBtn").onclick=submit2;
-pushMsg=function(role,text,opts){opts=opts||{};const d=document.createElement("div");d.className="m "+(role==="user"?"u":"a")+(opts.error?" err":"");let ah="";const a=opts.att;
-if(a)ah=a.kind==="img"&&a.thumb?'<img class="attm" src="'+a.thumb+'" alt="">':'<div class="attf">'+ico("file")+esc(a.name)+"</div>";
-d.innerHTML=(role==="user"?"":'<div class="av"></div>')+'<div class="bub">'+ah+(role==="user"?esc(text).replace(/\n/g,"<br>"):md(text))+"</div>";
-if(role!=="user"&&!opts.error){const x=document.createElement("div");x.className="act";x.innerHTML='<button type="button" title="Copiar">'+ico("copy")+'</button><button type="button" title="Ouvir">'+ico("spk")+"</button>";
-x.children[0].onclick=()=>{try{navigator.clipboard.writeText(text);x.children[0].innerHTML=ico("ok")}catch(e){}};x.children[1].onclick=()=>speak(text);d.querySelector(".bub").appendChild(x)}
-$("msgs").appendChild(d);$("msgs").classList.remove("hidden");$("hero").classList.add("hidden");$("quick").classList.add("hidden");scrollEnd();return d};
-sendMessage=async function(text){text=(text||"").trim();if(!text||sending)return;
-const att=pendingAtt;pendingAtt=null;showAtt();sending=true;
-const entry={role:"user",content:text};if(att)entry.att={name:att.name,kind:att.kind,thumb:att.kind==="img"?att.thumb:undefined};
-pushMsg("user",text,{att:entry.att});chatLog.push(entry);persistLog();setThinking(true);
-let c=chatLog.slice(-20);while(c.length&&c[0].role!=="user")c.shift();
-c=c.map((m,i)=>{if(i===c.length-1&&att){const parts=[{text:m.content+(att.kind==="text"?"\n\n[Arquivo: "+att.name+"]\n"+att.text:"")}];if(att.kind!=="text")parts.push({inlineData:{mimeType:att.mime,data:att.data}});return{role:"user",parts}}
-return{role:m.role,content:m.content+(m.att?"\n[anexo enviado antes: "+m.att.name+"]":"")}});
-try{const raw=await gLoop(c);setThinking(false);const out=processSave(raw)||"…";lastReply=out;chatLog.push({role:"assistant",content:out});persistLog();pushMsg("assistant",out);if(!talk&&lsGet("speak_replies","0")==="1")speak(out)}
-catch(e){setThinking(false);chatLog.pop();persistLog();pushMsg("assistant",aiErr(e),{error:true})}
-sending=false};
-renderSide();$("msgs").innerHTML="";chatLog.forEach(m=>pushMsg(m.role,m.content,{att:m.att}));updateHome();
-
-/* ===== Integração Google via Apps Script (grátis) ===== */
-const gOn=()=>lsGet("g_ok","0")==="1"&&!!lsGet("g_url","").trim()&&!!lsGet("g_pass","").trim();
-function gStat(m,ok){const e=$("gStat");e.textContent=m;e.style.color=ok===true?"#10b981":ok===false?"#ef4444":"";$("gBtn").classList.toggle("on",ok===true);$("gBtn").lastChild.textContent=ok===true?"Conectado":"Conectar"}
-const sid=x=>{x=String(x||lsGet("g_sheet","")).trim();const m=/\/d\/([a-zA-Z0-9-_]+)/.exec(x);return m?m[1]:x};
-async function gs(a){const u=lsGet("g_url","").trim(),k=lsGet("g_pass","").trim();if(!u||!k)throw new Error("Cole o link e a senha do script em Ajustes → Google.");
-const body=Object.assign({},a,{key:k});if(String(a.a).startsWith("sheet_")){body.sheet=sid(a.sheet);if(!body.sheet)throw new Error("Falta a planilha padrão (ou o link da planilha).")}
-const r=await withTimeout(fetch(u,{method:"POST",body:JSON.stringify(body)}),60000);let d;try{d=await r.json()}catch(e){throw new Error("O link do script não respondeu direito. Confira se a implantação está como 'Qualquer pessoa'.")}
-if(!d.ok)throw new Error(d.error||"erro no script");return d.result}
-[["gUrl","g_url"],["gPass","g_pass"],["gSheet","g_sheet"]].forEach(a=>{$(a[0]).value=lsGet(a[1],"");$(a[0]).addEventListener("input",e=>{lsSet(a[1],e.target.value.trim());if(a[0]!=="gSheet"){lsSet("g_ok","0");gStat("Toque em Conectar para testar")}})});
-$("gBtn").onclick=async()=>{gStat("Conectando...");try{const r=await gs({a:"ping"});lsSet("g_ok","1");gStat("✓ "+r,true)}catch(e){lsSet("g_ok","0");gStat("✗ "+(e.message||e)+(/Failed to fetch|Load failed|NetworkError/i.test(String(e.message))?" (confira o link e se a implantação está como 'Qualquer pessoa')":""),false)}};
-if(gOn())gStat("✓ Conectado",true);
-const ACT={};["cal_list","cal_create","cal_delete","sheet_info","sheet_read","sheet_append","sheet_update","mail_list","mail_read","mail_draft"].forEach(n=>ACT[n]=a=>gs(a));
-ACT.mail_send=async a=>{if(!confirm("O Jarvis quer ENVIAR um e-mail.\nPara: "+a.to+"\nAssunto: "+a.subject+"\n\nEnviar agora?"))return"O usuário NÃO autorizou o envio. Nada foi enviado.";return gs(a)};
-function scanActs(t){t=String(t);const acts=[];let out="",i=0;
-while(true){const j=t.indexOf("[[G:",i);if(j<0){out+=t.slice(i);break}out+=t.slice(i,j);let k=j+4,d=0,ins=false,es=false,st=-1,e=-1;
-for(;k<t.length;k++){const ch=t[k];if(ins){if(es)es=false;else if(ch==="\\")es=true;else if(ch==='"')ins=false;continue}if(ch==='"')ins=true;else if(ch==="{"){if(d===0)st=k;d++}else if(ch==="}"){d--;if(d===0){e=k;break}}}
-if(e<0){out+=t.slice(j);break}try{acts.push(JSON.parse(t.slice(st,e+1)))}catch(x){acts.push({a:"_erro"})}i=e+1;if(t.slice(i,i+2)==="]]")i+=2}
-return{acts,clean:out.trim()}}
-const parseActs=t=>scanActs(t).acts;
-async function runActs(acts){const out=[];for(const a of acts){let r;try{if(!ACT[a.a])throw new Error("ação desconhecida: "+a.a);r=await ACT[a.a](a)}catch(e){r="ERRO: "+(e.message||e)}out.push("["+a.a+"] "+String(r).slice(0,5000))}return out.join("\n\n")}
-async function gLoop(c){let raw=await callAI(c,buildSystem()),n=0;
-while(gOn()&&n<4){const acts=parseActs(raw);if(!acts.length)break;n++;const res=await runActs(acts);
-c=c.concat([{role:"assistant",content:raw},{role:"user",content:"[RESULTADO DAS AÇÕES DO GOOGLE]\n"+res+"\n\nResponda agora ao usuário, em português, usando só esses resultados. Se faltar algo, use outra ação."}]);raw=await callAI(c,buildSystem())}
-return scanActs(raw).clean||"Feito, senhor."}
-const _bs3=buildSystem;buildSystem=function(){let x=_bs3();
-if(!gOn())return x+"\n\nO usuário ainda não conectou o Google. Se pedir algo de agenda, planilha ou e-mail, explique que precisa conectar em Ajustes → Google. NUNCA finja ter feito a ação.";
-const off=-new Date().getTimezoneOffset(),sg=off<0?"-":"+",z=String(Math.floor(Math.abs(off)/60)).padStart(2,"0")+":"+String(Math.abs(off)%60).padStart(2,"0");
-return x+'\n\nAÇÕES NO GOOGLE (conectado de verdade). Para agir, escreva uma linha [[G:{json}]] por ação e nada mais além disso; o sistema executa e devolve o resultado, e só então você responde. Ações: {"a":"cal_list","from":"ISO","to":"ISO"} lista eventos; {"a":"cal_create","title":"","start":"ISO","end":"ISO","description":"","location":"","attendees":["email"]} cria evento (start só com data = dia inteiro); {"a":"cal_delete","id":""}; {"a":"sheet_info","sheet":""} lista as abas; {"a":"sheet_read","sheet":"","range":"Aba!A1:F50"} lê; {"a":"sheet_append","sheet":"","range":"Aba","values":[["col1","col2"]]} adiciona linhas no fim; {"a":"sheet_update","sheet":"","range":"Aba!B2","values":[["x"]]} altera células (sheet vazio = planilha padrão, '+(lsGet("g_sheet","")?"configurada":"NÃO configurada")+'); {"a":"mail_list","q":"is:unread","max":8} busca e-mails (sintaxe de busca do Gmail); {"a":"mail_read","id":""} lê um e-mail; {"a":"mail_draft","to":"","subject":"","body":""} cria rascunho; {"a":"mail_send","to":"","subject":"","body":""} envia (o usuário confirma na tela). Datas em ISO 8601 com fuso '+sg+z+" (agora: "+new Date().toISOString()+"). Nunca invente resultados: só afirme algo depois de receber o resultado. Em caso de dúvida sobre planilha ou aba, pergunte ou use sheet_info. Só envie e-mail se o usuário pedir claramente."};
-
-/* copiar o código do Apps Script direto do celular */
-const GSCODE=String.raw`const SENHA = "__SENHA__";
-
-function doGet() {
-  return ContentService.createTextOutput("Jarvis conectado ✓");
-}
-
-function doPost(e) {
-  let out;
-  try {
-    const a = JSON.parse(e.postData.contents);
-    if (a.key !== SENHA) throw new Error("Senha incorreta");
-    out = { ok: true, result: run(a) };
-  } catch (err) {
-    out = { ok: false, error: String(err.message || err) };
-  }
-  return ContentService.createTextOutput(JSON.stringify(out))
-    .setMimeType(ContentService.MimeType.JSON);
-}
-
-function autorizar() {
-  CalendarApp.getDefaultCalendar().getName();
-  GmailApp.getInboxUnreadCount();
-  Logger.log("Autorizado!");
-}
-
-function run(a) {
-  const cal = () => CalendarApp.getDefaultCalendar();
-  const sh = () => SpreadsheetApp.openById(a.sheet);
-  const pad = v => {
-    const w = Math.max.apply(null, v.map(r => r.length));
-    return v.map(r => r.concat(Array(w - r.length).fill("")));
-  };
-  switch (a.a) {
-    case "tts": {
-      const r = UrlFetchApp.fetch("https://api.fish.audio/v1/tts", {
-        method: "post", contentType: "application/json",
-        headers: { Authorization: "Bearer " + a.fishKey },
-        payload: JSON.stringify({ text: a.text, reference_id: a.voice, format: "mp3" }),
-        muteHttpExceptions: true
+      const response = await fetch("https://api.fish.audio/v1/tts", {
+        method: "POST",
+        headers: headers,
+        body: JSON.stringify({
+          text: texto,
+          reference_id: voiceId,
+          format: "mp3"
+        })
       });
-      if (r.getResponseCode() !== 200) throw new Error("Fish HTTP " + r.getResponseCode() + ": " + r.getContentText().slice(0, 160));
-      return Utilities.base64Encode(r.getBlob().getBytes());
-    }
-    case "ping":
-      return "Conectado como " + Session.getEffectiveUser().getEmail();
-    case "cal_list":
-      return cal().getEvents(new Date(a.from), new Date(a.to)).slice(0, a.max || 25)
-        .map(e => e.getId() + " | " + e.getStartTime().toISOString() + " → " + e.getEndTime().toISOString() + " | " + e.getTitle() + (e.getLocation() ? " | " + e.getLocation() : ""))
-        .join("\n") || "Nenhum evento nesse período.";
-    case "cal_create": {
-      const opt = { description: a.description || "", location: a.location || "" };
-      if (a.attendees && a.attendees.length) { opt.guests = a.attendees.join(","); opt.sendInvites = true; }
-      let ev;
-      if (/^\d{4}-\d{2}-\d{2}$/.test(a.start)) {
-        ev = cal().createAllDayEvent(a.title, new Date(a.start + "T12:00:00"), opt);
-      } else {
-        const s = new Date(a.start);
-        const en = a.end ? new Date(a.end) : new Date(s.getTime() + 3600000);
-        ev = cal().createEvent(a.title, s, en, opt);
+
+      if (!response.ok) {
+        const error = await response.text();
+        lastError = new Error(`Fish HTTP ${response.status}: ${error.slice(0, 100)}`);
+        console.warn(`Modelo ${model || 'padrão'} falhou:`, lastError.message);
+        continue;
       }
-      return "Evento criado: " + ev.getTitle() + " em " + ev.getStartTime().toISOString() + " (id " + ev.getId() + ")";
+
+      const blob = await response.blob();
+      if (blob.size === 0) {
+        lastError = new Error("Áudio vazio retornado");
+        continue;
+      }
+
+      console.log(`✓ Fish Audio respondeu (modelo: ${model || 'padrão'})`);
+      return blob;
+
+    } catch (error) {
+      lastError = error;
+      console.error(`Erro no modelo ${model || 'padrão'}:`, error);
     }
-    case "cal_delete":
-      cal().getEventById(a.id).deleteEvent();
-      return "Evento removido.";
-    case "sheet_info": {
-      const s = sh();
-      return "Planilha: " + s.getName() + "\nAbas: " + s.getSheets().map(x => x.getName() + " (" + x.getLastRow() + " linhas)").join("; ");
-    }
-    case "sheet_read":
-      return sh().getRange(a.range).getDisplayValues().map(r => r.join(" | ")).join("\n") || "Intervalo vazio.";
-    case "sheet_append": {
-      const name = String(a.range).split("!")[0].replace(/'/g, "");
-      const s = sh().getSheetByName(name);
-      if (!s) throw new Error("Aba não encontrada: " + name);
-      const rows = pad(a.values);
-      s.getRange(s.getLastRow() + 1, 1, rows.length, rows[0].length).setValues(rows);
-      return "Linhas adicionadas na aba " + name + ".";
-    }
-    case "sheet_update": {
-      const r = sh().getRange(a.range);
-      const rows = pad(a.values);
-      r.getSheet().getRange(r.getRow(), r.getColumn(), rows.length, rows[0].length).setValues(rows);
-      return "Atualizado: " + a.range;
-    }
-    case "mail_list":
-      return GmailApp.search(a.q || "in:inbox", 0, Math.min(a.max || 8, 15)).map(t => {
-        const m = t.getMessages().pop();
-        return t.getId() + " | " + m.getDate().toISOString() + " | De: " + m.getFrom() + " | Assunto: " + t.getFirstMessageSubject() + " | " + m.getPlainBody().replace(/\s+/g, " ").slice(0, 120);
-      }).join("\n") || "Nenhum e-mail encontrado.";
-    case "mail_read": {
-      const m = GmailApp.getThreadById(a.id).getMessages().pop();
-      return "De: " + m.getFrom() + "\nPara: " + m.getTo() + "\nAssunto: " + m.getSubject() + "\nData: " + m.getDate().toISOString() + "\n\n" + m.getPlainBody().slice(0, 5000);
-    }
-    case "mail_draft":
-      GmailApp.createDraft(a.to, a.subject, a.body);
-      return "Rascunho criado para " + a.to + ".";
-    case "mail_send":
-      GmailApp.sendEmail(a.to, a.subject, a.body);
-      return "E-mail enviado para " + a.to + ".";
   }
-  throw new Error("Ação desconhecida: " + a.a);
+
+  throw lastError || new Error("Falha ao gerar áudio com Fish Audio");
 }
-`;
-$("gCopy").onclick=async()=>{let pw=lsGet("g_pass","").trim();if(!pw){pw="jarvis-"+Array.from(crypto.getRandomValues(new Uint8Array(10))).map(n=>"abcdefghjkmnpqrstuvwxyz23456789"[n%31]).join("");lsSet("g_pass",pw);lsSet("g_ok","0");$("gPass").value=pw}
-const txt=GSCODE.replace("__SENHA__",pw);let ok=false;
-try{await navigator.clipboard.writeText(txt);ok=true}catch(e){try{const t=document.createElement("textarea");t.value=txt;t.style.cssText="position:fixed;top:0;left:0;opacity:0";document.body.appendChild(t);t.focus();t.select();ok=document.execCommand("copy");t.remove()}catch(x){}}
-gStat(ok?"✓ Código copiado! Agora toque em Abrir e cole lá.":"Não consegui copiar. Tente de novo.",ok)};
 
-/* ===== AJUSTES: aparência e comportamento do Jarvis ===== */
-const PAL={blue:["#3b82f6","#7c3aed",["#93c5fd","#a78bfa","#ffffff","#60a5fa"]],green:["#10b981","#0ea5e9",["#6ee7b7","#7dd3fc","#ffffff","#34d399"]],orange:["#f97316","#ec4899",["#fdba74","#f9a8d4","#ffffff","#fb923c"]],pink:["#ec4899","#8b5cf6",["#f9a8d4","#c4b5fd","#ffffff","#f472b6"]],cyan:["#06b6d4","#3b82f6",["#67e8f9","#93c5fd","#ffffff","#22d3ee"]]};
-const PERS={mordomo:"formal britânico, no estilo de um mordomo: educado, elegante, preciso e com leve fineza irônica, sempre muito respeitoso",amigo:"descontraído e amigável, fala como um amigo próximo, com bom humor e linguagem leve",coach:"motivador e energético, como um coach: incentiva, cobra com carinho e foca em ação",direto:"direto, objetivo e sem enrolação, respostas práticas",sarcastico:"sarcástico e espirituoso, com humor ácido, mas sempre útil e respeitoso",professor:"paciente e didático, explica passo a passo com exemplos simples"};
-const ORIG_NAME=CONFIG.userName;
-function applyUI(){const R=document.documentElement,L=(k,d)=>lsGet(k,d);
-let th=L("ui_theme",L("jarvis_theme","dark"));if(th==="auto")th=matchMedia("(prefers-color-scheme: light)").matches?"light":"dark";R.dataset.theme=th;
-const pal=PAL[L("ui_acc","blue")]||PAL.blue;R.style.setProperty("--acc",pal[0]);R.style.setProperty("--acc2",pal[1]);COL.splice(0,4,...pal[2]);COLL.splice(0,4,pal[0],pal[1],pal[0],pal[1]);
-R.style.setProperty("--fs",L("ui_fs","16")+"px");R.style.setProperty("--blur",L("ui_blur","22")+"px");
-R.classList.toggle("no-orb",L("ui_orb","1")==="0");R.classList.toggle("no-motion",L("ui_motion","1")==="0");R.classList.toggle("no-quick",L("ui_quick","1")==="0");R.classList.toggle("no-acts",L("ui_acts","1")==="0");
-CONFIG.userName=L("u_name","").trim()||ORIG_NAME;CONFIG.address=L("u_addr","").trim()||"senhor";CONFIG.persona=PERS[L("u_pers","mordomo")]||PERS.mordomo;
-$("pName").textContent=CONFIG.userName;$("pAv").textContent=CONFIG.userName.charAt(0).toUpperCase();try{updateHome()}catch(e){}}
-function statsUpdate(){const c=SESS.filter(x=>x.log.length).length,m=SESS.reduce((a,x)=>a+x.log.length,0);$("pC").textContent=c+" conversas";$("pM").textContent=m+" mensagens";$("pN").textContent=NOTES.length+" notas na memória"}
-const bSeg=(id,key,def,cb)=>{const e=$(id),r=()=>e.querySelectorAll("button").forEach(b=>b.classList.toggle("on",b.dataset.v===lsGet(key,def)));e.querySelectorAll("button").forEach(b=>b.onclick=()=>{lsSet(key,b.dataset.v);r();cb&&cb()});r()};
-const bTog=(id,key,def,cb)=>{const e=$(id);e.checked=lsGet(key,def)==="1";e.onchange=()=>{lsSet(key,e.checked?"1":"0");cb&&cb()}};
-const bRng=(id,key,def,cb)=>{const e=$(id),v=$(id+"V");e.value=lsGet(key,def);const sh=()=>{v.textContent=e.value};sh();e.oninput=()=>{lsSet(key,e.value);sh();cb&&cb()}};
-const bTxt=(id,key,def,cb)=>{const e=$(id);e.value=lsGet(key,def);e.addEventListener("input",()=>{lsSet(key,e.value.trim());cb&&cb()})};
-const bSel=(id,key,def,cb)=>{const e=$(id);e.value=lsGet(key,def);e.onchange=()=>{lsSet(key,e.value);cb&&cb()}};
-bSeg("uTheme","ui_theme",lsGet("jarvis_theme","dark"),applyUI);bSeg("uAcc","ui_acc","blue",applyUI);bRng("uFs","ui_fs","16",applyUI);bRng("uBlur","ui_blur","22",applyUI);
-bTog("uOrb","ui_orb","1",applyUI);bTog("uMotion","ui_motion","1",applyUI);bTog("uQuick","ui_quick","1",applyUI);bTog("uActs","ui_acts","1",applyUI);bTog("uEnter","enter_send","1");bTog("uMem","mem_live","1");
-bTxt("uName","u_name","",applyUI);bTxt("uAddr","u_addr","",applyUI);bSel("uPers","u_pers","mordomo",applyUI);bSeg("uLen","u_len","normal");bRng("uTemp","ai_temp","0.8");
-bSel("uModel","ai_model","");bSel("uGv","gem_voice","Charon");bRng("uVr","v_rate","1");
-$("uExtra").value=lsGet("ai_extra","");$("uExtra").addEventListener("input",e=>lsSet("ai_extra",e.target.value));
-matchMedia("(prefers-color-scheme: light)").addEventListener("change",()=>{if(lsGet("ui_theme","")==="auto")applyUI()});
-function showCat(c){lsSet("s_cat",c);document.querySelectorAll("#snav button").forEach(b=>b.classList.toggle("on",b.dataset.c===c));document.querySelectorAll("#vSettings .cat").forEach(x=>x.classList.toggle("hidden",x.dataset.c!==c))}
-document.querySelectorAll("#snav button").forEach(b=>b.onclick=()=>showCat(b.dataset.c));showCat(lsGet("s_cat","look"));
-const _sv=showView;showView=function(id){_sv(id);if(id==="vSettings")statsUpdate()};
-const _bs4=buildSystem;buildSystem=function(){let x=_bs4();const l=lsGet("u_len","normal"),e=lsGet("ai_extra","").trim();
-if(l==="short")x+="\n\nTAMANHO: responda sempre de forma curta (no máximo 3 frases).";else if(l==="long")x+="\n\nTAMANHO: responda de forma detalhada e completa, com exemplos quando ajudar.";
-if(lsGet("mem_live","1")==="0")x+="\n\nNÃO use [[SAVE:...]] nesta conversa.";if(e)x+="\n\nINSTRUÇÕES EXTRAS DO USUÁRIO (siga sempre): "+e;return x};
-const _ps=processSave;processSave=function(t){if(lsGet("mem_live","1")==="0")return String(t).replace(/\[\[SAVE:[\s\S]*?\]\]/g,"").trim();return _ps(t)};
-$("txt").addEventListener("keydown",e=>{if(e.key==="Enter"&&!e.shiftKey&&lsGet("enter_send","1")==="0")e.stopImmediatePropagation()},true);
-$("exportBtn").onclick=()=>{const bl=new Blob([JSON.stringify({conversas:SESS,notas:NOTES},null,1)],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(bl);a.download="jarvis-conversas.json";document.body.appendChild(a);a.click();a.remove()};
-$("delAll").onclick=()=>{if(!confirm("Apagar TODAS as conversas? Isso não tem volta."))return;SESS=[{id:"s"+Date.now().toString(36),ts:Date.now(),log:[]}];curId=SESS[0].id;chatLog=SESS[0].log;saveSess();$("msgs").innerHTML="";updateHome();renderSide();statsUpdate()};
-$("resetUI").onclick=()=>{if(!confirm("Voltar tema, cores e comportamento do Jarvis ao padrão? (Suas chaves e conversas não mudam.)"))return;["ui_theme","ui_acc","ui_fs","ui_blur","ui_orb","ui_motion","ui_quick","ui_acts","enter_send","u_name","u_addr","u_pers","u_len","ai_temp","ai_extra","ai_model","mem_live","gem_voice","v_rate"].forEach(k=>{try{localStorage.removeItem(k)}catch(e){}});location.reload()};
-applyUI();statsUpdate();
+// ========== FALAR COM FISH AUDIO ==========
+async function speak(texto) {
+  const apiKey = lsGet("fish_key", "").trim();
+  const voiceId = lsGet("fish_voice", "").trim();
 
-/* ===== VOZ v2: rápida, com atalho pelo Google e sem esconder erros ===== */
-const b64blob=(b,t)=>{const bin=atob(b),u=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)u[i]=bin.charCodeAt(i);return new Blob([u],{type:t})};
-async function fishDirect(txt,k,v){const sv=lsGet("fish_model_ok",null),order=sv!==null?[sv].concat(["","s1"].filter(m=>m!==sv)):["","s1"];let last=null;
-for(const m of order){try{const h={"Authorization":"Bearer "+k,"Content-Type":"application/json"};if(m)h.model=m;
-const r=await withTimeout(fetch("https://api.fish.audio/v1/tts",{method:"POST",headers:h,body:JSON.stringify({text:txt,reference_id:v,format:"mp3"})}),12000);
-if(!r.ok){const raw=await r.text(),e=new Error("Fish HTTP "+r.status+": "+raw.slice(0,140));e.http=r.status;throw e}
-const bl=await r.blob();if(!bl.size)throw new Error("áudio vazio");lsSet("fish_model_ok",m);return bl}
-catch(e){if(!e.http){const n=new Error("o navegador não conseguiu falar direto com o Fish ("+(e.message||e)+")");n.net=true;throw n}last=e;if([401,402,403].includes(e.http))throw e}}throw last}
-async function fishProxy(txt,k,v){if(!gOn())throw new Error("conecte o Google em Ajustes → Google");try{return b64blob(await gs({a:"tts",fishKey:k,voice:v,text:txt}),"audio/mpeg")}catch(e){if(/Ação desconhecida: tts/.test(String(e.message)))throw new Error("o seu script do Google está DESATUALIZADO. Em Ajustes → Google toque em Copiar, cole o código novo no script e implante uma nova versão");throw e}}
-async function geminiTTS(txt){const key=lsGet("gemini_key","").trim();if(!key)throw new Error("falta a chave do Gemini");const sv=lsGet("gem_tts_ok",""),ms=sv?[sv]:["gemini-2.5-flash-preview-tts","gemini-2.5-flash-tts"];let last=null;
-for(const m of ms){try{const r=await withTimeout(fetch("https://generativelanguage.googleapis.com/v1beta/models/"+m+":generateContent",{method:"POST",headers:{"Content-Type":"application/json","x-goog-api-key":key},body:JSON.stringify({contents:[{parts:[{text:"Diga em português do Brasil, com voz masculina grave, calma e elegante: "+txt}]}],generationConfig:{responseModalities:["AUDIO"],speechConfig:{voiceConfig:{prebuiltVoiceConfig:{voiceName:lsGet("gem_voice","Charon")}}}}})}),20000);
-const d=await r.json();if(!r.ok)throw new Error((d.error&&d.error.message)||"HTTP "+r.status);lsSet("gem_tts_ok",m);return pcmToWav(d.candidates[0].content.parts[0].inlineData.data)}catch(e){last=e}}throw last}
-async function ttsBlob(txt,errs){const k=lsGet("fish_key","").trim(),v=lsGet("fish_voice","").trim(),gk=lsGet("gemini_key","").trim(),fb=lsGet("v_fb","1")==="1";
-if(k&&v){if(Date.now()<+lsGet("fish_down","0")){if(!errs.includes("Fish pausado por 3 min (falhou agora há pouco)"))errs.push("Fish pausado por 3 min (falhou agora há pouco)")}
-else{const seq=lsGet("fish_mode","direct")==="proxy"?["proxy","direct"]:["direct","proxy"];
-for(const m of seq){if(m==="proxy"&&!gOn())continue;try{const bl=m==="direct"?await fishDirect(txt,k,v):await fishProxy(txt,k,v);lsSet("fish_mode",m);return{bl,src:"Fish Audio"+(m==="proxy"?" (via Google)":"")}}
-catch(e){const msg=(m==="proxy"?"Fish via Google: ":"Fish: ")+(e.message||e);if(!errs.includes(msg))errs.push(msg);if([401,402,403].includes(e.http))break}}
-if(fb)lsSet("fish_down",String(Date.now()+180000))}}
-if((fb||!(k&&v))&&gk){try{return{bl:await geminiTTS(txt),src:"voz do Gemini"}}catch(e){errs.push("Gemini voz: "+(e.message||e))}}return null}
-function chunkText(t){const s=t.match(/[^.!?…]+[.!?…]*\s*/g)||[t],o=[];let c="";s.forEach(x=>{const lim=o.length===0?140:260;if(c&&(c+x).length>lim){o.push(c.trim());c=x}else c+=x});if(c.trim())o.push(c.trim());if(o.length>6){const h=o.slice(0,5);h.push(o.slice(5).join(" "));return h}return o}
-const playBlob=bl=>new Promise((res,rej)=>{const u=URL.createObjectURL(bl);EA.src=u;EA.onended=()=>{URL.revokeObjectURL(u);res()};EA.onerror=()=>{URL.revokeObjectURL(u);rej(new Error("o navegador não conseguiu tocar o áudio"))};EA.play().catch(rej)});
-speak=async function(t,done){const txt=cleanT(t).replace(/https?:\/\/\S+/g," link ").slice(0,1200);if(!txt){if(done)done();return}
-const k=lsGet("fish_key","").trim(),v=lsGet("fish_voice","").trim(),gk=lsGet("gemini_key","").trim();haltAudio();if(!(k&&v)&&!gk)return speakBrowser(t,done);
-const ctl={abort(){}};fishCtl=ctl;fishDone=done||null;const parts=chunkText(txt),errs=[],ps=[],get=i=>i<parts.length?(ps[i]=ps[i]||ttsBlob(parts[i],errs)):null;let src="",spoken=0;
-get(0);get(1);
-for(let i=0;i<parts.length;i++){get(i+1);const r=await ps[i];if(fishCtl!==ctl)return;
-if(!r){const rest=parts.slice(i).join(" ");fishMsg("✗ "+errs.join(" | ")+(lsGet("v_fb","1")==="1"?" → usando a voz do aparelho.":" (nenhuma voz foi usada porque você escolheu \"Avisar o erro\")."),false);
-if(fishCtl===ctl){fishCtl=null;const d=fishDone;fishDone=null;if(lsGet("v_fb","1")==="1")speakBrowser(rest,d);else if(d)d()}return}
-try{src=r.src;await playBlob(r.bl);spoken++}catch(e){errs.push(String(e.message||e));if(fishCtl!==ctl)return;
-fishMsg(e.name==="NotAllowedError"?"O navegador bloqueou o som. Toque em Testar voz uma vez e tente de novo.":"✗ "+errs.join(" | "),false);fishCtl=null;const d=fishDone;fishDone=null;speakBrowser(parts.slice(i).join(" "),d);return}
-if(fishCtl!==ctl)return}
-fishMsg(errs.length?"⚠ "+errs.join(" | ")+" → falou com a "+src+".":"✓ Falando com "+src+".",!errs.length);
-if(fishCtl===ctl){fishCtl=null;const d=fishDone;fishDone=null;if(d)d()}};
-$("fishTest").onclick=()=>{unlockAudio();lsSet("fish_down","0");fishMsg("Gerando a voz...",true);speak("Certamente, senhor. Minha voz está pronta. Como posso ajudar?")};
-bSeg("uFb","v_fb","1");
+  if (!texto || !texto.trim()) return;
+
+  try {
+    $("fishStatus").textContent = "🔄 Gerando áudio...";
+    $("fishStatus").style.color = "#fff";
+
+    const blob = await fishAudio(texto, apiKey, voiceId);
+    const url = URL.createObjectURL(blob);
+
+    EA.src = url;
+    EA.play();
+
+    $("fishStatus").textContent = "✓ Reproduzindo áudio";
+    $("fishStatus").style.color = "#10b981";
+
+    EA.onended = () => URL.revokeObjectURL(url);
+    EA.onerror = (e) => {
+      $("fishStatus").textContent = "✗ Erro ao reproduzir";
+      $("fishStatus").style.color = "#ef4444";
+      console.error("Erro ao reproduzir:", e);
+    };
+
+  } catch (error) {
+    $("fishStatus").textContent = "✗ " + (error.message || error);
+    $("fishStatus").style.color = "#ef4444";
+    console.error("Erro:", error);
+  }
+}
+
+// ========== GEMINI PARA GERAR RESPOSTA ==========
+async function callGemini(userMessage) {
+  const apiKey = lsGet("gemini_key", "").trim();
+
+  if (!apiKey) {
+    throw new Error("Chave Gemini não configurada");
+  }
+
+  const response = await fetch(
+    "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-goog-api-key": apiKey
+      },
+      body: JSON.stringify({
+        contents: [
+          {
+            role: "user",
+            parts: [{ text: userMessage }]
+          }
+        ],
+        generationConfig: {
+          temperature: 0.8,
+          maxOutputTokens: 500
+        }
+      })
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error(`Gemini erro: ${response.status}`);
+  }
+
+  const data = await response.json();
+  const texto = data.candidates?.[0]?.content?.parts?.[0]?.text;
+
+  if (!texto) {
+    throw new Error("Gemini não retornou texto");
+  }
+
+  return texto;
+}
+
+// ========== UI ==========
+function showView(id) {
+  document.querySelectorAll(".view").forEach(v => v.classList.add("hidden"));
+  $(id).classList.remove("hidden");
+}
+
+document.querySelectorAll(".tab").forEach(t => {
+  t.onclick = () => {
+    showView(t.dataset.v);
+    document.querySelectorAll(".tab").forEach(x => x.classList.toggle("on", x === t));
+  };
+});
+
+function pushMsg(role, text) {
+  const d = document.createElement("div");
+  d.className = "m " + (role === "user" ? "u" : "a");
+  d.innerHTML = (role === "user" ? "" : '<div class="av"></div>') + 
+                '<div class="bub">' + esc(text) + '</div>';
+  $("msgs").appendChild(d);
+  $("msgs").scrollTop = $("msgs").scrollHeight;
+}
+
+async function sendMessage() {
+  const text = $("txt").value.trim();
+  if (!text || sending) return;
+
+  sending = true;
+  $("txt").value = "";
+  pushMsg("user", text);
+
+  try {
+    pushMsg("assistant", "⏳ Pensando...");
+    const resposta = await callGemini(text);
+    lastReply = resposta;
+
+    // Remove mensagem de "pensando"
+    const msgs = $("msgs").querySelectorAll(".m.a");
+    if (msgs.length > 0) msgs[msgs.length - 1].remove();
+
+    pushMsg("assistant", resposta);
+
+    // Falar a resposta
+    if (lsGet("auto_speak", "1") === "1") {
+      await speak(resposta);
+    }
+
+  } catch (error) {
+    pushMsg("assistant", "❌ Erro: " + (error.message || error));
+  } finally {
+    sending = false;
+  }
+}
+
+$("txt").addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    e.preventDefault();
+    sendMessage();
+  }
+});
+
+$("sendBtn").onclick = sendMessage;
+$("txt").addEventListener("input", () => {
+  const hasText = $("txt").value.trim().length > 0;
+  $("sendBtn").classList.toggle("hidden", !hasText);
+});
+
+// ========== FISH AUDIO TEST ==========
+$("fishTest").onclick = async () => {
+  const apiKey = lsGet("fish_key", "").trim();
+  const voiceId = lsGet("fish_voice", "").trim();
+
+  if (!apiKey) {
+    $("fishStatus").textContent = "❌ Falta a chave API";
+    $("fishStatus").style.color = "#ef4444";
+    return;
+  }
+
+  if (!voiceId) {
+    $("fishStatus").textContent = "❌ Falta o ID da voz";
+    $("fishStatus").style.color = "#ef4444";
+    return;
+  }
+
+  $("fishStatus").textContent = "🔄 Testando...";
+  $("fishStatus").style.color = "#fff";
+
+  try {
+    await speak("Olá, eu sou Jarvis. Testando a voz aqui.");
+    $("fishStatus").textContent = "✓ Sucesso! Voz funcionando";
+    $("fishStatus").style.color = "#10b981";
+  } catch (error) {
+    $("fishStatus").textContent = "✗ " + (error.message || "Erro desconhecido");
+    $("fishStatus").style.color = "#ef4444";
+  }
+};
+
+// ========== GUARDAR CHAVES ==========
+$("fishKey").value = lsGet("fish_key", "");
+$("fishKey").addEventListener("input", (e) => lsSet("fish_key", e.target.value.trim()));
+
+$("fishVoice").value = lsGet("fish_voice", "");
+$("fishVoice").addEventListener("input", (e) => lsSet("fish_voice", e.target.value.trim()));
+
+$("gemKey").value = lsGet("gemini_key", "");
+$("gemKey").addEventListener("input", (e) => lsSet("gemini_key", e.target.value.trim()));
+
+// ========== SPLASH ==========
+setTimeout(() => {
+  $("splash").classList.add("fade");
+  setTimeout(() => $("splash").classList.add("hidden"), 750);
+}, 1700);
+
+showView("vChat");
 </script>
 </body>
 </html>
