@@ -159,31 +159,75 @@ html[data-theme=light] .ed{background:#fff}html[data-theme=light] .bub code{back
 html[data-theme=light] .m.a.err .bub{color:#c2410c}html[data-theme=light] .sw input{background:rgba(30,50,140,.22)}
 html[data-theme=light] #call{background:radial-gradient(ellipse 85% 55% at 50% 38%,#dbeafe 0%,#fff 72%)}html[data-theme=light] #cStatus{color:#4338ca}
 html[data-theme=light] #voiceBtn{color:#fff}html[data-theme=light] .btn{color:#0b1020}html[data-theme=light] .btn.pri{color:#fff}
+
+/* ===== vidro fosco estilo Apple, menu lateral, anexos, ajustes ===== */
+:root{--sbg:rgba(14,18,40,.58);--cardbg:rgba(255,255,255,.07);--hl:rgba(255,255,255,.12)}
+html[data-theme=light]{--sbg:rgba(255,255,255,.78);--cardbg:rgba(255,255,255,.7);--hl:rgba(255,255,255,.95);--txt:#0a0f1f;--dim:#364065;--line:rgba(25,45,140,.3);--glass:rgba(255,255,255,.66);--glass2:rgba(255,255,255,.9)}
+.hdr,.tabs,.pill,.gl,.card,.row,.qc,.side,.ed,.chip,.ic,.cb2,.btn{-webkit-backdrop-filter:blur(22px) saturate(180%);backdrop-filter:blur(22px) saturate(180%)}
+.pill,.gl,.qc,.row,.side{box-shadow:0 1px 0 var(--hl) inset,0 10px 30px rgba(0,0,0,.2)}
+html[data-theme=light] .pill,html[data-theme=light] .gl,html[data-theme=light] .qc,html[data-theme=light] .row,html[data-theme=light] .side{box-shadow:0 1px 0 #fff inset,0 10px 30px rgba(30,60,160,.14)}
+.qc{background:rgba(255,255,255,.04)}html[data-theme=light] .qc{background:rgba(255,255,255,.72);border-color:rgba(25,45,140,.3)}
+html[data-theme=light] .chip,html[data-theme=light] .ic,html[data-theme=light] .tab,html[data-theme=light] .m.a .bub,html[data-theme=light] #txt{color:#0a0f1f}
+html[data-theme=light] .tab.on,html[data-theme=light] .modeChip{color:#1d4ed8}html[data-theme=light] .modeChip{background:rgba(255,255,255,.75)}
+html[data-theme=light] .tab{color:#364065}html[data-theme=light] #txt::placeholder{color:#5a6590}html[data-theme=light] .tabs{background:rgba(255,255,255,.82)}
+.tab .e{filter:none;opacity:.72}.tab.on .e{opacity:1;color:var(--acc)}.tab .e svg{width:25px;height:25px}.cb2 svg{width:24px;height:24px}.cb2.big svg{width:34px;height:34px}
+.cbar{display:none!important}
+.side{position:fixed;top:0;bottom:0;left:0;width:min(84vw,330px);z-index:60;transform:translateX(-104%);transition:transform .34s cubic-bezier(.2,.8,.2,1);display:flex;flex-direction:column;gap:10px;padding:calc(14px + env(safe-area-inset-top,0px)) 12px calc(12px + env(safe-area-inset-bottom,0px));background:var(--sbg);border-right:1px solid var(--line)}
+.side.open{transform:none}#scrim{position:fixed;inset:0;z-index:55;background:rgba(0,0,10,.5);opacity:0;pointer-events:none;transition:opacity .3s}#scrim.on{opacity:1;pointer-events:auto}
+.sh{display:flex;justify-content:space-between;align-items:center}.brand{font-size:20px;font-weight:700;letter-spacing:.02em}
+.snew{display:flex;align-items:center;gap:10px;padding:13px 14px;border-radius:16px;background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;font-weight:600;font-size:15px}
+#sSearch{width:100%;padding:11px 14px;border-radius:14px;border:1px solid var(--line);background:var(--glass);font-size:15px;color:var(--txt);outline:none}
+#sList{flex:1;overflow-y:auto;margin:0 -4px;padding:0 4px}.sg{font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--dim);margin:14px 8px 6px}
+.si{display:flex;align-items:center;gap:6px;padding:11px 12px;border-radius:13px;font-size:15px;cursor:pointer}.si:active,.si:hover{background:var(--glass2)}.si.on{background:var(--glass2);box-shadow:0 0 0 1px var(--line) inset}
+.si .st{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.si .sd{width:30px;height:30px;border-radius:9px;color:var(--dim);display:grid;place-items:center;flex:none}.si .sd svg{width:17px;height:17px}.si .sd.arm{background:#ef4444;color:#fff;width:auto;padding:0 9px;font-size:12px}
+.sset{display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:14px;background:var(--glass);border:1px solid var(--line);font-size:15px}
+#attBtn{background:var(--glass2);color:var(--txt)}#attBtn svg{width:21px;height:21px}.pill{padding-left:6px}
+#attPrev{display:flex;padding:0 8px 8px}.ap{display:flex;align-items:center;gap:10px;padding:7px 8px 7px 7px;border-radius:16px;background:var(--glass2);border:1px solid var(--line);max-width:100%}.ap img{width:44px;height:44px;border-radius:10px;object-fit:cover}
+.ap .fi{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;display:grid;place-items:center;flex:none}.ap .fi svg{width:22px;height:22px}.ap span.n{font-size:13.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:46vw}.ap button{width:28px;height:28px;border-radius:50%;background:var(--glass);flex:none}
+.attm{display:block;max-width:230px;max-height:230px;border-radius:16px;margin:0 0 8px;object-fit:cover}.u .attm{margin-left:auto}.attf{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:14px;background:rgba(255,255,255,.2);font-size:13.5px;margin-bottom:6px}.attf svg{width:18px;height:18px}
+.grp{margin-top:20px}.gt{font-size:12px;letter-spacing:.07em;text-transform:uppercase;color:var(--dim);margin:0 8px 8px}
+.gl{border:1px solid var(--line);border-radius:22px;background:var(--cardbg);overflow:hidden}
+.li{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;border-top:1px solid var(--line);width:100%;text-align:left;font-size:15px}.gl>.li:first-child,.gl>div:first-child+.li{border-top:0}.gl>.li:first-child{border-top:0}
+.li.col{flex-direction:column;align-items:stretch;gap:8px}.li b{display:block;font-size:15px;font-weight:600}.li small{display:block;font-size:12.5px;color:var(--dim);margin-top:2px;line-height:1.4}
+.li input[type=text],.li input[type=password]{width:100%;background:rgba(127,127,170,.14);border:1px solid var(--line);border-radius:12px;padding:12px;font-size:15px;color:var(--txt);outline:none}
+.li input[type=checkbox]{width:48px;height:29px;appearance:none;-webkit-appearance:none;background:rgba(127,127,170,.38);border-radius:999px;position:relative;transition:.2s;flex:none}
+.li input[type=checkbox]::after{content:"";position:absolute;top:3px;left:3px;width:23px;height:23px;border-radius:50%;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.35);transition:.2s}
+.li input[type=checkbox]:checked{background:linear-gradient(135deg,var(--acc),var(--acc2))}.li input[type=checkbox]:checked::after{left:22px}
+.li .go{padding:10px 18px;border-radius:12px;background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;font-weight:600;font-size:14px;flex:none}.dng{color:#ef4444;font-weight:600}.note{font-size:12px;color:var(--dim);margin:22px 6px 6px}
+
+.gbtn{display:flex;align-items:center;gap:8px;padding:9px 14px;border-radius:12px;background:#fff;color:#1f1f1f;border:1px solid #dadce0;font-weight:600;font-size:14px;flex:none;box-shadow:0 1px 2px rgba(0,0,0,.15)}.gbtn:active{background:#f1f3f4}.gbtn.on{background:#e6f4ea;border-color:#34a853;color:#137333}
 </style></head><body>
 <div id="splash"><div class="nm">JARVIS</div><div class="ln"></div><div class="sy">SINCRONIZANDO DADOS...</div></div>
 <div id="app">
-<header class="hdr">
-<button class="chip" id="provChip" type="button"><i></i><span id="provTxt">Claude</span></button>
-<div class="ttl">Jarvis</div>
-<div style="display:flex;gap:8px"><button class="ic" id="hBar" type="button" aria-label="Barra de conversas" title="Barra de conversas">🗂️</button><button class="ic" id="hNew" type="button" aria-label="Nova conversa"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button></div>
-</header>
+<header class="hdr"><button class="ic" id="hMenu" type="button" aria-label="Histórico de conversas"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h16M4 16h10"/></svg></button><div class="ttl">Jarvis</div><button class="chip" id="provChip" type="button"><i></i><span id="provTxt">Gemini</span></button><span id="hBar" class="hidden"></span><span id="hNew" class="hidden"></span></header>
 <div class="cbar hidden" id="cbar"></div>
 <main id="main">
 <section id="vChat" class="view"><div id="hero"><canvas id="heroOrb"></canvas><h1 id="greet"></h1><p>Como posso ajudar você hoje?</p><button class="modeChip" id="modeChip" type="button"></button></div><div id="quick"></div><div id="msgs"></div></section>
 <section id="vExplore" class="view hidden"><div class="pg">Explorar</div><div class="sec">MODOS DO JARVIS</div><div id="modes"></div><div class="sec">TÓPICOS POPULARES</div><div id="topics"></div></section>
 <section id="vMemory" class="view hidden"><div class="bhero"><div class="pg">Second Brain</div><div style="display:flex;gap:8px;align-items:center"><span id="bCount"></span><button class="ic" id="addBtn" type="button" aria-label="Nova nota" style="width:38px;height:38px"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button></div></div><div id="graph"></div><div class="legend" id="legend"></div><div class="sec">SUAS NOTAS</div><div id="notesList"></div><div class="legend" style="color:#10b981">✓ contexto injetado em todas as conversas do Jarvis</div></section>
-<section id="vSettings" class="view hidden"><div class="pg">Configurações</div>
-<div class="sec">TEMA</div><div class="card"><label class="sw" style="margin:0"><span>Tema claro (branco)</span><input type="checkbox" id="themeSw"></label></div>
-<div class="sec">CÉREBRO (IA)</div><div class="card"><div class="f"><label for="provSel">Provedor</label><select id="provSel"><option value="gemini">Gemini (Google)</option></select></div><div class="f"><label for="gemKey">Chave do Gemini</label><input id="gemKey" type="password" autocomplete="off" spellcheck="false" placeholder="Cole sua chave aqui"></div><div class="f"><label for="gemModel">Modelo do Gemini</label><input id="gemModel" type="text" autocomplete="off" spellcheck="false"></div><button class="btn" id="testAI" type="button">Testar conexão com a IA</button><div id="testOut" style="font-size:12px;color:var(--dim);margin-top:8px"></div></div>
-<div id="vlist" class="hidden"></div><div class="card"><label class="sw"><span>Ler as respostas do chat em voz alta</span><input type="checkbox" id="speakReplies"></label><button class="btn" id="testVoice" type="button">Testar voz</button></div>
-<div class="sec">VOZ FISH AUDIO (É ELA QUE RESPONDE NA CHAMADA)</div><div class="card"><div class="f"><label for="fishKey">Chave (API key) do Fish Audio</label><input id="fishKey" type="password" autocomplete="off" spellcheck="false"></div><div class="f"><label for="fishVoice">ID da voz (reference_id)</label><input id="fishVoice" type="text" autocomplete="off" spellcheck="false"></div><div style="font-size:12px;color:var(--dim);margin-bottom:10px;line-height:1.4">Se o Fish falhar, o Jarvis usa a voz masculina do Gemini (Charon) com a mesma chave do Gemini.</div><button class="btn" id="fishTest" type="button">Testar voz</button><div id="fishOut" style="font-size:12px;margin-top:8px;color:var(--dim);line-height:1.4"></div></div>
-<div class="sec">DADOS</div><div class="card"><button class="btn" id="clearChat" type="button">Limpar conversa</button></div>
-<div class="sec" style="text-align:center">Jarvis v6.0 · tudo é salvo só neste navegador</div></section>
+<section id="vSettings" class="view hidden"><div class="pg">Ajustes</div>
+<div class="grp"><div class="gt">Aparência</div><div class="gl"><label class="li"><span><b>Tema claro</b><small>Fundo branco com azul e roxo</small></span><input type="checkbox" id="themeSw"></label></div></div>
+<div class="grp"><div class="gt">Inteligência</div><div class="gl">
+<div class="li"><span><b>Provedor</b><small>Gemini (Google)</small></span><select id="provSel" class="hidden"><option value="gemini">Gemini (Google)</option></select></div>
+<div class="li col"><label for="gemKey"><b>Chave do Gemini</b></label><input id="gemKey" type="password" autocomplete="off" spellcheck="false" placeholder="Cole sua chave aqui"></div>
+<div class="hidden"><input id="gemModel" type="text"></div>
+<div class="li"><span><b>Testar conexão</b><small id="testOut">Verifica se a chave funciona</small></span><button class="go" id="testAI" type="button">Testar</button></div></div></div>
+<div class="grp"><div class="gt">Voz</div><div class="gl"><div id="vlist" class="hidden"></div>
+<label class="li"><span><b>Ler respostas em voz alta</b><small>No chat de texto</small></span><input type="checkbox" id="speakReplies"></label>
+<div class="li col"><label for="fishKey"><b>Chave do Fish Audio</b></label><input id="fishKey" type="password" autocomplete="off" spellcheck="false"></div>
+<div class="li col"><label for="fishVoice"><b>ID da voz (Fish Audio)</b></label><input id="fishVoice" type="text" autocomplete="off" spellcheck="false"></div>
+<div class="li"><span><b>Testar voz</b><small id="fishOut">Se o Fish falhar, usa a voz masculina do Gemini</small></span><button class="go" id="fishTest" type="button">Testar</button></div>
+<button class="hidden" id="testVoice" type="button"></button></div></div>
+<div class="grp"><div class="gt">Google (Agenda, Planilhas e Gmail)</div><div class="gl"><div class="li"><span><b>1. Copiar o código do script</b><small>Gera a senha sozinho e copia o código</small></span><button class="go" id="gCopy" type="button">Copiar</button></div><div class="li"><span><b>2. Abrir o Google Script</b><small>Cole o código lá. No iPhone: aA → Solicitar site para desktop</small></span><a class="go" href="https://script.google.com/home/projects/create" target="_blank" rel="noopener" style="text-decoration:none">Abrir</a></div><div class="li col"><label for="gUrl"><b>3. Link do script (depois de implantar)</b></label><input id="gUrl" type="text" autocomplete="off" spellcheck="false" placeholder="https://script.google.com/macros/s/.../exec"></div><div class="li col"><label for="gPass"><b>Senha do script</b></label><input id="gPass" type="password" autocomplete="off" spellcheck="false"></div><div class="li col"><label for="gSheet"><b>Planilha padrão (link ou ID)</b></label><input id="gSheet" type="text" autocomplete="off" spellcheck="false" placeholder="Cole o link da planilha"></div><div class="li"><span><b>Conectar Google</b><small id="gStat">Toque para testar</small></span><button class="gbtn" id="gBtn" type="button"><svg viewBox="0 0 48 48" width="18" height="18"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.9 2.4 30.4 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.9 6.1C12.4 13.6 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.7c-.6 3-2.3 5.5-4.8 7.2l7.5 5.8c4.4-4.1 7.1-10.1 7.1-17.5z"/><path fill="#FBBC05" d="M10.5 28.7A14.5 14.5 0 0 1 9.5 24c0-1.6.3-3.2.8-4.7l-7.9-6.1A24 24 0 0 0 0 24c0 3.9.9 7.5 2.6 10.8l7.9-6.1z"/><path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.5-5.8c-2.1 1.4-4.8 2.3-8.4 2.3-6.3 0-11.6-4.1-13.5-9.8l-7.9 6.1C6.5 42.6 14.6 48 24 48z"/></svg>Conectar</button></div></div></div>
+<div class="grp"><div class="gt">Dados</div><div class="gl"><button class="li" id="clearChat" type="button"><span class="dng">Limpar conversa atual</span></button></div></div>
+<div class="note" style="text-align:center">Jarvis · tudo é salvo só neste navegador</div></section>
+
 </main>
-<div id="composer"><div class="pill"><textarea id="txt" rows="1" placeholder="Mensagem para o Jarvis..."></textarea>
+<aside id="side" class="side" aria-label="Conversas"><div class="sh"><div class="brand">Jarvis</div><button class="ic" id="sClose" type="button" aria-label="Fechar"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div><button class="snew" id="sNew" type="button"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Nova conversa</button><input id="sSearch" type="search" placeholder="Buscar conversas" autocomplete="off"><div id="sList"></div><button class="sset" id="sSet" type="button"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg>Ajustes</button></aside><div id="scrim"></div>
+<div id="composer"><div id="attPrev" class="hidden"></div><input type="file" id="fileIn" class="hidden" accept="image/*,.pdf,.txt,.md,.csv,.json,.js,.html,.css,.py,.xml,.log,.yml,.yaml"><div class="pill"><button class="rb" id="attBtn" type="button" aria-label="Anexar foto ou arquivo"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="m21 11-8.5 8.5a5 5 0 0 1-7-7L14 4a3.3 3.3 0 0 1 4.7 4.7l-8.6 8.6a1.7 1.7 0 0 1-2.4-2.4L15 7"/></svg></button><textarea id="txt" rows="1" placeholder="Mensagem para o Jarvis..."></textarea>
 <button class="rb hidden" id="sendBtn" type="button" aria-label="Enviar"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
 <button class="rb" id="voiceBtn" type="button" aria-label="Ditar por voz"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 10v4M8 6v12M12 3v18M16 7v10M20 10v4"/></svg></button></div></div>
-<nav class="tabs"><button class="tab on" data-v="vChat" type="button"><span class="e">💬</span>Chat</button><button class="tab" data-v="vExplore" type="button"><span class="e">🧭</span>Explorar</button><button id="plus" type="button" aria-label="Nova conversa"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button><button class="tab" data-v="vMemory" type="button"><span class="e">🧠</span>Memória</button><button class="tab" data-v="vSettings" type="button"><span class="e">⚙️</span>Ajustes</button></nav>
+<nav class="tabs"><button class="tab on" data-v="vChat" type="button"><span class="e"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/></svg></span>Chat</button><button class="tab" data-v="vExplore" type="button"><span class="e"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2 5-5 2 2-5 5-2Z"/></svg></span>Explorar</button><button id="plus" type="button" aria-label="Nova conversa"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button><button class="tab" data-v="vMemory" type="button"><span class="e"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="7" r="2.2"/><circle cx="18" cy="7" r="2.2"/><circle cx="12" cy="18" r="2.2"/><path d="M8 8l3 8M16 8l-3 8M8.3 7h7.4"/></svg></span>Memória</button><button class="tab" data-v="vSettings" type="button"><span class="e"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg></span>Ajustes</button></nav>
 </div>
 <div id="editor" class="hidden"><div class="ed"><h3 id="edTitle">Nota</h3><label for="edT">Título</label><input id="edT" type="text" maxlength="40"><label for="edA">Área</label><select id="edA"></select><label for="edB">Conteúdo</label><textarea id="edB"></textarea><div class="rw"><button class="btn del" id="edDel" type="button">Excluir</button><button class="btn" id="edCancel" type="button">Cancelar</button><button class="btn pri" id="edSave" type="button">Salvar</button></div></div></div>
 <div id="call" class="hidden"><div class="ctop"><button class="ic" id="cMin" type="button" aria-label="Voltar ao chat">⌄</button><div class="cttl">Jarvis · voz</div><span style="width:42px"></span></div><canvas id="callOrb"></canvas><div id="cStatus"></div><div class="ctxt"><div id="cYou"></div><div id="cAi"></div></div><div class="cctl"><button class="cb2" id="cStop" type="button" aria-label="Interromper fala">⏹</button><button class="cb2 big" id="cMic" type="button" aria-label="Falar agora">🎙️</button><button class="cb2" id="cEnd" type="button" aria-label="Encerrar">✕</button></div></div>
@@ -226,7 +270,7 @@ function sTitle(x){const u=x.log.find(m=>m.role==="user");return u?u.content.rep
 function renderBar(){const bar=$("cbar"),on=lsGet("jarvis_bar","1")==="1";bar.classList.toggle("hidden",!on);$("hBar").classList.toggle("on",on);if(!on)return;
 const l=SESS.slice().sort((a,b)=>b.ts-a.ts);bar.innerHTML='<button class="cb" id="cbNew" type="button">＋ Nova</button>'+l.map(x=>'<button class="cb'+(x.id===curId?" on":"")+'" data-id="'+x.id+'" type="button">'+esc(sTitle(x))+"</button>").join("")+'<button class="cb d" id="cbDel" type="button">🗑 Apagar</button>';
 bar.querySelectorAll(".cb[data-id]").forEach(b=>b.onclick=()=>switchChat(b.dataset.id));$("cbDel").onclick=delChat;$("cbNew").onclick=newChat}
-function switchChat(id){const x=SESS.find(y=>y.id===id);if(!x)return;curId=id;chatLog=x.log;saveSess();$("msgs").innerHTML="";chatLog.forEach(m=>pushMsg(m.role,m.content));updateHome();renderBar();showView("vChat")}
+function switchChat(id){const x=SESS.find(y=>y.id===id);if(!x)return;curId=id;chatLog=x.log;saveSess();$("msgs").innerHTML="";chatLog.forEach(m=>pushMsg(m.role,m.content,{att:m.att}));updateHome();renderBar();showView("vChat")}
 function delChat(){if(!confirm("Apagar esta conversa?"))return;SESS=SESS.filter(x=>x.id!==curId);if(!SESS.length)SESS.push({id:"s"+Date.now().toString(36),ts:Date.now(),log:[]});const n=SESS.slice().sort((a,b)=>b.ts-a.ts)[0];switchChat(n.id)}
 $("hBar").onclick=()=>{lsSet("jarvis_bar",lsGet("jarvis_bar","1")==="1"?"0":"1");renderBar()};
 let sending=false;
@@ -486,7 +530,7 @@ function closeEditor(){$("editor").classList.add("hidden");editingId=null}
 $("addBtn").onclick=()=>openEditor(null);$("edCancel").onclick=closeEditor;$("editor").onclick=e=>{if(e.target===$("editor"))closeEditor()};
 $("edSave").onclick=()=>{const t=$("edT").value.trim(),b=$("edB").value.trim();if(!t){$("edT").focus();return}if(editingId){const n=NOTES.find(x=>x.id===editingId);if(n){n.title=t;n.area=$("edA").value;n.body=b}}else editingId=addNote($("edA").value,t,b);saveStore();const id=editingId;closeEditor();renderBrain();flashNode(id)};
 $("edDel").onclick=()=>{if(!editingId)return;NOTES=NOTES.filter(n=>n.id!==editingId);REL=REL.filter(r=>r[0]!==editingId&&r[1]!==editingId);saveStore();closeEditor();renderBrain()};
-loadStore();refreshSet();renderBar();renderModes();renderQuick();chatLog.forEach(m=>pushMsg(m.role,m.content));updateHome();renderBrain();autoGrow();showView("vChat");
+loadStore();refreshSet();renderBar();renderModes();renderQuick();chatLog.forEach(m=>pushMsg(m.role,m.content,{att:m.att}));updateHome();renderBrain();autoGrow();showView("vChat");
 (async()=>{try{if(window.claude&&claude.use)sample=await claude.use("sample")}catch(e){}})();
 
 /* ===== voz: microfone e conversa ===== */
@@ -609,6 +653,196 @@ $("cMic").onclick=()=>{haltAudio();try{recog&&recog.abort()}catch(e){}if(talk){s
 
 document.documentElement.dataset.theme=lsGet("jarvis_theme","dark");$("themeSw").checked=lsGet("jarvis_theme","dark")==="light";
 $("themeSw").onchange=e=>{const t=e.target.checked?"light":"dark";lsSet("jarvis_theme",t);document.documentElement.dataset.theme=t};
+
+/* ===== menu lateral, anexos, ícones ===== */
+const IC={down:'<path d="m6 9 6 6 6-6"/>',stop:'<rect x="7" y="7" width="10" height="10" rx="2" fill="currentColor"/>',mic:'<rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/>',x:'<path d="M6 6l12 12M18 6 6 18"/>',copy:'<rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/>',spk:'<path d="M4 9v6h4l5 4V5L8 9H4Z"/><path d="M16.5 8.5a5 5 0 0 1 0 7"/>',trash:'<path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/>',file:'<path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5"/>',ok:'<path d="m5 13 4 4L19 7"/>'};
+const ico=k=>'<svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">'+IC[k]+"</svg>";
+$("cMin").innerHTML=ico("down");$("cStop").innerHTML=ico("stop");$("cMic").innerHTML=ico("mic");$("cEnd").innerHTML=ico("x");
+let sideOpen=false;const side=$("side"),scrim=$("scrim");
+function setSide(on){sideOpen=on;side.classList.toggle("open",on);scrim.classList.toggle("on",on);if(on)renderSide()}
+$("hMenu").onclick=()=>setSide(true);$("sClose").onclick=scrim.onclick=()=>setSide(false);
+$("sNew").onclick=()=>{newChat();setSide(false)};$("sSet").onclick=()=>{showView("vSettings");setSide(false)};$("sSearch").addEventListener("input",renderSide);
+renderBar=function(){renderSide()};
+function dayGroup(ts){const d=new Date(ts),n=new Date(),a=new Date(n.getFullYear(),n.getMonth(),n.getDate()).getTime(),df=Math.floor((a-new Date(d.getFullYear(),d.getMonth(),d.getDate()).getTime())/864e5);return df<=0?"Hoje":df===1?"Ontem":df<=7?"Últimos 7 dias":"Mais antigos"}
+function renderSide(){const q=norm($("sSearch").value||""),l=SESS.filter(x=>(x.id===curId||x.log.length)&&(!q||norm(sTitle(x)+" "+x.log.map(m=>m.content).join(" ")).includes(q))).sort((a,b)=>b.ts-a.ts);let h="",g="";
+l.forEach(x=>{const k=dayGroup(x.ts);if(k!==g){g=k;h+='<div class="sg">'+k+"</div>"}h+='<div class="si'+(x.id===curId?" on":"")+'" data-id="'+x.id+'"><span class="st">'+esc(sTitle(x))+'</span><button class="sd" data-d="'+x.id+'" type="button" aria-label="Apagar">'+ico("trash")+"</button></div>"});
+$("sList").innerHTML=h||'<div class="sg">Nenhuma conversa</div>';
+$("sList").querySelectorAll(".si").forEach(e=>e.onclick=ev=>{if(ev.target.closest(".sd"))return;switchChat(e.dataset.id);setSide(false)});
+$("sList").querySelectorAll(".sd").forEach(b=>b.onclick=ev=>{ev.stopPropagation();if(!b.classList.contains("arm")){b.classList.add("arm");b.textContent="Apagar?";setTimeout(()=>{if(b.isConnected){b.classList.remove("arm");b.innerHTML=ico("trash")}},3000);return}delSess(b.dataset.d)})}
+function delSess(id){SESS=SESS.filter(x=>x.id!==id);if(!SESS.length)SESS.push({id:"s"+Date.now().toString(36),ts:Date.now(),log:[]});if(id===curId){switchChat(SESS.slice().sort((a,b)=>b.ts-a.ts)[0].id)}else{saveSess();renderSide()}}
+delChat=function(){delSess(curId)};
+let tx=null;
+document.addEventListener("touchstart",e=>{const t=e.touches[0];tx={x:t.clientX,y:t.clientY,open:sideOpen,drag:false}},{passive:true});
+document.addEventListener("touchmove",e=>{if(!tx)return;const t=e.touches[0],dx=t.clientX-tx.x,dy=t.clientY-tx.y;
+if(!tx.drag){if(Math.abs(dx)>12&&Math.abs(dx)>Math.abs(dy)*1.5&&((!tx.open&&tx.x<70&&dx>0)||(tx.open&&dx<0)))tx.drag=true;else return}
+const W=side.offsetWidth;let pp=tx.open?W+dx:dx;pp=Math.max(0,Math.min(W,pp));side.style.transition="none";side.style.transform="translateX("+(pp-W)+"px)";scrim.style.opacity=pp/W;scrim.style.pointerEvents="auto"},{passive:true});
+document.addEventListener("touchend",e=>{if(!tx||!tx.drag){tx=null;return}const dx=e.changedTouches[0].clientX-tx.x;side.style.transition="";side.style.transform="";scrim.style.opacity="";scrim.style.pointerEvents="";const o=tx.open;tx=null;setSide(o?dx>-80:dx>80)});
+/* anexos */
+let pendingAtt=null;
+const rd=f=>new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result);r.onerror=rej;r.readAsDataURL(f)});
+const ldImg=src=>new Promise((res,rej)=>{const i=new Image();i.onload=()=>res(i);i.onerror=rej;i.src=src});
+function scaled(img,max,q){const k=Math.min(1,max/Math.max(img.width,img.height)),c=document.createElement("canvas");c.width=Math.max(1,Math.round(img.width*k));c.height=Math.max(1,Math.round(img.height*k));c.getContext("2d").drawImage(img,0,0,c.width,c.height);return c.toDataURL("image/jpeg",q)}
+function sendVis(){const h=$("txt").value.trim().length>0||!!pendingAtt;$("sendBtn").classList.toggle("hidden",!h);$("voiceBtn").classList.toggle("hidden",h)}
+function showAtt(){const a=pendingAtt,b=$("attPrev");b.classList.toggle("hidden",!a);if(!a){b.innerHTML="";sendVis();return}
+b.innerHTML='<div class="ap">'+(a.kind==="img"?'<img src="'+a.thumb+'" alt="">':'<span class="fi">'+ico("file")+"</span>")+'<span class="n">'+esc(a.name)+'</span><button type="button" id="apX" aria-label="Remover">'+ico("x")+"</button></div>";$("apX").onclick=()=>{pendingAtt=null;showAtt()};sendVis()}
+$("attBtn").onclick=()=>$("fileIn").click();
+$("fileIn").onchange=async e=>{const f=e.target.files[0];e.target.value="";if(!f)return;
+try{const n=f.name||"arquivo",t=f.type||"",ext=(n.split(".").pop()||"").toLowerCase();
+if(t.startsWith("image/")){const src=await rd(f),img=await ldImg(src),big=scaled(img,1600,.85);pendingAtt={name:n,kind:"img",mime:"image/jpeg",data:big.split(",")[1],thumb:scaled(img,360,.6)}}
+else if(t==="application/pdf"||ext==="pdf"){if(f.size>18e6)throw new Error("O PDF passa de 18 MB.");const src=await rd(f);pendingAtt={name:n,kind:"pdf",mime:"application/pdf",data:src.split(",")[1]}}
+else if(t.startsWith("text/")||/^(txt|md|csv|json|js|html|css|py|xml|log|yml|yaml)$/.test(ext)){pendingAtt={name:n,kind:"text",text:(await f.text()).slice(0,60000)}}
+else throw new Error("Tipo de arquivo não suportado. Use foto, PDF ou texto (txt, csv, json, código).");
+showAtt()}catch(err){pushMsg("assistant",String(err.message||err),{error:true})}};
+$("txt").addEventListener("input",sendVis);
+$("txt").addEventListener("keydown",e=>{if(e.key==="Enter"&&!e.shiftKey&&!$("txt").value.trim()&&pendingAtt){e.preventDefault();submit2()}});
+function submit2(){const v=$("txt").value.trim();if(!v&&!pendingAtt)return;$("txt").value="";autoGrow();sendVis();sendMessage(v||"Analise este anexo: diga o que é e o que importa nele.")}
+$("sendBtn").onclick=submit2;
+pushMsg=function(role,text,opts){opts=opts||{};const d=document.createElement("div");d.className="m "+(role==="user"?"u":"a")+(opts.error?" err":"");let ah="";const a=opts.att;
+if(a)ah=a.kind==="img"&&a.thumb?'<img class="attm" src="'+a.thumb+'" alt="">':'<div class="attf">'+ico("file")+esc(a.name)+"</div>";
+d.innerHTML=(role==="user"?"":'<div class="av"></div>')+'<div class="bub">'+ah+(role==="user"?esc(text).replace(/\n/g,"<br>"):md(text))+"</div>";
+if(role!=="user"&&!opts.error){const x=document.createElement("div");x.className="act";x.innerHTML='<button type="button" title="Copiar">'+ico("copy")+'</button><button type="button" title="Ouvir">'+ico("spk")+"</button>";
+x.children[0].onclick=()=>{try{navigator.clipboard.writeText(text);x.children[0].innerHTML=ico("ok")}catch(e){}};x.children[1].onclick=()=>speak(text);d.querySelector(".bub").appendChild(x)}
+$("msgs").appendChild(d);$("msgs").classList.remove("hidden");$("hero").classList.add("hidden");$("quick").classList.add("hidden");scrollEnd();return d};
+sendMessage=async function(text){text=(text||"").trim();if(!text||sending)return;
+const att=pendingAtt;pendingAtt=null;showAtt();sending=true;
+const entry={role:"user",content:text};if(att)entry.att={name:att.name,kind:att.kind,thumb:att.kind==="img"?att.thumb:undefined};
+pushMsg("user",text,{att:entry.att});chatLog.push(entry);persistLog();setThinking(true);
+let c=chatLog.slice(-20);while(c.length&&c[0].role!=="user")c.shift();
+c=c.map((m,i)=>{if(i===c.length-1&&att){const parts=[{text:m.content+(att.kind==="text"?"\n\n[Arquivo: "+att.name+"]\n"+att.text:"")}];if(att.kind!=="text")parts.push({inlineData:{mimeType:att.mime,data:att.data}});return{role:"user",parts}}
+return{role:m.role,content:m.content+(m.att?"\n[anexo enviado antes: "+m.att.name+"]":"")}});
+try{const raw=await gLoop(c);setThinking(false);const out=processSave(raw)||"…";lastReply=out;chatLog.push({role:"assistant",content:out});persistLog();pushMsg("assistant",out);if(!talk&&lsGet("speak_replies","0")==="1")speak(out)}
+catch(e){setThinking(false);chatLog.pop();persistLog();pushMsg("assistant",aiErr(e),{error:true})}
+sending=false};
+renderSide();$("msgs").innerHTML="";chatLog.forEach(m=>pushMsg(m.role,m.content,{att:m.att}));updateHome();
+
+/* ===== Integração Google via Apps Script (grátis) ===== */
+const gOn=()=>lsGet("g_ok","0")==="1"&&!!lsGet("g_url","").trim()&&!!lsGet("g_pass","").trim();
+function gStat(m,ok){const e=$("gStat");e.textContent=m;e.style.color=ok===true?"#10b981":ok===false?"#ef4444":"";$("gBtn").classList.toggle("on",ok===true);$("gBtn").lastChild.textContent=ok===true?"Conectado":"Conectar"}
+const sid=x=>{x=String(x||lsGet("g_sheet","")).trim();const m=/\/d\/([a-zA-Z0-9-_]+)/.exec(x);return m?m[1]:x};
+async function gs(a){const u=lsGet("g_url","").trim(),k=lsGet("g_pass","").trim();if(!u||!k)throw new Error("Cole o link e a senha do script em Ajustes → Google.");
+const body=Object.assign({},a,{key:k});if(String(a.a).startsWith("sheet_")){body.sheet=sid(a.sheet);if(!body.sheet)throw new Error("Falta a planilha padrão (ou o link da planilha).")}
+const r=await withTimeout(fetch(u,{method:"POST",body:JSON.stringify(body)}),60000);let d;try{d=await r.json()}catch(e){throw new Error("O link do script não respondeu direito. Confira se a implantação está como 'Qualquer pessoa'.")}
+if(!d.ok)throw new Error(d.error||"erro no script");return d.result}
+[["gUrl","g_url"],["gPass","g_pass"],["gSheet","g_sheet"]].forEach(a=>{$(a[0]).value=lsGet(a[1],"");$(a[0]).addEventListener("input",e=>{lsSet(a[1],e.target.value.trim());if(a[0]!=="gSheet"){lsSet("g_ok","0");gStat("Toque em Conectar para testar")}})});
+$("gBtn").onclick=async()=>{gStat("Conectando...");try{const r=await gs({a:"ping"});lsSet("g_ok","1");gStat("✓ "+r,true)}catch(e){lsSet("g_ok","0");gStat("✗ "+(e.message||e)+(/Failed to fetch|Load failed|NetworkError/i.test(String(e.message))?" (confira o link e se a implantação está como 'Qualquer pessoa')":""),false)}};
+if(gOn())gStat("✓ Conectado",true);
+const ACT={};["cal_list","cal_create","cal_delete","sheet_info","sheet_read","sheet_append","sheet_update","mail_list","mail_read","mail_draft"].forEach(n=>ACT[n]=a=>gs(a));
+ACT.mail_send=async a=>{if(!confirm("O Jarvis quer ENVIAR um e-mail.\nPara: "+a.to+"\nAssunto: "+a.subject+"\n\nEnviar agora?"))return"O usuário NÃO autorizou o envio. Nada foi enviado.";return gs(a)};
+function scanActs(t){t=String(t);const acts=[];let out="",i=0;
+while(true){const j=t.indexOf("[[G:",i);if(j<0){out+=t.slice(i);break}out+=t.slice(i,j);let k=j+4,d=0,ins=false,es=false,st=-1,e=-1;
+for(;k<t.length;k++){const ch=t[k];if(ins){if(es)es=false;else if(ch==="\\")es=true;else if(ch==='"')ins=false;continue}if(ch==='"')ins=true;else if(ch==="{"){if(d===0)st=k;d++}else if(ch==="}"){d--;if(d===0){e=k;break}}}
+if(e<0){out+=t.slice(j);break}try{acts.push(JSON.parse(t.slice(st,e+1)))}catch(x){acts.push({a:"_erro"})}i=e+1;if(t.slice(i,i+2)==="]]")i+=2}
+return{acts,clean:out.trim()}}
+const parseActs=t=>scanActs(t).acts;
+async function runActs(acts){const out=[];for(const a of acts){let r;try{if(!ACT[a.a])throw new Error("ação desconhecida: "+a.a);r=await ACT[a.a](a)}catch(e){r="ERRO: "+(e.message||e)}out.push("["+a.a+"] "+String(r).slice(0,5000))}return out.join("\n\n")}
+async function gLoop(c){let raw=await callAI(c,buildSystem()),n=0;
+while(gOn()&&n<4){const acts=parseActs(raw);if(!acts.length)break;n++;const res=await runActs(acts);
+c=c.concat([{role:"assistant",content:raw},{role:"user",content:"[RESULTADO DAS AÇÕES DO GOOGLE]\n"+res+"\n\nResponda agora ao usuário, em português, usando só esses resultados. Se faltar algo, use outra ação."}]);raw=await callAI(c,buildSystem())}
+return scanActs(raw).clean||"Feito, senhor."}
+const _bs3=buildSystem;buildSystem=function(){let x=_bs3();
+if(!gOn())return x+"\n\nO usuário ainda não conectou o Google. Se pedir algo de agenda, planilha ou e-mail, explique que precisa conectar em Ajustes → Google. NUNCA finja ter feito a ação.";
+const off=-new Date().getTimezoneOffset(),sg=off<0?"-":"+",z=String(Math.floor(Math.abs(off)/60)).padStart(2,"0")+":"+String(Math.abs(off)%60).padStart(2,"0");
+return x+'\n\nAÇÕES NO GOOGLE (conectado de verdade). Para agir, escreva uma linha [[G:{json}]] por ação e nada mais além disso; o sistema executa e devolve o resultado, e só então você responde. Ações: {"a":"cal_list","from":"ISO","to":"ISO"} lista eventos; {"a":"cal_create","title":"","start":"ISO","end":"ISO","description":"","location":"","attendees":["email"]} cria evento (start só com data = dia inteiro); {"a":"cal_delete","id":""}; {"a":"sheet_info","sheet":""} lista as abas; {"a":"sheet_read","sheet":"","range":"Aba!A1:F50"} lê; {"a":"sheet_append","sheet":"","range":"Aba","values":[["col1","col2"]]} adiciona linhas no fim; {"a":"sheet_update","sheet":"","range":"Aba!B2","values":[["x"]]} altera células (sheet vazio = planilha padrão, '+(lsGet("g_sheet","")?"configurada":"NÃO configurada")+'); {"a":"mail_list","q":"is:unread","max":8} busca e-mails (sintaxe de busca do Gmail); {"a":"mail_read","id":""} lê um e-mail; {"a":"mail_draft","to":"","subject":"","body":""} cria rascunho; {"a":"mail_send","to":"","subject":"","body":""} envia (o usuário confirma na tela). Datas em ISO 8601 com fuso '+sg+z+" (agora: "+new Date().toISOString()+"). Nunca invente resultados: só afirme algo depois de receber o resultado. Em caso de dúvida sobre planilha ou aba, pergunte ou use sheet_info. Só envie e-mail se o usuário pedir claramente."};
+
+/* copiar o código do Apps Script direto do celular */
+const GSCODE=String.raw`const SENHA = "__SENHA__";
+
+function doGet() {
+  return ContentService.createTextOutput("Jarvis conectado ✓");
+}
+
+function doPost(e) {
+  let out;
+  try {
+    const a = JSON.parse(e.postData.contents);
+    if (a.key !== SENHA) throw new Error("Senha incorreta");
+    out = { ok: true, result: run(a) };
+  } catch (err) {
+    out = { ok: false, error: String(err.message || err) };
+  }
+  return ContentService.createTextOutput(JSON.stringify(out))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+function autorizar() {
+  CalendarApp.getDefaultCalendar().getName();
+  GmailApp.getInboxUnreadCount();
+  Logger.log("Autorizado!");
+}
+
+function run(a) {
+  const cal = () => CalendarApp.getDefaultCalendar();
+  const sh = () => SpreadsheetApp.openById(a.sheet);
+  const pad = v => {
+    const w = Math.max.apply(null, v.map(r => r.length));
+    return v.map(r => r.concat(Array(w - r.length).fill("")));
+  };
+  switch (a.a) {
+    case "ping":
+      return "Conectado como " + Session.getEffectiveUser().getEmail();
+    case "cal_list":
+      return cal().getEvents(new Date(a.from), new Date(a.to)).slice(0, a.max || 25)
+        .map(e => e.getId() + " | " + e.getStartTime().toISOString() + " → " + e.getEndTime().toISOString() + " | " + e.getTitle() + (e.getLocation() ? " | " + e.getLocation() : ""))
+        .join("\n") || "Nenhum evento nesse período.";
+    case "cal_create": {
+      const opt = { description: a.description || "", location: a.location || "" };
+      if (a.attendees && a.attendees.length) { opt.guests = a.attendees.join(","); opt.sendInvites = true; }
+      let ev;
+      if (/^\d{4}-\d{2}-\d{2}$/.test(a.start)) {
+        ev = cal().createAllDayEvent(a.title, new Date(a.start + "T12:00:00"), opt);
+      } else {
+        const s = new Date(a.start);
+        const en = a.end ? new Date(a.end) : new Date(s.getTime() + 3600000);
+        ev = cal().createEvent(a.title, s, en, opt);
+      }
+      return "Evento criado: " + ev.getTitle() + " em " + ev.getStartTime().toISOString() + " (id " + ev.getId() + ")";
+    }
+    case "cal_delete":
+      cal().getEventById(a.id).deleteEvent();
+      return "Evento removido.";
+    case "sheet_info": {
+      const s = sh();
+      return "Planilha: " + s.getName() + "\nAbas: " + s.getSheets().map(x => x.getName() + " (" + x.getLastRow() + " linhas)").join("; ");
+    }
+    case "sheet_read":
+      return sh().getRange(a.range).getDisplayValues().map(r => r.join(" | ")).join("\n") || "Intervalo vazio.";
+    case "sheet_append": {
+      const name = String(a.range).split("!")[0].replace(/'/g, "");
+      const s = sh().getSheetByName(name);
+      if (!s) throw new Error("Aba não encontrada: " + name);
+      const rows = pad(a.values);
+      s.getRange(s.getLastRow() + 1, 1, rows.length, rows[0].length).setValues(rows);
+      return "Linhas adicionadas na aba " + name + ".";
+    }
+    case "sheet_update": {
+      const r = sh().getRange(a.range);
+      const rows = pad(a.values);
+      r.getSheet().getRange(r.getRow(), r.getColumn(), rows.length, rows[0].length).setValues(rows);
+      return "Atualizado: " + a.range;
+    }
+    case "mail_list":
+      return GmailApp.search(a.q || "in:inbox", 0, Math.min(a.max || 8, 15)).map(t => {
+        const m = t.getMessages().pop();
+        return t.getId() + " | " + m.getDate().toISOString() + " | De: " + m.getFrom() + " | Assunto: " + t.getFirstMessageSubject() + " | " + m.getPlainBody().replace(/\s+/g, " ").slice(0, 120);
+      }).join("\n") || "Nenhum e-mail encontrado.";
+    case "mail_read": {
+      const m = GmailApp.getThreadById(a.id).getMessages().pop();
+      return "De: " + m.getFrom() + "\nPara: " + m.getTo() + "\nAssunto: " + m.getSubject() + "\nData: " + m.getDate().toISOString() + "\n\n" + m.getPlainBody().slice(0, 5000);
+    }
+    case "mail_draft":
+      GmailApp.createDraft(a.to, a.subject, a.body);
+      return "Rascunho criado para " + a.to + ".";
+    case "mail_send":
+      GmailApp.sendEmail(a.to, a.subject, a.body);
+      return "E-mail enviado para " + a.to + ".";
+  }
+  throw new Error("Ação desconhecida: " + a.a);
+}
+`;
+$("gCopy").onclick=async()=>{let pw=lsGet("g_pass","").trim();if(!pw){pw="jarvis-"+Array.from(crypto.getRandomValues(new Uint8Array(10))).map(n=>"abcdefghjkmnpqrstuvwxyz23456789"[n%31]).join("");lsSet("g_pass",pw);lsSet("g_ok","0");$("gPass").value=pw}
+const txt=GSCODE.replace("__SENHA__",pw);let ok=false;
+try{await navigator.clipboard.writeText(txt);ok=true}catch(e){try{const t=document.createElement("textarea");t.value=txt;t.style.cssText="position:fixed;top:0;left:0;opacity:0";document.body.appendChild(t);t.focus();t.select();ok=document.execCommand("copy");t.remove()}catch(x){}}
+gStat(ok?"✓ Código copiado! Agora toque em Abrir e cole lá.":"Não consegui copiar. Tente de novo.",ok)};
 </script>
 </body>
 </html>
