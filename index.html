@@ -234,6 +234,9 @@ html.no-orb #heroOrb{display:none}html.no-motion *{animation:none!important;tran
 <div class="li"><span><b>Modelo do Gemini</b><small>Automático tenta os melhores</small></span><select id="uModel"><option value="">Automático</option><option value="gemini-3.5-flash">Gemini 3.5 Flash</option><option value="gemini-3-flash-preview">Gemini 3 Flash</option><option value="gemini-3.5-flash-lite">Lite (mais rápido)</option></select></div><div class="li"><span><b>Testar conexão</b><small id="testOut">Verifica se a chave funciona</small></span><button class="go" id="testAI" type="button">Testar</button></div></div></div>
 <div class="grp"><div class="gt">Memória</div><div class="gl"><label class="li"><span><b>Memória viva</b><small>O Jarvis salva fatos novos no Second Brain sozinho</small></span><input type="checkbox" id="uMem"></label></div></div></div><div class="cat" data-c="voz"><div class="grp"><div class="gt">Voz do Jarvis (ElevenLabs)</div><div class="gl"><div id="vlist" class="hidden"></div>
 <label class="li"><span><b>Ler respostas em voz alta</b><small>No chat de texto</small></span><input type="checkbox" id="speakReplies"></label>
+<div class="li col"><b>Reconhecimento de voz (chamada)</b><div class="seg" id="uStt"><button type="button" data-v="gemini">Gemini (recomendado)</button><button type="button" data-v="browser">Navegador</button></div><small style="color:var(--dim);line-height:1.4">O Gemini funciona no Brave, no Safari e em qualquer navegador. O do navegador falha no Brave.</small></div>
+<div class="li col"><div style="display:flex;justify-content:space-between"><b>Pausa para o Jarvis responder (segundos)</b><span class="val" id="uSilV"></span></div><input type="range" id="uSil" min="0.6" max="2" step="0.1"></div>
+<div class="li col"><div style="display:flex;justify-content:space-between"><b>Sensibilidade do microfone</b><span class="val" id="uSensV"></span></div><input type="range" id="uSens" min="1" max="5" step="1"></div>
 <div class="li col"><label for="fishKey"><b>Chave da ElevenLabs</b></label><input id="fishKey" type="password" autocomplete="off" spellcheck="false" placeholder="Já vem configurada (cole outra para trocar)"></div>
 <div class="li col"><label for="elFind"><b>Escolher a voz</b></label><input id="elFind" type="search" autocomplete="off" placeholder="Buscar pelo nome (ex.: Daniel)"><select id="elSel" style="max-width:100%;width:100%"></select><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="go" id="elLoad" type="button">Carregar minhas vozes</button><button class="go" id="elPrev" type="button">Ouvir amostra</button></div><small id="elInfo" style="color:var(--dim);line-height:1.4"></small></div>
 <div class="li col"><label for="fishVoice"><b>ID da voz (qualquer voz da sua conta)</b></label><input id="fishVoice" type="text" autocomplete="off" spellcheck="false" placeholder="Opcional: cole o ID de uma voz"></div>
@@ -242,7 +245,7 @@ html.no-orb #heroOrb{display:none}html.no-motion *{animation:none!important;tran
 <div class="li col"><b>Se a ElevenLabs falhar</b><div class="seg" id="uFb"><button type="button" data-v="1">Usar outra voz</button><button type="button" data-v="0">Avisar o erro</button></div></div>
 <div class="li"><span><b>Voz de reserva (Gemini)</b><small>Fala se a ElevenLabs não responder</small></span><select id="uGv"><option value="Charon">Charon · masculina grave</option><option value="Orus">Orus · masculina firme</option><option value="Fenrir">Fenrir · masculina animada</option><option value="Puck">Puck · masculina jovem</option><option value="Kore">Kore · feminina firme</option><option value="Zephyr">Zephyr · feminina brilhante</option><option value="Aoede">Aoede · feminina leve</option></select></div>
 <div class="li col"><div style="display:flex;justify-content:space-between"><b>Velocidade (voz do aparelho)</b><span class="val" id="uVrV"></span></div><input type="range" id="uVr" min="0.6" max="1.4" step="0.05"></div>
-<button class="hidden" id="testVoice" type="button"></button></div></div></div>
+<div class="li col"><div style="display:flex;justify-content:space-between"><b>Sensibilidade do microfone (chamada)</b><span class="val" id="uSensV"></span></div><input type="range" id="uSens" min="1" max="10" step="1"><small style="color:var(--dim)">Aumente se ele não te ouve; diminua se ele reage a barulho</small></div><button class="hidden" id="testVoice" type="button"></button></div></div></div>
 <div class="cat" data-c="chat"><div class="grp"><div class="gt">Conversa</div><div class="gl"><label class="li"><span><b>Enter envia a mensagem</b><small>Desligado: Enter pula linha</small></span><input type="checkbox" id="uEnter"></label><label class="li"><span><b>Botões copiar e ouvir</b><small>Embaixo de cada resposta</small></span><input type="checkbox" id="uActs"></label><label class="li"><span><b>Atalhos na tela inicial</b><small>Cartões de sugestões</small></span><input type="checkbox" id="uQuick"></label></div></div></div><div class="cat" data-c="google"><div class="grp"><div class="gt">Google (Agenda, Planilhas e Gmail)</div><div class="gl"><div class="li"><span><b>1. Copiar o código do script</b><small>Gera a senha sozinho e copia o código</small></span><button class="go" id="gCopy" type="button">Copiar</button></div><div class="li"><span><b>2. Abrir o Google Script</b><small>Cole o código lá. No iPhone: aA → Solicitar site para desktop</small></span><a class="go" href="https://script.google.com/home/projects/create" target="_blank" rel="noopener" style="text-decoration:none">Abrir</a></div><div class="li col"><label for="gUrl"><b>3. Link do script (depois de implantar)</b></label><input id="gUrl" type="text" autocomplete="off" spellcheck="false" placeholder="https://script.google.com/macros/s/.../exec"></div><div class="li col"><label for="gPass"><b>Senha do script</b></label><input id="gPass" type="password" autocomplete="off" spellcheck="false"></div><div class="li col"><label for="gSheet"><b>Planilha padrão (link ou ID)</b></label><input id="gSheet" type="text" autocomplete="off" spellcheck="false" placeholder="Cole o link da planilha"></div><div class="li"><span><b>Conectar Google</b><small id="gStat">Toque para testar</small></span><button class="gbtn" id="gBtn" type="button"><svg viewBox="0 0 48 48" width="18" height="18"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.9 2.4 30.4 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.9 6.1C12.4 13.6 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.7c-.6 3-2.3 5.5-4.8 7.2l7.5 5.8c4.4-4.1 7.1-10.1 7.1-17.5z"/><path fill="#FBBC05" d="M10.5 28.7A14.5 14.5 0 0 1 9.5 24c0-1.6.3-3.2.8-4.7l-7.9-6.1A24 24 0 0 0 0 24c0 3.9.9 7.5 2.6 10.8l7.9-6.1z"/><path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.5-5.8c-2.1 1.4-4.8 2.3-8.4 2.3-6.3 0-11.6-4.1-13.5-9.8l-7.9 6.1C6.5 42.6 14.6 48 24 48z"/></svg>Conectar</button></div></div></div>
 </div><div class="cat" data-c="dados"><div class="grp"><div class="gt">Dados</div><div class="gl"><button class="li" id="clearChat" type="button"><span class="dng">Limpar conversa atual</span></button><button class="li" id="exportBtn" type="button"><span><b>Exportar conversas</b><small>Baixa um arquivo com tudo</small></span></button><button class="li" id="delAll" type="button"><span class="dng">Apagar todas as conversas</span></button><button class="li" id="resetUI" type="button"><span class="dng">Restaurar ajustes visuais e do Jarvis</span></button></div></div>
 </div><input type="checkbox" id="themeSw" class="hidden"><div class="note" style="text-align:center">Jarvis · tudo é salvo só neste navegador</div></section>
@@ -1037,6 +1040,87 @@ catch(e){console.error(e)}
 finally{callBusy=false;window.__callMode=false;lastAct=Date.now();if(talk){setCall("listening");schedule(250)}}}
 setInterval(()=>{if(talk&&!callBusy&&!sending&&!rActive&&Date.now()-lastAct>3500)listen()},2000);
 const _st3=stopTalk;stopTalk=function(){clearTimeout(rTimer);rActive=false;callBusy=false;rNet=0;window.__callMode=false;_st3()};
+
+/* ===== CHAMADA v4: grava a sua voz e manda o áudio para o Gemini (sem o serviço de voz do navegador) ===== */
+bRng("uSens","mic_sens","5");
+let vadRun=false,vctx=null,vstream=null,vproc=null,vsrc=null,vnf=0.01;
+const vad={speaking:false,buf:[],pre:[],silent:0,speechMs:0,above:0,reset(){this.speaking=false;this.buf=[];this.pre=[];this.silent=0;this.speechMs=0;this.above=0}};
+function wavB64(chunks,sr){let L=0;chunks.forEach(c=>L+=c.length);const f=new Float32Array(L);let o=0;chunks.forEach(c=>{f.set(c,o);o+=c.length});
+const r=sr/16000,n=Math.floor(L/r),pcm=new Int16Array(n);for(let i=0;i<n;i++){const a=Math.floor(i*r),b=Math.min(L,Math.floor((i+1)*r));let q=0;for(let j=a;j<b;j++)q+=f[j];const v=Math.max(-1,Math.min(1,q/Math.max(1,b-a)));pcm[i]=v<0?v*32768:v*32767}
+const buf=new ArrayBuffer(44+n*2),dv=new DataView(buf),w=(p,t)=>{for(let i=0;i<t.length;i++)dv.setUint8(p+i,t.charCodeAt(i))};
+w(0,"RIFF");dv.setUint32(4,36+n*2,true);w(8,"WAVEfmt ");dv.setUint32(16,16,true);dv.setUint16(20,1,true);dv.setUint16(22,1,true);dv.setUint32(24,16000,true);dv.setUint32(28,32000,true);dv.setUint16(32,2,true);dv.setUint16(34,16,true);w(36,"data");dv.setUint32(40,n*2,true);new Int16Array(buf,44).set(pcm);
+let bin="";const u=new Uint8Array(buf);for(let i=0;i<u.length;i+=8192)bin+=String.fromCharCode.apply(null,u.subarray(i,i+8192));return btoa(bin)}
+async function startMic(){if(vadRun)return;const AC=window.AudioContext||window.webkitAudioContext;vctx=new AC();try{vctx.resume()}catch(e){}
+vstream=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true,autoGainControl:true}});
+vsrc=vctx.createMediaStreamSource(vstream);vproc=vctx.createScriptProcessor(4096,1,1);vad.reset();vnf=0.01;
+vproc.onaudioprocess=e=>{const x=e.inputBuffer.getChannelData(0),len=x.length;let sum=0;for(let i=0;i<len;i++)sum+=x[i]*x[i];const rms=Math.sqrt(sum/len),ms=len/vctx.sampleRate*1000;
+if(!talk||callBusy||sending){vad.reset();return}
+callOrb.energy=Math.max(callOrb.energy,Math.min(1.5,rms*10));const sens=+lsGet("mic_sens","5"),thr=Math.max(0.045-0.004*sens,vnf*(4.5-0.35*sens)),cp=new Float32Array(x);
+if(!vad.speaking){vad.pre.push(cp);if(vad.pre.length>6)vad.pre.shift();if(rms>thr)vad.above++;else{vad.above=0;if(rms<vnf*3)vnf=vnf*0.95+rms*0.05}
+if(vad.above>=2){vad.speaking=true;vad.buf=vad.pre.slice();vad.pre=[];vad.silent=0;vad.speechMs=0;$("cYou").textContent="🎤 captando sua voz..."}}
+else{vad.buf.push(cp);if(rms>thr*0.6){vad.silent=0;vad.speechMs+=ms}else vad.silent+=ms;
+if(vad.silent>=1100||vad.buf.length*ms>20000){const ok=vad.speechMs>=350,ch=vad.buf,sr=vctx.sampleRate;vad.reset();if(ok)callAudio(ch,sr);else $("cYou").textContent=""}}};
+vsrc.connect(vproc);vproc.connect(vctx.destination);vadRun=true;lastAct=Date.now();setCall("listening")}
+function stopMic(){vadRun=false;try{vproc&&(vproc.onaudioprocess=null,vproc.disconnect())}catch(e){}try{vsrc&&vsrc.disconnect()}catch(e){}try{vstream&&vstream.getTracks().forEach(t=>t.stop())}catch(e){}try{vctx&&vctx.close()}catch(e){}vproc=vsrc=vstream=vctx=null;vad.reset()}
+function listen(){if(talk&&!vadRun)startMic().catch(()=>{})}
+const _ca=callAI;callAI=async function(a,b){const r=await _ca(a,b);const m=/\[\[OUVI:([\s\S]*?)\]\]/.exec(String(r));if(m&&window.__audioTurn)window.__heard=m[1].trim();return r};
+const _bs5=buildSystem;buildSystem=function(){let x=_bs5();if(window.__audioTurn)x+="\n\nA ÚLTIMA MENSAGEM DO USUÁRIO É UM ÁUDIO. Comece sua resposta com [[OUVI:transcrição exata do que ele disse]] e depois responda normalmente, em 1 a 3 frases curtas, para serem faladas.";return x};
+async function voiceSend(b64){if(sending)return"";sending=true;window.__audioTurn=true;window.__heard="";
+try{let c=chatLog.slice(-20).map(m=>({role:m.role,content:m.content+(m.att?"\n[anexo enviado antes: "+m.att.name+"]":"")}));while(c.length&&c[0].role!=="user")c.shift();
+c.push({role:"user",parts:[{inlineData:{mimeType:"audio/wav",data:b64}},{text:"(mensagem de voz do usuário)"}]});
+const raw=await gLoop(c);let txt=String(raw),m=/\[\[OUVI:([\s\S]*?)\]\]/.exec(txt);if(m){window.__heard=window.__heard||m[1].trim();txt=txt.replace(/\[\[OUVI:[\s\S]*?\]\]/g,"").trim()}
+const heard=window.__heard||"",out=processSave(txt)||"…",uh=heard||"🎤 (mensagem de voz)";
+chatLog.push({role:"user",content:uh});pushMsg("user",uh);chatLog.push({role:"assistant",content:out});persistLog();pushMsg("assistant",out);lastReply=out;return heard}
+catch(e){const m=aiErr(e);pushMsg("assistant",m,{error:true});$("cAi").textContent=m;return""}
+finally{sending=false;window.__audioTurn=false}}
+async function callAudio(chunks,sr){callBusy=true;window.__callMode=true;
+try{setCall("thinking");$("cYou").textContent="🎤 …";lastReply=null;const heard=await voiceSend(wavB64(chunks,sr));if(heard)$("cYou").textContent="“"+heard+"”";if(!talk)return;
+if(lastReply){$("cAi").textContent=lastReply;setCall("speaking");const lim=Math.min(90000,15000+lastReply.length*130);
+await new Promise(res=>{let ok=false;const f=()=>{if(!ok){ok=true;res()}};window.__sd=f;setTimeout(()=>{if(!ok){haltAudio();f()}},lim);speak(lastReply,f)})}}
+catch(e){console.error(e)}
+finally{callBusy=false;window.__callMode=false;vad.reset();lastAct=Date.now();if(talk)setCall("listening")}}
+$("voiceBtn").onclick=async()=>{if(talk){stopTalk();return}unlockAudio();talk=true;micUI(true);$("call").classList.remove("hidden");$("cYou").textContent="";$("cAi").textContent="";setCall("listening");
+if(!(navigator.mediaDevices&&navigator.mediaDevices.getUserMedia)){stopTalk();pushMsg("assistant","Este navegador não deixa usar o microfone nesta página (precisa abrir o link https no Safari ou no Chrome).",{error:true});return}
+try{await startMic()}catch(e){stopTalk();pushMsg("assistant",MIC_DENIED,{error:true})}};
+$("cMic").onclick=()=>{haltAudio();if(window.__sd)window.__sd()};
+const _st4=stopTalk;stopTalk=function(){stopMic();_st4()};
+
+/* ===== CHAMADA v4: o microfone grava e o Gemini transcreve (funciona no Brave e no Safari) ===== */
+const sttMode=()=>lsGet("stt_mode","gemini");
+bSeg("uStt","stt_mode","gemini");bRng("uSil","stt_sil","1");bRng("uSens","stt_sens","3");
+const CALL={ctx:null,stream:null,src:null,proc:null,buf:[],pre:[],inSp:false,hits:0,sil:0,t0:0,noise:0.008};
+function ctxInit(){try{if(!CALL.ctx){const AC=window.AudioContext||window.webkitAudioContext;CALL.ctx=new AC()}if(CALL.ctx.state==="suspended")CALL.ctx.resume().catch(()=>{})}catch(e){}}
+function capReset(){CALL.buf=[];CALL.pre=[];CALL.inSp=false;CALL.hits=0;CALL.sil=0}
+async function micStart(){if(CALL.stream&&CALL.stream.active&&CALL.proc)return;ctxInit();
+CALL.stream=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true,autoGainControl:true}});
+CALL.src=CALL.ctx.createMediaStreamSource(CALL.stream);CALL.proc=CALL.ctx.createScriptProcessor(4096,1,1);CALL.src.connect(CALL.proc);CALL.proc.connect(CALL.ctx.destination);CALL.proc.onaudioprocess=onFrame;capReset()}
+function micStop(){try{CALL.proc&&(CALL.proc.onaudioprocess=null,CALL.proc.disconnect());CALL.src&&CALL.src.disconnect();CALL.stream&&CALL.stream.getTracks().forEach(t=>t.stop())}catch(e){}CALL.proc=CALL.src=CALL.stream=null;capReset()}
+function onFrame(e){if(!talk||sttMode()!=="gemini"||callBusy||sending){if(CALL.inSp||CALL.pre.length)capReset();return}
+const d=e.inputBuffer.getChannelData(0);let sum=0;for(let i=0;i<d.length;i++)sum+=d[i]*d[i];const rms=Math.sqrt(sum/d.length),sr=CALL.ctx.sampleRate;
+const minThr=0.032-0.005*(+lsGet("stt_sens","3")),thr=Math.max(minThr,CALL.noise*3.2);lastAct=Date.now();
+if(!CALL.inSp){CALL.noise=Math.max(0.003,CALL.noise*0.96+rms*0.04);CALL.pre.push(new Float32Array(d));if(CALL.pre.length>3)CALL.pre.shift();
+if(rms>thr){if(++CALL.hits>=2){CALL.inSp=true;CALL.buf=CALL.pre.slice();CALL.pre=[];CALL.sil=0;CALL.t0=Date.now();$("cStatus").textContent="OUVINDO VOCÊ..."}}else CALL.hits=0;return}
+CALL.buf.push(new Float32Array(d));callOrb.energy=Math.min(1.5,rms*14);
+if(rms>thr*0.7)CALL.sil=0;else CALL.sil+=d.length/sr;
+if(CALL.sil>=+lsGet("stt_sil","1")||(Date.now()-CALL.t0)>20000)finishCapture()}
+function toWav16(chunks,sr){let n=0;chunks.forEach(c=>n+=c.length);const all=new Float32Array(n);let o=0;chunks.forEach(c=>{all.set(c,o);o+=c.length});
+const ratio=sr/16000,len=Math.floor(n/ratio),pcm=new Int16Array(len);for(let i=0;i<len;i++){const a=Math.floor(i*ratio),b=Math.min(n,Math.floor((i+1)*ratio));let v=0;for(let j=a;j<b;j++)v+=all[j];v/=Math.max(1,b-a);pcm[i]=Math.max(-1,Math.min(1,v))*32767}
+const buf=new ArrayBuffer(44+len*2),dv=new DataView(buf),w=(p,t)=>{for(let i=0;i<t.length;i++)dv.setUint8(p+i,t.charCodeAt(i))};
+w(0,"RIFF");dv.setUint32(4,36+len*2,true);w(8,"WAVEfmt ");dv.setUint32(16,16,true);dv.setUint16(20,1,true);dv.setUint16(22,1,true);dv.setUint32(24,16000,true);dv.setUint32(28,32000,true);dv.setUint16(32,2,true);dv.setUint16(34,16,true);w(36,"data");dv.setUint32(40,len*2,true);
+for(let i=0;i<len;i++)dv.setInt16(44+i*2,pcm[i],true);const u=new Uint8Array(buf);let bin="";for(let i=0;i<u.length;i+=8192)bin+=String.fromCharCode.apply(null,u.subarray(i,i+8192));return{b64:btoa(bin),secs:len/16000}}
+function finishCapture(){const ch=CALL.buf,sr=CALL.ctx.sampleRate,voiced=(Date.now()-CALL.t0)/1000-CALL.sil;capReset();if(voiced<0.35)return;const w=toWav16(ch,sr);sttTurn(w.b64)}
+async function transcribe(b64){window.__callMode=true;const t=await callAI([{role:"user",parts:[{inlineData:{mimeType:"audio/wav",data:b64}},{text:"Transcreva fielmente a fala deste áudio em português do Brasil."}]}],"Você é um transcritor. Responda SOMENTE com o texto falado, sem aspas e sem comentários. Se não houver fala clara e compreensível, responda exatamente: [VAZIO]");return String(t).replace(/^["“\s]+|["”\s]+$/g,"").trim()}
+async function sttTurn(b64){callBusy=true;setCall("thinking");$("cStatus").textContent="TRANSCREVENDO...";let txt="";
+try{txt=await transcribe(b64)}catch(e){$("cAi").textContent=aiErr(e);callBusy=false;window.__callMode=false;setCall("listening");return}
+if(!txt||/^\[?VAZIO\]?\.?$/i.test(txt)){callBusy=false;window.__callMode=false;setCall("listening");return}
+callBusy=false;callTurn(txt)}
+const _listen=listen;listen=function(){if(sttMode()==="gemini"){if(talk&&!callBusy&&!sending&&!(CALL.stream&&CALL.stream.active&&CALL.proc))micStart().catch(()=>{stopTalk();pushMsg("assistant",MIC_DENIED,{error:true})});return}_listen()};
+const _vbOld=$("voiceBtn").onclick;
+$("voiceBtn").onclick=async()=>{if(talk){stopTalk();return}if(sttMode()!=="gemini")return _vbOld();
+unlockAudio();ctxInit();talk=true;micUI(true);$("call").classList.remove("hidden");$("cYou").textContent="";$("cAi").textContent="";setCall("listening");
+try{await micStart()}catch(e){stopTalk();pushMsg("assistant",MIC_DENIED,{error:true})}};
+const _stV4=stopTalk;stopTalk=function(){micStop();_stV4()};
+$("cMic").onclick=()=>{haltAudio();if(sttMode()==="gemini"){if(CALL.inSp)finishCapture()}else{try{recog&&recog.abort()}catch(e){}if(talk){setCall("listening");setTimeout(listen,200)}}};
 </script>
 </body>
 </html>
