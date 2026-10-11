@@ -316,6 +316,7 @@ async function callAI(turns, system) {
     ];
 
     const pm = lsGet("ai_model", ""); if (pm) { const ix = modelos.indexOf(pm); if (ix > 0) { modelos.splice(ix, 1); modelos.unshift(pm); } }
+    if (window.__callMode && !pm) { const li = modelos.findIndex(m => /lite/i.test(m)); if (li > 0) { const x = modelos.splice(li, 1)[0]; modelos.unshift(x); } }
     const key = String(lsGet("gemini_key", "") || "").trim();
 
     if (!key) {
@@ -948,7 +949,7 @@ for(const m of seq){if(m==="proxy"&&!gOn())continue;try{const bl=m==="direct"?aw
 catch(e){const msg=(m==="proxy"?"Fish via Google: ":"Fish: ")+(e.message||e);if(!errs.includes(msg))errs.push(msg);if([401,402,403].includes(e.http))break}}
 if(fb)lsSet("el_down",String(Date.now()+180000))}}
 if((fb||!(k&&v))&&gk){try{return{bl:await geminiTTS(txt),src:"voz do Gemini"}}catch(e){errs.push("Gemini voz: "+(e.message||e))}}return null}
-function chunkText(t){const s=t.match(/[^.!?…]+[.!?…]*\s*/g)||[t],o=[];let c="";s.forEach(x=>{const lim=o.length===0?140:260;if(c&&(c+x).length>lim){o.push(c.trim());c=x}else c+=x});if(c.trim())o.push(c.trim());if(o.length>6){const h=o.slice(0,5);h.push(o.slice(5).join(" "));return h}return o}
+function chunkText(t){const s=t.match(/[^.!?…]+[.!?…]*\s*/g)||[t],o=[];let c="";s.forEach(x=>{const lim=o.length===0?90:240;if(c&&(c+x).length>lim){o.push(c.trim());c=x}else c+=x});if(c.trim())o.push(c.trim());if(o.length>6){const h=o.slice(0,5);h.push(o.slice(5).join(" "));return h}return o}
 const playBlob=bl=>new Promise((res,rej)=>{const u=URL.createObjectURL(bl);EA.src=u;EA.onended=()=>{URL.revokeObjectURL(u);res()};EA.onerror=()=>{URL.revokeObjectURL(u);rej(new Error("o navegador não conseguiu tocar o áudio"))};EA.play().catch(rej)});
 speak=async function(t,done){const txt=cleanT(t).replace(/https?:\/\/\S+/g," link ").slice(0,1200);if(!txt){if(done)done();return}
 const k=elKey(),gk=lsGet("gemini_key","").trim();haltAudio();if(!k&&!gk)return speakBrowser(t,done);
@@ -1012,6 +1013,30 @@ if(fb)lsSet("el_down",String(Date.now()+180000))}}
 if((fb||!k)&&gk){try{return{bl:await geminiTTS(txt),src:"voz do Gemini"}}catch(e){add("Gemini voz: "+(e.message||e))}}return null};
 const _elList=elList;
 elList=async function(q){try{return await _elList(q)}catch(e){if(!gOn())throw e;const u="https://api.elevenlabs.io/v2/voices?page_size=100"+(q?"&search="+encodeURIComponent(q):"");const d=await gProxy({url:u,method:"get",headers:{"xi-api-key":elKey()}});if(d.status!==200)throw elErr(d.status,d.text||"");const j=JSON.parse(d.text||"{}");return(j.voices||[]).map(v=>({id:v.voice_id,name:v.name+" · "+[v.labels&&v.labels.gender,v.labels&&v.labels.accent,v.category].filter(Boolean).join(", "),prev:v.preview_url}))}};
+
+/* ===== CHAMADA v3: volta a ouvir sozinha, se recupera de erros e responde mais rápido ===== */
+let rActive=false,rTimer=null,rNet=0,callBusy=false,lastAct=0;
+const _sm=sendMessage;sendMessage=async function(t){try{return await _sm(t)}finally{sending=false}};
+function schedule(ms){clearTimeout(rTimer);rTimer=setTimeout(listen,ms)}
+function listen(){if(!talk||callBusy||sending||rActive)return;
+const SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR)return;let r;try{r=new SR()}catch(e){return}
+recog=r;r.lang="pt-BR";r.interimResults=true;r.continuous=false;let got=false,last="",it=null;
+const fire=t=>{if(got)return;got=true;clearTimeout(it);try{r.stop()}catch(e){}rNet=0;callTurn(t)};
+r.onstart=()=>{lastAct=Date.now();$("txt").placeholder="🎤 Ouvindo, "+CONFIG.address+"...";if(callState!=="listening")setCall("listening")};
+r.onresult=e=>{let t="",fin=false;for(let i=0;i<e.results.length;i++){t+=e.results[i][0].transcript;if(e.results[i].isFinal)fin=true}t=t.trim();if(!t)return;last=t;lastAct=Date.now();callPulse(t);clearTimeout(it);if(fin)fire(t);else it=setTimeout(()=>fire(last),1300)};
+r.onerror=e=>{const c=e.error;if(c==="not-allowed"||c==="service-not-allowed"){stopTalk();pushMsg("assistant",MIC_DENIED,{error:true});return}
+if(c==="network"){rNet++;if(rNet>=5){stopTalk();pushMsg("assistant","O reconhecimento de voz do navegador não conseguiu se conectar depois de várias tentativas, "+CONFIG.address+". Isso costuma ser bloqueio da rede ao serviço de voz do navegador. Tente no Chrome ou em outra rede.",{error:true})}else $("cStatus").textContent="RECONECTANDO..."}};
+r.onend=()=>{rActive=false;clearTimeout(it);if(got)return;if(last&&talk&&!callBusy){fire(last);return}if(talk&&!callBusy)schedule(rNet?600*rNet:250)};
+rActive=true;try{r.start()}catch(e){rActive=false;schedule(700)}}
+async function callTurn(t){callBusy=true;window.__callMode=true;
+try{$("cYou").textContent="“"+t+"”";setCall("thinking");if(/planilha|agenda|marcar/i.test(t)){try{enviarParaOMake("Comando Jarvis",t)}catch(e){}}
+lastReply=null;await sendMessage(t);if(!talk)return;
+if(lastReply){$("cAi").textContent=lastReply;setCall("speaking");const lim=Math.min(90000,15000+lastReply.length*130);
+await new Promise(res=>{let ok=false;const f=()=>{if(!ok){ok=true;res()}};setTimeout(()=>{if(!ok){haltAudio();f()}},lim);speak(lastReply,f)})}}
+catch(e){console.error(e)}
+finally{callBusy=false;window.__callMode=false;lastAct=Date.now();if(talk){setCall("listening");schedule(250)}}}
+setInterval(()=>{if(talk&&!callBusy&&!sending&&!rActive&&Date.now()-lastAct>3500)listen()},2000);
+const _st3=stopTalk;stopTalk=function(){clearTimeout(rTimer);rActive=false;callBusy=false;rNet=0;window.__callMode=false;_st3()};
 </script>
 </body>
 </html>
