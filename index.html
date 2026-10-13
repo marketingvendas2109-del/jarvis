@@ -248,6 +248,7 @@ html[data-theme=light] .gl{box-shadow:0 1px 0 #fff inset,0 10px 30px rgba(30,60,
 .ra button svg.i{width:15px;height:15px}
 .fempty{padding:16px 4px;text-align:center;color:var(--dim);font-size:13px}
 .fsum{font-size:12.5px;color:var(--dim);padding:2px 16px 12px}
+#fishAccInfo{white-space:pre-line;line-height:1.5}
 
 /* ============ 12. TELA DE CHAMADA ============ */
 #call{position:fixed;inset:0;z-index:80;display:flex;flex-direction:column;align-items:center;background:radial-gradient(ellipse 85% 55% at 50% 38%,color-mix(in srgb,var(--acc) 35%,#000) 0,var(--bg) 72%);padding:calc(14px + env(safe-area-inset-top,0px)) 16px calc(24px + env(safe-area-inset-bottom,0px));animation:fi .3s both}
@@ -379,7 +380,7 @@ html.no-motion *{animation:none!important;transition:none!important}
           <div class="li col"><small>O Jarvis usa a conta nº 1. Quando ela ficar sem créditos, passa sozinho para a nº 2, depois a nº 3, e assim por diante. Ela volta a ser tentada depois de 30 minutos. Deixe o ID da voz em branco para usar o ID padrão (campo mais abaixo).</small></div>
           <div class="ftab" id="fishTable"></div>
           <div class="fsum" id="fishSum"></div>
-          <div class="li col"><div class="btnrow"><button class="go" id="fishAdd" type="button">+ Adicionar conta</button><button class="go" id="fishReset" type="button">Reativar todas</button><button class="go" id="fishShow" type="button">Mostrar chaves</button></div><small id="fishAccInfo"></small></div>
+          <div class="li col"><div class="btnrow"><button class="go" id="fishAdd" type="button">+ Adicionar conta</button><button class="go" id="fishReset" type="button">Reativar todas</button><button class="go" id="fishShow" type="button">Mostrar chaves</button><button class="go" id="fishDiag" type="button">Diagnosticar</button></div><small id="fishAccInfo"></small></div>
         </div></div>
         <div class="grp"><div class="gt">Voz do Jarvis (Fish Audio)</div><div class="gl">
           <label class="li"><span><b>Ler respostas em voz alta</b><small>No chat de texto</small></span><input type="checkbox" id="speakReplies"></label>
@@ -1782,7 +1783,8 @@ function fishErr(status, text) {
 async function googleProxy(o) {
   try { return JSON.parse(await gs(Object.assign({ a: "http" }, o))); }
   catch (e) {
-    if (/Ação desconhecida: http/.test(String(e.message))) throw new Error("o seu script do Google está DESATUALIZADO (Ajustes → Google → Copiar, cole no script e implante nova versão)");
+    if (/Ação desconhecida: http|Endereço não permitido/.test(String(e.message))) throw new Error("o seu script do Google está DESATUALIZADO (Ajustes → Google → Copiar, cole no script e implante nova versão)");
+    if (e.code === "net" || e.code === "timeout") throw Object.assign(new Error("o script do Google não respondeu (" + e.message + "): confira em Ajustes → Google se o link termina em /exec e se a implantação está como 'Qualquer pessoa'"), { code: e.code });
     throw e;
   }
 }
@@ -1849,6 +1851,7 @@ async function speechBlob(txt, errs) {
             return { bl, src: "Fish Audio" + (total > 1 ? " (chave " + n + ")" : "") + (m === "proxy" ? " via Google" : "") };
           } catch (e) {
             add((m === "proxy" ? "Via Google: " : "") + tag + String(e.message || e));
+            if (!e.http && m === "direct" && !gOn()) add("conecte o Google em Ajustes → Google para usar o caminho alternativo");
             if (!e.http) break;                                  /* erro de rede: tenta o outro caminho */
             httpErr = e;
             if ([400, 402, 404, 422].includes(e.http)) continue;  /* tenta o modelo gratuito */
@@ -2332,14 +2335,14 @@ async function testFishAccount(i) {
   unlockAudio();
   const a = FishAcc.load()[i], info = $("fishAccInfo"), key = a ? String(a.key || "").trim() : "";
   if (!key) { info.style.color = "var(--bad)"; info.textContent = "Cole a chave da conta " + (i + 1) + " primeiro."; return; }
-  const p = { key, voice: parseVoice(a.voice) || fishVoiceId() };
+  const p = { key, voice: parseVoice(a.voice) || fishVoiceId() }, msgs = [];
   info.style.color = ""; info.textContent = "Testando a conta " + (i + 1) + "...";
   let bl = null, err = null;
   for (const m of ["direct", "proxy"]) {
-    if (m === "proxy" && !gOn()) continue;
+    if (m === "proxy" && !gOn()) { if (msgs.length) msgs.push("Google não está conectado (Ajustes → Google)"); continue; }
     for (const model of fishModelOrder()) {
-      try { bl = m === "direct" ? await fishSpeakDirect("Conta funcionando.", p, model) : await fishSpeakProxy("Conta funcionando.", p, model); LS.set("fish_model_ok", model); break; }
-      catch (e) { err = e; if (!e.http) break; if (![400, 402, 404, 422].includes(e.http)) break; }
+      try { bl = m === "direct" ? await fishSpeakDirect("Conta funcionando.", p, model) : await fishSpeakProxy("Conta funcionando.", p, model); LS.set("fish_model_ok", model); LS.set("fish_mode", m); break; }
+      catch (e) { err = e; msgs.push((m === "proxy" ? "Via Google: " : "Direto: ") + e.message); if (!e.http) break; if (![400, 402, 404, 422].includes(e.http)) break; }
     }
     if (bl || (err && err.http)) break;
   }
@@ -2349,10 +2352,48 @@ async function testFishAccount(i) {
     refreshFishStatus();
     try { await playBlob(bl, "Conta funcionando."); } catch (e) {}
   } else {
-    info.style.color = "var(--bad)"; info.textContent = "✗ Conta " + (i + 1) + ": " + (err ? err.message : "falhou");
+    info.style.color = "var(--bad)"; info.textContent = "✗ Conta " + (i + 1) + ":\n" + msgs.join("\n") + (err && !err.http ? "\nToque em Diagnosticar para ver o que fazer." : "");
     if (err && [401, 402, 403, 422, 429].includes(err.http)) fishMarkDead(key, err.http === 429 ? 30000 : 1800000, deadWhy(err.http));
     refreshFishStatus();
   }
+}
+
+/* Diagnóstico: testa cada etapa separadamente e diz exatamente o que fazer */
+async function fishDiagnose() {
+  unlockAudio();
+  const info = $("fishAccInfo"), lines = [], show = () => { info.style.color = ""; info.textContent = lines.join("\n"); };
+  const p = fishPairs()[0];
+  if (!p) { info.style.color = "var(--bad)"; info.textContent = "Adicione uma conta com a chave primeiro."; return; }
+  const model = fishModelOrder()[0];
+  lines.push("1) Fish Audio direto do navegador: testando..."); show();
+  let directOk = false, reached = false, e1 = null;
+  try { await fishSpeakDirect("Teste.", p, model); directOk = reached = true; }
+  catch (e) { e1 = e; reached = !!e.http; }
+  lines[0] = "1) Fish Audio direto do navegador: " + (directOk ? "✓ funciona" : reached ? "✓ chegou ao Fish, mas respondeu: " + e1.message : "✗ o navegador bloqueou (" + String(e1.message).replace(/^.*\((.*)\)$/, "$1") + ")");
+  show();
+  let googleOk = false, viaGoogleOk = false, e3 = null;
+  if (!directOk) {
+    if (!cfg("g_url").trim() || !cfg("g_pass").trim()) lines.push("2) Script do Google: ✗ não configurado (Ajustes → Google)");
+    else {
+      lines.push("2) Script do Google: testando..."); show();
+      try { const r = await gs({ a: "ping" }); googleOk = true; lines[lines.length - 1] = "2) Script do Google: ✓ respondeu (" + r + ")"; }
+      catch (e) { lines[lines.length - 1] = "2) Script do Google: ✗ " + (e.message || e) + (e.code === "net" || e.code === "timeout" ? " → a página não consegue abrir o link do script" : ""); }
+      show();
+    }
+    if (googleOk) {
+      lines.push("3) Fish Audio pelo Google: testando..."); show();
+      try { await fishSpeakProxy("Teste.", p, model); viaGoogleOk = true; lines[lines.length - 1] = "3) Fish Audio pelo Google: ✓ funciona"; }
+      catch (e) { e3 = e; lines[lines.length - 1] = "3) Fish Audio pelo Google: ✗ " + (e.message || e); }
+    }
+  }
+  let verdict, good = false;
+  if (directOk) { verdict = "✓ Tudo certo: o Jarvis fala direto pelo Fish Audio."; good = true; }
+  else if (viaGoogleOk) { LS.set("fish_mode", "proxy"); verdict = "✓ Tudo certo: o Jarvis vai falar pelo Fish Audio usando o script do Google."; good = true; }
+  else if (reached) verdict = "→ O Fish respondeu com erro: resolva isso (chave, créditos ou ID da voz) e teste de novo.";
+  else if (!googleOk) verdict = "→ O que fazer: Ajustes → Google → Copiar (código novo) → cole no script do Google → Implantar → Nova implantação → App da Web → Quem pode acessar: \"Qualquer pessoa\" → copie o link que termina em /exec, cole em Ajustes → Google e toque em Conectar. Depois toque em Diagnosticar de novo.";
+  else verdict = "→ O script do Google está conectado, mas não repassou o pedido ao Fish: copie o código de novo em Ajustes → Google, cole no script e faça uma Nova implantação.";
+  lines.push(verdict); show(); info.style.color = good ? "var(--ok)" : "var(--bad)";
+  if (e3 && !viaGoogleOk) console.error("Diagnóstico Fish via Google:", e3);
 }
 function bindFishTable() {
   renderFishTable();
@@ -2361,6 +2402,7 @@ function bindFishTable() {
     const inputs = $("fishTable").querySelectorAll('input[data-f="key"]'); if (inputs.length) inputs[inputs.length - 1].focus();
   };
   $("fishReset").onclick = () => { LS.set("fish_dead", "{}"); LS.set("fish_down", "0"); $("fishAccInfo").style.color = ""; $("fishAccInfo").textContent = "Todas as contas foram reativadas."; refreshFishStatus(); };
+  $("fishDiag").onclick = fishDiagnose;
   $("fishShow").onclick = () => { fishShowKeys = !fishShowKeys; $("fishShow").textContent = fishShowKeys ? "Ocultar chaves" : "Mostrar chaves"; renderFishTable(); };
 }
 
