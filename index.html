@@ -229,7 +229,7 @@ html[data-theme=light] .gl{box-shadow:0 1px 0 #fff inset,0 10px 30px rgba(30,60,
 .gbtn{display:flex;align-items:center;gap:8px;padding:9px 14px;border-radius:12px;background:#fff;color:#1f1f1f;border:1px solid #dadce0;font-weight:600;font-size:14px;flex:none;box-shadow:0 1px 2px rgba(0,0,0,.15)}
 .gbtn.on{background:#e6f4ea;border-color:#34a853;color:#137333}
 
-/* ----- tabela de contas do Fish Audio ----- */
+/* ----- tabela de contas do ElevenLabs ----- */
 .ftab{padding:10px 12px 6px}
 .fhead,.frow{display:grid;grid-template-columns:20px minmax(0,1.2fr) minmax(0,1fr) 76px;gap:6px;align-items:center}
 .fhead{font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--dim);padding:0 0 7px;border-bottom:1px solid var(--line)}
@@ -248,7 +248,7 @@ html[data-theme=light] .gl{box-shadow:0 1px 0 #fff inset,0 10px 30px rgba(30,60,
 .ra button svg.i{width:15px;height:15px}
 .fempty{padding:16px 4px;text-align:center;color:var(--dim);font-size:13px}
 .fsum{font-size:12.5px;color:var(--dim);padding:2px 16px 12px}
-#fishAccInfo{white-space:pre-line;line-height:1.5}
+#elAccInfo{white-space:pre-line;line-height:1.5}
 
 /* ============ 12. TELA DE CHAMADA ============ */
 #call{position:fixed;inset:0;z-index:80;display:flex;flex-direction:column;align-items:center;background:radial-gradient(ellipse 85% 55% at 50% 38%,color-mix(in srgb,var(--acc) 35%,#000) 0,var(--bg) 72%);padding:calc(14px + env(safe-area-inset-top,0px)) 16px calc(24px + env(safe-area-inset-bottom,0px));animation:fi .3s both}
@@ -376,24 +376,26 @@ html.no-motion *{animation:none!important;transition:none!important}
 
       <!-- Voz -->
       <div class="cat" data-c="voz">
-        <div class="grp"><div class="gt">Contas do Fish Audio (rodízio automático)</div><div class="gl">
+        <div class="grp"><div class="gt">Contas do ElevenLabs (rodízio automático)</div><div class="gl">
           <div class="li col"><small>O Jarvis usa a conta nº 1. Quando ela ficar sem créditos, passa sozinho para a nº 2, depois a nº 3, e assim por diante. Ela volta a ser tentada depois de 30 minutos. Deixe o ID da voz em branco para usar o ID padrão (campo mais abaixo).</small></div>
-          <div class="ftab" id="fishTable"></div>
-          <div class="fsum" id="fishSum"></div>
-          <div class="li col"><div class="btnrow"><button class="go" id="fishAdd" type="button">+ Adicionar conta</button><button class="go" id="fishReset" type="button">Reativar todas</button><button class="go" id="fishShow" type="button">Mostrar chaves</button><button class="go" id="fishDiag" type="button">Diagnosticar</button></div><small id="fishAccInfo"></small></div>
+          <div class="ftab" id="elTable"></div>
+          <div class="fsum" id="elSum"></div>
+          <div class="li col"><div class="btnrow"><button class="go" id="elAdd" type="button">+ Adicionar conta</button><button class="go" id="elReset" type="button">Reativar todas</button><button class="go" id="elShow" type="button">Mostrar chaves</button><button class="go" id="elDiag" type="button">Diagnosticar</button></div><small id="elAccInfo"></small></div>
         </div></div>
-        <div class="grp"><div class="gt">Voz do Jarvis (Fish Audio)</div><div class="gl">
+        <div class="grp"><div class="gt">Voz do Jarvis (ElevenLabs)</div><div class="gl">
           <label class="li"><span><b>Ler respostas em voz alta</b><small>No chat de texto</small></span><input type="checkbox" id="speakReplies"></label>
           <div class="li col"><b>Reconhecimento de voz (chamada)</b><div class="seg" id="uStt"><button type="button" data-v="gemini">Gemini (recomendado)</button><button type="button" data-v="browser">Navegador</button></div><small>O Gemini funciona no Brave, no Safari e em qualquer navegador. O do navegador falha no Brave.</small></div>
           <div class="li col"><div class="spread"><b>Pausa para o Jarvis responder (segundos)</b><span class="val" id="uSilV"></span></div><input type="range" id="uSil" min="0.6" max="2" step="0.1"></div>
           <div class="li col"><div class="spread"><b>Sensibilidade do microfone</b><span class="val" id="uSensV"></span></div><input type="range" id="uSens" min="1" max="10" step="1"><small>Aumente se ele não te ouve; diminua se ele reage a barulho</small></div>
-          <div class="li col"><label for="fishVoice"><b>ID padrão da voz (Fish Audio)</b></label><input id="fishVoice" type="text" autocomplete="off" spellcheck="false" placeholder="Cole aqui o ID (ou o link) da voz"><small>Usado nas contas da tabela que estiverem sem ID. Copie na página da voz em fish.audio (aceita o ID ou o link). Sem nenhum ID, o Fish usa a voz padrão dele.</small></div>
-          <div class="li"><span><b>Modelo</b><small>Se o melhor ficar sem créditos, ele usa o gratuito sozinho</small></span>
-            <select id="fishModel"><option value="s2.1-pro">Melhor qualidade (S2.1 Pro)</option><option value="s2.1-pro-free">Gratuito (S2.1 Pro Free)</option><option value="s2-pro">S2 Pro</option></select></div>
-          <div class="li col"><div class="spread"><b>Velocidade da fala</b><span class="val" id="fishSpdV"></span></div><input type="range" id="fishSpd" min="0.7" max="1.4" step="0.05"></div>
+          <div class="li col"><label for="elVoice"><b>ID padrão da voz (ElevenLabs)</b></label><input id="elVoice" type="text" autocomplete="off" spellcheck="false" placeholder="Cole aqui o ID (ou o link) da voz"><small>Usado nas contas da tabela que estiverem sem ID. Copie na página da voz em elevenlabs.io (aceita o ID ou o link). Se deixar vazio, usa a voz padrão do Jarvis (eTVNeSEqE24CXsFMs6eZ).</small></div>
+          <div class="li"><span><b>Modelo</b><small>O rápido responde mais depressa</small></span>
+            <select id="elModel"><option value="eleven_flash_v2_5">Rápido (Flash v2.5)</option><option value="eleven_turbo_v2_5">Equilibrado (Turbo v2.5)</option><option value="eleven_multilingual_v2">Melhor qualidade (Multilingual v2)</option></select></div>
+          <div class="li col"><div class="spread"><b>Estabilidade da voz</b><span class="val" id="elStabV"></span></div><input type="range" id="elStab" min="0" max="1" step="0.05"></div>
+          <div class="li col"><div class="spread"><b>Semelhança com a voz original</b><span class="val" id="elSimV"></span></div><input type="range" id="elSim" min="0" max="1" step="0.05"></div>
+          <div class="li col"><div class="spread"><b>Velocidade da fala</b><span class="val" id="elSpdV"></span></div><input type="range" id="elSpd" min="0.7" max="1.2" step="0.05"></div>
           <div class="li"><span><b>Testar voz</b><small id="voiceOut">Toque em Testar para ouvir</small></span><button class="go" id="voiceTest" type="button">Testar</button></div>
-          <div class="li col"><b>Se o Fish Audio falhar</b><div class="seg" id="uFb"><button type="button" data-v="1">Usar outra voz</button><button type="button" data-v="0">Avisar o erro</button></div></div>
-          <div class="li"><span><b>Voz de reserva (Gemini)</b><small>Fala se o Fish Audio não responder</small></span>
+          <div class="li col"><b>Se o ElevenLabs falhar</b><div class="seg" id="uFb"><button type="button" data-v="1">Usar outra voz</button><button type="button" data-v="0">Avisar o erro</button></div></div>
+          <div class="li"><span><b>Voz de reserva (Gemini)</b><small>Fala se o ElevenLabs não responder</small></span>
             <select id="uGv"><option value="Charon">Charon · masculina grave</option><option value="Orus">Orus · masculina firme</option><option value="Fenrir">Fenrir · masculina animada</option><option value="Puck">Puck · masculina jovem</option><option value="Kore">Kore · feminina firme</option><option value="Zephyr">Zephyr · feminina brilhante</option><option value="Aoede">Aoede · feminina leve</option></select></div>
           <div class="li col"><div class="spread"><b>Velocidade (voz do aparelho)</b><span class="val" id="uVrV"></span></div><input type="range" id="uVr" min="0.6" max="1.4" step="0.05"></div>
         </div></div>
@@ -506,12 +508,8 @@ const CONFIG = {
   defaultAddress: "senhor",
   makeWebhook: "https://hook.eu1.make.com/vbalf9eezx9j3nioplq7lye2xfi9kf8f",
   makeTrigger: /planilha|agenda|marcar/i,
-  /* Conta inicial do Fish Audio: aparece na tabela de Ajustes → Voz, onde você edita, remove
-     e adiciona mais contas (o rodízio passa para a próxima quando os créditos acabam). */
-  fishAccounts: [
-    { key: "sk-fish-jkP7lX19m2yV4p6czGHxDAb-K6_axZqYGjGCyoUQ51E", voice: "" }
-  ],
-  fishFreeModel: "s2.1-pro-free",
+  /* ID da voz do Jarvis na ElevenLabs (usado quando uma conta da tabela fica sem ID). */
+  elevenVoice: "eTVNeSEqE24CXsFMs6eZ",
   geminiModels: ["gemini-3.5-flash", "gemini-3-flash-preview", "gemini-3.5-flash-lite"],
   geminiTtsModels: ["gemini-2.5-flash-preview-tts", "gemini-2.5-flash-tts"],
   historyLimit: 20,
@@ -597,7 +595,7 @@ const DEFAULTS = {
   enter_send: "1", mem_live: "1", u_name: "", u_addr: "", u_pers: "mordomo", u_len: "normal",
   ai_temp: "0.8", ai_model: "", ai_extra: "", gemini_key: "", jarvis_mode: "normal",
   speak_replies: "0", stt_mode: "gemini", stt_sil: "1", stt_sens: "5",
-  fish_voice: "", fish_model: "s2.1-pro", fish_speed: "1", fish_mode: "direct", fish_down: "0", fish_dead: "{}",
+  el_voice: "", el_model: "eleven_flash_v2_5", el_stab: "0.5", el_sim: "0.8", el_spd: "1", el_mode: "direct", el_down: "0", el_dead: "{}",
   v_fb: "1", gem_voice: "Charon", v_rate: "1",
   g_url: "", g_pass: "", g_sheet: "", g_ok: "0", s_cat: "look", jarvis_bar: "1"
 };
@@ -937,7 +935,7 @@ function doPost(e) {
 function autorizar() {
   CalendarApp.getDefaultCalendar().getName();
   GmailApp.getInboxUnreadCount();
-  UrlFetchApp.fetch("https://api.fish.audio/", { muteHttpExceptions: true });
+  UrlFetchApp.fetch("https://api.elevenlabs.io/", { muteHttpExceptions: true });
   Logger.log("Autorizado!");
 }
 
@@ -951,7 +949,7 @@ function run(a) {
   switch (a.a) {
     case "http": {
       const u = String(a.url);
-      if (!/^https:\/\/api\.fish\.audio\//.test(u)) throw new Error("Endereço não permitido");
+      if (!/^https:\/\/api\.elevenlabs\.io\//.test(u)) throw new Error("Endereço não permitido");
       const opt = { method: String(a.method || "get").toLowerCase(), headers: a.headers || {}, muteHttpExceptions: true };
       if (a.body) { opt.payload = a.body; opt.contentType = "application/json"; }
       const r = UrlFetchApp.fetch(u, opt);
@@ -1240,7 +1238,7 @@ function showView(id) {
   document.querySelectorAll(".tab").forEach(t => t.classList.toggle("on", t.dataset.v === id));
   $("composer").classList.toggle("hidden", id !== "vChat");
   if (id === "vMemory") renderBrain();
-  if (id === "vSettings") { updateStats(); refreshFishStatus(); }
+  if (id === "vSettings") { updateStats(); refreshElStatus(); }
   $("main").scrollTop = (id === "vChat" && Chats.log.length) ? $("main").scrollHeight : 0;
 }
 
@@ -1739,47 +1737,41 @@ function deleteNote() {
 }
 
 /* ==========================================================================
-   12. VOZ: o Jarvis falando (Fish Audio → Gemini → voz do aparelho)
+   12. VOZ: o Jarvis falando (ElevenLabs → Gemini → voz do aparelho)
    ========================================================================== */
 const player = new Audio();
 const SILENT_WAV = "data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA=";
 function unlockAudio() { try { player.src = SILENT_WAV; player.play().catch(() => {}); } catch (e) {} }
 
 const parseVoice = v => { v = String(v || "").trim(); const m = v.match(/[0-9a-f]{32}/i); return m ? m[0] : v; };   /* aceita o ID ou o link da voz */
-const fishVoiceId = () => parseVoice(cfg("fish_voice"));
-const FishAcc = {
+const elVoiceId = () => parseVoice(cfg("el_voice")) || CONFIG.elevenVoice;
+const ElAcc = {
   load() {
-    let a = LS.json("fish_accounts", null);
-    if (!Array.isArray(a)) { a = CONFIG.fishAccounts.map(x => ({ key: x.key, voice: x.voice || "" })); this.save(a); }
+    let a = LS.json("el_accounts", null);
+    if (!Array.isArray(a)) { a = [{ key: "", voice: "" }]; this.save(a); }
     return a;
   },
-  save(a) { LS.set("fish_accounts", JSON.stringify(a)); }
+  save(a) { LS.set("el_accounts", JSON.stringify(a)); }
 };
-const fishPairs = () => {
+const elPairs = () => {
   const seen = {};
-  return FishAcc.load().filter(a => { const k = String(a.key || "").trim(); if (!k || seen[k]) return false; seen[k] = 1; return true; })
-    .map(a => ({ key: a.key.trim(), voice: parseVoice(a.voice) || fishVoiceId() }));
+  return ElAcc.load().filter(a => { const k = String(a.key || "").trim(); if (!k || seen[k]) return false; seen[k] = 1; return true; })
+    .map(a => ({ key: a.key.trim(), voice: parseVoice(a.voice) || elVoiceId() }));
 };
-const fishDead = () => LS.json("fish_dead", {});
+const elDead = () => LS.json("el_dead", {});
 const deadUntil = v => (v && typeof v === "object" ? v.until : v) || 0;
-const fishAvailable = () => { const d = fishDead(), now = Date.now(); return fishPairs().filter(p => !(deadUntil(d[p.key]) > now)); };
-function fishMarkDead(key, ms, why) { const d = fishDead(); d[key] = { until: Date.now() + ms, why: why || "pausada" }; LS.set("fish_dead", JSON.stringify(d)); refreshFishStatus(); }
-const deadWhy = status => status === 402 ? "sem créditos" : status === 429 ? "muitos pedidos" : status === 422 ? "voz inválida" : "chave recusada";
-function fishModelOrder() {
-  const list = [cfg("fish_model"), CONFIG.fishFreeModel].filter((v, i, a) => a.indexOf(v) === i), ok = LS.get("fish_model_ok", "");
-  if (ok && list.includes(ok)) { list.splice(list.indexOf(ok), 1); list.unshift(ok); }
-  return list;
+const elAvailable = () => { const d = elDead(), now = Date.now(); return elPairs().filter(p => !(deadUntil(d[p.key]) > now)); };
+function elMarkDead(key, ms, why) { const d = elDead(); d[key] = { until: Date.now() + ms, why: why || "pausada" }; LS.set("el_dead", JSON.stringify(d)); refreshElStatus(); }
+const deadWhy = e => e.quota ? "sem créditos" : e.http === 402 ? "plano ou créditos" : e.http === 429 ? "muitos pedidos" : e.http === 422 ? "voz inválida" : "chave recusada";
+const elUrl = voice => "https://api.elevenlabs.io/v1/text-to-speech/" + encodeURIComponent(voice) + "?output_format=mp3_44100_64";
+const elBody = txt => JSON.stringify({ text: txt, model_id: cfg("el_model"), voice_settings: { stability: cfgNum("el_stab"), similarity_boost: cfgNum("el_sim"), speed: cfgNum("el_spd") } });
+function elErr(status, text) {
+  let m = text, quota = /quota|credit/i.test(String(text));
+  try { const j = JSON.parse(text), d = j.detail; m = (d && (d.message || d.status)) || (typeof d === "string" ? d : text); } catch (e) {}
+  const hint = quota ? " (sem créditos)" : status === 401 ? " (chave recusada)" : status === 402 ? " (o plano ou os créditos da conta não permitem essa voz pela API)" : status === 429 ? " (muitos pedidos ao mesmo tempo)" : status === 422 ? " (ID da voz inválido)" : "";
+  return Object.assign(new Error("ElevenLabs HTTP " + status + hint + ": " + String(m).slice(0, 150)), { http: status, quota });
 }
-const FISH_URL = "https://api.fish.audio/v1/tts";
-const fishBody = (txt, p) => JSON.stringify(Object.assign(
-  { text: txt, format: "mp3", mp3_bitrate: 128, latency: "balanced", normalize: true, prosody: { speed: cfgNum("fish_speed"), volume: 0, normalize_loudness: true } },
-  p.voice ? { reference_id: p.voice } : {}));
-function fishErr(status, text) {
-  let m = text; try { const j = JSON.parse(text); m = j.message || j.reason || text; } catch (e) {}
-  const hint = status === 402 ? " (sem créditos)" : status === 401 ? " (chave recusada)" : status === 429 ? " (muitos pedidos)" : "";
-  return Object.assign(new Error("Fish Audio HTTP " + status + hint + ": " + String(m).slice(0, 150)), { http: status });
-}
-/* Pede uma chamada HTTP ao Fish Audio através do script do Google (quando a rede bloqueia) */
+/* Pede uma chamada HTTP à ElevenLabs através do script do Google (quando a rede bloqueia) */
 async function googleProxy(o) {
   try { return JSON.parse(await gs(Object.assign({ a: "http" }, o))); }
   catch (e) {
@@ -1788,18 +1780,18 @@ async function googleProxy(o) {
     throw e;
   }
 }
-async function fishSpeakDirect(txt, p, model) {
+async function elSpeakDirect(txt, p) {
   let r;
-  try { r = await fetchT(FISH_URL, { method: "POST", headers: { Authorization: "Bearer " + p.key, "Content-Type": "application/json", model }, body: fishBody(txt, p) }, 20000); }
-  catch (e) { throw Object.assign(new Error("o navegador/rede bloqueou o acesso ao Fish Audio (" + (e.message || e) + ")"), { net: true }); }
-  if (!r.ok) throw fishErr(r.status, await r.text());
+  try { r = await fetchT(elUrl(p.voice), { method: "POST", headers: { "xi-api-key": p.key, "Content-Type": "application/json", Accept: "audio/mpeg" }, body: elBody(txt) }, 20000); }
+  catch (e) { throw Object.assign(new Error("o navegador/rede bloqueou o acesso à ElevenLabs (" + (e.message || e) + ")"), { net: true }); }
+  if (!r.ok) throw elErr(r.status, await r.text());
   const bl = await r.blob(); if (!bl.size) throw new Error("áudio vazio");
   return bl.type && bl.type.indexOf("audio") === 0 ? bl : new Blob([bl], { type: "audio/mpeg" });
 }
-async function fishSpeakProxy(txt, p, model) {
+async function elSpeakProxy(txt, p) {
   if (!gOn()) throw new Error("conecte o Google em Ajustes → Google para contornar o bloqueio");
-  const d = await googleProxy({ url: FISH_URL, method: "post", headers: { Authorization: "Bearer " + p.key, model }, body: fishBody(txt, p) });
-  if (d.status !== 200) throw fishErr(d.status, d.text || "");
+  const d = await googleProxy({ url: elUrl(p.voice), method: "post", headers: { "xi-api-key": p.key, Accept: "audio/mpeg" }, body: elBody(txt) });
+  if (d.status !== 200) throw elErr(d.status, d.text || "");
   if (!d.b64) throw new Error("o Google devolveu uma resposta sem áudio");
   return b64Blob(d.b64, "audio/mpeg");
 }
@@ -1834,36 +1826,31 @@ async function geminiSpeak(txt) {
 /* Gera o áudio de um trecho. Devolve {bl, src} ou null; os motivos das falhas vão em errs. */
 async function speechBlob(txt, errs) {
   const fb = cfg("v_fb") === "1", add = m => { if (!errs.includes(m)) errs.push(m); };
-  if (Date.now() < +cfg("fish_down")) add("Fish Audio pausado por 3 min (falhou agora há pouco)");
+  if (Date.now() < +cfg("el_down")) add("ElevenLabs pausada por 3 min (falhou agora há pouco)");
   else {
-    const pairs = fishAvailable(), total = fishPairs().length;
-    if (!pairs.length) add("As chaves do Fish Audio estão sem créditos agora (nova tentativa em até 30 min)");
+    const all = elPairs(), pairs = elAvailable(), total = all.length;
+    if (!total) add("Falta a chave da ElevenLabs: cole em Ajustes → Voz → Contas da ElevenLabs");
+    else if (!pairs.length) add("As chaves da ElevenLabs estão sem créditos agora (nova tentativa em até 30 min)");
     for (const p of pairs) {
-      const n = fishPairs().findIndex(x => x.key === p.key) + 1, tag = total > 1 ? "chave " + n + ": " : "";
-      const order = cfg("fish_mode") === "proxy" ? ["proxy", "direct"] : ["direct", "proxy"];
+      const n = all.findIndex(x => x.key === p.key) + 1, tag = total > 1 ? "chave " + n + ": " : "";
+      const order = cfg("el_mode") === "proxy" ? ["proxy", "direct"] : ["direct", "proxy"];
       let httpErr = null;
       for (const m of order) {
         if (m === "proxy" && !gOn()) continue;
-        for (const model of fishModelOrder()) {
-          try {
-            const bl = m === "direct" ? await fishSpeakDirect(txt, p, model) : await fishSpeakProxy(txt, p, model);
-            LS.set("fish_mode", m); LS.set("fish_model_ok", model);
-            return { bl, src: "Fish Audio" + (total > 1 ? " (chave " + n + ")" : "") + (m === "proxy" ? " via Google" : "") };
-          } catch (e) {
-            add((m === "proxy" ? "Via Google: " : "") + tag + String(e.message || e));
-            if (!e.http && m === "direct" && !gOn()) add("conecte o Google em Ajustes → Google para usar o caminho alternativo");
-            if (!e.http) break;                                  /* erro de rede: tenta o outro caminho */
-            httpErr = e;
-            if ([400, 402, 404, 422].includes(e.http)) continue;  /* tenta o modelo gratuito */
-            break;
-          }
+        try {
+          const bl = m === "direct" ? await elSpeakDirect(txt, p) : await elSpeakProxy(txt, p);
+          LS.set("el_mode", m);
+          return { bl, src: "ElevenLabs" + (total > 1 ? " (chave " + n + ")" : "") + (m === "proxy" ? " via Google" : "") };
+        } catch (e) {
+          add((m === "proxy" ? "Via Google: " : "") + tag + String(e.message || e));
+          if (!e.http && m === "direct" && !gOn()) add("conecte o Google em Ajustes → Google para usar o caminho alternativo");
+          if (e.http) { httpErr = e; break; }                   /* o erro seria o mesmo pelos dois caminhos */
         }
-        if (httpErr) break;                                      /* o erro seria o mesmo pelos dois caminhos */
       }
-      if (httpErr && [401, 402, 403, 422, 429].includes(httpErr.http)) { fishMarkDead(p.key, httpErr.http === 429 ? 30000 : 1800000, deadWhy(httpErr.http)); continue; }
+      if (httpErr && [401, 402, 403, 422, 429].includes(httpErr.http)) { elMarkDead(p.key, httpErr.http === 429 ? 30000 : 1800000, deadWhy(httpErr)); continue; }
       break;
     }
-    if (fb) LS.set("fish_down", String(Date.now() + 180000));
+    if (fb && total) LS.set("el_down", String(Date.now() + 180000));
   }
   if (fb && cfg("gemini_key").trim()) {
     try { return { bl: await geminiSpeak(txt), src: "voz do Gemini" }; }
@@ -2284,95 +2271,91 @@ async function copyGoogleScript() {
 }
 
 function testVoice() {
-  unlockAudio(); LS.set("fish_down", "0"); LS.set("fish_dead", "{}"); LS.del("fish_model_ok"); refreshFishStatus(); voiceStatus("Gerando a voz...", true);
+  unlockAudio(); LS.set("el_down", "0"); LS.set("el_dead", "{}"); refreshElStatus(); voiceStatus("Gerando a voz...", true);
   Speech.speak("Certamente, " + ME.address + ". Minha voz está pronta. Como posso ajudar?");
 }
 
-/* ----- tabela de contas do Fish Audio ----- */
-let fishShowKeys = false;
-function fishRowState(a, firstLive) {
+/* ----- tabela de contas do ElevenLabs ----- */
+let elShowKeys = false;
+function elRowState(a, firstLive) {
   const key = String(a.key || "").trim();
   if (!key) return ["wait", "Sem chave"];
-  const d = fishDead()[key], until = deadUntil(d);
+  const d = elDead()[key], until = deadUntil(d);
   if (until > Date.now()) return ["off", (d && d.why ? d.why : "Pausada") + " · volta em " + Math.max(1, Math.ceil((until - Date.now()) / 60000)) + " min"];
   return key === firstLive ? ["on", "▶ Em uso"] : ["wait", "Reserva"];
 }
-function refreshFishStatus() {
-  const box = $("fishTable"); if (!box) return;
-  const accs = FishAcc.load(), live = fishAvailable(), first = live[0] ? live[0].key : "";
+function refreshElStatus() {
+  const box = $("elTable"); if (!box) return;
+  const accs = ElAcc.load(), live = elAvailable(), first = live[0] ? live[0].key : "";
   box.querySelectorAll(".frow").forEach(row => {
     const a = accs[+row.dataset.i]; if (!a) return;
-    const [cls, txt] = fishRowState(a, first), el = row.querySelector(".st");
+    const [cls, txt] = elRowState(a, first), el = row.querySelector(".st");
     el.className = "st " + cls; el.textContent = txt;
   });
-  const total = fishPairs().length;
-  $("fishSum").textContent = total ? total + " conta(s) · " + live.length + " com crédito agora" + (live.length < total ? " · " + (total - live.length) + " em pausa" : "") : "Nenhuma conta com chave. Adicione uma abaixo.";
+  const total = elPairs().length;
+  $("elSum").textContent = total ? total + " conta(s) · " + live.length + " com crédito agora" + (live.length < total ? " · " + (total - live.length) + " em pausa" : "") : "Nenhuma conta com chave. Adicione uma abaixo.";
 }
-function renderFishTable() {
-  const accs = FishAcc.load(), box = $("fishTable");
+function renderElTable() {
+  const accs = ElAcc.load(), box = $("elTable");
   box.innerHTML = '<div class="fhead"><span>#</span><span>Chave API</span><span>ID da voz</span><span>Status</span></div>' +
     (accs.map((a, i) => '<div class="frow" data-i="' + i + '"><span class="n">' + (i + 1) + '</span>' +
-      '<input data-f="key" type="' + (fishShowKeys ? "text" : "password") + '" value="' + esc(a.key || "") + '" placeholder="sk-fish-..." autocomplete="off" spellcheck="false">' +
+      '<input data-f="key" type="' + (elShowKeys ? "text" : "password") + '" value="' + esc(a.key || "") + '" placeholder="sk_..." autocomplete="off" spellcheck="false">' +
       '<input data-f="voice" type="text" value="' + esc(a.voice || "") + '" placeholder="ID padrão" autocomplete="off" spellcheck="false">' +
       '<div class="sc"><span class="st wait">—</span><div class="ra"><button data-act="test" type="button" title="Testar esta conta">▶</button><button data-act="del" type="button" title="Remover esta conta">' + ico("trash") + "</button></div></div></div>").join("") ||
       '<div class="fempty">Nenhuma conta. Toque em "+ Adicionar conta".</div>');
   box.querySelectorAll(".frow").forEach(row => {
     const i = +row.dataset.i;
     row.querySelectorAll("input").forEach(inp => inp.addEventListener("input", () => {
-      const list = FishAcc.load(); if (!list[i]) return;
-      list[i][inp.dataset.f] = inp.value.trim(); FishAcc.save(list); refreshFishStatus();
+      const list = ElAcc.load(); if (!list[i]) return;
+      list[i][inp.dataset.f] = inp.value.trim(); ElAcc.save(list); refreshElStatus();
     }));
     row.querySelector('[data-act="del"]').onclick = () => {
-      const list = FishAcc.load();
+      const list = ElAcc.load();
       if (list[i] && list[i].key && !confirm("Remover a conta " + (i + 1) + "?")) return;
-      list.splice(i, 1); FishAcc.save(list); renderFishTable();
+      list.splice(i, 1); ElAcc.save(list); renderElTable();
     };
-    row.querySelector('[data-act="test"]').onclick = () => testFishAccount(i);
+    row.querySelector('[data-act="test"]').onclick = () => testElAccount(i);
   });
-  refreshFishStatus();
+  refreshElStatus();
 }
-async function testFishAccount(i) {
+async function testElAccount(i) {
   unlockAudio();
-  const a = FishAcc.load()[i], info = $("fishAccInfo"), key = a ? String(a.key || "").trim() : "";
+  const a = ElAcc.load()[i], info = $("elAccInfo"), key = a ? String(a.key || "").trim() : "";
   if (!key) { info.style.color = "var(--bad)"; info.textContent = "Cole a chave da conta " + (i + 1) + " primeiro."; return; }
-  const p = { key, voice: parseVoice(a.voice) || fishVoiceId() }, msgs = [];
+  const p = { key, voice: parseVoice(a.voice) || elVoiceId() }, msgs = [];
   info.style.color = ""; info.textContent = "Testando a conta " + (i + 1) + "...";
   let bl = null, err = null;
   for (const m of ["direct", "proxy"]) {
     if (m === "proxy" && !gOn()) { if (msgs.length) msgs.push("Google não está conectado (Ajustes → Google)"); continue; }
-    for (const model of fishModelOrder()) {
-      try { bl = m === "direct" ? await fishSpeakDirect("Conta funcionando.", p, model) : await fishSpeakProxy("Conta funcionando.", p, model); LS.set("fish_model_ok", model); LS.set("fish_mode", m); break; }
-      catch (e) { err = e; msgs.push((m === "proxy" ? "Via Google: " : "Direto: ") + e.message); if (!e.http) break; if (![400, 402, 404, 422].includes(e.http)) break; }
-    }
-    if (bl || (err && err.http)) break;
+    try { bl = m === "direct" ? await elSpeakDirect("Conta funcionando.", p) : await elSpeakProxy("Conta funcionando.", p); LS.set("el_mode", m); break; }
+    catch (e) { err = e; msgs.push((m === "proxy" ? "Via Google: " : "Direto: ") + e.message); if (e.http) break; }
   }
   if (bl) {
-    const d = fishDead(); delete d[key]; LS.set("fish_dead", JSON.stringify(d)); LS.set("fish_down", "0");
+    const d = elDead(); delete d[key]; LS.set("el_dead", JSON.stringify(d)); LS.set("el_down", "0");
     info.style.color = "var(--ok)"; info.textContent = "✓ Conta " + (i + 1) + " funcionando.";
-    refreshFishStatus();
+    refreshElStatus();
     try { await playBlob(bl, "Conta funcionando."); } catch (e) {}
   } else {
     info.style.color = "var(--bad)"; info.textContent = "✗ Conta " + (i + 1) + ":\n" + msgs.join("\n") + (err && !err.http ? "\nToque em Diagnosticar para ver o que fazer." : "");
-    if (err && [401, 402, 403, 422, 429].includes(err.http)) fishMarkDead(key, err.http === 429 ? 30000 : 1800000, deadWhy(err.http));
-    refreshFishStatus();
+    if (err && [401, 402, 403, 422, 429].includes(err.http)) elMarkDead(key, err.http === 429 ? 30000 : 1800000, deadWhy(err));
+    refreshElStatus();
   }
 }
 
 /* Diagnóstico: testa cada etapa separadamente e diz exatamente o que fazer */
-async function fishDiagnose() {
+async function elDiagnose() {
   unlockAudio();
-  const info = $("fishAccInfo"), lines = [], show = () => { info.style.color = ""; info.textContent = lines.join("\n"); };
-  const p = fishPairs()[0];
+  const info = $("elAccInfo"), lines = [], show = () => { info.style.color = ""; info.textContent = lines.join("\n"); };
+  const p = elPairs()[0];
   if (!p) { info.style.color = "var(--bad)"; info.textContent = "Adicione uma conta com a chave primeiro."; return; }
-  const model = fishModelOrder()[0];
-  lines.push("1) Fish Audio direto do navegador: testando..."); show();
+  lines.push("1) ElevenLabs direto do navegador: testando..."); show();
   let directOk = false, reached = false, e1 = null;
-  try { await fishSpeakDirect("Teste.", p, model); directOk = reached = true; }
+  try { await elSpeakDirect("Teste.", p); directOk = reached = true; }
   catch (e) { e1 = e; reached = !!e.http; }
-  lines[0] = "1) Fish Audio direto do navegador: " + (directOk ? "✓ funciona" : reached ? "✓ chegou ao Fish, mas respondeu: " + e1.message : "✗ o navegador bloqueou (" + String(e1.message).replace(/^.*\((.*)\)$/, "$1") + ")");
+  lines[0] = "1) ElevenLabs direto do navegador: " + (directOk ? "✓ funciona" : reached ? "✓ chegou à ElevenLabs, mas respondeu: " + e1.message : "✗ o navegador bloqueou (" + String(e1.message).replace(/^.*\((.*)\)$/, "$1") + ")");
   show();
-  let googleOk = false, viaGoogleOk = false, e3 = null;
-  if (!directOk) {
+  let googleOk = false, viaGoogleOk = false;
+  if (!directOk && !reached) {
     if (!cfg("g_url").trim() || !cfg("g_pass").trim()) lines.push("2) Script do Google: ✗ não configurado (Ajustes → Google)");
     else {
       lines.push("2) Script do Google: testando..."); show();
@@ -2381,29 +2364,28 @@ async function fishDiagnose() {
       show();
     }
     if (googleOk) {
-      lines.push("3) Fish Audio pelo Google: testando..."); show();
-      try { await fishSpeakProxy("Teste.", p, model); viaGoogleOk = true; lines[lines.length - 1] = "3) Fish Audio pelo Google: ✓ funciona"; }
-      catch (e) { e3 = e; lines[lines.length - 1] = "3) Fish Audio pelo Google: ✗ " + (e.message || e); }
+      lines.push("3) ElevenLabs pelo Google: testando..."); show();
+      try { await elSpeakProxy("Teste.", p); viaGoogleOk = true; lines[lines.length - 1] = "3) ElevenLabs pelo Google: ✓ funciona"; }
+      catch (e) { lines[lines.length - 1] = "3) ElevenLabs pelo Google: ✗ " + (e.message || e); }
     }
   }
   let verdict, good = false;
-  if (directOk) { verdict = "✓ Tudo certo: o Jarvis fala direto pelo Fish Audio."; good = true; }
-  else if (viaGoogleOk) { LS.set("fish_mode", "proxy"); verdict = "✓ Tudo certo: o Jarvis vai falar pelo Fish Audio usando o script do Google."; good = true; }
-  else if (reached) verdict = "→ O Fish respondeu com erro: resolva isso (chave, créditos ou ID da voz) e teste de novo.";
+  if (directOk) { verdict = "✓ Tudo certo: o Jarvis fala direto pela ElevenLabs."; good = true; LS.set("el_mode", "direct"); }
+  else if (viaGoogleOk) { LS.set("el_mode", "proxy"); verdict = "✓ Tudo certo: o Jarvis vai falar pela ElevenLabs usando o script do Google."; good = true; }
+  else if (reached) verdict = "→ A ElevenLabs respondeu com erro: resolva isso (chave, créditos ou ID da voz) e teste de novo.";
   else if (!googleOk) verdict = "→ O que fazer: Ajustes → Google → Copiar (código novo) → cole no script do Google → Implantar → Nova implantação → App da Web → Quem pode acessar: \"Qualquer pessoa\" → copie o link que termina em /exec, cole em Ajustes → Google e toque em Conectar. Depois toque em Diagnosticar de novo.";
-  else verdict = "→ O script do Google está conectado, mas não repassou o pedido ao Fish: copie o código de novo em Ajustes → Google, cole no script e faça uma Nova implantação.";
+  else verdict = "→ O script do Google está conectado, mas não repassou o pedido à ElevenLabs: copie o código de novo em Ajustes → Google, cole no script e faça uma Nova implantação.";
   lines.push(verdict); show(); info.style.color = good ? "var(--ok)" : "var(--bad)";
-  if (e3 && !viaGoogleOk) console.error("Diagnóstico Fish via Google:", e3);
 }
-function bindFishTable() {
-  renderFishTable();
-  $("fishAdd").onclick = () => {
-    const list = FishAcc.load(); list.push({ key: "", voice: "" }); FishAcc.save(list); renderFishTable();
-    const inputs = $("fishTable").querySelectorAll('input[data-f="key"]'); if (inputs.length) inputs[inputs.length - 1].focus();
+function bindElTable() {
+  renderElTable();
+  $("elAdd").onclick = () => {
+    const list = ElAcc.load(); list.push({ key: "", voice: "" }); ElAcc.save(list); renderElTable();
+    const inputs = $("elTable").querySelectorAll('input[data-f="key"]'); if (inputs.length) inputs[inputs.length - 1].focus();
   };
-  $("fishReset").onclick = () => { LS.set("fish_dead", "{}"); LS.set("fish_down", "0"); $("fishAccInfo").style.color = ""; $("fishAccInfo").textContent = "Todas as contas foram reativadas."; refreshFishStatus(); };
-  $("fishDiag").onclick = fishDiagnose;
-  $("fishShow").onclick = () => { fishShowKeys = !fishShowKeys; $("fishShow").textContent = fishShowKeys ? "Ocultar chaves" : "Mostrar chaves"; renderFishTable(); };
+  $("elReset").onclick = () => { LS.set("el_dead", "{}"); LS.set("el_down", "0"); $("elAccInfo").style.color = ""; $("elAccInfo").textContent = "Todas as contas foram reativadas."; refreshElStatus(); };
+  $("elDiag").onclick = elDiagnose;
+  $("elShow").onclick = () => { elShowKeys = !elShowKeys; $("elShow").textContent = elShowKeys ? "Ocultar chaves" : "Mostrar chaves"; renderElTable(); };
 }
 
 /* ----- ligação de todos os campos ----- */
@@ -2432,10 +2414,10 @@ function bindSettings() {
   /* voz */
   bind.toggle("speakReplies", "speak_replies", "0");
   bind.seg("uStt", "stt_mode", "gemini"); bind.range("uSil", "stt_sil", "1"); bind.range("uSens", "stt_sens", "5");
-  bind.text("fishVoice", "fish_voice", "", () => { LS.set("fish_dead", "{}"); LS.set("fish_down", "0"); refreshFishStatus(); });
-  bindFishTable();
-  bind.select("fishModel", "fish_model", "s2.1-pro", () => LS.del("fish_model_ok"));
-  bind.range("fishSpd", "fish_speed", "1");
+  bind.text("elVoice", "el_voice", "", () => { LS.set("el_dead", "{}"); LS.set("el_down", "0"); refreshElStatus(); });
+  bindElTable();
+  bind.select("elModel", "el_model", "eleven_flash_v2_5");
+  bind.range("elStab", "el_stab", "0.5"); bind.range("elSim", "el_sim", "0.8"); bind.range("elSpd", "el_spd", "1");
   bind.seg("uFb", "v_fb", "1"); bind.select("uGv", "gem_voice", "Charon"); bind.range("uVr", "v_rate", "1");
   $("voiceTest").onclick = testVoice;
 
@@ -2525,7 +2507,7 @@ function init() {
   updateHome(); updateStats(); autoGrow(); showView("vChat");
   startAnimationLoop();
   /* vigia da chamada: se o microfone parar sozinho, volta a ouvir */
-  setInterval(refreshFishStatus, 20000);
+  setInterval(refreshElStatus, 20000);
   setInterval(() => { if (Call.on && !Call.busy && !App.sending && !Call.recActive && Date.now() - Call.lastAct > 3500) Call.listen(); }, 2000);
   setTimeout(() => { $("splash").classList.add("fade"); setTimeout(() => $("splash").classList.add("hidden"), 750); }, 1700);
 }
