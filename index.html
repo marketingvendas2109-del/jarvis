@@ -394,9 +394,12 @@ html.no-motion *{animation:none!important;transition:none!important}
           <div class="li col"><div class="spread"><b>Semelhança com a voz original</b><span class="val" id="elSimV"></span></div><input type="range" id="elSim" min="0" max="1" step="0.05"></div>
           <div class="li col"><div class="spread"><b>Velocidade da fala</b><span class="val" id="elSpdV"></span></div><input type="range" id="elSpd" min="0.7" max="1.2" step="0.05"></div>
           <div class="li"><span><b>Testar voz</b><small id="voiceOut">Toque em Testar para ouvir</small></span><button class="go" id="voiceTest" type="button">Testar</button></div>
-          <div class="li col"><b>Se o ElevenLabs falhar</b><div class="seg" id="uFb"><button type="button" data-v="1">Usar outra voz</button><button type="button" data-v="0">Avisar o erro</button></div></div>
-          <div class="li"><span><b>Voz de reserva (Gemini)</b><small>Fala se o ElevenLabs não responder</small></span>
-            <select id="uGv"><option value="Charon">Charon · masculina grave</option><option value="Orus">Orus · masculina firme</option><option value="Fenrir">Fenrir · masculina animada</option><option value="Puck">Puck · masculina jovem</option><option value="Kore">Kore · feminina firme</option><option value="Zephyr">Zephyr · feminina brilhante</option><option value="Aoede">Aoede · feminina leve</option></select></div>
+          <div class="li col"><b>Se a ElevenLabs falhar</b><div class="seg" id="uFb"><button type="button" data-v="1">Usar outra voz</button><button type="button" data-v="0">Avisar o erro</button></div></div>
+          <div class="li"><span><b>Testar a voz do Gemini</b><small id="gemOut">Toque em Testar para ouvir</small></span><button class="go" id="gemTest" type="button">Testar</button></div>
+          <div class="li"><span><b>Voz de reserva (Gemini)</b><small>Ouça todas em aistudio.google.com/generate-speech</small></span>
+            <select id="uGv"><option value="Zephyr">Zephyr · Bright</option><option value="Puck">Puck · Upbeat</option><option value="Charon">Charon · Informative</option><option value="Kore">Kore · Firm</option><option value="Fenrir">Fenrir · Excitable</option><option value="Leda">Leda · Youthful</option><option value="Orus">Orus · Firm</option><option value="Aoede">Aoede · Breezy</option><option value="Callirrhoe">Callirrhoe · Easy-going</option><option value="Autonoe">Autonoe · Bright</option><option value="Enceladus">Enceladus · Breathy</option><option value="Iapetus">Iapetus · Clear</option><option value="Umbriel">Umbriel · Easy-going</option><option value="Algieba">Algieba · Smooth</option><option value="Despina">Despina · Smooth</option><option value="Erinome">Erinome · Clear</option><option value="Algenib">Algenib · Gravelly</option><option value="Rasalgethi">Rasalgethi · Informative</option><option value="Laomedeia">Laomedeia · Upbeat</option><option value="Achernar">Achernar · Soft</option><option value="Alnilam">Alnilam · Firm</option><option value="Schedar">Schedar · Even</option><option value="Gacrux">Gacrux · Mature</option><option value="Pulcherrima">Pulcherrima · Forward</option><option value="Achird">Achird · Friendly</option><option value="Zubenelgenubi">Zubenelgenubi · Casual</option><option value="Vindemiatrix">Vindemiatrix · Gentle</option><option value="Sadachbia">Sadachbia · Lively</option><option value="Sadaltager">Sadaltager · Knowledgeable</option><option value="Sulafat">Sulafat · Warm</option></select></div>
+          <div class="li col"><label for="gemVoiceCustom"><b>Voz do AI Studio (opcional)</b></label><input id="gemVoiceCustom" type="text" autocomplete="off" spellcheck="false" placeholder="Nome ou ID da voz (ex.: voice_...)"><small>Se preencher, vale mais que a lista acima. No AI Studio você escolhe entre centenas de vozes ou cria uma por descrição; copie o ID e cole aqui.</small></div>
+          <div class="li col"><label for="gemStyle"><b>Jeito de falar (Gemini)</b></label><input id="gemStyle" type="text" autocomplete="off" spellcheck="false" placeholder="calmo, elegante e confiante"><small>Curto. Ex.: calmo e firme, animado, sussurrando. Deixe vazio para o padrão.</small></div>
           <div class="li col"><div class="spread"><b>Velocidade (voz do aparelho)</b><span class="val" id="uVrV"></span></div><input type="range" id="uVr" min="0.6" max="1.4" step="0.05"></div>
         </div></div>
       </div>
@@ -511,7 +514,8 @@ const CONFIG = {
   /* ID da voz do Jarvis na ElevenLabs (usado quando uma conta da tabela fica sem ID). */
   elevenVoice: "eTVNeSEqE24CXsFMs6eZ",
   geminiModels: ["gemini-3.5-flash", "gemini-3-flash-preview", "gemini-3.5-flash-lite"],
-  geminiTtsModels: ["gemini-2.5-flash-preview-tts", "gemini-2.5-flash-tts"],
+  geminiTtsModels: ["gemini-3.8-flash-lite-tts", "gemini-3.8-flash-tts"],                       /* API nova (Interactions) */
+  geminiLegacyTtsModels: ["gemini-3.1-flash-tts-preview", "gemini-2.5-flash-preview-tts"],     /* API antiga (reserva) */
   historyLimit: 20,
   storedMessages: 60
 };
@@ -596,7 +600,7 @@ const DEFAULTS = {
   ai_temp: "0.8", ai_model: "", ai_extra: "", gemini_key: "", jarvis_mode: "normal",
   speak_replies: "0", stt_mode: "gemini", stt_sil: "1", stt_sens: "5",
   el_voice: "", el_model: "eleven_flash_v2_5", el_stab: "0.5", el_sim: "0.8", el_spd: "1", el_mode: "direct", el_down: "0", el_dead: "{}",
-  v_fb: "1", gem_voice: "Charon", v_rate: "1",
+  v_fb: "1", gem_voice: "Charon", gem_voice_custom: "", gem_style: "calmo, elegante e confiante", v_rate: "1",
   g_url: "", g_pass: "", g_sheet: "", g_ok: "0", s_cat: "look", jarvis_bar: "1"
 };
 const RESET_KEYS = ["ui_theme","ui_acc","ui_avatar","ui_fs","ui_blur","ui_orb","ui_motion","ui_quick","ui_acts","enter_send","u_name","u_addr","u_pers","u_len","ai_temp","ai_extra","ai_model","mem_live","gem_voice","v_rate"];
@@ -1803,25 +1807,63 @@ function pcmToWav(b64) {
   for (let i = 0; i < n; i++) v.setUint8(44 + i, bin.charCodeAt(i));
   return new Blob([buf], { type: "audio/wav" });
 }
+function geminiAudioFrom(d) {
+  let audio = null;
+  (d.steps || []).forEach(st => { if (st && st.type === "model_output") (st.content || []).forEach(c => { if (c && c.type === "audio" && c.data) audio = c; }); });
+  if (!audio) throw new Error("o Gemini não devolveu áudio");
+  return /l16|pcm/i.test(audio.mime_type || "") ? pcmToWav(audio.data) : b64Blob(audio.data, "audio/wav");
+}
+/* Modelos novos: API Interactions (aceita as 30 vozes, vozes do AI Studio e estilo de fala) */
+async function geminiInteractionsTts(model, txt, voice, style, key) {
+  const annotations = style ? [{ type: "speech_metadata", style }] : undefined;
+  const content = [Object.assign({ type: "text", text: txt }, annotations ? { annotations } : {})];
+  const r = await fetchT("https://generativelanguage.googleapis.com/v1beta/interactions", {
+    method: "POST", headers: { "Content-Type": "application/json", "x-goog-api-key": key },
+    body: JSON.stringify({ model, input: [{ type: "user_input", content }], response_format: { type: "audio" }, generation_config: { speech_config: [{ voice }] } })
+  }, 30000);
+  let d = {}; try { d = await r.json(); } catch (e) {}
+  if (!r.ok) throw Object.assign(new Error("Gemini voz (" + model + ") HTTP " + r.status + ": " + String((d.error && d.error.message) || "erro").slice(0, 140)), { status: r.status });
+  return geminiAudioFrom(d);
+}
+/* Modelos antigos: generateContent (reserva caso a API nova falhe) */
+async function geminiLegacyTts(model, txt, key) {
+  const r = await fetchT("https://generativelanguage.googleapis.com/v1beta/models/" + model + ":generateContent", {
+    method: "POST", headers: { "Content-Type": "application/json", "x-goog-api-key": key },
+    body: JSON.stringify({ contents: [{ parts: [{ text: "Diga em português do Brasil, com voz calma e elegante: " + txt }] }],
+      generationConfig: { responseModalities: ["AUDIO"], speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: cfg("gem_voice") } } } } })
+  }, 25000);
+  let d = {}; try { d = await r.json(); } catch (e) {}
+  if (!r.ok) throw Object.assign(new Error("Gemini voz (" + model + ") HTTP " + r.status + ": " + String((d.error && d.error.message) || "erro").slice(0, 140)), { status: r.status });
+  const part = d.candidates && d.candidates[0] && d.candidates[0].content && d.candidates[0].content.parts && d.candidates[0].content.parts[0];
+  if (!part || !part.inlineData) throw new Error("o Gemini não devolveu áudio");
+  return pcmToWav(part.inlineData.data);
+}
 async function geminiSpeak(txt) {
   const key = cfg("gemini_key").trim();
   if (!key) throw new Error("falta a chave do Gemini");
-  const saved = LS.get("gem_tts_ok", ""), models = saved ? [saved] : CONFIG.geminiTtsModels;
-  let last = null;
-  for (const m of models) {
-    try {
-      const r = await fetchT("https://generativelanguage.googleapis.com/v1beta/models/" + m + ":generateContent", {
-        method: "POST", headers: { "Content-Type": "application/json", "x-goog-api-key": key },
-        body: JSON.stringify({ contents: [{ parts: [{ text: "Diga em português do Brasil, com voz masculina grave, calma e elegante: " + txt }] }],
-          generationConfig: { responseModalities: ["AUDIO"], speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: cfg("gem_voice") } } } } })
-      }, 20000);
-      const d = await r.json();
-      if (!r.ok) throw new Error((d.error && d.error.message) || "HTTP " + r.status);
-      LS.set("gem_tts_ok", m);
-      return pcmToWav(d.candidates[0].content.parts[0].inlineData.data);
-    } catch (e) { last = e; }
+  const voice = cfg("gem_voice_custom").trim() || cfg("gem_voice"), style = cfg("gem_style").trim();
+  const errs = [];
+  for (const m of CONFIG.geminiTtsModels) {
+    try { return await geminiInteractionsTts(m, txt, voice, style, key); }
+    catch (e) { errs.push(e.message || String(e)); if (e.status === 401 || e.status === 403) throw e; }
   }
-  throw last;
+  for (const m of CONFIG.geminiLegacyTtsModels) {
+    try { return await geminiLegacyTts(m, txt, key); }
+    catch (e) { errs.push(e.message || String(e)); if (e.status === 401 || e.status === 403) throw e; }
+  }
+  throw new Error(errs[0] || "nenhum modelo de voz do Gemini respondeu");
+}
+async function testGemini() {
+  unlockAudio();
+  const out = $("gemOut"); out.style.color = "";
+  if (!cfg("gemini_key").trim()) { out.style.color = "var(--bad)"; out.textContent = "Falta a chave do Gemini (Ajustes → Jarvis)."; return; }
+  out.textContent = "Gerando a voz do Gemini...";
+  const t0 = Date.now();
+  try {
+    const bl = await geminiSpeak("Voz do Gemini funcionando, " + ME.address + ".");
+    out.style.color = "var(--ok)"; out.textContent = "✓ Funcionou em " + ((Date.now() - t0) / 1000).toFixed(1) + " s.";
+    try { await playBlob(bl, "Voz do Gemini funcionando."); } catch (e) {}
+  } catch (e) { out.style.color = "var(--bad)"; out.textContent = "✗ " + (e.message || e); }
 }
 /* Gera o áudio de um trecho. Devolve {bl, src} ou null; os motivos das falhas vão em errs. */
 async function speechBlob(txt, errs) {
@@ -2418,7 +2460,9 @@ function bindSettings() {
   bindElTable();
   bind.select("elModel", "el_model", "eleven_flash_v2_5");
   bind.range("elStab", "el_stab", "0.5"); bind.range("elSim", "el_sim", "0.8"); bind.range("elSpd", "el_spd", "1");
-  bind.seg("uFb", "v_fb", "1"); bind.select("uGv", "gem_voice", "Charon"); bind.range("uVr", "v_rate", "1");
+  bind.seg("uFb", "v_fb", "1"); bind.select("uGv", "gem_voice", "Charon");
+  bind.text("gemVoiceCustom", "gem_voice_custom", ""); bind.text("gemStyle", "gem_style", "calmo, elegante e confiante");
+  $("gemTest").onclick = testGemini; bind.range("uVr", "v_rate", "1");
   $("voiceTest").onclick = testVoice;
 
   /* chat */
