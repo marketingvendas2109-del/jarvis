@@ -277,6 +277,10 @@ html[data-theme=light] #call{background:radial-gradient(ellipse 85% 55% at 50% 3
 #cLevel{width:min(260px,64vw);height:6px;border-radius:999px;background:rgba(127,127,170,.25);overflow:hidden;margin:6px 0 2px}
 #cLevel i{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,var(--acc),var(--acc2));transition:width .08s linear}
 #cLevel.off{visibility:hidden}
+.srcs{margin-top:10px;font-size:12.5px;color:var(--dim)}
+.srcs .sl{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.srcs a{padding:4px 10px;border-radius:999px;background:var(--glass2);border:1px solid var(--line);color:var(--txt);text-decoration:none;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.srcs iframe.sug{border:0;width:100%;height:46px;margin-top:6px;border-radius:12px;color-scheme:normal}
 .vnote{margin-top:8px;font-size:12.5px;color:var(--dim);display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 .vnote button{padding:5px 11px;border-radius:999px;background:var(--glass2);border:1px solid var(--line);font-size:12.5px;color:var(--txt)}
 
@@ -406,6 +410,7 @@ html.no-motion *{animation:none!important;transition:none!important}
           <div class="li col"><label for="gemKey"><b>Chave do Gemini</b></label><input id="gemKey" type="password" autocomplete="off" spellcheck="false" placeholder="Cole sua chave aqui"></div>
           <div class="li"><span><b>Modelo do Gemini</b><small>Automático tenta os melhores</small></span>
             <select id="uModel"><option value="">Automático</option><option value="gemini-3.5-flash">Gemini 3.5 Flash</option><option value="gemini-3-flash-preview">Gemini 3 Flash</option><option value="gemini-3.5-flash-lite">Lite (mais rápido)</option></select></div>
+          <label class="li"><span><b>Pesquisar na internet</b><small>Notícias, clima, preços e tudo em tempo real. Grátis até 5.000 pesquisas por mês</small></span><input type="checkbox" id="uWeb"></label>
           <div class="li"><span><b>Testar conexão</b><small id="testOut">Verifica se a chave funciona</small></span><button class="go" id="testAI" type="button">Testar</button></div>
         </div></div>
         <div class="grp"><div class="gt">Memória</div><div class="gl">
@@ -417,9 +422,8 @@ html.no-motion *{animation:none!important;transition:none!important}
       <div class="cat" data-c="voz">
         <div class="grp"><div class="gt">Voz do Jarvis (Gemini)</div><div class="gl">
           <div class="li"><span><b>Testar a voz</b><small id="gemOut">Toque em Testar para ouvir</small></span><button class="go" id="gemTest" type="button">Testar</button></div>
-          <div class="li"><span><b>Voz</b><small>Ouça todas em aistudio.google.com/generate-speech</small></span>
-            <select id="uGv"><option value="Zephyr">Zephyr · Bright</option><option value="Puck">Puck · Upbeat</option><option value="Charon">Charon · Informative</option><option value="Kore">Kore · Firm</option><option value="Fenrir">Fenrir · Excitable</option><option value="Leda">Leda · Youthful</option><option value="Orus">Orus · Firm</option><option value="Aoede">Aoede · Breezy</option><option value="Callirrhoe">Callirrhoe · Easy-going</option><option value="Autonoe">Autonoe · Bright</option><option value="Enceladus">Enceladus · Breathy</option><option value="Iapetus">Iapetus · Clear</option><option value="Umbriel">Umbriel · Easy-going</option><option value="Algieba">Algieba · Smooth</option><option value="Despina">Despina · Smooth</option><option value="Erinome">Erinome · Clear</option><option value="Algenib">Algenib · Gravelly</option><option value="Rasalgethi">Rasalgethi · Informative</option><option value="Laomedeia">Laomedeia · Upbeat</option><option value="Achernar">Achernar · Soft</option><option value="Alnilam">Alnilam · Firm</option><option value="Schedar">Schedar · Even</option><option value="Gacrux">Gacrux · Mature</option><option value="Pulcherrima">Pulcherrima · Forward</option><option value="Achird">Achird · Friendly</option><option value="Zubenelgenubi">Zubenelgenubi · Casual</option><option value="Vindemiatrix">Vindemiatrix · Gentle</option><option value="Sadachbia">Sadachbia · Lively</option><option value="Sadaltager">Sadaltager · Knowledgeable</option><option value="Sulafat">Sulafat · Warm</option></select></div>
-          <div class="li col"><label for="gemVoiceCustom"><b>Voz do AI Studio (opcional)</b></label><input id="gemVoiceCustom" type="text" autocomplete="off" spellcheck="false" placeholder="Nome ou ID da voz (ex.: voice_...)"><small>Se preencher, vale mais que a lista acima. No AI Studio você escolhe entre centenas de vozes ou cria uma por descrição; copie o ID e cole aqui.</small></div>
+          <div class="li col"><b>Voz do Jarvis</b><div class="seg" id="uGv"><button type="button" data-v="Charon">Charon · masculina</button><button type="button" data-v="Kore">Kore · feminina</button></div></div>
+          <div class="li col"><small id="gemUsage"></small><small>O Gemini grátis tem limite de falas por minuto e por dia. Para tirar o limite, ative o faturamento (pay-as-you-go) da sua chave no Google AI Studio: fica praticamente ilimitado e custa centavos por dia de uso comum.</small></div>
           <div class="li col"><label for="gemStyle"><b>Jeito de falar</b></label><input id="gemStyle" type="text" autocomplete="off" spellcheck="false" placeholder="calmo, elegante e confiante"><small>Curto. Ex.: calmo e firme, animado, sussurrando. Deixe vazio para o padrão.</small></div>
           <label class="li"><span><b>Ler respostas em voz alta</b><small>No chat de texto</small></span><input type="checkbox" id="speakReplies"></label>
         </div></div>
@@ -644,7 +648,7 @@ const DEFAULTS = {
   ui_acc: "blue", ui_accc: "#3b82f6", ui_avatar: "face", ui_avc: "auto", ui_glow: "100", ui_bg: "aurora", ui_font: "system", ui_bub: "round", face_q: "mid", face_move: "100", ui_fs: "16", ui_blur: "22", ui_orb: "1", ui_motion: "1", ui_quick: "1", ui_acts: "1",
   enter_send: "1", mem_live: "1", u_name: "", u_addr: "", u_pers: "mordomo", u_len: "normal",
   ai_temp: "0.8", ai_model: "", ai_extra: "", gemini_key: "", jarvis_mode: "normal",
-  speak_replies: "0", stt_mode: "gemini", stt_sil: "0.8", voice_short: "1", stt_sens: "7",
+  speak_replies: "0", stt_mode: "gemini", stt_sil: "0.8", voice_short: "1", web_search: "1", stt_sens: "7",
  
   voice_fb: "0", gem_voice: "Charon", gem_voice_custom: "", gem_style: "calmo, elegante e confiante", v_rate: "1",
   g_url: "", g_pass: "", g_sheet: "", g_ok: "0", s_cat: "look", jarvis_bar: "1"
@@ -888,6 +892,25 @@ function normalizeTurns(turns, system) {
   return { contents, instruction: instructions.join("\n\n") };
 }
 
+/* ---- pesquisa na internet em tempo real (Grounding with Google Search, do próprio Gemini) ---- */
+let lastSearch = null;
+const takeSearch = () => { const x = lastSearch; lastSearch = null; return x; };
+function mergeSearch(gm) {
+  if (!gm) return;
+  const cur = lastSearch || { queries: [], sources: [], html: "" };
+  (gm.webSearchQueries || []).forEach(q => { if (!cur.queries.includes(q)) cur.queries.push(q); });
+  (gm.groundingChunks || []).forEach(c => {
+    const w = c && c.web; if (!w || !/^https?:\/\//.test(w.uri || "")) return;
+    const t = w.title || w.uri;
+    if (!cur.sources.some(x => x.t === t)) cur.sources.push({ t, u: w.uri });
+  });
+  cur.sources = cur.sources.slice(0, 6);
+  if (gm.searchEntryPoint && gm.searchEntryPoint.renderedContent) cur.html = gm.searchEntryPoint.renderedContent;
+  if (cur.queries.length || cur.sources.length) lastSearch = cur;
+}
+const searchBlocked = m => (LS.json("search_off", {})[m] || 0) > Date.now();
+function blockSearch(m, ms) { const o = LS.json("search_off", {}); o[m] = Date.now() + ms; LS.set("search_off", JSON.stringify(o)); }
+
 async function callAI(turns, system, opts) {
   opts = opts || {};
   const key = cfg("gemini_key").trim();
@@ -895,17 +918,19 @@ async function callAI(turns, system, opts) {
   const { contents, instruction } = normalizeTurns(turns, system);
   const basePayload = { contents, generationConfig: { temperature: cfgNum("ai_temp") } };
   if (instruction) basePayload.systemInstruction = { parts: [{ text: instruction }] };
+  const wantSearch = opts.search !== false && cfg("web_search") !== "0";
   /* na chamada de voz: respostas curtas e pouco "pensamento" = resposta bem mais rápida */
   let quick = !!opts.fast && LS.get("think_off", "") !== "1";
-  const build = q => {
+  const build = (q, s) => {
     const p = JSON.parse(JSON.stringify(basePayload));
     if (opts.fast) p.generationConfig.maxOutputTokens = opts.maxTokens || 600;
     if (q) p.generationConfig.thinkingConfig = { thinkingLevel: "minimal" };
+    if (s) p.tools = [{ google_search: {} }];
     return p;
   };
-  const post = async (model, q) => {
+  const post = async (model, q, s) => {
     const r = await fetchT("https://generativelanguage.googleapis.com/v1beta/models/" + encodeURIComponent(model) + ":generateContent",
-      { method: "POST", headers: { "Content-Type": "application/json", "x-goog-api-key": key }, body: JSON.stringify(build(q)) }, 60000);
+      { method: "POST", headers: { "Content-Type": "application/json", "x-goog-api-key": key }, body: JSON.stringify(build(q, s)) }, 60000);
     let data;
     try { data = JSON.parse(await r.text()); } catch (e) { throw Object.assign(new Error("resposta inválida"), { code: "http", status: r.status }); }
     return { r, data };
@@ -914,15 +939,28 @@ async function callAI(turns, system, opts) {
   let lastError = new Error("Nenhum modelo conseguiu responder.");
   for (const model of modelOrder(opts.fast)) {
     try {
-      let { r, data } = await post(model, quick);
-      if (!r.ok && r.status === 400 && quick) {      /* o modelo não aceitou o modo rápido: tenta normal e para de pedir */
-        LS.set("think_off", "1"); quick = false;
-        ({ r, data } = await post(model, false));
+      const useS = wantSearch && !searchBlocked(model), useQ = quick;
+      let { r, data } = await post(model, useQ, useS);
+      if (!r.ok && (useQ || useS) && (r.status === 400 || (r.status === 429 && useS))) {
+        /* o modelo não aceitou o modo rápido ou a pesquisa: tira um de cada vez até funcionar */
+        const failed = r.status, combos = [], add = (q, s) => { if (!combos.some(c => c[0] === q && c[1] === s)) combos.push([q, s]); };
+        if (useQ && failed === 400) add(false, useS);
+        if (useS) { add(useQ, false); if (useQ && failed === 400) add(false, false); }
+        for (const [q, s] of combos) {
+          const res = await post(model, q, s);
+          if (res.r.ok) {
+            if (useQ && !q) { LS.set("think_off", "1"); quick = false; }
+            if (useS && !s) blockSearch(model, failed === 429 ? 10 * 60 * 1000 : 6 * 3600 * 1000);
+            ({ r, data } = res); break;
+          }
+          if (res.r.status !== 400 && res.r.status !== 429) { ({ r, data } = res); break; }
+        }
       }
       if (!r.ok) throw Object.assign(new Error((data.error && data.error.message) || "HTTP " + r.status), { code: "http", status: r.status });
       const cand = data.candidates && data.candidates[0];
       const text = ((cand && cand.content && cand.content.parts) || []).filter(p => typeof p.text === "string" && p.thought !== true).map(p => p.text).join("");
       if (!text.trim()) throw Object.assign(new Error((data.promptFeedback && data.promptFeedback.blockReason) || (cand && cand.finishReason) || "sem texto"), { code: "empty" });
+      mergeSearch(cand && cand.groundingMetadata);
       return text;
     } catch (e) {
       lastError = e;
@@ -960,6 +998,7 @@ function buildSystem(o) {
     live
       ? "MEMÓRIA VIVA: se o usuário revelar algo novo e duradouro sobre a vida dele, TERMINE a resposta com uma linha no formato EXATO [[SAVE:area|titulo|texto]] (area: metas, trabalho, projetos, financas, aprendizado, saude, relacoes, meta). Se já existir nota com esse título, ela é atualizada; senão nasce uma nova. Título com 1 ou 2 palavras. Só quando houver algo realmente novo."
       : "NÃO use [[SAVE:...]] nesta conversa.",
+    cfg("web_search") !== "0" ? "PESQUISA NA INTERNET: você pode pesquisar na web em tempo real. Use quando a pergunta depender de informação atual ou recente (notícias, clima, preços, cotações, resultados de jogos, horários, eventos, 'hoje', 'agora', 'último') ou de fatos de que você não tem certeza. Não pesquise em conversa comum, opiniões ou quando a resposta já estiver no Second Brain. Responda com base no que encontrou, sem inventar." : "",
     googlePrompt(),
     len === "short" ? "TAMANHO: responda sempre de forma curta (no máximo 3 frases)." : len === "long" ? "TAMANHO: responda de forma detalhada e completa, com exemplos quando ajudar." : "",
     extra ? "INSTRUÇÕES EXTRAS DO USUÁRIO (siga sempre): " + extra : "",
@@ -1182,6 +1221,15 @@ function pushMsg(role, text, opts) {
     bar.children[1].onclick = () => Speech.speak(text);
     d.querySelector(".bub").appendChild(bar);
   }
+  if (!user && !opts.error && opts.search) {
+    const sr = opts.search, box = document.createElement("div"); box.className = "srcs";
+    let h = "";
+    if (sr.queries && sr.queries.length) h += '<div class="sq">🔎 Pesquisou: ' + sr.queries.slice(0, 3).map(esc).join(" · ") + "</div>";
+    if (sr.sources && sr.sources.length) h += '<div class="sl">' + sr.sources.map(x => '<a href="' + esc(x.u) + '" target="_blank" rel="noopener noreferrer">' + esc(x.t) + "</a>").join("") + "</div>";
+    box.innerHTML = h;
+    if (sr.html) { const f = document.createElement("iframe"); f.setAttribute("sandbox", "allow-popups allow-popups-to-escape-sandbox"); f.setAttribute("srcdoc", sr.html); f.className = "sug"; box.appendChild(f); }
+    if (h || sr.html) d.querySelector(".bub").appendChild(box);
+  }
   $("msgs").appendChild(d);
   $("msgs").classList.remove("hidden");
   $("hero").classList.add("hidden");
@@ -1192,7 +1240,7 @@ function pushMsg(role, text, opts) {
 
 function renderHistory() {
   $("msgs").innerHTML = "";
-  Chats.log.forEach(m => pushMsg(m.role, m.content, { att: m.att }));
+  Chats.log.forEach(m => pushMsg(m.role, m.content, { att: m.att, search: m.search }));
 }
 
 function setThinking(on) {
@@ -1231,12 +1279,14 @@ async function sendMessage(text) {
   Chats.persist(); setThinking(true);
   let reply = null;
   try {
+    lastSearch = null;
     const raw = await converse(buildTurns(att));
     setThinking(false);
     reply = Brain.applySaves(raw) || "…";
-    Chats.log.push({ role: "assistant", content: reply });
+    const found = takeSearch(), saved = found ? { queries: found.queries, sources: found.sources } : undefined;
+    Chats.log.push(Object.assign({ role: "assistant", content: reply }, saved ? { search: saved } : {}));
     Chats.persist();
-    pushMsg("assistant", reply);
+    pushMsg("assistant", reply, { search: found || undefined });
     if (!Call.on && cfg("speak_replies") === "1") Speech.speak(reply);
   } catch (e) {
     setThinking(false);
@@ -1259,6 +1309,7 @@ async function sendVoiceMessage(b64) {
   try {
     const turns = buildTurns(null);
     turns[turns.length - 1] = { role: "user", parts: [{ inlineData: { mimeType: "audio/wav", data: b64 } }, { text: "(mensagem por voz: o conteúdo está no áudio)" }] };
+    lastSearch = null;
     const raw = await converse(turns, { audio: true });
     setThinking(false);
     const m = /\[\[OUVI:([\s\S]*?)\]\]/.exec(raw);
@@ -1270,9 +1321,10 @@ async function sendVoiceMessage(b64) {
     const bub = el && el.querySelector ? el.querySelector(".bub") : null;
     if (bub) bub.innerHTML = esc(heard).replace(/\n/g, "<br>");
     const reply = Brain.applySaves(body) || "…";
-    Chats.log.push({ role: "assistant", content: reply });
+    const found = takeSearch(), saved = found ? { queries: found.queries, sources: found.sources } : undefined;
+    Chats.log.push(Object.assign({ role: "assistant", content: reply }, saved ? { search: saved } : {}));
     Chats.persist();
-    pushMsg("assistant", reply);
+    pushMsg("assistant", reply, { search: found || undefined });
     if (CONFIG.makeTrigger.test(heard)) sendToMake("Comando Jarvis", heard);
     return { text: reply, heard };
   } catch (e) {
@@ -1359,7 +1411,7 @@ function showView(id) {
   document.querySelectorAll(".tab").forEach(t => t.classList.toggle("on", t.dataset.v === id));
   $("composer").classList.toggle("hidden", id !== "vChat");
   if (id === "vMemory") renderBrain();
-  if (id === "vSettings") updateStats();
+  if (id === "vSettings") { updateStats(); updateGemUsage(); }
   $("main").scrollTop = (id === "vChat" && Chats.log.length) ? $("main").scrollHeight : 0;
 }
 
@@ -2011,7 +2063,7 @@ async function geminiLegacyTts(model, txt, key) {
   return pcmToWav(part.inlineData.data);
 }
 function geminiVoiceErr(status, msg, custom) {
-  if (status === 429) return "o limite de uso da voz do Gemini foi atingido: espere um pouco (ou use outra chave do Gemini)";
+  if (status === 429) return "o limite de falas do Gemini grátis foi atingido (por minuto ou por dia). Espere um pouco; para tirar o limite, ative o faturamento da chave no Google AI Studio";
   if (status === 401 || status === 403) return "a chave do Gemini foi recusada para voz (erro " + status + ")";
   if (status === 404) return "o modelo de voz do Gemini não foi encontrado (404)";
   if (status === 400) return "o Gemini recusou o pedido de voz (400)" + (custom ? ": confira o ID da voz do AI Studio" : "") + (msg ? " · " + msg : "");
@@ -2021,7 +2073,7 @@ function geminiVoiceErr(status, msg, custom) {
 async function geminiSpeakRaw(txt, again) {
   const key = cfg("gemini_key").trim();
   if (!key) throw new Error("falta a chave do Gemini (Ajustes → Jarvis)");
-  const custom = cfg("gem_voice_custom").trim(), voice = custom || cfg("gem_voice"), style = cfg("gem_style").trim();
+  const custom = "", voice = cfg("gem_voice"), style = cfg("gem_style").trim();
   const attempts = CONFIG.geminiTtsModels.map(m => ({ api: "i", model: m })).concat(CONFIG.geminiLegacyTtsModels.map(m => ({ api: "l", model: m })));
   const ok = LS.json("gem_tts_ok", null);
   if (ok) { const k = attempts.findIndex(a => a.api === ok.api && a.model === ok.model); if (k > 0) attempts.unshift(attempts.splice(k, 1)[0]); }
@@ -2048,10 +2100,16 @@ async function geminiSpeakRaw(txt, again) {
 }
 /* Áudios já gerados ficam guardados: ouvir de novo não gasta pedido nem espera */
 const ttsCache = new Map();
+/* contador de falas geradas hoje (ajuda a perceber o limite do plano grátis) */
+const dayKey = () => new Date().toISOString().slice(0, 10);
+const ttsUsage = () => { const u = LS.json("tts_count", {}); return u.d === dayKey() ? u.n : 0; };
+function bumpTts() { LS.set("tts_count", JSON.stringify({ d: dayKey(), n: ttsUsage() + 1 })); updateGemUsage(); }
+function updateGemUsage() { const el = $("gemUsage"); if (el) el.textContent = "Falas geradas hoje: " + ttsUsage(); }
 async function geminiSpeak(txt) {
-  const key = (cfg("gem_voice_custom").trim() || cfg("gem_voice")) + "|" + cfg("gem_style").trim() + "|" + txt;
+  const key = cfg("gem_voice") + "|" + cfg("gem_style").trim() + "|" + txt;
   if (ttsCache.has(key)) return Object.assign({ cached: true }, ttsCache.get(key));
   const g = await geminiSpeakRaw(txt);
+  bumpTts();
   ttsCache.set(key, g);
   if (ttsCache.size > 30) ttsCache.delete(ttsCache.keys().next().value);
   return g;
@@ -2549,7 +2607,7 @@ function bindSettings() {
   bind.range("uTemp", "ai_temp", "0.8");
   $("uExtra").value = cfg("ai_extra"); $("uExtra").addEventListener("input", e => LS.set("ai_extra", e.target.value));
   bind.text("gemKey", "gemini_key", ""); bind.select("uModel", "ai_model", "");
-  bind.toggle("uMem", "mem_live", "1");
+  bind.toggle("uMem", "mem_live", "1"); bind.toggle("uWeb", "web_search", "1");
   $("testAI").onclick = async () => {
     const o = $("testOut"); o.className = ""; o.textContent = "Testando...";
     try { const t = await callAI([{ role: "user", content: "teste" }], "Responda apenas: ok"); o.className = "ok"; o.textContent = "✓ Conectado! Resposta: " + t.slice(0, 40); }
@@ -2559,8 +2617,10 @@ function bindSettings() {
   /* voz */
   bind.toggle("speakReplies", "speak_replies", "0");
   bind.seg("uStt", "stt_mode", "gemini"); bind.range("uSil", "stt_sil", "0.8"); bind.toggle("uVshort", "voice_short", "1"); bind.range("uSens", "stt_sens", "7");
-  bind.seg("uFb", "voice_fb", "0"); bind.select("uGv", "gem_voice", "Charon");
-  bind.text("gemVoiceCustom", "gem_voice_custom", ""); bind.text("gemStyle", "gem_style", "calmo, elegante e confiante");
+  bind.seg("uFb", "voice_fb", "0");
+  if (!["Charon", "Kore"].includes(cfg("gem_voice"))) LS.set("gem_voice", "Charon");   /* só Charon e uma feminina */
+  bind.seg("uGv", "gem_voice", "Charon", () => { ttsCache.clear(); LS.del("gem_tts_ok"); });
+  bind.text("gemStyle", "gem_style", "calmo, elegante e confiante"); updateGemUsage();
   $("gemTest").onclick = testGemini; bind.range("uVr", "v_rate", "1");
   $("voiceTest").onclick = testVoice;
 
