@@ -229,26 +229,32 @@ html[data-theme=light] .gl{box-shadow:0 1px 0 #fff inset,0 10px 30px rgba(30,60,
 .gbtn{display:flex;align-items:center;gap:8px;padding:9px 14px;border-radius:12px;background:#fff;color:#1f1f1f;border:1px solid #dadce0;font-weight:600;font-size:14px;flex:none;box-shadow:0 1px 2px rgba(0,0,0,.15)}
 .gbtn.on{background:#e6f4ea;border-color:#34a853;color:#137333}
 
-/* ----- tabela de contas do ElevenLabs ----- */
-.ftab{padding:10px 12px 6px}
-.fhead,.frow{display:grid;grid-template-columns:20px minmax(0,1.2fr) minmax(0,1fr) 76px;gap:6px;align-items:center}
-.fhead{font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--dim);padding:0 0 7px;border-bottom:1px solid var(--line)}
-.frow{padding:9px 0;border-bottom:1px solid var(--line)}
-.frow:last-child{border-bottom:0}
-.frow .n{font-size:12px;color:var(--dim);text-align:center;font-weight:700}
-.frow input{width:100%;min-width:0;background:rgba(127,127,170,.14);border:1px solid var(--line);border-radius:9px;padding:9px 8px;font-size:12.5px;color:var(--txt);outline:none;font-family:var(--mono)}
-.frow input:focus{border-color:var(--acc)}
-.sc{display:flex;flex-direction:column;gap:5px;align-items:stretch}
-.st{font-size:10.5px;line-height:1.25;text-align:center;border-radius:8px;padding:5px 3px;font-weight:600}
-.st.on{color:#34d399;background:rgba(16,185,129,.16)}
-.st.wait{color:var(--dim);background:rgba(127,127,170,.16)}
-.st.off{color:#ff8b7a;background:rgba(239,68,68,.16)}
-.ra{display:flex;gap:5px}
-.ra button{flex:1;height:28px;border-radius:8px;background:var(--glass2);border:1px solid var(--line);display:grid;place-items:center;font-size:12px;color:var(--txt)}
-.ra button svg.i{width:15px;height:15px}
-.fempty{padding:16px 4px;text-align:center;color:var(--dim);font-size:13px}
-.fsum{font-size:12.5px;color:var(--dim);padding:2px 16px 12px}
-#elAccInfo{white-space:pre-line;line-height:1.5}
+/* ----- novos: aviso, prévia do avatar, cor própria ----- */
+#toast{position:fixed;left:50%;bottom:calc(150px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);max-width:min(92vw,520px);z-index:95;padding:11px 16px;border-radius:14px;background:var(--sbg);border:1px solid var(--line);font-size:13px;line-height:1.4;box-shadow:0 10px 30px rgba(0,0,0,.4);-webkit-backdrop-filter:blur(var(--blur));backdrop-filter:blur(var(--blur));animation:fi .25s both}
+.avprev{display:block;width:min(100%,260px);height:230px;margin:4px auto 10px}
+.rowc{display:flex;align-items:center;gap:10px}
+.rowc input[type=color]{width:42px;height:34px;border:1px solid var(--line);border-radius:10px;background:none;padding:2px;flex:none}
+.swa{flex-wrap:wrap}
+
+/* ----- estilos de fundo e de balões ----- */
+html.bg-solid body{background:var(--bg)}
+html.bg-grid body{background:
+  linear-gradient(color-mix(in srgb,var(--acc) 16%,transparent) 1px,transparent 1px) 0 0/38px 38px,
+  linear-gradient(90deg,color-mix(in srgb,var(--acc) 16%,transparent) 1px,transparent 1px) 0 0/38px 38px,
+  radial-gradient(ellipse 90% 45% at 50% -8%,color-mix(in srgb,var(--acc) 30%,#000) 0,transparent 65%),var(--bg)}
+html.bg-dots body{background:
+  radial-gradient(color-mix(in srgb,var(--acc) 40%,transparent) 1.2px,transparent 1.5px) 0 0/22px 22px,
+  radial-gradient(ellipse 90% 45% at 50% -8%,color-mix(in srgb,var(--acc) 30%,#000) 0,transparent 65%),var(--bg)}
+html[data-theme=light].bg-grid body{background:
+  linear-gradient(color-mix(in srgb,var(--acc) 18%,transparent) 1px,transparent 1px) 0 0/38px 38px,
+  linear-gradient(90deg,color-mix(in srgb,var(--acc) 18%,transparent) 1px,transparent 1px) 0 0/38px 38px,
+  radial-gradient(ellipse 90% 45% at 50% -8%,color-mix(in srgb,var(--acc) 16%,#fff) 0,transparent 65%),#fff}
+html[data-theme=light].bg-dots body{background:
+  radial-gradient(color-mix(in srgb,var(--acc) 45%,transparent) 1.2px,transparent 1.5px) 0 0/22px 22px,
+  radial-gradient(ellipse 90% 45% at 50% -8%,color-mix(in srgb,var(--acc) 16%,#fff) 0,transparent 65%),#fff}
+html[data-theme=light].bg-solid body{background:#fff}
+html.bub-sharp .m.u .bub{border-radius:8px}
+html.bub-glass .m.u .bub{background:var(--glass2);color:var(--txt);border:1px solid var(--acc);box-shadow:0 0 20px color-mix(in srgb,var(--acc) 25%,transparent);-webkit-backdrop-filter:blur(var(--blur));backdrop-filter:blur(var(--blur))}
 
 /* ============ 12. TELA DE CHAMADA ============ */
 #call{position:fixed;inset:0;z-index:80;display:flex;flex-direction:column;align-items:center;background:radial-gradient(ellipse 85% 55% at 50% 38%,color-mix(in srgb,var(--acc) 35%,#000) 0,var(--bg) 72%);padding:calc(14px + env(safe-area-inset-top,0px)) 16px calc(24px + env(safe-area-inset-bottom,0px));animation:fi .3s both}
@@ -267,6 +273,12 @@ html[data-theme=light] #call{background:radial-gradient(ellipse 85% 55% at 50% 3
 .cb2.big svg.i{width:34px;height:34px}
 #call[data-s="thinking"] .cb2.big{animation-duration:.7s}
 @keyframes pl{50%{box-shadow:0 0 0 18px color-mix(in srgb,var(--acc) 8%,transparent),0 0 44px color-mix(in srgb,var(--acc2) 80%,transparent)}}
+
+#cLevel{width:min(260px,64vw);height:6px;border-radius:999px;background:rgba(127,127,170,.25);overflow:hidden;margin:6px 0 2px}
+#cLevel i{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,var(--acc),var(--acc2));transition:width .08s linear}
+#cLevel.off{visibility:hidden}
+.vnote{margin-top:8px;font-size:12.5px;color:var(--dim);display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.vnote button{padding:5px 11px;border-radius:999px;background:var(--glass2);border:1px solid var(--line);font-size:12.5px;color:var(--txt)}
 
 /* ============ 13. PREFERÊNCIAS VISUAIS ============ */
 html.no-orb #heroOrb{display:none}
@@ -331,7 +343,7 @@ html.no-motion *{animation:none!important;transition:none!important}
         <div><b id="pName" style="font-size:18px"></b><div class="pst"><span id="pC"></span><span id="pM"></span><span id="pN"></span></div></div>
       </div>
       <div class="snav" id="snav">
-        <button type="button" data-c="look">Aparência</button><button type="button" data-c="jarvis">Jarvis</button>
+        <button type="button" data-c="look">Aparência</button><button type="button" data-c="avatar">Avatar</button><button type="button" data-c="jarvis">Jarvis</button>
         <button type="button" data-c="voz">Voz</button><button type="button" data-c="chat">Chat</button>
         <button type="button" data-c="google">Google</button><button type="button" data-c="dados">Dados</button>
       </div>
@@ -340,14 +352,41 @@ html.no-motion *{animation:none!important;transition:none!important}
       <div class="cat" data-c="look">
         <div class="grp"><div class="gt">Tema e cores</div><div class="gl">
           <div class="li col"><b>Tema</b><div class="seg" id="uTheme"><button type="button" data-v="dark">Escuro</button><button type="button" data-v="light">Claro</button><button type="button" data-v="auto">Automático</button></div></div>
-          <div class="li col"><b>Cor de destaque</b><div class="swa" id="uAcc"></div></div>
+          <div class="li col"><b>Cor de destaque</b><div class="swa" id="uAcc"></div>
+            <div class="rowc"><input type="color" id="uAccC" aria-label="Escolher cor própria"><small>Cor própria: toque no quadrado e escolha qualquer cor</small></div></div>
         </div></div>
-        <div class="grp"><div class="gt">Visual</div><div class="gl">
-          <div class="li col"><b>Visual do Jarvis</b><div class="seg" id="uAvatar"><button type="button" data-v="face">Rosto</button><button type="button" data-v="orb">Esfera</button></div><small>Aparece na tela inicial e na chamada de voz. O rosto mexe a boca com as palavras e muda de expressão.</small></div>
+        <div class="grp"><div class="gt">Fundo</div><div class="gl">
+          <div class="li col"><b>Estilo do fundo</b><div class="seg" id="uBg"><button type="button" data-v="aurora">Aurora</button><button type="button" data-v="solid">Sólido</button><button type="button" data-v="grid">Grade</button><button type="button" data-v="dots">Pontos</button></div></div>
+        </div></div>
+        <div class="grp"><div class="gt">Texto e balões</div><div class="gl">
           <div class="li col"><div class="spread"><b>Tamanho do texto</b><span class="val" id="uFsV"></span></div><input type="range" id="uFs" min="14" max="20" step="1"></div>
+          <div class="li col"><b>Fonte</b><div class="seg" id="uFont"><button type="button" data-v="system">Padrão</button><button type="button" data-v="elegant">Elegante</button><button type="button" data-v="tech">Técnica</button><button type="button" data-v="soft">Suave</button></div></div>
+          <div class="li col"><b>Balões da conversa</b><div class="seg" id="uBub"><button type="button" data-v="round">Redondo</button><button type="button" data-v="sharp">Reto</button><button type="button" data-v="glass">Vidro</button></div></div>
+        </div></div>
+        <div class="grp"><div class="gt">Efeitos</div><div class="gl">
           <div class="li col"><div class="spread"><b>Vidro fosco (desfoque)</b><span class="val" id="uBlurV"></span></div><input type="range" id="uBlur" min="0" max="40" step="2"></div>
-          <label class="li"><span><b>Mostrar o visual na tela inicial</b><small>Rosto ou esfera, acima do cumprimento</small></span><input type="checkbox" id="uOrb"></label>
           <label class="li"><span><b>Animações</b><small>Desligue para economizar bateria</small></span><input type="checkbox" id="uMotion"></label>
+        </div></div>
+      </div>
+
+      <!-- Avatar -->
+      <div class="cat" data-c="avatar">
+        <div class="grp"><div class="gt">Prévia ao vivo</div><div class="gl">
+          <div class="li col"><canvas id="avPrev" class="avprev"></canvas>
+            <div class="seg" id="avState"><button type="button" data-v="idle">Parado</button><button type="button" data-v="listening">Ouvindo</button><button type="button" data-v="thinking">Pensando</button><button type="button" data-v="speaking">Falando</button></div></div>
+        </div></div>
+        <div class="grp"><div class="gt">Estilo do Jarvis</div><div class="gl">
+          <div class="li col"><b>Visual</b><div class="seg" id="uAvatar"><button type="button" data-v="face">Rosto</button><button type="button" data-v="orb">Esfera</button><button type="button" data-v="reactor">Reator</button><button type="button" data-v="waves">Ondas</button></div>
+            <small>Aparece na tela inicial e na chamada de voz.</small></div>
+          <div class="li col"><b>Cor do avatar</b><div class="swa" id="uAvc"></div><small>Automático: o rosto usa as cores originais e os outros seguem a cor de destaque.</small></div>
+          <div class="li col"><div class="spread"><b>Brilho</b><span class="val" id="uGlowV"></span></div><input type="range" id="uGlow" min="40" max="160" step="5" data-suf="%"></div>
+        </div></div>
+        <div class="grp"><div class="gt">Rosto</div><div class="gl">
+          <div class="li col"><b>Qualidade dos pontos</b><div class="seg" id="uFq"><button type="button" data-v="low">Leve</button><button type="button" data-v="mid">Normal</button><button type="button" data-v="high">Alta</button></div><small>Leve é melhor para celulares mais fracos.</small></div>
+          <div class="li col"><div class="spread"><b>Movimento da cabeça</b><span class="val" id="uMoveV"></span></div><input type="range" id="uMove" min="0" max="150" step="5" data-suf="%"></div>
+        </div></div>
+        <div class="grp"><div class="gt">Onde aparece</div><div class="gl">
+          <label class="li"><span><b>Mostrar na tela inicial</b><small>Acima do cumprimento, antes da primeira mensagem</small></span><input type="checkbox" id="uOrb"></label>
         </div></div>
       </div>
 
@@ -376,31 +415,23 @@ html.no-motion *{animation:none!important;transition:none!important}
 
       <!-- Voz -->
       <div class="cat" data-c="voz">
-        <div class="grp"><div class="gt">Contas do ElevenLabs (rodízio automático)</div><div class="gl">
-          <div class="li col"><small>O Jarvis usa a conta nº 1. Quando ela ficar sem créditos, passa sozinho para a nº 2, depois a nº 3, e assim por diante. Ela volta a ser tentada depois de 30 minutos. Deixe o ID da voz em branco para usar o ID padrão (campo mais abaixo).</small></div>
-          <div class="ftab" id="elTable"></div>
-          <div class="fsum" id="elSum"></div>
-          <div class="li col"><div class="btnrow"><button class="go" id="elAdd" type="button">+ Adicionar conta</button><button class="go" id="elReset" type="button">Reativar todas</button><button class="go" id="elShow" type="button">Mostrar chaves</button><button class="go" id="elDiag" type="button">Diagnosticar</button></div><small id="elAccInfo"></small></div>
-        </div></div>
-        <div class="grp"><div class="gt">Voz do Jarvis (ElevenLabs)</div><div class="gl">
+        <div class="grp"><div class="gt">Voz do Jarvis (Gemini)</div><div class="gl">
+          <div class="li"><span><b>Testar a voz</b><small id="gemOut">Toque em Testar para ouvir</small></span><button class="go" id="gemTest" type="button">Testar</button></div>
+          <div class="li"><span><b>Voz</b><small>Ouça todas em aistudio.google.com/generate-speech</small></span>
+            <select id="uGv"><option value="Zephyr">Zephyr · Bright</option><option value="Puck">Puck · Upbeat</option><option value="Charon">Charon · Informative</option><option value="Kore">Kore · Firm</option><option value="Fenrir">Fenrir · Excitable</option><option value="Leda">Leda · Youthful</option><option value="Orus">Orus · Firm</option><option value="Aoede">Aoede · Breezy</option><option value="Callirrhoe">Callirrhoe · Easy-going</option><option value="Autonoe">Autonoe · Bright</option><option value="Enceladus">Enceladus · Breathy</option><option value="Iapetus">Iapetus · Clear</option><option value="Umbriel">Umbriel · Easy-going</option><option value="Algieba">Algieba · Smooth</option><option value="Despina">Despina · Smooth</option><option value="Erinome">Erinome · Clear</option><option value="Algenib">Algenib · Gravelly</option><option value="Rasalgethi">Rasalgethi · Informative</option><option value="Laomedeia">Laomedeia · Upbeat</option><option value="Achernar">Achernar · Soft</option><option value="Alnilam">Alnilam · Firm</option><option value="Schedar">Schedar · Even</option><option value="Gacrux">Gacrux · Mature</option><option value="Pulcherrima">Pulcherrima · Forward</option><option value="Achird">Achird · Friendly</option><option value="Zubenelgenubi">Zubenelgenubi · Casual</option><option value="Vindemiatrix">Vindemiatrix · Gentle</option><option value="Sadachbia">Sadachbia · Lively</option><option value="Sadaltager">Sadaltager · Knowledgeable</option><option value="Sulafat">Sulafat · Warm</option></select></div>
+          <div class="li col"><label for="gemVoiceCustom"><b>Voz do AI Studio (opcional)</b></label><input id="gemVoiceCustom" type="text" autocomplete="off" spellcheck="false" placeholder="Nome ou ID da voz (ex.: voice_...)"><small>Se preencher, vale mais que a lista acima. No AI Studio você escolhe entre centenas de vozes ou cria uma por descrição; copie o ID e cole aqui.</small></div>
+          <div class="li col"><label for="gemStyle"><b>Jeito de falar</b></label><input id="gemStyle" type="text" autocomplete="off" spellcheck="false" placeholder="calmo, elegante e confiante"><small>Curto. Ex.: calmo e firme, animado, sussurrando. Deixe vazio para o padrão.</small></div>
           <label class="li"><span><b>Ler respostas em voz alta</b><small>No chat de texto</small></span><input type="checkbox" id="speakReplies"></label>
+        </div></div>
+        <div class="grp"><div class="gt">Se a voz do Gemini falhar</div><div class="gl">
+          <div class="li col"><b>O que fazer</b><div class="seg" id="uFb"><button type="button" data-v="0">Avisar o erro</button><button type="button" data-v="1">Falar com a voz do aparelho</button></div><small>A voz do aparelho é diferente da que você escolheu, por isso o padrão é só avisar.</small></div>
+          <div class="li col"><div class="spread"><b>Velocidade (voz do aparelho)</b><span class="val" id="uVrV"></span></div><input type="range" id="uVr" min="0.6" max="1.4" step="0.05"></div>
+          <div class="li"><span><b>Testar voz</b><small id="voiceOut">Toque em Testar para ouvir</small></span><button class="go" id="voiceTest" type="button">Testar</button></div>
+        </div></div>
+        <div class="grp"><div class="gt">Microfone (conversa por voz)</div><div class="gl">
           <div class="li col"><b>Reconhecimento de voz (chamada)</b><div class="seg" id="uStt"><button type="button" data-v="gemini">Gemini (recomendado)</button><button type="button" data-v="browser">Navegador</button></div><small>O Gemini funciona no Brave, no Safari e em qualquer navegador. O do navegador falha no Brave.</small></div>
           <div class="li col"><div class="spread"><b>Pausa para o Jarvis responder (segundos)</b><span class="val" id="uSilV"></span></div><input type="range" id="uSil" min="0.6" max="2" step="0.1"></div>
           <div class="li col"><div class="spread"><b>Sensibilidade do microfone</b><span class="val" id="uSensV"></span></div><input type="range" id="uSens" min="1" max="10" step="1"><small>Aumente se ele não te ouve; diminua se ele reage a barulho</small></div>
-          <div class="li col"><label for="elVoice"><b>ID padrão da voz (ElevenLabs)</b></label><input id="elVoice" type="text" autocomplete="off" spellcheck="false" placeholder="Cole aqui o ID (ou o link) da voz"><small>Usado nas contas da tabela que estiverem sem ID. Copie na página da voz em elevenlabs.io (aceita o ID ou o link). Se deixar vazio, usa a voz padrão do Jarvis (eTVNeSEqE24CXsFMs6eZ).</small></div>
-          <div class="li"><span><b>Modelo</b><small>O rápido responde mais depressa</small></span>
-            <select id="elModel"><option value="eleven_flash_v2_5">Rápido (Flash v2.5)</option><option value="eleven_turbo_v2_5">Equilibrado (Turbo v2.5)</option><option value="eleven_multilingual_v2">Melhor qualidade (Multilingual v2)</option></select></div>
-          <div class="li col"><div class="spread"><b>Estabilidade da voz</b><span class="val" id="elStabV"></span></div><input type="range" id="elStab" min="0" max="1" step="0.05"></div>
-          <div class="li col"><div class="spread"><b>Semelhança com a voz original</b><span class="val" id="elSimV"></span></div><input type="range" id="elSim" min="0" max="1" step="0.05"></div>
-          <div class="li col"><div class="spread"><b>Velocidade da fala</b><span class="val" id="elSpdV"></span></div><input type="range" id="elSpd" min="0.7" max="1.2" step="0.05"></div>
-          <div class="li"><span><b>Testar voz</b><small id="voiceOut">Toque em Testar para ouvir</small></span><button class="go" id="voiceTest" type="button">Testar</button></div>
-          <div class="li col"><b>Se a ElevenLabs falhar</b><div class="seg" id="uFb"><button type="button" data-v="1">Usar outra voz</button><button type="button" data-v="0">Avisar o erro</button></div></div>
-          <div class="li"><span><b>Testar a voz do Gemini</b><small id="gemOut">Toque em Testar para ouvir</small></span><button class="go" id="gemTest" type="button">Testar</button></div>
-          <div class="li"><span><b>Voz de reserva (Gemini)</b><small>Ouça todas em aistudio.google.com/generate-speech</small></span>
-            <select id="uGv"><option value="Zephyr">Zephyr · Bright</option><option value="Puck">Puck · Upbeat</option><option value="Charon">Charon · Informative</option><option value="Kore">Kore · Firm</option><option value="Fenrir">Fenrir · Excitable</option><option value="Leda">Leda · Youthful</option><option value="Orus">Orus · Firm</option><option value="Aoede">Aoede · Breezy</option><option value="Callirrhoe">Callirrhoe · Easy-going</option><option value="Autonoe">Autonoe · Bright</option><option value="Enceladus">Enceladus · Breathy</option><option value="Iapetus">Iapetus · Clear</option><option value="Umbriel">Umbriel · Easy-going</option><option value="Algieba">Algieba · Smooth</option><option value="Despina">Despina · Smooth</option><option value="Erinome">Erinome · Clear</option><option value="Algenib">Algenib · Gravelly</option><option value="Rasalgethi">Rasalgethi · Informative</option><option value="Laomedeia">Laomedeia · Upbeat</option><option value="Achernar">Achernar · Soft</option><option value="Alnilam">Alnilam · Firm</option><option value="Schedar">Schedar · Even</option><option value="Gacrux">Gacrux · Mature</option><option value="Pulcherrima">Pulcherrima · Forward</option><option value="Achird">Achird · Friendly</option><option value="Zubenelgenubi">Zubenelgenubi · Casual</option><option value="Vindemiatrix">Vindemiatrix · Gentle</option><option value="Sadachbia">Sadachbia · Lively</option><option value="Sadaltager">Sadaltager · Knowledgeable</option><option value="Sulafat">Sulafat · Warm</option></select></div>
-          <div class="li col"><label for="gemVoiceCustom"><b>Voz do AI Studio (opcional)</b></label><input id="gemVoiceCustom" type="text" autocomplete="off" spellcheck="false" placeholder="Nome ou ID da voz (ex.: voice_...)"><small>Se preencher, vale mais que a lista acima. No AI Studio você escolhe entre centenas de vozes ou cria uma por descrição; copie o ID e cole aqui.</small></div>
-          <div class="li col"><label for="gemStyle"><b>Jeito de falar (Gemini)</b></label><input id="gemStyle" type="text" autocomplete="off" spellcheck="false" placeholder="calmo, elegante e confiante"><small>Curto. Ex.: calmo e firme, animado, sussurrando. Deixe vazio para o padrão.</small></div>
-          <div class="li col"><div class="spread"><b>Velocidade (voz do aparelho)</b><span class="val" id="uVrV"></span></div><input type="range" id="uVr" min="0.6" max="1.4" step="0.05"></div>
         </div></div>
       </div>
 
@@ -478,10 +509,13 @@ html.no-motion *{animation:none!important;transition:none!important}
   </div>
 </div>
 
+<div id="toast" class="hidden" role="status"></div>
+
 <div id="call" class="hidden">
   <div class="ctop"><button class="ic" id="cMin" type="button" aria-label="Voltar ao chat" data-ico="down"></button><div class="cttl">Jarvis · voz</div><span style="width:42px"></span></div>
   <canvas id="callOrb"></canvas>
   <div id="cStatus"></div>
+  <div id="cLevel" title="Nível do microfone"><i id="cLevelBar"></i></div>
   <div class="ctxt"><div id="cYou"></div><div id="cAi"></div></div>
   <div class="cctl">
     <button class="cb2" id="cStop" type="button" aria-label="Interromper fala" data-ico="stop"></button>
@@ -511,8 +545,6 @@ const CONFIG = {
   defaultAddress: "senhor",
   makeWebhook: "https://hook.eu1.make.com/vbalf9eezx9j3nioplq7lye2xfi9kf8f",
   makeTrigger: /planilha|agenda|marcar/i,
-  /* ID da voz do Jarvis na ElevenLabs (usado quando uma conta da tabela fica sem ID). */
-  elevenVoice: "eTVNeSEqE24CXsFMs6eZ",
   geminiModels: ["gemini-3.5-flash", "gemini-3-flash-preview", "gemini-3.5-flash-lite"],
   geminiTtsModels: ["gemini-3.8-flash-lite-tts", "gemini-3.8-flash-tts"],                       /* API nova (Interactions) */
   geminiLegacyTtsModels: ["gemini-3.1-flash-tts-preview", "gemini-2.5-flash-preview-tts"],     /* API antiga (reserva) */
@@ -570,6 +602,19 @@ const PAL = {
   pink:   ["#ec4899", "#8b5cf6", ["#f9a8d4", "#c4b5fd", "#ffffff", "#f472b6"]],
   cyan:   ["#06b6d4", "#3b82f6", ["#67e8f9", "#93c5fd", "#ffffff", "#22d3ee"]]
 };
+/* Cor do avatar (par de cores); "auto" segue a cor de destaque */
+const AV_COLORS = {
+  cyan: ["#22d3ee", "#3b82f6"], violet: ["#a78bfa", "#6366f1"], green: ["#34d399", "#10b981"], orange: ["#fb923c", "#f59e0b"],
+  pink: ["#f472b6", "#c026d3"], gold: ["#fbbf24", "#f97316"], white: ["#e5e7eb", "#94a3b8"]
+};
+const AV_COLORS_LIGHT = { white: ["#334155", "#64748b"] };
+const AV = { pair: null, c1: "#3b82f6", c2: "#7c3aed", glow: 1 };
+const FONTS = {
+  system: 'system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif',
+  elegant: 'Georgia,"Times New Roman",serif',
+  tech: '"SF Mono","Cascadia Mono",Consolas,Menlo,monospace',
+  soft: 'ui-rounded,"SF Pro Rounded","Nunito","Segoe UI",system-ui,sans-serif'
+};
 const ORB_COLORS = { dark: PAL.blue[2].slice(), light: [PAL.blue[0], PAL.blue[1], PAL.blue[0], PAL.blue[1]] };
 
 const ICONS = {
@@ -595,15 +640,15 @@ const ICONS = {
 
 /* Valores padrão de todos os ajustes salvos (mesmas chaves do localStorage de antes) */
 const DEFAULTS = {
-  ui_acc: "blue", ui_avatar: "face", ui_fs: "16", ui_blur: "22", ui_orb: "1", ui_motion: "1", ui_quick: "1", ui_acts: "1",
+  ui_acc: "blue", ui_accc: "#3b82f6", ui_avatar: "face", ui_avc: "auto", ui_glow: "100", ui_bg: "aurora", ui_font: "system", ui_bub: "round", face_q: "mid", face_move: "100", ui_fs: "16", ui_blur: "22", ui_orb: "1", ui_motion: "1", ui_quick: "1", ui_acts: "1",
   enter_send: "1", mem_live: "1", u_name: "", u_addr: "", u_pers: "mordomo", u_len: "normal",
   ai_temp: "0.8", ai_model: "", ai_extra: "", gemini_key: "", jarvis_mode: "normal",
-  speak_replies: "0", stt_mode: "gemini", stt_sil: "1", stt_sens: "5",
-  el_voice: "", el_model: "eleven_flash_v2_5", el_stab: "0.5", el_sim: "0.8", el_spd: "1", el_mode: "direct", el_down: "0", el_dead: "{}",
-  v_fb: "1", gem_voice: "Charon", gem_voice_custom: "", gem_style: "calmo, elegante e confiante", v_rate: "1",
+  speak_replies: "0", stt_mode: "gemini", stt_sil: "1", stt_sens: "7",
+ 
+  voice_fb: "0", gem_voice: "Charon", gem_voice_custom: "", gem_style: "calmo, elegante e confiante", v_rate: "1",
   g_url: "", g_pass: "", g_sheet: "", g_ok: "0", s_cat: "look", jarvis_bar: "1"
 };
-const RESET_KEYS = ["ui_theme","ui_acc","ui_avatar","ui_fs","ui_blur","ui_orb","ui_motion","ui_quick","ui_acts","enter_send","u_name","u_addr","u_pers","u_len","ai_temp","ai_extra","ai_model","mem_live","gem_voice","v_rate"];
+const RESET_KEYS = ["ui_theme","ui_acc","ui_accc","ui_avatar","ui_avc","ui_glow","ui_bg","ui_font","ui_bub","face_q","face_move","ui_fs","ui_blur","ui_orb","ui_motion","ui_quick","ui_acts","enter_send","u_name","u_addr","u_pers","u_len","ai_temp","ai_extra","ai_model","mem_live","gem_voice","v_rate"];
 
 /* ==========================================================================
    2. UTILITÁRIOS
@@ -613,6 +658,20 @@ const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;"
 const norm = s => String(s).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 const uid = p => p + Date.now().toString(36) + Math.floor(Math.random() * 1296).toString(36);
 const clone = o => JSON.parse(JSON.stringify(o));
+
+/* cores */
+const hexRgb = h => { h = String(h).replace("#", ""); if (h.length === 3) h = h.split("").map(x => x + x).join(""); const n = parseInt(h, 16) || 0; return [(n >> 16) & 255, (n >> 8) & 255, n & 255]; };
+const rgbHex = (r, g, b) => "#" + [r, g, b].map(v => Math.max(0, Math.min(255, Math.round(v))).toString(16).padStart(2, "0")).join("");
+const mixHex = (a, b, t) => { const x = hexRgb(a), y = hexRgb(b); return rgbHex(x[0] + (y[0] - x[0]) * t, x[1] + (y[1] - x[1]) * t, x[2] + (y[2] - x[2]) * t); };
+const rgbaHex = (h, a) => { const c = hexRgb(h); return "rgba(" + c[0] + "," + c[1] + "," + c[2] + "," + Math.max(0, Math.min(1, a)).toFixed(3) + ")"; };
+function hueShift(hex, deg) {
+  const [r, g, b] = hexRgb(hex).map(v => v / 255), mx = Math.max(r, g, b), mn = Math.min(r, g, b), l = (mx + mn) / 2, d = mx - mn;
+  let h = 0, s = 0;
+  if (d) { s = l > .5 ? d / (2 - mx - mn) : d / (mx + mn); h = mx === r ? (g - b) / d + (g < b ? 6 : 0) : mx === g ? (b - r) / d + 2 : (r - g) / d + 4; h *= 60; }
+  h = (h + deg + 360) % 360;
+  const a = s * Math.min(l, 1 - l), f = n => { const k = (n + h / 30) % 12; return l - a * Math.max(-1, Math.min(k - 3, 9 - k, 1)); };
+  return rgbHex(f(0) * 255, f(8) * 255, f(4) * 255);
+}
 
 const LS = {
   get(k, d) { try { const v = localStorage.getItem(k); return v === null ? d : v; } catch (e) { return d; } },
@@ -833,16 +892,32 @@ async function callAI(turns, system, opts) {
   const key = cfg("gemini_key").trim();
   if (!key) throw Object.assign(new Error("sem chave"), { code: "nokey" });
   const { contents, instruction } = normalizeTurns(turns, system);
-  const payload = { contents, generationConfig: { temperature: cfgNum("ai_temp") } };
-  if (instruction) payload.systemInstruction = { parts: [{ text: instruction }] };
+  const basePayload = { contents, generationConfig: { temperature: cfgNum("ai_temp") } };
+  if (instruction) basePayload.systemInstruction = { parts: [{ text: instruction }] };
+  /* na chamada de voz: respostas curtas e pouco "pensamento" = resposta bem mais rápida */
+  let quick = !!opts.fast && LS.get("think_off", "") !== "1";
+  const build = q => {
+    const p = JSON.parse(JSON.stringify(basePayload));
+    if (opts.fast) p.generationConfig.maxOutputTokens = 600;
+    if (q) p.generationConfig.thinkingConfig = { thinkingLevel: "minimal" };
+    return p;
+  };
+  const post = async (model, q) => {
+    const r = await fetchT("https://generativelanguage.googleapis.com/v1beta/models/" + encodeURIComponent(model) + ":generateContent",
+      { method: "POST", headers: { "Content-Type": "application/json", "x-goog-api-key": key }, body: JSON.stringify(build(q)) }, 60000);
+    let data;
+    try { data = JSON.parse(await r.text()); } catch (e) { throw Object.assign(new Error("resposta inválida"), { code: "http", status: r.status }); }
+    return { r, data };
+  };
 
   let lastError = new Error("Nenhum modelo conseguiu responder.");
   for (const model of modelOrder(opts.fast)) {
     try {
-      const r = await fetchT("https://generativelanguage.googleapis.com/v1beta/models/" + encodeURIComponent(model) + ":generateContent",
-        { method: "POST", headers: { "Content-Type": "application/json", "x-goog-api-key": key }, body: JSON.stringify(payload) }, 60000);
-      let data;
-      try { data = JSON.parse(await r.text()); } catch (e) { throw Object.assign(new Error("resposta inválida"), { code: "http", status: r.status }); }
+      let { r, data } = await post(model, quick);
+      if (!r.ok && r.status === 400 && quick) {      /* o modelo não aceitou o modo rápido: tenta normal e para de pedir */
+        LS.set("think_off", "1"); quick = false;
+        ({ r, data } = await post(model, false));
+      }
       if (!r.ok) throw Object.assign(new Error((data.error && data.error.message) || "HTTP " + r.status), { code: "http", status: r.status });
       const cand = data.candidates && data.candidates[0];
       const text = ((cand && cand.content && cand.content.parts) || []).filter(p => typeof p.text === "string" && p.thought !== true).map(p => p.text).join("");
@@ -939,7 +1014,6 @@ function doPost(e) {
 function autorizar() {
   CalendarApp.getDefaultCalendar().getName();
   GmailApp.getInboxUnreadCount();
-  UrlFetchApp.fetch("https://api.elevenlabs.io/", { muteHttpExceptions: true });
   Logger.log("Autorizado!");
 }
 
@@ -951,18 +1025,6 @@ function run(a) {
     return v.map(r => r.concat(Array(w - r.length).fill("")));
   };
   switch (a.a) {
-    case "http": {
-      const u = String(a.url);
-      if (!/^https:\/\/api\.elevenlabs\.io\//.test(u)) throw new Error("Endereço não permitido");
-      const opt = { method: String(a.method || "get").toLowerCase(), headers: a.headers || {}, muteHttpExceptions: true };
-      if (a.body) { opt.payload = a.body; opt.contentType = "application/json"; }
-      const r = UrlFetchApp.fetch(u, opt);
-      const code = r.getResponseCode();
-      if (code !== 200) return JSON.stringify({ status: code, text: r.getContentText().slice(0, 300) });
-      const ct = String(r.getHeaders()["Content-Type"] || "");
-      if (ct.indexOf("json") >= 0) return JSON.stringify({ status: 200, text: r.getContentText() });
-      return JSON.stringify({ status: 200, b64: Utilities.base64Encode(r.getBlob().getBytes()) });
-    }
     case "ping":
       return "Conectado como " + Session.getEffectiveUser().getEmail();
     case "cal_list":
@@ -1084,6 +1146,12 @@ function updateHome() {
   $("greet").textContent = (h < 5 ? "Boa noite" : h < 12 ? "Bom dia" : h < 18 ? "Boa tarde" : "Boa noite") + ", " + ME.name;
   $("modeChip").textContent = "Modo: " + currentMode().label;
 }
+let toastTimer = null;
+function toast(msg, ms) {
+  const el = $("toast"); if (!el) return;
+  el.textContent = msg; el.classList.remove("hidden");
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => el.classList.add("hidden"), ms || 8000);
+}
 const scrollEnd = () => { $("main").scrollTop = $("main").scrollHeight; };
 
 function pushMsg(role, text, opts) {
@@ -1178,6 +1246,7 @@ function autoGrow() {
   updateComposerButtons();
 }
 function submitComposer() {
+  unlockAudio();
   const v = $("txt").value.trim();
   if (!v && !App.att) return;
   $("txt").value = ""; autoGrow();
@@ -1242,7 +1311,7 @@ function showView(id) {
   document.querySelectorAll(".tab").forEach(t => t.classList.toggle("on", t.dataset.v === id));
   $("composer").classList.toggle("hidden", id !== "vChat");
   if (id === "vMemory") renderBrain();
-  if (id === "vSettings") { updateStats(); refreshElStatus(); }
+  if (id === "vSettings") updateStats();
   $("main").scrollTop = (id === "vChat" && Chats.log.length) ? $("main").scrollHeight : 0;
 }
 
@@ -1372,13 +1441,39 @@ function headHalfWidth(y) {
 }
 
 
-/* ----- materiais: pele azul/ciano, lábios rosados, cabelo violeta; 6 níveis de luz cada ----- */
-const FACE_PAL = [
-  ["#172554", "#1d4ed8", "#3b82f6", "#60a5fa", "#67e8f9", "#e0f2fe"],
-  ["#4c1d95", "#7c3aed", "#a855f7", "#d946ef", "#f0abfc", "#fdf4ff"],
-  ["#1e1b4b", "#4338ca", "#6d28d9", "#8b5cf6", "#a78bfa", "#ddd6fe"]
-];
-const LEVEL_ALPHA = [.3, .45, .6, .76, .9, 1];
+/* ----- materiais: pele, lábios e cabelo, com 6 níveis de luz; cores diferentes para tema escuro e claro ----- */
+const FACE_THEMES = {
+  dark: {
+    alpha: [.3, .45, .6, .76, .9, 1],
+    ramps: [["#172554", "#1d4ed8", "#3b82f6", "#60a5fa", "#67e8f9", "#e0f2fe"],
+            ["#4c1d95", "#7c3aed", "#a855f7", "#d946ef", "#f0abfc", "#fdf4ff"],
+            ["#1e1b4b", "#4338ca", "#6d28d9", "#8b5cf6", "#a78bfa", "#ddd6fe"]],
+    roles: { sclera: "#9fd0ff", iris: "#22d3ee", irisIn: "#67e8f9", spec: "#ffffff", lidU: "#3b82f6", lidL: "#2563eb", lash: "#e0f2fe",
+             brow1: "#a78bfa", brow2: "#6d28d9", lip1: "#fdf4ff", lip2: "#f0abfc", teeth: "#e0f2fe", tongue: "#d946ef", mouthDark: "#4c1d95" }
+  },
+  light: {
+    alpha: [.45, .55, .66, .78, .9, 1],
+    ramps: [["#dbeafe", "#bfdbfe", "#93c5fd", "#3b82f6", "#1d4ed8", "#1e3a8a"],
+            ["#fbcfe8", "#f9a8d4", "#f472b6", "#ec4899", "#db2777", "#9d174d"],
+            ["#e9d5ff", "#d8b4fe", "#a78bfa", "#8b5cf6", "#6d28d9", "#4c1d95"]],
+    roles: { sclera: "#c7d9f5", iris: "#0369a1", irisIn: "#0ea5e9", spec: "#ffffff", lidU: "#93c5fd", lidL: "#bfdbfe", lash: "#1e3a8a",
+             brow1: "#5b21b6", brow2: "#7c3aed", lip1: "#be185d", lip2: "#ec4899", teeth: "#e2e8f0", tongue: "#f472b6", mouthDark: "#312e81" }
+  }
+};
+function rampFrom(c, light) {
+  return light ? [mixHex(c, "#ffffff", .85), mixHex(c, "#ffffff", .7), mixHex(c, "#ffffff", .5), mixHex(c, "#ffffff", .2), c, mixHex(c, "#000000", .35)]
+               : [mixHex(c, "#000000", .82), mixHex(c, "#000000", .6), mixHex(c, "#000000", .3), c, mixHex(c, "#ffffff", .45), mixHex(c, "#ffffff", .85)];
+}
+/* pair = null: cores originais do rosto; senão, tudo derivado da cor escolhida para o avatar */
+function buildFaceColors(light, pair) {
+  const base = FACE_THEMES[light ? "light" : "dark"];
+  if (!pair) return base;
+  const c1 = pair[0], c2 = pair[1], skin = rampFrom(c1, light), lip = rampFrom(mixHex(c1, "#ff3eb5", .55), light), hair = rampFrom(c2, light);
+  const roles = Object.assign({}, base.roles, light
+    ? { iris: mixHex(c1, "#000000", .35), irisIn: c1, lash: mixHex(c1, "#000000", .5), lidU: skin[3], lidL: skin[2], brow1: hair[5], brow2: hair[4], lip1: lip[5], lip2: lip[4], tongue: lip[3], mouthDark: mixHex(c2, "#000000", .6) }
+    : { iris: c1, irisIn: mixHex(c1, "#ffffff", .4), lash: mixHex(c1, "#ffffff", .85), lidU: skin[3], lidL: skin[2], brow1: hair[4], brow2: hair[3], lip1: lip[5], lip2: lip[4], tongue: lip[3], mouthDark: hair[0], sclera: mixHex(c1, "#ffffff", .6) });
+  return { alpha: base.alpha, ramps: [skin, lip, hair], roles };
+}
 const gauss = (v, s) => Math.exp(-(v * v) / (s * s));
 const browY = ax => -.34 - .04 * Math.sin(Math.PI * Math.min(1, Math.max(0, (ax - .1) / .45)));
 
@@ -1406,14 +1501,14 @@ function faceHeight(x, y) {
 }
 
 const Face = {
-  built: false, N: 0, SP: [],
+  built: false, N: 0, SP: [], step: .023, quality: "mid", moveK: 1, colors: FACE_THEMES.dark,
   p: { mo: 0, mw: 0, smile: .12, brow: 0, furrow: 0, eye: 1, eyeF: 1, lx: 0, ly: 0, yaw: 0, pitch: 0, roll: 0 },
   tl: null, emoName: "neutro", emoUntil: 0, nextBlink: 0, blinkStart: -1e9,
 
   /* ----- geometria (gerada uma vez): nuvem de pontos sobre a superfície ----- */
   build() {
     if (this.built) return; this.built = true;
-    const rnd = mulberry32(5), step = .023;
+    const rnd = mulberry32(5), step = this.step;
     const L = { X: [], Y: [], Z: [], NX: [], NY: [], NZ: [], MAT: [], SZ: [], TW: [], FD: [], WJ: [], WM: [], WC: [], WK: [], WB: [], WI: [] };
     const e = .012;
     for (let y0 = -1.38; y0 <= 1.75; y0 += step) {
@@ -1457,30 +1552,38 @@ const Face = {
     [-1, 1].forEach(side => {
       const ex = side * .34, ey = -.12, zz = zf(ex, ey);
       for (let dx = -.15; dx <= .15; dx += .012) for (let dy = -.058; dy <= .058; dy += .012)
-        if (Math.pow(dx / .15, 2) + Math.pow(dy / .058, 2) <= 1) SP.push({ k: "scl", ex, ey, dx, dy, z: zz + .03, col: "#9fd0ff", a: .5, s: 1.1 });
+        if (Math.pow(dx / .15, 2) + Math.pow(dy / .058, 2) <= 1) SP.push({ k: "scl", ex, ey, dx, dy, z: zz + .03, role: "sclera", a: .5, s: 1.1 });
       [[.044, 22], [.036, 16], [.024, 10], [.012, 5]].forEach(([r, n]) => {
-        for (let j = 0; j < n; j++) { const an = Math.PI * 2 * j / n; SP.push({ k: "iris", ex, ey, dx: Math.cos(an) * r, dy: Math.sin(an) * r, z: zz + .045, col: r > .03 ? "#22d3ee" : "#67e8f9", a: .95, s: 1.4, g: r > .03 }); }
+        for (let j = 0; j < n; j++) { const an = Math.PI * 2 * j / n; SP.push({ k: "iris", ex, ey, dx: Math.cos(an) * r, dy: Math.sin(an) * r, z: zz + .045, role: r > .03 ? "iris" : "irisIn", a: .95, s: 1.4, g: r > .03 }); }
       });
-      SP.push({ k: "iris", ex, ey, dx: -.014, dy: -.014, z: zz + .05, col: "#ffffff", a: 1, s: 1.9, g: true });
+      SP.push({ k: "iris", ex, ey, dx: -.014, dy: -.014, z: zz + .05, role: "spec", a: 1, s: 1.9, g: true });
       for (let i = 0; i <= 14; i++) {
         const u = -1 + 2 * i / 14;
-        for (let wI = 0; wI <= 5; wI++) SP.push({ k: "lidU", ex, ey, u, w: wI / 5, z: zz + .06, col: "#3b82f6", a: .6, s: 1.3 });
-        for (let wI = 0; wI <= 2; wI++) SP.push({ k: "lidL", ex, ey, u, w: wI / 2, z: zz + .06, col: "#2563eb", a: .5, s: 1.2 });
-        SP.push({ k: "lash", ex, ey, u, z: zz + .07, col: "#e0f2fe", a: .95, s: 1.5, g: i % 2 === 0 });
+        for (let wI = 0; wI <= 5; wI++) SP.push({ k: "lidU", ex, ey, u, w: wI / 5, z: zz + .06, role: "lidU", a: .6, s: 1.3 });
+        for (let wI = 0; wI <= 2; wI++) SP.push({ k: "lidL", ex, ey, u, w: wI / 2, z: zz + .06, role: "lidL", a: .5, s: 1.2 });
+        SP.push({ k: "lash", ex, ey, u, z: zz + .07, role: "lash", a: .95, s: 1.5, g: i % 2 === 0 });
       }
       for (let j = 0; j <= 21; j++) {
         const t = j / 21, bx = side * (.10 + .46 * t), by = browY(Math.abs(bx)), rows = Math.round(3 - 1.8 * t);
-        for (let r = 0; r < rows; r++) SP.push({ k: "brow", side, t, x: bx, y: by + r * .017, z: zf(bx, by) + .035, col: r === 0 ? "#a78bfa" : "#6d28d9", a: .9, s: 1.5 });
+        for (let r = 0; r < rows; r++) SP.push({ k: "brow", side, t, x: bx, y: by + r * .017, z: zf(bx, by) + .035, role: r === 0 ? "brow1" : "brow2", a: .9, s: 1.5 });
       }
     });
     for (let i = 0; i <= 23; i++) {
       const u = -.92 + i * .08;
-      [.08, .2, .35, .5, .65, .8, .92].forEach(v => SP.push({ k: "in", u, v: v + (rnd() - .5) * .05, z: zf(0, .66) + .0, col: v < .15 ? "#e0f2fe" : v > .7 ? "#d946ef" : "#4c1d95", a: .9, s: 1.2, teeth: v < .15 }));
+      [.08, .2, .35, .5, .65, .8, .92].forEach(v => SP.push({ k: "in", u, v: v + (rnd() - .5) * .05, z: zf(0, .66) + .0, role: v < .15 ? "teeth" : v > .7 ? "tongue" : "mouthDark", a: .9, s: 1.2, teeth: v < .15 }));
     }
     ["u", "l"].forEach(kind => {
-      for (let j = 0; j <= 26; j++) { const u = -1 + 2 * j / 26; SP.push({ k: "lip", kind, u, z: zf(0, .66) + .075, col: j % 4 === 0 ? "#fdf4ff" : "#f0abfc", a: .95, s: 1.5, g: j % 4 === 0 }); }
+      for (let j = 0; j <= 26; j++) { const u = -1 + 2 * j / 26; SP.push({ k: "lip", kind, u, z: zf(0, .66) + .075, role: j % 4 === 0 ? "lip1" : "lip2", a: .95, s: 1.5, g: j % 4 === 0 }); }
     });
   },
+
+  /* ----- ajustes de qualidade e cores (chamados pelos Ajustes) ----- */
+  setQuality(q) {
+    const steps = { low: .031, mid: .023, high: .019 };
+    if (!steps[q] || q === this.quality) return;
+    this.quality = q; this.step = steps[q]; this.built = false; this.SP = [];
+  },
+  setColors(light, pair) { this.colors = buildFaceColors(light, pair); },
 
   /* ----- fala e emoção ----- */
   setEmotion(name) { this.emoName = EMOTIONS[name] ? name : "neutro"; this.emoUntil = Infinity; },
@@ -1510,6 +1613,7 @@ const Face = {
       T.mo = v[0] * (.88 + .12 * Math.sin(t * 9)); T.mw = v[1];
       T.brow += .22 * v[0]; T.pitch -= .035 * v[0]; T.yaw += .06 * Math.sin(t * 1.7);
     }
+    const mk = this.moveK; T.yaw *= mk; T.pitch *= mk; T.roll *= mk;
     const k = r => 1 - Math.exp(-r * dt);
     P.mo += (T.mo - P.mo) * k(24); P.mw += (T.mw - P.mw) * k(24);
     ["smile", "brow", "furrow", "eye"].forEach(n => P[n] += (T[n] - P[n]) * k(6));
@@ -1522,21 +1626,23 @@ const Face = {
   }
 };
 
-function drawFace(o, now, dt) {
+function prepCanvas(o) {
   const cv = o.cv, w = cv.clientWidth, h = cv.clientHeight;
-  if (!w) return;
+  if (!w || !h) return null;
   const dpr = window.devicePixelRatio || 1;
   if (cv.width !== Math.round(w * dpr)) { cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr); }
+  return { w, h, dpr };
+}
+const isLightTheme = () => document.documentElement.dataset.theme === "light";
+
+function drawFace(o, now, dt) {
+  const dim = prepCanvas(o); if (!dim) return;
+  const { w, h, dpr } = dim;
   Face.build();
-  const F = Face, N = F.N, P = F.p, st = o.state(), t = now / 1000;
+  const F = Face, N = F.N, P = F.p, st = o.state(), t = now / 1000, C = F.colors, G = AV.glow;
   F.update(now, dt, st, o.energy);
   const energy = o.energy; o.energy *= Math.exp(-2.6 * dt);
   const c = o.ctx; c.setTransform(dpr, 0, 0, dpr, 0, 0); c.clearRect(0, 0, w, h);
-  if (document.documentElement.dataset.theme === "light") {   /* no tema claro, o rosto fica sobre um painel escuro */
-    const g = c.createRadialGradient(w / 2, h / 2, 0, w / 2, h / 2, Math.min(w, h) / 2);
-    g.addColorStop(0, "#0e1a3d"); g.addColorStop(1, "#050a1a");
-    c.fillStyle = g; c.beginPath(); c.arc(w / 2, h / 2, Math.min(w, h) / 2, 0, Math.PI * 2); c.fill();
-  }
   const sc = Math.min(w / 2.3, h / 3.15) * (1 + .005 * Math.sin(t * 1.2)), cx = w / 2, cy = h / 2 - .2 * sc;
   const cyw = Math.cos(P.yaw), syw = Math.sin(P.yaw), cp = Math.cos(P.pitch), sp = Math.sin(P.pitch), cr = Math.cos(P.roll), sr = Math.sin(P.roll);
   const LX = -.35, LY = -.45, LZ = .82, boost = (F.tl ? .05 * P.mo : 0) + .1 * energy;
@@ -1566,11 +1672,11 @@ function drawFace(o, now, dt) {
   for (let i = 0; i < N; i++) order[pos[bk[i]]++] = i;
   for (let b = 0; b < 18; b++) {
     const s = counts[b], e = counts[b + 1]; if (s === e) continue;
-    c.fillStyle = FACE_PAL[(b / 6) | 0][b % 6]; c.globalAlpha = LEVEL_ALPHA[b % 6];
+    c.fillStyle = C.ramps[(b / 6) | 0][b % 6]; c.globalAlpha = Math.min(1, C.alpha[b % 6] * G);
     for (let k = s; k < e; k++) { const i = order[k], sz = dot * F.SZ[i]; c.fillRect(SX[i] - sz / 2, SY[i] - sz / 2, sz, sz); }
   }
   /* peças móveis */
-  const open = P.eyeF, SP = F.SP;
+  const open = P.eyeF, SP = F.SP, roles = C.roles;
   let lastCol = "";
   for (let i = 0; i < SP.length; i++) {
     const s = SP[i]; let x = s.x, y = s.y, vis = 1;
@@ -1597,15 +1703,74 @@ function drawFace(o, now, dt) {
     if (vis < .03) continue;
     const z = s.z, x1 = x * cyw + z * syw, z1 = -x * syw + z * cyw, y2 = y * cp - z1 * sp, z2 = y * sp + z1 * cp;
     const x3 = x1 * cr - y2 * sr, y3 = x1 * sr + y2 * cr, per = 1 / (1 - z2 * .28);
-    const px = cx + x3 * sc * per, py = cy + y3 * sc * per, sz = dot * s.s;
-    if (s.col !== lastCol) { c.fillStyle = s.col; lastCol = s.col; }
-    c.globalAlpha = Math.min(1, s.a * vis);
+    const px = cx + x3 * sc * per, py = cy + y3 * sc * per, sz = dot * s.s, col = roles[s.role];
+    if (col !== lastCol) { c.fillStyle = col; lastCol = col; }
+    c.globalAlpha = Math.min(1, s.a * vis * G);
     c.fillRect(px - sz / 2, py - sz / 2, sz, sz);
-    if (s.g) { c.globalAlpha = Math.min(1, s.a * vis) * .22; const gs = sz * 3.4; c.fillRect(px - gs / 2, py - gs / 2, gs, gs); }
+    if (s.g && !isLightTheme()) { c.globalAlpha = Math.min(1, s.a * vis * G) * .22; const gs = sz * 3.4; c.fillRect(px - gs / 2, py - gs / 2, gs, gs); }
   }
   c.globalAlpha = 1;
 }
-const drawAvatar = (o, now, dt) => (avatarMode === "face" ? drawFace : drawOrb)(o, now, dt);
+
+/* ---------- Reator: anéis giratórios no estilo painel de comando ---------- */
+function drawReactor(o, now, dt) {
+  const dim = prepCanvas(o); if (!dim) return;
+  const { w, h, dpr } = dim, st = o.state(), t = now / 1000, light = isLightTheme(), c1 = AV.c1, c2 = AV.c2, G = AV.glow;
+  Face.update(now, dt, st, o.energy);
+  const P = Face.p, energy = o.energy; o.energy *= Math.exp(-2.6 * dt);
+  const amp = st === "speaking" ? .35 + P.mo * .9 : st === "listening" ? .25 + energy * .8 : st === "thinking" ? .6 + .25 * Math.sin(t * 9) : .18 + .04 * Math.sin(t * 1.6);
+  o.rot = (o.rot || 0) + dt * (st === "thinking" ? 2.4 : st === "speaking" ? .9 : st === "listening" ? .7 : .35);
+  const c = o.ctx; c.setTransform(dpr, 0, 0, dpr, 0, 0); c.clearRect(0, 0, w, h);
+  const cx = w / 2, cy = h / 2, R = Math.min(w, h) * .44, TAU = Math.PI * 2;
+  c.globalCompositeOperation = light ? "source-over" : "lighter"; c.lineCap = "round";
+  const aura = c.createRadialGradient(cx, cy, R * .1, cx, cy, R * (1 + amp * .3));
+  aura.addColorStop(0, rgbaHex(c1, Math.min(.55, .3 * G * (.6 + amp)))); aura.addColorStop(1, rgbaHex(c1, 0));
+  c.fillStyle = aura; c.beginPath(); c.arc(cx, cy, R * 1.3, 0, TAU); c.fill();
+  const ring = (r, lw, dash, rot, col, al) => { c.setLineDash(dash); c.lineDashOffset = rot; c.strokeStyle = rgbaHex(col, al * G); c.lineWidth = lw; c.beginPath(); c.arc(cx, cy, r, 0, TAU); c.stroke(); c.setLineDash([]); };
+  ring(R * .97, 2, [10, 9], -o.rot * 60, c2, .85);
+  c.strokeStyle = rgbaHex(c2, .7 * G); c.lineWidth = 1.5; c.beginPath();
+  for (let i = 0; i < 72; i++) { const a = i / 72 * TAU + o.rot * .25, r1 = R * .86, r2 = R * (i % 6 === 0 ? .93 : .895); c.moveTo(cx + Math.cos(a) * r1, cy + Math.sin(a) * r1); c.lineTo(cx + Math.cos(a) * r2, cy + Math.sin(a) * r2); }
+  c.stroke();
+  for (let k = 0; k < 3; k++) {
+    const a0 = o.rot * (k % 2 ? -1.3 : 1.2) + k * 2.1;
+    c.strokeStyle = rgbaHex(c1, Math.min(1, (.55 + amp * .45) * G)); c.lineWidth = Math.max(3, R * .05); c.beginPath(); c.arc(cx, cy, R * .74, a0, a0 + 1.25); c.stroke();
+  }
+  ring(R * .56, 1.5, [], 0, c1, .75);
+  ring(R * .47, 1, [3, 6], o.rot * 40, c2, .6);
+  if (st === "speaking" || st === "listening") {
+    for (let k = 0; k < 2; k++) { const ph = (t * .9 + k * .5) % 1; ring(R * (.32 + ph * .6), 2, [], 0, c1, (1 - ph) * .5); }
+  }
+  const core = c.createRadialGradient(cx, cy, 0, cx, cy, R * (.3 + .08 * amp));
+  core.addColorStop(0, light ? c1 : "#ffffff"); core.addColorStop(.35, rgbaHex(c1, .9 * G)); core.addColorStop(1, rgbaHex(c1, 0));
+  c.fillStyle = core; c.beginPath(); c.arc(cx, cy, R * (.34 + .08 * amp), 0, TAU); c.fill();
+  c.globalCompositeOperation = "source-over"; c.globalAlpha = 1;
+}
+
+/* ---------- Ondas: barras que dançam com a voz ---------- */
+function drawWaves(o, now, dt) {
+  const dim = prepCanvas(o); if (!dim) return;
+  const { w, h, dpr } = dim, st = o.state(), t = now / 1000, light = isLightTheme(), c1 = AV.c1, c2 = AV.c2, G = AV.glow;
+  Face.update(now, dt, st, o.energy);
+  const P = Face.p, energy = o.energy; o.energy *= Math.exp(-2.6 * dt);
+  const c = o.ctx; c.setTransform(dpr, 0, 0, dpr, 0, 0); c.clearRect(0, 0, w, h);
+  const N = 33, span = w * .84, x0 = (w - span) / 2, cy = h / 2, maxH = h * .42, barW = Math.max(3, span / N * .55);
+  const grad = c.createLinearGradient(x0, 0, x0 + span, 0); grad.addColorStop(0, c1); grad.addColorStop(1, c2);
+  c.strokeStyle = grad; c.lineWidth = barW; c.lineCap = "round"; c.globalAlpha = Math.min(1, .55 + .45 * Math.min(1.4, G));
+  if (!light) { c.shadowColor = c1; c.shadowBlur = 14 * G; }
+  c.beginPath();
+  for (let i = 0; i < N; i++) {
+    const u = (i - (N - 1) / 2) / ((N - 1) / 2), env = Math.pow(Math.cos(u * Math.PI / 2), 1.4);
+    const n = .5 + .5 * Math.sin(t * (2.2 + (i % 5) * .4) + i * .9) * Math.sin(t * 1.3 + i * .37);
+    const a = st === "speaking" ? .12 + P.mo * 1.05 * (.4 + .6 * n) : st === "listening" ? .1 + energy * 1.2 * (.3 + .7 * n)
+            : st === "thinking" ? .12 + .5 * Math.pow(.5 + .5 * Math.sin(t * 5 - i * .5), 2) : .06 + .04 * n;
+    const hh = Math.max(3, Math.min(1, a) * env * maxH), x = x0 + (i + .5) * span / N;
+    c.moveTo(x, cy - hh); c.lineTo(x, cy + hh);
+  }
+  c.stroke(); c.shadowBlur = 0; c.globalAlpha = 1;
+}
+
+const AVATARS = { face: drawFace, orb: drawOrb, reactor: drawReactor, waves: drawWaves };
+const drawAvatar = (o, now, dt) => (AVATARS[avatarMode] || drawFace)(o, now, dt);
 
 /* ==========================================================================
    10. ESFERA DE PARTÍCULAS (tela inicial e chamada)
@@ -1637,7 +1802,7 @@ function drawOrb(o, now, dt) {
     const n = Math.sin(p.x * 2.3 + t * .9) * Math.cos(p.y * 2.1 - t * .8) * Math.sin(p.z * 2.2 + t * .7);
     const f = 1 + amp * n + .03 * Math.sin(t * 1.3);
     const x1 = p.x * ca + p.z * sa, z1 = -p.x * sa + p.z * ca, y2 = p.y * ct - z1 * stl, z2 = p.y * stl + z1 * ct, d = (z2 + 1) / 2;
-    c.globalAlpha = Math.max(.12, Math.min(1, .2 + .8 * d));
+    c.globalAlpha = Math.min(1, Math.max(.12, Math.min(1, .2 + .8 * d)) * AV.glow);
     c.fillStyle = colors[i & 3];
     const sz = p.s * (.75 + .55 * d);
     c.fillRect(cx + x1 * f * base, cy + y2 * f * base, sz, sz);
@@ -1646,6 +1811,12 @@ function drawOrb(o, now, dt) {
 }
 
 const heroOrb = makeOrb($("heroOrb"), 1500, () => App.sending ? "thinking" : "idle");
+const Prev = { state: "idle" };
+const prevOrb = makeOrb($("avPrev"), 1500, () => Prev.state);
+function previewTick(t) {
+  if (Prev.state === "speaking" && !Face.tl) { Face.setEmotion("feliz"); Face.speakEstimate("Olá, eu sou o Jarvis. Como posso ajudar você hoje? Estou pronto quando você quiser."); }
+  if (Prev.state === "listening") prevOrb.energy = Math.max(prevOrb.energy, .55 + .4 * Math.sin(t / 1000 * 3));
+}
 
 /* ==========================================================================
    11. SECOND BRAIN (grafo animado e editor de notas)
@@ -1741,64 +1912,17 @@ function deleteNote() {
 }
 
 /* ==========================================================================
-   12. VOZ: o Jarvis falando (ElevenLabs → Gemini → voz do aparelho)
+   12. VOZ: o Jarvis falando (voz do Gemini; voz do aparelho só se você escolher)
    ========================================================================== */
 const player = new Audio();
-const SILENT_WAV = "data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA=";
-function unlockAudio() { try { player.src = SILENT_WAV; player.play().catch(() => {}); } catch (e) {} }
+const SILENT_URL = (() => {   /* 0,1 s de silêncio: alguns navegadores só liberam o som com um áudio de verdade */
+  const n = 800, b = new ArrayBuffer(44 + n * 2), v = new DataView(b), w = (o, t) => { for (let i = 0; i < t.length; i++) v.setUint8(o + i, t.charCodeAt(i)); };
+  w(0, "RIFF"); v.setUint32(4, 36 + n * 2, true); w(8, "WAVEfmt "); v.setUint32(16, 16, true); v.setUint16(20, 1, true); v.setUint16(22, 1, true);
+  v.setUint32(24, 8000, true); v.setUint32(28, 16000, true); v.setUint16(32, 2, true); v.setUint16(34, 16, true); w(36, "data"); v.setUint32(40, n * 2, true);
+  return URL.createObjectURL(new Blob([b], { type: "audio/wav" }));
+})();
+function unlockAudio() { try { if (Speech.tok) return; player.src = SILENT_URL; player.volume = 1; const p = player.play(); if (p && p.catch) p.catch(() => {}); } catch (e) {} }
 
-const parseVoice = v => { v = String(v || "").trim(); const m = v.match(/[0-9a-f]{32}/i); return m ? m[0] : v; };   /* aceita o ID ou o link da voz */
-const elVoiceId = () => parseVoice(cfg("el_voice")) || CONFIG.elevenVoice;
-const ElAcc = {
-  load() {
-    let a = LS.json("el_accounts", null);
-    if (!Array.isArray(a)) { a = [{ key: "", voice: "" }]; this.save(a); }
-    return a;
-  },
-  save(a) { LS.set("el_accounts", JSON.stringify(a)); }
-};
-const elPairs = () => {
-  const seen = {};
-  return ElAcc.load().filter(a => { const k = String(a.key || "").trim(); if (!k || seen[k]) return false; seen[k] = 1; return true; })
-    .map(a => ({ key: a.key.trim(), voice: parseVoice(a.voice) || elVoiceId() }));
-};
-const elDead = () => LS.json("el_dead", {});
-const deadUntil = v => (v && typeof v === "object" ? v.until : v) || 0;
-const elAvailable = () => { const d = elDead(), now = Date.now(); return elPairs().filter(p => !(deadUntil(d[p.key]) > now)); };
-function elMarkDead(key, ms, why) { const d = elDead(); d[key] = { until: Date.now() + ms, why: why || "pausada" }; LS.set("el_dead", JSON.stringify(d)); refreshElStatus(); }
-const deadWhy = e => e.quota ? "sem créditos" : e.http === 402 ? "plano ou créditos" : e.http === 429 ? "muitos pedidos" : e.http === 422 ? "voz inválida" : "chave recusada";
-const elUrl = voice => "https://api.elevenlabs.io/v1/text-to-speech/" + encodeURIComponent(voice) + "?output_format=mp3_44100_64";
-const elBody = txt => JSON.stringify({ text: txt, model_id: cfg("el_model"), voice_settings: { stability: cfgNum("el_stab"), similarity_boost: cfgNum("el_sim"), speed: cfgNum("el_spd") } });
-function elErr(status, text) {
-  let m = text, quota = /quota|credit/i.test(String(text));
-  try { const j = JSON.parse(text), d = j.detail; m = (d && (d.message || d.status)) || (typeof d === "string" ? d : text); } catch (e) {}
-  const hint = quota ? " (sem créditos)" : status === 401 ? " (chave recusada)" : status === 402 ? " (o plano ou os créditos da conta não permitem essa voz pela API)" : status === 429 ? " (muitos pedidos ao mesmo tempo)" : status === 422 ? " (ID da voz inválido)" : "";
-  return Object.assign(new Error("ElevenLabs HTTP " + status + hint + ": " + String(m).slice(0, 150)), { http: status, quota });
-}
-/* Pede uma chamada HTTP à ElevenLabs através do script do Google (quando a rede bloqueia) */
-async function googleProxy(o) {
-  try { return JSON.parse(await gs(Object.assign({ a: "http" }, o))); }
-  catch (e) {
-    if (/Ação desconhecida: http|Endereço não permitido/.test(String(e.message))) throw new Error("o seu script do Google está DESATUALIZADO (Ajustes → Google → Copiar, cole no script e implante nova versão)");
-    if (e.code === "net" || e.code === "timeout") throw Object.assign(new Error("o script do Google não respondeu (" + e.message + "): confira em Ajustes → Google se o link termina em /exec e se a implantação está como 'Qualquer pessoa'"), { code: e.code });
-    throw e;
-  }
-}
-async function elSpeakDirect(txt, p) {
-  let r;
-  try { r = await fetchT(elUrl(p.voice), { method: "POST", headers: { "xi-api-key": p.key, "Content-Type": "application/json", Accept: "audio/mpeg" }, body: elBody(txt) }, 20000); }
-  catch (e) { throw Object.assign(new Error("o navegador/rede bloqueou o acesso à ElevenLabs (" + (e.message || e) + ")"), { net: true }); }
-  if (!r.ok) throw elErr(r.status, await r.text());
-  const bl = await r.blob(); if (!bl.size) throw new Error("áudio vazio");
-  return bl.type && bl.type.indexOf("audio") === 0 ? bl : new Blob([bl], { type: "audio/mpeg" });
-}
-async function elSpeakProxy(txt, p) {
-  if (!gOn()) throw new Error("conecte o Google em Ajustes → Google para contornar o bloqueio");
-  const d = await googleProxy({ url: elUrl(p.voice), method: "post", headers: { "xi-api-key": p.key, Accept: "audio/mpeg" }, body: elBody(txt) });
-  if (d.status !== 200) throw elErr(d.status, d.text || "");
-  if (!d.b64) throw new Error("o Google devolveu uma resposta sem áudio");
-  return b64Blob(d.b64, "audio/mpeg");
-}
 function pcmToWav(b64) {
   const bin = atob(b64), n = bin.length, buf = new ArrayBuffer(44 + n), v = new DataView(buf);
   const w = (o, t) => { for (let i = 0; i < t.length; i++) v.setUint8(o + i, t.charCodeAt(i)); };
@@ -1838,20 +1962,51 @@ async function geminiLegacyTts(model, txt, key) {
   if (!part || !part.inlineData) throw new Error("o Gemini não devolveu áudio");
   return pcmToWav(part.inlineData.data);
 }
-async function geminiSpeak(txt) {
+function geminiVoiceErr(status, msg, custom) {
+  if (status === 429) return "o limite de uso da voz do Gemini foi atingido: espere um pouco (ou use outra chave do Gemini)";
+  if (status === 401 || status === 403) return "a chave do Gemini foi recusada para voz (erro " + status + ")";
+  if (status === 404) return "o modelo de voz do Gemini não foi encontrado (404)";
+  if (status === 400) return "o Gemini recusou o pedido de voz (400)" + (custom ? ": confira o ID da voz do AI Studio" : "") + (msg ? " · " + msg : "");
+  if (status >= 500) return "o servidor de voz do Gemini está com problema (" + status + "), tente de novo";
+  return msg || "falha na voz do Gemini";
+}
+async function geminiSpeakRaw(txt, again) {
   const key = cfg("gemini_key").trim();
-  if (!key) throw new Error("falta a chave do Gemini");
-  const voice = cfg("gem_voice_custom").trim() || cfg("gem_voice"), style = cfg("gem_style").trim();
-  const errs = [];
-  for (const m of CONFIG.geminiTtsModels) {
-    try { return await geminiInteractionsTts(m, txt, voice, style, key); }
-    catch (e) { errs.push(e.message || String(e)); if (e.status === 401 || e.status === 403) throw e; }
+  if (!key) throw new Error("falta a chave do Gemini (Ajustes → Jarvis)");
+  const custom = cfg("gem_voice_custom").trim(), voice = custom || cfg("gem_voice"), style = cfg("gem_style").trim();
+  const attempts = CONFIG.geminiTtsModels.map(m => ({ api: "i", model: m })).concat(CONFIG.geminiLegacyTtsModels.map(m => ({ api: "l", model: m })));
+  const ok = LS.json("gem_tts_ok", null);
+  if (ok) { const k = attempts.findIndex(a => a.api === ok.api && a.model === ok.model); if (k > 0) attempts.unshift(attempts.splice(k, 1)[0]); }
+  const deadline = Date.now() + 30000;
+  let worst = null, tries = 0;
+  for (const a of attempts) {
+    if (Date.now() > deadline || tries >= 4) break;
+    for (let retry = 0; retry < 2; retry++) {
+      tries++;
+      try {
+        const bl = a.api === "i" ? await geminiInteractionsTts(a.model, txt, voice, style, key) : await geminiLegacyTts(a.model, txt, key);
+        LS.set("gem_tts_ok", JSON.stringify(a));
+        return { bl, model: a.model, voice: a.api === "i" ? voice : cfg("gem_voice") };
+      } catch (e) {
+        if (!worst || (e.status && (!worst.status || [401, 403, 429].includes(e.status)))) worst = e;
+        if (e.status === 401 || e.status === 403) throw new Error(geminiVoiceErr(e.status, "", custom));
+        if (e.status >= 500 && retry === 0) { await new Promise(r => setTimeout(r, 700)); continue; }
+        break;
+      }
+    }
   }
-  for (const m of CONFIG.geminiLegacyTtsModels) {
-    try { return await geminiLegacyTts(m, txt, key); }
-    catch (e) { errs.push(e.message || String(e)); if (e.status === 401 || e.status === 403) throw e; }
-  }
-  throw new Error(errs[0] || "nenhum modelo de voz do Gemini respondeu");
+  if (worst && worst.status === 429 && !again) { await new Promise(r => setTimeout(r, 2500)); return geminiSpeakRaw(txt, true); }   /* limite por minuto: espera e tenta de novo */
+  throw new Error(geminiVoiceErr(worst && worst.status, worst && worst.message, custom));
+}
+/* Áudios já gerados ficam guardados: ouvir de novo não gasta pedido nem espera */
+const ttsCache = new Map();
+async function geminiSpeak(txt) {
+  const key = (cfg("gem_voice_custom").trim() || cfg("gem_voice")) + "|" + cfg("gem_style").trim() + "|" + txt;
+  if (ttsCache.has(key)) return Object.assign({ cached: true }, ttsCache.get(key));
+  const g = await geminiSpeakRaw(txt);
+  ttsCache.set(key, g);
+  if (ttsCache.size > 30) ttsCache.delete(ttsCache.keys().next().value);
+  return g;
 }
 async function testGemini() {
   unlockAudio();
@@ -1860,56 +2015,27 @@ async function testGemini() {
   out.textContent = "Gerando a voz do Gemini...";
   const t0 = Date.now();
   try {
-    const bl = await geminiSpeak("Voz do Gemini funcionando, " + ME.address + ".");
-    out.style.color = "var(--ok)"; out.textContent = "✓ Funcionou em " + ((Date.now() - t0) / 1000).toFixed(1) + " s.";
+    const g = await geminiSpeak("Voz do Gemini funcionando, " + ME.address + "."), bl = g.bl;
+    out.style.color = "var(--ok)"; out.textContent = "✓ Funcionou em " + ((Date.now() - t0) / 1000).toFixed(1) + " s · " + g.model + " · voz " + g.voice;
     try { await playBlob(bl, "Voz do Gemini funcionando."); } catch (e) {}
   } catch (e) { out.style.color = "var(--bad)"; out.textContent = "✗ " + (e.message || e); }
 }
 /* Gera o áudio de um trecho. Devolve {bl, src} ou null; os motivos das falhas vão em errs. */
 async function speechBlob(txt, errs) {
-  const fb = cfg("v_fb") === "1", add = m => { if (!errs.includes(m)) errs.push(m); };
-  if (Date.now() < +cfg("el_down")) add("ElevenLabs pausada por 3 min (falhou agora há pouco)");
-  else {
-    const all = elPairs(), pairs = elAvailable(), total = all.length;
-    if (!total) add("Falta a chave da ElevenLabs: cole em Ajustes → Voz → Contas da ElevenLabs");
-    else if (!pairs.length) add("As chaves da ElevenLabs estão sem créditos agora (nova tentativa em até 30 min)");
-    for (const p of pairs) {
-      const n = all.findIndex(x => x.key === p.key) + 1, tag = total > 1 ? "chave " + n + ": " : "";
-      const order = cfg("el_mode") === "proxy" ? ["proxy", "direct"] : ["direct", "proxy"];
-      let httpErr = null;
-      for (const m of order) {
-        if (m === "proxy" && !gOn()) continue;
-        try {
-          const bl = m === "direct" ? await elSpeakDirect(txt, p) : await elSpeakProxy(txt, p);
-          LS.set("el_mode", m);
-          return { bl, src: "ElevenLabs" + (total > 1 ? " (chave " + n + ")" : "") + (m === "proxy" ? " via Google" : "") };
-        } catch (e) {
-          add((m === "proxy" ? "Via Google: " : "") + tag + String(e.message || e));
-          if (!e.http && m === "direct" && !gOn()) add("conecte o Google em Ajustes → Google para usar o caminho alternativo");
-          if (e.http) { httpErr = e; break; }                   /* o erro seria o mesmo pelos dois caminhos */
-        }
-      }
-      if (httpErr && [401, 402, 403, 422, 429].includes(httpErr.http)) { elMarkDead(p.key, httpErr.http === 429 ? 30000 : 1800000, deadWhy(httpErr)); continue; }
-      break;
-    }
-    if (fb && total) LS.set("el_down", String(Date.now() + 180000));
-  }
-  if (fb && cfg("gemini_key").trim()) {
-    try { return { bl: await geminiSpeak(txt), src: "voz do Gemini" }; }
-    catch (e) { add("Gemini voz: " + (e.message || e)); }
-  }
-  return null;
+  try { const g = await geminiSpeak(txt); return { bl: g.bl, src: "Gemini · " + g.model + " · voz " + g.voice }; }
+  catch (e) { const m = String(e.message || e); if (!errs.includes(m)) errs.push(m); return null; }
 }
+/* No máximo 2 pedidos de voz por resposta: um começo curto (a fala começa logo) e o resto. Menos pedidos = menos espera e menos limite estourado. */
 function chunkText(t) {
-  const sentences = t.match(/[^.!?…]+[.!?…]*\s*/g) || [t], out = [];
-  let cur = "";
-  sentences.forEach(s => {
-    const limit = out.length === 0 ? 90 : 240;
-    if (cur && (cur + s).length > limit) { out.push(cur.trim()); cur = s; } else cur += s;
-  });
-  if (cur.trim()) out.push(cur.trim());
-  if (out.length > 6) { const head = out.slice(0, 5); head.push(out.slice(5).join(" ")); return head; }
-  return out;
+  const sentences = t.match(/[^.!?…]+[.!?…]*\s*/g) || [t];
+  let first = "", i = 0;
+  while (i < sentences.length) { first += sentences[i++]; if (first.length >= 70) break; }
+  let rest = sentences.slice(i).join("");
+  if (first.length > 220) {
+    let cut = first.lastIndexOf(",", 200); if (cut < 60) cut = first.lastIndexOf(" ", 200); if (cut < 40) cut = 200;
+    rest = first.slice(cut) + rest; first = first.slice(0, cut);
+  }
+  return [first.trim(), rest.trim()].filter(Boolean);
 }
 const playBlob = (bl, text) => new Promise((res, rej) => {
   const u = URL.createObjectURL(bl);
@@ -1960,6 +2086,17 @@ if ("speechSynthesis" in window) {
   speechSynthesis.onvoiceschanged = load; load();
 }
 
+function clearVoiceNotes() { document.querySelectorAll(".vnote").forEach(n => n.remove()); }
+function voiceNote(text, label, retry) {
+  clearVoiceNotes();
+  const bubs = document.querySelectorAll("#msgs .m.a .bub"), bub = bubs[bubs.length - 1];
+  if (!bub) return;
+  const d = document.createElement("div"); d.className = "vnote";
+  d.appendChild(document.createTextNode(text));
+  if (retry) { const b = document.createElement("button"); b.type = "button"; b.textContent = label; b.onclick = () => { d.remove(); retry(); }; d.appendChild(b); }
+  bub.appendChild(d);
+}
+
 const Speech = {
   tok: null, done: null,
   /* corta o áudio sem avisar quem estava esperando */
@@ -1972,38 +2109,35 @@ const Speech = {
   /* corta o áudio e avisa quem estava esperando */
   stop() { const d = this.done; this.halt(); if (d) d(); },
   async speak(text, done) {
-    const txt = cleanText(text).replace(/https?:\/\/\S+/g, " link ").slice(0, 1200);
+    const txt = cleanText(text).replace(/https?:\/\/\S+/g, " link ").slice(0, 700);
     if (!txt) { if (done) done(); return; }
-    this.halt();
+    this.halt(); clearVoiceNotes();
+    const original = text;
     Face.setEmotion(guessEmotion(txt));
     const tok = {}; this.tok = tok; this.done = done || null;
     const parts = chunkText(txt), errs = [], jobs = [];
-    const job = i => i < parts.length ? (jobs[i] = jobs[i] || speechBlob(parts[i], errs)) : null;
+    const job = i => jobs[i] || (jobs[i] = speechBlob(parts[i], errs));
     const finish = () => { if (this.tok !== tok) return; Face.endSpeech(); const d = this.done; this.tok = null; this.done = null; if (d) d(); };
-    const fallback = rest => {
-      if (this.tok !== tok) return;
-      if (cfg("v_fb") === "1") speakOnDevice(rest, finish); else finish();
+    const fail = (msg, rest, blocked) => {
+      voiceStatus("✗ " + msg + (cfg("voice_fb") === "1" ? " → usando a voz do aparelho." : ""), false);
+      toast("🔇 Não consegui falar: " + msg);
+      voiceNote(blocked ? "🔊 O navegador bloqueou o som." : "🔇 Não consegui falar (" + msg + ").", blocked ? "Toque para ouvir" : "Tentar de novo", () => { unlockAudio(); Speech.speak(original); });
+      if (cfg("voice_fb") === "1") speakOnDevice(rest, finish); else finish();
     };
     let src = "";
-    job(0); job(1);
     for (let i = 0; i < parts.length; i++) {
-      job(i + 1);
-      const r = await jobs[i];
+      const r = await job(i);
       if (this.tok !== tok) return;
-      if (!r) {
-        voiceStatus("✗ " + errs.join(" | ") + (cfg("v_fb") === "1" ? " → usando a voz do aparelho." : " (nenhuma voz foi usada porque você escolheu \"Avisar o erro\")."), false);
-        fallback(parts.slice(i).join(" ")); return;
-      }
+      if (i + 1 < parts.length) job(i + 1);        /* só pede o próximo depois de receber este: 1 pedido por vez */
+      if (!r) { fail(errs.join(" | ") || "a voz não respondeu", parts.slice(i).join(" ")); return; }
       try { src = r.src; await playBlob(r.bl, parts[i]); }
       catch (e) {
-        errs.push(String(e.message || e));
         if (this.tok !== tok) return;
-        voiceStatus(e.name === "NotAllowedError" ? "O navegador bloqueou o som. Toque em Testar voz uma vez e tente de novo." : "✗ " + errs.join(" | "), false);
-        fallback(parts.slice(i).join(" ")); return;
+        fail(e.name === "NotAllowedError" ? "o navegador bloqueou o som" : String(e.message || e), parts.slice(i).join(" "), e.name === "NotAllowedError"); return;
       }
       if (this.tok !== tok) return;
     }
-    voiceStatus(errs.length ? "⚠ " + errs.join(" | ") + " → falou com a " + src + "." : "✓ Falando com " + src + ".", !errs.length);
+    voiceStatus("✓ Falando com " + src, true);
     finish();
   }
 };
@@ -2014,7 +2148,7 @@ const Speech = {
 const Call = {
   on: false, busy: false, state: "idle", lastAct: 0, orb: null,
   /* captura de áudio (reconhecimento pelo Gemini) */
-  ctx: null, stream: null, src: null, proc: null, buf: [], pre: [], inSp: false, hits: 0, sil: 0, t0: 0, noise: .008,
+  ctx: null, stream: null, src: null, proc: null, buf: [], pre: [], inSp: false, hits: 0, sil: 0, t0: 0, noise: .008, lv: 0,
   /* reconhecimento do navegador */
   rec: null, recActive: false, recTimer: null, recNet: 0,
 
@@ -2121,15 +2255,17 @@ const Call = {
     this.proc = this.src = this.stream = this.mute = null; this.resetCapture();
   },
   onFrame(e) {
-    if (!this.on || cfg("stt_mode") !== "gemini" || this.busy || App.sending) { if (this.inSp || this.pre.length) this.resetCapture(); return; }
+    if (!this.on || cfg("stt_mode") !== "gemini" || this.busy || App.sending) {
+      if (e && e.inputBuffer) { const dd = e.inputBuffer.getChannelData(0); let ss = 0; for (let i = 0; i < dd.length; i += 4) ss += dd[i] * dd[i]; this.lv = this.lv * .6 + Math.min(1, Math.sqrt(ss / (dd.length / 4)) * 12) * .4; } if (this.inSp || this.pre.length) this.resetCapture(); return; }
     const d = e.inputBuffer.getChannelData(0), sr = this.ctx.sampleRate;
     let sum = 0; for (let i = 0; i < d.length; i++) sum += d[i] * d[i];
     const rms = Math.sqrt(sum / d.length);
-    const thr = Math.max(Math.max(.006, .036 - .003 * cfgNum("stt_sens")), this.noise * 3.2);
+    this.lv = this.lv * .6 + Math.min(1, rms * 12) * .4;
+    const thr = Math.max(Math.max(.004, .03 - .0025 * cfgNum("stt_sens")), this.noise * 2.4);
     this.lastAct = Date.now();
     if (!this.inSp) {
-      this.noise = Math.max(.003, this.noise * .96 + rms * .04);
-      this.pre.push(new Float32Array(d)); if (this.pre.length > 3) this.pre.shift();
+      if (rms < thr) this.noise = Math.max(.002, this.noise * .95 + rms * .05);
+      this.pre.push(new Float32Array(d)); if (this.pre.length > 6) this.pre.shift();
       if (rms > thr) {
         if (++this.hits >= 2) { this.inSp = true; this.buf = this.pre.slice(); this.pre = []; this.sil = 0; this.t0 = Date.now(); $("cStatus").textContent = "OUVINDO VOCÊ..."; }
       } else this.hits = 0;
@@ -2137,14 +2273,14 @@ const Call = {
     }
     this.buf.push(new Float32Array(d));
     this.orb.energy = Math.min(1.5, rms * 14);
-    if (rms > thr * .7) this.sil = 0; else this.sil += d.length / sr;
-    if (this.sil >= cfgNum("stt_sil") || Date.now() - this.t0 > 20000) this.finishCapture();
+    if (rms > thr * .55) this.sil = 0; else this.sil += d.length / sr;
+    if (this.sil >= cfgNum("stt_sil") || Date.now() - this.t0 > 25000) this.finishCapture();
   },
   finishCapture() {
     if (!this.inSp) return;
     const chunks = this.buf, sr = this.ctx.sampleRate, voiced = (Date.now() - this.t0) / 1000 - this.sil;
     this.resetCapture();
-    if (voiced < .35) { this.setState("listening"); return; }
+    if (voiced < .3) { this.setState("listening"); return; }
     this.transcribeTurn(toWav16(chunks, sr));
   },
   async transcribeTurn(b64) {
@@ -2243,11 +2379,24 @@ function applyUI() {
   let theme = LS.get("ui_theme", LS.get("jarvis_theme", "dark"));
   if (theme === "auto") theme = matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
   R.dataset.theme = theme;
-  const pal = PAL[cfg("ui_acc")] || PAL.blue;
-  R.style.setProperty("--acc", pal[0]); R.style.setProperty("--acc2", pal[1]);
-  ORB_COLORS.dark = pal[2].slice(); ORB_COLORS.light = [pal[0], pal[1], pal[0], pal[1]];
+  /* cor de destaque: da lista ou própria */
+  let acc, acc2;
+  if (cfg("ui_acc") === "custom") { acc = /^#[0-9a-f]{6}$/i.test(cfg("ui_accc")) ? cfg("ui_accc") : "#3b82f6"; acc2 = hueShift(acc, 40); }
+  else { const pal = PAL[cfg("ui_acc")] || PAL.blue; acc = pal[0]; acc2 = pal[1]; }
+  R.style.setProperty("--acc", acc); R.style.setProperty("--acc2", acc2);
+  /* cor do avatar: auto segue o destaque */
+  const light = theme === "light", avc = cfg("ui_avc");
+  AV.pair = (light && AV_COLORS_LIGHT[avc]) || AV_COLORS[avc] || null;
+  AV.c1 = AV.pair ? AV.pair[0] : acc; AV.c2 = AV.pair ? AV.pair[1] : acc2;
+  AV.glow = Math.max(.3, Math.min(1.8, cfgNum("ui_glow") / 100));
+  ORB_COLORS.dark = [mixHex(AV.c1, "#ffffff", .45), mixHex(AV.c2, "#ffffff", .45), "#ffffff", mixHex(AV.c1, "#ffffff", .25)];
+  ORB_COLORS.light = [AV.c1, AV.c2, AV.c1, AV.c2];
+  Face.setColors(light, AV.pair); Face.setQuality(cfg("face_q")); Face.moveK = Math.max(0, Math.min(1.6, cfgNum("face_move") / 100));
   R.style.setProperty("--fs", cfg("ui_fs") + "px"); R.style.setProperty("--blur", cfg("ui_blur") + "px");
-  avatarMode = cfg("ui_avatar") === "orb" ? "orb" : "face";
+  R.style.setProperty("--sans", FONTS[cfg("ui_font")] || FONTS.system);
+  avatarMode = AVATARS[cfg("ui_avatar")] ? cfg("ui_avatar") : "face";
+  ["aurora", "solid", "grid", "dots"].forEach(k => R.classList.toggle("bg-" + k, cfg("ui_bg") === k));
+  ["round", "sharp", "glass"].forEach(k => R.classList.toggle("bub-" + k, cfg("ui_bub") === k));
   R.classList.toggle("no-orb", cfg("ui_orb") === "0");
   R.classList.toggle("no-motion", cfg("ui_motion") === "0");
   R.classList.toggle("no-quick", cfg("ui_quick") === "0");
@@ -2273,7 +2422,7 @@ const bind = {
   toggle(id, key, def, cb) { const el = $(id); el.checked = LS.get(key, def) === "1"; el.onchange = () => { LS.set(key, el.checked ? "1" : "0"); if (cb) cb(); }; },
   range(id, key, def, cb) {
     const el = $(id), label = $(id + "V"); el.value = LS.get(key, def);
-    const show = () => { if (label) label.textContent = el.value; }; show();
+    const suf = el.dataset.suf || "", show = () => { if (label) label.textContent = el.value + suf; }; show();
     el.oninput = () => { LS.set(key, el.value); show(); if (cb) cb(); };
   },
   text(id, key, def, cb) { const el = $(id); el.value = LS.get(key, def); el.addEventListener("input", () => { LS.set(key, el.value.trim()); if (cb) cb(); }); },
@@ -2313,132 +2462,34 @@ async function copyGoogleScript() {
 }
 
 function testVoice() {
-  unlockAudio(); LS.set("el_down", "0"); LS.set("el_dead", "{}"); refreshElStatus(); voiceStatus("Gerando a voz...", true);
+  unlockAudio(); voiceStatus("Gerando a voz...", true);
   Speech.speak("Certamente, " + ME.address + ". Minha voz está pronta. Como posso ajudar?");
-}
-
-/* ----- tabela de contas do ElevenLabs ----- */
-let elShowKeys = false;
-function elRowState(a, firstLive) {
-  const key = String(a.key || "").trim();
-  if (!key) return ["wait", "Sem chave"];
-  const d = elDead()[key], until = deadUntil(d);
-  if (until > Date.now()) return ["off", (d && d.why ? d.why : "Pausada") + " · volta em " + Math.max(1, Math.ceil((until - Date.now()) / 60000)) + " min"];
-  return key === firstLive ? ["on", "▶ Em uso"] : ["wait", "Reserva"];
-}
-function refreshElStatus() {
-  const box = $("elTable"); if (!box) return;
-  const accs = ElAcc.load(), live = elAvailable(), first = live[0] ? live[0].key : "";
-  box.querySelectorAll(".frow").forEach(row => {
-    const a = accs[+row.dataset.i]; if (!a) return;
-    const [cls, txt] = elRowState(a, first), el = row.querySelector(".st");
-    el.className = "st " + cls; el.textContent = txt;
-  });
-  const total = elPairs().length;
-  $("elSum").textContent = total ? total + " conta(s) · " + live.length + " com crédito agora" + (live.length < total ? " · " + (total - live.length) + " em pausa" : "") : "Nenhuma conta com chave. Adicione uma abaixo.";
-}
-function renderElTable() {
-  const accs = ElAcc.load(), box = $("elTable");
-  box.innerHTML = '<div class="fhead"><span>#</span><span>Chave API</span><span>ID da voz</span><span>Status</span></div>' +
-    (accs.map((a, i) => '<div class="frow" data-i="' + i + '"><span class="n">' + (i + 1) + '</span>' +
-      '<input data-f="key" type="' + (elShowKeys ? "text" : "password") + '" value="' + esc(a.key || "") + '" placeholder="sk_..." autocomplete="off" spellcheck="false">' +
-      '<input data-f="voice" type="text" value="' + esc(a.voice || "") + '" placeholder="ID padrão" autocomplete="off" spellcheck="false">' +
-      '<div class="sc"><span class="st wait">—</span><div class="ra"><button data-act="test" type="button" title="Testar esta conta">▶</button><button data-act="del" type="button" title="Remover esta conta">' + ico("trash") + "</button></div></div></div>").join("") ||
-      '<div class="fempty">Nenhuma conta. Toque em "+ Adicionar conta".</div>');
-  box.querySelectorAll(".frow").forEach(row => {
-    const i = +row.dataset.i;
-    row.querySelectorAll("input").forEach(inp => inp.addEventListener("input", () => {
-      const list = ElAcc.load(); if (!list[i]) return;
-      list[i][inp.dataset.f] = inp.value.trim(); ElAcc.save(list); refreshElStatus();
-    }));
-    row.querySelector('[data-act="del"]').onclick = () => {
-      const list = ElAcc.load();
-      if (list[i] && list[i].key && !confirm("Remover a conta " + (i + 1) + "?")) return;
-      list.splice(i, 1); ElAcc.save(list); renderElTable();
-    };
-    row.querySelector('[data-act="test"]').onclick = () => testElAccount(i);
-  });
-  refreshElStatus();
-}
-async function testElAccount(i) {
-  unlockAudio();
-  const a = ElAcc.load()[i], info = $("elAccInfo"), key = a ? String(a.key || "").trim() : "";
-  if (!key) { info.style.color = "var(--bad)"; info.textContent = "Cole a chave da conta " + (i + 1) + " primeiro."; return; }
-  const p = { key, voice: parseVoice(a.voice) || elVoiceId() }, msgs = [];
-  info.style.color = ""; info.textContent = "Testando a conta " + (i + 1) + "...";
-  let bl = null, err = null;
-  for (const m of ["direct", "proxy"]) {
-    if (m === "proxy" && !gOn()) { if (msgs.length) msgs.push("Google não está conectado (Ajustes → Google)"); continue; }
-    try { bl = m === "direct" ? await elSpeakDirect("Conta funcionando.", p) : await elSpeakProxy("Conta funcionando.", p); LS.set("el_mode", m); break; }
-    catch (e) { err = e; msgs.push((m === "proxy" ? "Via Google: " : "Direto: ") + e.message); if (e.http) break; }
-  }
-  if (bl) {
-    const d = elDead(); delete d[key]; LS.set("el_dead", JSON.stringify(d)); LS.set("el_down", "0");
-    info.style.color = "var(--ok)"; info.textContent = "✓ Conta " + (i + 1) + " funcionando.";
-    refreshElStatus();
-    try { await playBlob(bl, "Conta funcionando."); } catch (e) {}
-  } else {
-    info.style.color = "var(--bad)"; info.textContent = "✗ Conta " + (i + 1) + ":\n" + msgs.join("\n") + (err && !err.http ? "\nToque em Diagnosticar para ver o que fazer." : "");
-    if (err && [401, 402, 403, 422, 429].includes(err.http)) elMarkDead(key, err.http === 429 ? 30000 : 1800000, deadWhy(err));
-    refreshElStatus();
-  }
-}
-
-/* Diagnóstico: testa cada etapa separadamente e diz exatamente o que fazer */
-async function elDiagnose() {
-  unlockAudio();
-  const info = $("elAccInfo"), lines = [], show = () => { info.style.color = ""; info.textContent = lines.join("\n"); };
-  const p = elPairs()[0];
-  if (!p) { info.style.color = "var(--bad)"; info.textContent = "Adicione uma conta com a chave primeiro."; return; }
-  lines.push("1) ElevenLabs direto do navegador: testando..."); show();
-  let directOk = false, reached = false, e1 = null;
-  try { await elSpeakDirect("Teste.", p); directOk = reached = true; }
-  catch (e) { e1 = e; reached = !!e.http; }
-  lines[0] = "1) ElevenLabs direto do navegador: " + (directOk ? "✓ funciona" : reached ? "✓ chegou à ElevenLabs, mas respondeu: " + e1.message : "✗ o navegador bloqueou (" + String(e1.message).replace(/^.*\((.*)\)$/, "$1") + ")");
-  show();
-  let googleOk = false, viaGoogleOk = false;
-  if (!directOk && !reached) {
-    if (!cfg("g_url").trim() || !cfg("g_pass").trim()) lines.push("2) Script do Google: ✗ não configurado (Ajustes → Google)");
-    else {
-      lines.push("2) Script do Google: testando..."); show();
-      try { const r = await gs({ a: "ping" }); googleOk = true; lines[lines.length - 1] = "2) Script do Google: ✓ respondeu (" + r + ")"; }
-      catch (e) { lines[lines.length - 1] = "2) Script do Google: ✗ " + (e.message || e) + (e.code === "net" || e.code === "timeout" ? " → a página não consegue abrir o link do script" : ""); }
-      show();
-    }
-    if (googleOk) {
-      lines.push("3) ElevenLabs pelo Google: testando..."); show();
-      try { await elSpeakProxy("Teste.", p); viaGoogleOk = true; lines[lines.length - 1] = "3) ElevenLabs pelo Google: ✓ funciona"; }
-      catch (e) { lines[lines.length - 1] = "3) ElevenLabs pelo Google: ✗ " + (e.message || e); }
-    }
-  }
-  let verdict, good = false;
-  if (directOk) { verdict = "✓ Tudo certo: o Jarvis fala direto pela ElevenLabs."; good = true; LS.set("el_mode", "direct"); }
-  else if (viaGoogleOk) { LS.set("el_mode", "proxy"); verdict = "✓ Tudo certo: o Jarvis vai falar pela ElevenLabs usando o script do Google."; good = true; }
-  else if (reached) verdict = "→ A ElevenLabs respondeu com erro: resolva isso (chave, créditos ou ID da voz) e teste de novo.";
-  else if (!googleOk) verdict = "→ O que fazer: Ajustes → Google → Copiar (código novo) → cole no script do Google → Implantar → Nova implantação → App da Web → Quem pode acessar: \"Qualquer pessoa\" → copie o link que termina em /exec, cole em Ajustes → Google e toque em Conectar. Depois toque em Diagnosticar de novo.";
-  else verdict = "→ O script do Google está conectado, mas não repassou o pedido à ElevenLabs: copie o código de novo em Ajustes → Google, cole no script e faça uma Nova implantação.";
-  lines.push(verdict); show(); info.style.color = good ? "var(--ok)" : "var(--bad)";
-}
-function bindElTable() {
-  renderElTable();
-  $("elAdd").onclick = () => {
-    const list = ElAcc.load(); list.push({ key: "", voice: "" }); ElAcc.save(list); renderElTable();
-    const inputs = $("elTable").querySelectorAll('input[data-f="key"]'); if (inputs.length) inputs[inputs.length - 1].focus();
-  };
-  $("elReset").onclick = () => { LS.set("el_dead", "{}"); LS.set("el_down", "0"); $("elAccInfo").style.color = ""; $("elAccInfo").textContent = "Todas as contas foram reativadas."; refreshElStatus(); };
-  $("elDiag").onclick = elDiagnose;
-  $("elShow").onclick = () => { elShowKeys = !elShowKeys; $("elShow").textContent = elShowKeys ? "Ocultar chaves" : "Mostrar chaves"; renderElTable(); };
 }
 
 /* ----- ligação de todos os campos ----- */
 function bindSettings() {
   /* aparência */
-  $("uAcc").innerHTML = Object.keys(PAL).map(k => '<button type="button" data-v="' + k + '" aria-label="' + k + '" style="background:linear-gradient(135deg,' + PAL[k][0] + "," + PAL[k][1] + ')"></button>').join("");
+  $("uAcc").innerHTML = Object.keys(PAL).map(k => '<button type="button" data-v="' + k + '" aria-label="' + k + '" style="background:linear-gradient(135deg,' + PAL[k][0] + "," + PAL[k][1] + ')"></button>').join("") +
+    '<button type="button" data-v="custom" aria-label="cor própria" style="background:conic-gradient(#ef4444,#f59e0b,#10b981,#3b82f6,#a855f7,#ef4444)"></button>';
   bind.seg("uTheme", "ui_theme", LS.get("jarvis_theme", "dark"), applyUI);
-  bind.seg("uAcc", "ui_acc", "blue", applyUI); bind.seg("uAvatar", "ui_avatar", "face", applyUI);
-  bind.range("uFs", "ui_fs", "16", applyUI); bind.range("uBlur", "ui_blur", "22", applyUI);
-  bind.toggle("uOrb", "ui_orb", "1", applyUI); bind.toggle("uMotion", "ui_motion", "1", applyUI);
+  bind.seg("uAcc", "ui_acc", "blue", applyUI);
+  $("uAccC").value = /^#[0-9a-f]{6}$/i.test(cfg("ui_accc")) ? cfg("ui_accc") : "#3b82f6";
+  $("uAccC").oninput = () => { LS.set("ui_accc", $("uAccC").value); LS.set("ui_acc", "custom"); $("uAcc").querySelectorAll("button").forEach(b => b.classList.toggle("on", b.dataset.v === "custom")); applyUI(); };
+  bind.seg("uBg", "ui_bg", "aurora", applyUI); bind.seg("uFont", "ui_font", "system", applyUI); bind.seg("uBub", "ui_bub", "round", applyUI);
+  bind.range("uFs", "ui_fs", "16", applyUI); bind.range("uBlur", "ui_blur", "22", applyUI); bind.toggle("uMotion", "ui_motion", "1", applyUI);
   matchMedia("(prefers-color-scheme: light)").addEventListener("change", () => { if (LS.get("ui_theme", "") === "auto") applyUI(); });
+
+  /* avatar */
+  $("uAvc").innerHTML = '<button type="button" data-v="auto" aria-label="automático" style="background:conic-gradient(#3b82f6,#a855f7,#ec4899,#3b82f6)"></button>' +
+    Object.keys(AV_COLORS).map(k => '<button type="button" data-v="' + k + '" aria-label="' + k + '" style="background:linear-gradient(135deg,' + AV_COLORS[k][0] + "," + AV_COLORS[k][1] + ')"></button>').join("");
+  bind.seg("uAvatar", "ui_avatar", "face", applyUI); bind.seg("uAvc", "ui_avc", "auto", applyUI);
+  bind.range("uGlow", "ui_glow", "100", applyUI); bind.seg("uFq", "face_q", "mid", applyUI); bind.range("uMove", "face_move", "100", applyUI);
+  bind.toggle("uOrb", "ui_orb", "1", applyUI);
+  document.querySelectorAll("#avState button").forEach(b => b.onclick = () => {
+    Prev.state = b.dataset.v; if (Prev.state !== "speaking") Face.endSpeech();
+    document.querySelectorAll("#avState button").forEach(x => x.classList.toggle("on", x === b));
+  });
+  const first = document.querySelector('#avState button[data-v="idle"]'); if (first) first.classList.add("on");
 
   /* jarvis */
   bind.text("uName", "u_name", "", applyUI); bind.text("uAddr", "u_addr", "", applyUI);
@@ -2455,12 +2506,8 @@ function bindSettings() {
 
   /* voz */
   bind.toggle("speakReplies", "speak_replies", "0");
-  bind.seg("uStt", "stt_mode", "gemini"); bind.range("uSil", "stt_sil", "1"); bind.range("uSens", "stt_sens", "5");
-  bind.text("elVoice", "el_voice", "", () => { LS.set("el_dead", "{}"); LS.set("el_down", "0"); refreshElStatus(); });
-  bindElTable();
-  bind.select("elModel", "el_model", "eleven_flash_v2_5");
-  bind.range("elStab", "el_stab", "0.5"); bind.range("elSim", "el_sim", "0.8"); bind.range("elSpd", "el_spd", "1");
-  bind.seg("uFb", "v_fb", "1"); bind.select("uGv", "gem_voice", "Charon");
+  bind.seg("uStt", "stt_mode", "gemini"); bind.range("uSil", "stt_sil", "1"); bind.range("uSens", "stt_sens", "7");
+  bind.seg("uFb", "voice_fb", "0"); bind.select("uGv", "gem_voice", "Charon");
   bind.text("gemVoiceCustom", "gem_voice_custom", ""); bind.text("gemStyle", "gem_style", "calmo, elegante e confiante");
   $("gemTest").onclick = testGemini; bind.range("uVr", "v_rate", "1");
   $("voiceTest").onclick = testVoice;
@@ -2497,6 +2544,7 @@ function bindSettings() {
    15. INICIALIZAÇÃO
    ========================================================================== */
 function bindEvents() {
+  document.addEventListener("pointerdown", unlockAudio, { passive: true });
   document.querySelectorAll(".tab").forEach(t => t.addEventListener("click", () => showView(t.dataset.v)));
   $("provChip").onclick = () => showView("vSettings");
   $("modeChip").onclick = () => showView("vExplore");
@@ -2532,12 +2580,14 @@ function startAnimationLoop() {
   const visible = id => !$(id).classList.contains("hidden");
   (function frame(now) {
     requestAnimationFrame(frame);
+    if (!$("call").classList.contains("hidden")) { const bar = $("cLevelBar"); if (bar) bar.style.width = Math.round(Math.min(1, Call.lv) * 100) + "%"; $("cLevel").classList.toggle("off", cfg("stt_mode") !== "gemini"); }
     if (document.hidden) { last = now; return; }
     const still = document.documentElement.classList.contains("no-motion");
     const dt = still ? 0 : Math.min(.05, (now - last) / 1000); last = now;
     const t = still ? 0 : now;
     if (visible("call")) drawAvatar(Call.orb, t, dt);
     else if (visible("vChat") && visible("hero")) drawAvatar(heroOrb, t, dt);
+    else if (visible("vSettings") && prevOrb.cv.clientWidth) { previewTick(now); drawAvatar(prevOrb, t, dt); }
     if (visible("vMemory")) tickPulses();
   })(performance.now());
 }
@@ -2551,7 +2601,6 @@ function init() {
   updateHome(); updateStats(); autoGrow(); showView("vChat");
   startAnimationLoop();
   /* vigia da chamada: se o microfone parar sozinho, volta a ouvir */
-  setInterval(refreshElStatus, 20000);
   setInterval(() => { if (Call.on && !Call.busy && !App.sending && !Call.recActive && Date.now() - Call.lastAct > 3500) Call.listen(); }, 2000);
   setTimeout(() => { $("splash").classList.add("fade"); setTimeout(() => $("splash").classList.add("hidden"), 750); }, 1700);
 }
