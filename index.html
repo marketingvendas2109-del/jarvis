@@ -429,6 +429,7 @@ html.no-motion *{animation:none!important;transition:none!important}
           <div class="li"><span><b>Testar voz</b><small id="voiceOut">Toque em Testar para ouvir</small></span><button class="go" id="voiceTest" type="button">Testar</button></div>
         </div></div>
         <div class="grp"><div class="gt">Microfone (conversa por voz)</div><div class="gl">
+          <label class="li"><span><b>Respostas por voz bem curtas</b><small>Fala mais rápido: 1 ou 2 frases. Desligue para respostas mais longas</small></span><input type="checkbox" id="uVshort"></label>
           <div class="li col"><b>Reconhecimento de voz (chamada)</b><div class="seg" id="uStt"><button type="button" data-v="gemini">Gemini (recomendado)</button><button type="button" data-v="browser">Navegador</button></div><small>O Gemini funciona no Brave, no Safari e em qualquer navegador. O do navegador falha no Brave.</small></div>
           <div class="li col"><div class="spread"><b>Pausa para o Jarvis responder (segundos)</b><span class="val" id="uSilV"></span></div><input type="range" id="uSil" min="0.6" max="2" step="0.1"></div>
           <div class="li col"><div class="spread"><b>Sensibilidade do microfone</b><span class="val" id="uSensV"></span></div><input type="range" id="uSens" min="1" max="10" step="1"><small>Aumente se ele não te ouve; diminua se ele reage a barulho</small></div>
@@ -643,7 +644,7 @@ const DEFAULTS = {
   ui_acc: "blue", ui_accc: "#3b82f6", ui_avatar: "face", ui_avc: "auto", ui_glow: "100", ui_bg: "aurora", ui_font: "system", ui_bub: "round", face_q: "mid", face_move: "100", ui_fs: "16", ui_blur: "22", ui_orb: "1", ui_motion: "1", ui_quick: "1", ui_acts: "1",
   enter_send: "1", mem_live: "1", u_name: "", u_addr: "", u_pers: "mordomo", u_len: "normal",
   ai_temp: "0.8", ai_model: "", ai_extra: "", gemini_key: "", jarvis_mode: "normal",
-  speak_replies: "0", stt_mode: "gemini", stt_sil: "1", stt_sens: "7",
+  speak_replies: "0", stt_mode: "gemini", stt_sil: "0.8", voice_short: "1", stt_sens: "7",
  
   voice_fb: "0", gem_voice: "Charon", gem_voice_custom: "", gem_style: "calmo, elegante e confiante", v_rate: "1",
   g_url: "", g_pass: "", g_sheet: "", g_ok: "0", s_cat: "look", jarvis_bar: "1"
@@ -898,7 +899,7 @@ async function callAI(turns, system, opts) {
   let quick = !!opts.fast && LS.get("think_off", "") !== "1";
   const build = q => {
     const p = JSON.parse(JSON.stringify(basePayload));
-    if (opts.fast) p.generationConfig.maxOutputTokens = 600;
+    if (opts.fast) p.generationConfig.maxOutputTokens = opts.maxTokens || 600;
     if (q) p.generationConfig.thinkingConfig = { thinkingLevel: "minimal" };
     return p;
   };
@@ -946,7 +947,8 @@ function aiErr(e) {
 }
 
 /* Monta as instruções completas enviadas ao Gemini a cada mensagem */
-function buildSystem() {
+function buildSystem(o) {
+  o = o || {};
   const mode = MODES.find(m => m.id === cfg("jarvis_mode")) || MODES[0];
   const live = cfg("mem_live") !== "0", len = cfg("u_len"), extra = cfg("ai_extra").trim();
   const parts = [
@@ -961,7 +963,10 @@ function buildSystem() {
     googlePrompt(),
     len === "short" ? "TAMANHO: responda sempre de forma curta (no máximo 3 frases)." : len === "long" ? "TAMANHO: responda de forma detalhada e completa, com exemplos quando ajudar." : "",
     extra ? "INSTRUÇÕES EXTRAS DO USUÁRIO (siga sempre): " + extra : "",
-    Call.on ? "VOCÊ ESTÁ EM UMA CHAMADA POR VOZ: sua resposta será FALADA. Responda em 1 a 3 frases curtas e naturais, sem listas, sem markdown, sem emojis, sem asteriscos." : ""
+    Call.on ? (cfg("voice_short") === "0"
+      ? "VOCÊ ESTÁ EM UMA CHAMADA POR VOZ: sua resposta será FALADA. Responda em 1 a 3 frases curtas e naturais, sem listas, sem markdown, sem emojis, sem asteriscos."
+      : "VOCÊ ESTÁ EM UMA CHAMADA POR VOZ: sua resposta será FALADA e precisa ser RÁPIDA. Responda em 1 ou 2 frases bem curtas (no máximo 30 palavras), naturais, sem listas, sem markdown, sem emojis, sem asteriscos. Só se alongue se o usuário pedir uma explicação.") : "",
+    o.audio ? "O usuário falou por ÁUDIO. COMECE a resposta SEMPRE com uma linha [[OUVI:o que ele disse, palavra por palavra]] e, logo depois, responda normalmente (essa linha é só de controle; nunca a explique nem a mencione). Se o áudio não tiver fala compreensível, responda apenas [[OUVI:]]." : ""
   ];
   return parts.filter(Boolean).join("\n\n");
 }
@@ -973,10 +978,15 @@ function googlePrompt() {
   return 'AÇÕES NO GOOGLE (conectado de verdade). Para agir, escreva uma linha [[G:{json}]] por ação e nada mais além disso; o sistema executa e devolve o resultado, e só então você responde. Ações: {"a":"cal_list","from":"ISO","to":"ISO"} lista eventos; {"a":"cal_create","title":"","start":"ISO","end":"ISO","description":"","location":"","attendees":["email"]} cria evento (start só com data = dia inteiro); {"a":"cal_delete","id":""}; {"a":"sheet_info","sheet":""} lista as abas; {"a":"sheet_read","sheet":"","range":"Aba!A1:F50"} lê; {"a":"sheet_append","sheet":"","range":"Aba","values":[["col1","col2"]]} adiciona linhas no fim; {"a":"sheet_update","sheet":"","range":"Aba!B2","values":[["x"]]} altera células (sheet vazio = planilha padrão, ' + (cfg("g_sheet") ? "configurada" : "NÃO configurada") + '); {"a":"mail_list","q":"is:unread","max":8} busca e-mails (sintaxe de busca do Gmail); {"a":"mail_read","id":""} lê um e-mail; {"a":"mail_draft","to":"","subject":"","body":""} cria rascunho; {"a":"mail_send","to":"","subject":"","body":""} envia (o usuário confirma na tela). Datas em ISO 8601 com fuso ' + sign + tz + " (agora: " + new Date().toISOString() + "). Nunca invente resultados: só afirme algo depois de receber o resultado. Em caso de dúvida sobre planilha ou aba, pergunte ou use sheet_info. Só envie e-mail se o usuário pedir claramente.";
 }
 
-/* Conversa com o Gemini e executa ações do Google até a resposta final */
-async function converse(turns) {
-  const fast = Call.on;
-  let raw = await callAI(turns, buildSystem(), { fast }), rounds = 0;
+/* Conversa com o Gemini e executa ações do Google até a resposta final.
+   o.audio = a última mensagem do usuário é um áudio (o modelo ouve e responde de uma vez só). */
+async function converse(turns, o) {
+  o = o || {};
+  const fast = Call.on || cfg("speak_replies") === "1";
+  const maxTokens = Call.on && cfg("voice_short") !== "0" ? 260 : 600;
+  const ouvi = /\[\[OUVI:[\s\S]*?\]\]/;
+  let raw = await callAI(turns, buildSystem(o), { fast, maxTokens }), rounds = 0;
+  const heard0 = o.audio ? ouvi.exec(raw) : null;
   while (gOn() && rounds < 4) {
     const acts = scanActions(raw).acts;
     if (!acts.length) break;
@@ -986,9 +996,11 @@ async function converse(turns) {
       { role: "assistant", content: raw },
       { role: "user", content: "[RESULTADO DAS AÇÕES DO GOOGLE]\n" + result + "\n\nResponda agora ao usuário, em português, usando só esses resultados. Se faltar algo, use outra ação." }
     ]);
-    raw = await callAI(turns, buildSystem(), { fast });
+    raw = await callAI(turns, buildSystem(), { fast, maxTokens });
   }
-  return scanActions(raw).clean || "Feito, " + ME.address + ".";
+  let out = scanActions(raw).clean || "Feito, " + ME.address + ".";
+  if (heard0 && !ouvi.test(out)) out = heard0[0] + "\n" + out;     /* mantém o que ele ouviu mesmo depois das ações */
+  return out;
 }
 
 /* Código que o usuário cola no Google Apps Script */
@@ -1233,6 +1245,42 @@ async function sendMessage(text) {
     pushMsg("assistant", App.lastError, { error: true });
   } finally { App.sending = false; }
   return reply;
+}
+
+/* Mensagem por voz: o áudio vai direto para o Gemini, que ouve e responde em um pedido só (sem etapa de transcrição) */
+async function sendVoiceMessage(b64) {
+  if (App.sending) return null;
+  App.sending = true;
+  const entry = { role: "user", content: "🎤 …" };
+  Chats.log.push(entry);
+  const el = pushMsg("user", entry.content);
+  Chats.persist(); setThinking(true);
+  const undo = () => { const i = Chats.log.indexOf(entry); if (i >= 0) Chats.log.splice(i, 1); if (el && el.remove) el.remove(); Chats.persist(); };
+  try {
+    const turns = buildTurns(null);
+    turns[turns.length - 1] = { role: "user", parts: [{ inlineData: { mimeType: "audio/wav", data: b64 } }, { text: "(mensagem por voz: o conteúdo está no áudio)" }] };
+    const raw = await converse(turns, { audio: true });
+    setThinking(false);
+    const m = /\[\[OUVI:([\s\S]*?)\]\]/.exec(raw);
+    let heard = m ? m[1].trim() : "";
+    const body = raw.replace(/\[\[OUVI:[\s\S]*?\]\]/g, "").trim();
+    if (m && !heard) { undo(); return null; }                 /* não havia fala compreensível */
+    if (!heard) heard = "🎤 (mensagem de voz)";
+    entry.content = heard;
+    const bub = el && el.querySelector ? el.querySelector(".bub") : null;
+    if (bub) bub.innerHTML = esc(heard).replace(/\n/g, "<br>");
+    const reply = Brain.applySaves(body) || "…";
+    Chats.log.push({ role: "assistant", content: reply });
+    Chats.persist();
+    pushMsg("assistant", reply);
+    if (CONFIG.makeTrigger.test(heard)) sendToMake("Comando Jarvis", heard);
+    return { text: reply, heard };
+  } catch (e) {
+    setThinking(false); undo();
+    App.lastError = aiErr(e);
+    pushMsg("assistant", App.lastError, { error: true });
+    return null;
+  } finally { App.sending = false; }
 }
 
 /* ---------- campo de texto ---------- */
@@ -2029,7 +2077,7 @@ async function speechBlob(txt, errs) {
 function chunkText(t) {
   const sentences = t.match(/[^.!?…]+[.!?…]*\s*/g) || [t];
   let first = "", i = 0;
-  while (i < sentences.length) { first += sentences[i++]; if (first.length >= 70) break; }
+  while (i < sentences.length) { first += sentences[i++]; if (first.length >= 45) break; }
   let rest = sentences.slice(i).join("");
   if (first.length > 220) {
     let cut = first.lastIndexOf(",", 200); if (cut < 60) cut = first.lastIndexOf(" ", 200); if (cut < 40) cut = 200;
@@ -2281,15 +2329,26 @@ const Call = {
     const chunks = this.buf, sr = this.ctx.sampleRate, voiced = (Date.now() - this.t0) / 1000 - this.sil;
     this.resetCapture();
     if (voiced < .3) { this.setState("listening"); return; }
-    this.transcribeTurn(toWav16(chunks, sr));
+    this.voiceTurn(toWav16(chunks, sr));
   },
-  async transcribeTurn(b64) {
-    this.busy = true; this.setState("thinking"); $("cStatus").textContent = "TRANSCREVENDO...";
-    let text = "";
-    try { text = await transcribe(b64); }
-    catch (e) { $("cAi").textContent = aiErr(e); this.busy = false; this.setState("listening"); return; }
-    if (!text || /^\[?VAZIO\]?\.?$/i.test(text)) { this.busy = false; this.setState("listening"); return; }
-    this.busy = false; this.turn(text);
+  /* a fala vai direto para o Gemini: ele ouve e responde em um pedido só */
+  async voiceTurn(b64) {
+    this.busy = true;
+    try {
+      $("cAi").textContent = ""; this.setState("thinking"); App.lastError = "";
+      const r = await sendVoiceMessage(b64);
+      if (!this.on) return;
+      if (r) {
+        this.setState("speaking");
+        if (cfg("stt_mode") === "gemini") this.micStop();
+        await this.speakAndWait(r.text);
+      }
+      else if (App.lastError) $("cAi").textContent = App.lastError;
+    } catch (e) { console.error(e); }
+    finally {
+      this.busy = false; this.lastAct = Date.now();
+      if (this.on) { this.setState("listening"); if (cfg("stt_mode") === "browser") this.schedule(250); else this.listen(); }
+    }
   },
 
   /* ----- modo navegador: reconhecimento de voz nativo ----- */
@@ -2355,13 +2414,6 @@ function toWav16(chunks, sr) {
   dv.setUint32(24, 16000, true); dv.setUint32(28, 32000, true); dv.setUint16(32, 2, true); dv.setUint16(34, 16, true); w(36, "data"); dv.setUint32(40, len * 2, true);
   new Int16Array(buf, 44).set(pcm);
   return bytesToB64(new Uint8Array(buf));
-}
-async function transcribe(b64) {
-  const text = await callAI(
-    [{ role: "user", parts: [{ inlineData: { mimeType: "audio/wav", data: b64 } }, { text: "Transcreva fielmente a fala deste áudio em português do Brasil." }] }],
-    "Você é um transcritor. Responda SOMENTE com o texto falado, sem aspas e sem comentários. Se não houver fala clara e compreensível, responda exatamente: [VAZIO]",
-    { fast: true });
-  return String(text).replace(/^["“\s]+|["”\s]+$/g, "").trim();
 }
 
 const IN_FRAME = (() => { try { return window.top !== window.self; } catch (e) { return true; } })();
@@ -2506,7 +2558,7 @@ function bindSettings() {
 
   /* voz */
   bind.toggle("speakReplies", "speak_replies", "0");
-  bind.seg("uStt", "stt_mode", "gemini"); bind.range("uSil", "stt_sil", "1"); bind.range("uSens", "stt_sens", "7");
+  bind.seg("uStt", "stt_mode", "gemini"); bind.range("uSil", "stt_sil", "0.8"); bind.toggle("uVshort", "voice_short", "1"); bind.range("uSens", "stt_sens", "7");
   bind.seg("uFb", "voice_fb", "0"); bind.select("uGv", "gem_voice", "Charon");
   bind.text("gemVoiceCustom", "gem_voice_custom", ""); bind.text("gemStyle", "gem_style", "calmo, elegante e confiante");
   $("gemTest").onclick = testGemini; bind.range("uVr", "v_rate", "1");
