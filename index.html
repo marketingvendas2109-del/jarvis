@@ -277,6 +277,7 @@ html[data-theme=light] #call{background:radial-gradient(ellipse 85% 55% at 50% 3
 #cLevel{width:min(260px,64vw);height:6px;border-radius:999px;background:rgba(127,127,170,.25);overflow:hidden;margin:6px 0 2px}
 #cLevel i{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,var(--acc),var(--acc2));transition:width .08s linear}
 #cLevel.off{visibility:hidden}
+#gStat{white-space:pre-line;line-height:1.45}
 .srcs{margin-top:10px;font-size:12.5px;color:var(--dim)}
 .srcs .sl{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
 .srcs a{padding:4px 10px;border-radius:999px;background:var(--glass2);border:1px solid var(--line);color:var(--txt);text-decoration:none;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -453,7 +454,7 @@ html.no-motion *{animation:none!important;transition:none!important}
       <div class="cat" data-c="google">
         <div class="grp"><div class="gt">Google (Agenda, Planilhas e Gmail)</div><div class="gl">
           <div class="li"><span><b>1. Copiar o código do script</b><small>Gera a senha sozinho e copia o código</small></span><button class="go" id="gCopy" type="button">Copiar</button></div>
-          <div class="li"><span><b>2. Abrir o Google Script</b><small>Cole o código lá. No iPhone: aA → Solicitar site para desktop</small></span><a class="go" href="https://script.google.com/home/projects/create" target="_blank" rel="noopener" style="text-decoration:none">Abrir</a></div>
+          <div class="li"><span><b>2. Abrir o Google Script</b><small>Cole o código lá e salve. Depois: Implantar → Nova implantação → App da Web → Executar como: Eu → Quem pode acessar: Qualquer pessoa → Implantar. Autorize quando pedir e copie o link que termina em /exec. No iPhone: aA → Solicitar site para desktop. Se você atualizou o app, copie o código de novo e faça uma Nova implantação.</small></span><a class="go" href="https://script.google.com/home/projects/create" target="_blank" rel="noopener" style="text-decoration:none">Abrir</a></div>
           <div class="li col"><label for="gUrl"><b>3. Link do script (depois de implantar)</b></label><input id="gUrl" type="text" autocomplete="off" spellcheck="false" placeholder="https://script.google.com/macros/s/.../exec"></div>
           <div class="li col"><label for="gPass"><b>Senha do script</b></label><input id="gPass" type="password" autocomplete="off" spellcheck="false"></div>
           <div class="li col"><label for="gSheet"><b>Planilha padrão (link ou ID)</b></label><input id="gSheet" type="text" autocomplete="off" spellcheck="false" placeholder="Cole o link da planilha"></div>
@@ -800,7 +801,10 @@ const Brain = {
 const gOn = () => cfg("g_ok") === "1" && !!cfg("g_url").trim() && !!cfg("g_pass").trim();
 const sheetId = x => { x = String(x || cfg("g_sheet")).trim(); const m = /\/d\/([a-zA-Z0-9-_]+)/.exec(x); return m ? m[1] : x; };
 
-async function gs(action) {
+/* Dois jeitos de falar com o script do Google:
+   - "post": pedido direto (funciona no Chrome, Brave, etc.)
+   - "jsonp": carrega o endereço como se fosse um script (funciona no Safari do iPhone, que bloqueia o jeito direto) */
+function gsBody(action) {
   const url = cfg("g_url").trim(), key = cfg("g_pass").trim();
   if (!url || !key) throw new Error("Cole o link e a senha do script em Ajustes → Google.");
   const body = Object.assign({}, action, { key });
@@ -808,9 +812,47 @@ async function gs(action) {
     body.sheet = sheetId(action.sheet);
     if (!body.sheet) throw new Error("Falta a planilha padrão (ou o link da planilha).");
   }
-  const r = await fetchT(url, { method: "POST", body: JSON.stringify(body) }, 60000);
-  let d;
-  try { d = await r.json(); } catch (e) { throw new Error("O link do script não respondeu direito. Confira se a implantação está como 'Qualquer pessoa'."); }
+  return body;
+}
+async function gsPost(body) {
+  const r = await fetchT(cfg("g_url").trim(), { method: "POST", body: JSON.stringify(body) }, 60000);
+  try { return await r.json(); }
+  catch (e) { throw Object.assign(new Error("O link do script não respondeu direito. Confira se a implantação está como 'Qualquer pessoa'."), { code: "badresp" }); }
+}
+function jsonpCall(url, params, ms) {
+  return new Promise((resolve, reject) => {
+    const cb = "__gs" + Math.random().toString(36).slice(2, 10), s = document.createElement("script");
+    let done = false, timer = null;
+    const finish = (fn, v) => {
+      if (done) return; done = true; clearTimeout(timer);
+      try { delete window[cb]; } catch (e) { window[cb] = undefined; }
+      if (s.parentNode) s.parentNode.removeChild(s);
+      fn(v);
+    };
+    window[cb] = d => finish(resolve, d);
+    s.onerror = () => finish(reject, Object.assign(new Error("não consegui abrir o link do script"), { code: "net" }));
+    s.onload = () => setTimeout(() => finish(reject, Object.assign(new Error("o link respondeu, mas não é o script do Jarvis (a implantação não está como 'Qualquer pessoa' ou o código está antigo)"), { code: "notscript" })), 600);
+    timer = setTimeout(() => finish(reject, Object.assign(new Error("tempo esgotado"), { code: "timeout" })), ms || 45000);
+    const q = Object.keys(params).map(k => encodeURIComponent(k) + "=" + encodeURIComponent(params[k])).join("&");
+    s.src = url + (url.indexOf("?") >= 0 ? "&" : "?") + "cb=" + cb + "&" + q;
+    document.head.appendChild(s);
+  });
+}
+async function gsJsonp(body) {
+  const url = cfg("g_url").trim();
+  const enc = btoa(unescape(encodeURIComponent(JSON.stringify(body)))).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+  const CH = 1800;
+  if (enc.length <= CH) return jsonpCall(url, { op: "run", d: enc });
+  const id = uid("j"), n = Math.ceil(enc.length / CH);     /* pedido grande: manda em partes e depois manda executar */
+  for (let i = 0; i < n; i++) {
+    const r = await jsonpCall(url, { op: "part", id, i, d: enc.slice(i * CH, (i + 1) * CH) });
+    if (!r || !r.ok) throw new Error((r && r.error) || "erro ao enviar para o script");
+  }
+  return jsonpCall(url, { op: "run", id, t: n });
+}
+async function gs(action) {
+  const body = gsBody(action);
+  const d = cfg("g_tr") === "jsonp" ? await gsJsonp(body) : await gsPost(body);   /* o jeito foi escolhido no teste de conexão */
   if (!d.ok) throw new Error(d.error || "erro no script");
   return d.result;
 }
@@ -1045,8 +1087,36 @@ async function converse(turns, o) {
 /* Código que o usuário cola no Google Apps Script */
 const GOOGLE_SCRIPT = String.raw`const SENHA = "__SENHA__";
 
-function doGet() {
-  return ContentService.createTextOutput("Jarvis conectado ✓");
+function doGet(e) {
+  const p = (e && e.parameter) || {};
+  if (!p.cb) return ContentService.createTextOutput("Jarvis conectado ✓ (v2)");
+  const cb = String(p.cb);
+  if (!/^[A-Za-z0-9_]+$/.test(cb)) return ContentService.createTextOutput("callback inválido");
+  let out;
+  try {
+    const cache = CacheService.getScriptCache();
+    if (p.op === "part") {
+      cache.put("jv_" + p.id + "_" + p.i, String(p.d), 300);
+      out = { ok: true, result: "parte" };
+    } else {
+      let data = p.d || "";
+      if (p.id && p.t) {
+        data = "";
+        for (let i = 0; i < Number(p.t); i++) {
+          const x = cache.get("jv_" + p.id + "_" + i);
+          if (x === null) throw new Error("uma parte do pedido se perdeu, tente de novo");
+          data += x;
+        }
+      }
+      const a = JSON.parse(Utilities.newBlob(Utilities.base64DecodeWebSafe(data)).getDataAsString("UTF-8"));
+      if (a.key !== SENHA) throw new Error("Senha incorreta");
+      out = { ok: true, result: run(a) };
+    }
+  } catch (err) {
+    out = { ok: false, error: String(err.message || err) };
+  }
+  return ContentService.createTextOutput(cb + "(" + JSON.stringify(out) + ")")
+    .setMimeType(ContentService.MimeType.JAVASCRIPT);
 }
 
 function doPost(e) {
@@ -2554,11 +2624,22 @@ function googleStatus(msg, ok) {
 }
 async function testGoogle() {
   googleStatus("Conectando...");
-  try { const r = await gs({ a: "ping" }); LS.set("g_ok", "1"); googleStatus("✓ " + r, true); }
-  catch (e) {
-    LS.set("g_ok", "0");
-    googleStatus("✗ " + (e.message || e) + (/Failed to fetch|Load failed|NetworkError|falha de rede/i.test(String(e.message)) ? " (confira o link e se a implantação está como 'Qualquer pessoa')" : ""), false);
+  const url = cfg("g_url").trim(), key = cfg("g_pass").trim();
+  if (!url || !key) { LS.set("g_ok", "0"); googleStatus("✗ Cole primeiro o link e a senha do script.", false); return; }
+  const ping = { a: "ping", key };
+  let d = null, mode = "", e2 = null;
+  try { d = await gsPost(ping); mode = "post"; } catch (e) { /* o Safari do iPhone costuma falhar aqui */ }
+  if (!d) { try { d = await gsJsonp(ping); mode = "jsonp"; } catch (e) { e2 = e; } }
+  if (d) {
+    if (!d.ok) { LS.set("g_ok", "0"); googleStatus("✗ " + (d.error || "erro no script") + (/senha/i.test(d.error || "") ? "\nA senha aqui precisa ser a mesma do código colado no Google Script (toque em Copiar de novo)." : ""), false); return; }
+    LS.set("g_tr", mode); LS.set("g_ok", "1");
+    googleStatus("✓ " + d.result + (mode === "jsonp" ? " (modo compatível com iPhone)" : ""), true);
+    return;
   }
+  LS.set("g_ok", "0");
+  googleStatus("✗ Não consegui falar com o script (testei de 2 jeitos).\n" + (e2 && e2.code === "notscript"
+    ? "O link abre, mas não é o script do Jarvis. Toque em Copiar, cole o código novo no Google Script e faça Implantar → Nova implantação → Quem pode acessar: Qualquer pessoa."
+    : "Confira: o link termina em /exec, 'Quem pode acessar' é 'Qualquer pessoa', e você criou uma Nova implantação depois de colar o código."), false);
 }
 async function copyGoogleScript() {
   let pw = cfg("g_pass").trim();
@@ -2630,7 +2711,7 @@ function bindSettings() {
   /* google */
   [["gUrl", "g_url"], ["gPass", "g_pass"], ["gSheet", "g_sheet"]].forEach(([id, key]) => {
     $(id).value = cfg(key);
-    $(id).addEventListener("input", e => { LS.set(key, e.target.value.trim()); if (id !== "gSheet") { LS.set("g_ok", "0"); googleStatus("Toque em Conectar para testar"); } });
+    $(id).addEventListener("input", e => { LS.set(key, e.target.value.trim()); if (id !== "gSheet") { LS.set("g_ok", "0"); LS.del("g_tr"); googleStatus("Toque em Conectar para testar"); } });
   });
   $("gBtn").onclick = testGoogle; $("gCopy").onclick = copyGoogleScript;
   if (gOn()) googleStatus("✓ Conectado", true);
