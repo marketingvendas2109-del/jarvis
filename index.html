@@ -277,7 +277,8 @@ html[data-theme=light] #call{background:radial-gradient(ellipse 85% 55% at 50% 3
 #cLevel{width:min(260px,64vw);height:6px;border-radius:999px;background:rgba(127,127,170,.25);overflow:hidden;margin:6px 0 2px}
 #cLevel i{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,var(--acc),var(--acc2));transition:width .08s linear}
 #cLevel.off{visibility:hidden}
-#gStat{white-space:pre-line;line-height:1.45}
+#gStat,#b44Stat,#b44MailOut,#nStat{white-space:pre-line;line-height:1.45}
+.two{display:grid;grid-template-columns:1fr 2fr;gap:8px}
 .srcs{margin-top:10px;font-size:12.5px;color:var(--dim)}
 .srcs .sl{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
 .srcs a{padding:4px 10px;border-radius:999px;background:var(--glass2);border:1px solid var(--line);color:var(--txt);text-decoration:none;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -350,7 +351,7 @@ html.no-motion *{animation:none!important;transition:none!important}
       <div class="snav" id="snav">
         <button type="button" data-c="look">Aparência</button><button type="button" data-c="avatar">Avatar</button><button type="button" data-c="jarvis">Jarvis</button>
         <button type="button" data-c="voz">Voz</button><button type="button" data-c="chat">Chat</button>
-        <button type="button" data-c="google">Google</button><button type="button" data-c="dados">Dados</button>
+        <button type="button" data-c="loja">Loja</button><button type="button" data-c="google">Google</button><button type="button" data-c="dados">Dados</button>
       </div>
 
       <!-- Aparência -->
@@ -381,7 +382,7 @@ html.no-motion *{animation:none!important;transition:none!important}
             <div class="seg" id="avState"><button type="button" data-v="idle">Parado</button><button type="button" data-v="listening">Ouvindo</button><button type="button" data-v="thinking">Pensando</button><button type="button" data-v="speaking">Falando</button></div></div>
         </div></div>
         <div class="grp"><div class="gt">Estilo do Jarvis</div><div class="gl">
-          <div class="li col"><b>Visual</b><div class="seg" id="uAvatar"><button type="button" data-v="face">Rosto</button><button type="button" data-v="orb">Esfera</button><button type="button" data-v="reactor">Reator</button><button type="button" data-v="waves">Ondas</button></div>
+          <div class="li col"><b>Visual</b><div class="seg" id="uAvatar"><button type="button" data-v="face">Rosto</button><button type="button" data-v="orb">Esfera</button><button type="button" data-v="reactor">Reator</button><button type="button" data-v="robo">Robô</button></div>
             <small>Aparece na tela inicial e na chamada de voz.</small></div>
           <div class="li col"><b>Cor do avatar</b><div class="swa" id="uAvc"></div><small>Automático: o rosto usa as cores originais e os outros seguem a cor de destaque.</small></div>
           <div class="li col"><div class="spread"><b>Brilho</b><span class="val" id="uGlowV"></span></div><input type="range" id="uGlow" min="40" max="160" step="5" data-suf="%"></div>
@@ -401,7 +402,7 @@ html.no-motion *{animation:none!important;transition:none!important}
           <div class="li col"><label for="uName"><b>Seu nome</b></label><input id="uName" type="text" autocomplete="off" spellcheck="false" placeholder="Wagner"></div>
           <div class="li col"><label for="uAddr"><b>Como o Jarvis te chama</b></label><input id="uAddr" type="text" autocomplete="off" spellcheck="false" placeholder="senhor"></div>
           <div class="li"><span><b>Jeito de falar</b><small>Muda o tom das respostas</small></span>
-            <select id="uPers"><option value="mordomo">Mordomo britânico</option><option value="amigo">Amigo descontraído</option><option value="coach">Coach motivador</option><option value="direto">Direto e objetivo</option><option value="sarcastico">Sarcástico e espirituoso</option><option value="professor">Professor paciente</option></select></div>
+            <select id="uPers"><option value="mordomo">Mordomo britânico</option><option value="amigo">Amigo descontraído</option><option value="coach">Coach motivador</option><option value="direto">Direto e objetivo</option><option value="sarcastico">Sarcástico e espirituoso</option><option value="adolescente">Adolescente sarcástico</option><option value="professor">Professor paciente</option></select></div>
           <div class="li col"><b>Tamanho das respostas</b><div class="seg" id="uLen"><button type="button" data-v="short">Curtas</button><button type="button" data-v="normal">Normais</button><button type="button" data-v="long">Detalhadas</button></div></div>
           <div class="li col"><div class="spread"><b>Criatividade</b><span class="val" id="uTempV"></span></div><input type="range" id="uTemp" min="0" max="1.5" step="0.1"></div>
           <div class="li col"><label for="uExtra"><b>Instruções extras</b></label><textarea id="uExtra" placeholder="Ex.: Sempre me responda com exemplos de marketing. Nunca use emojis."></textarea></div>
@@ -425,7 +426,9 @@ html.no-motion *{animation:none!important;transition:none!important}
           <div class="li"><span><b>Testar a voz</b><small id="gemOut">Toque em Testar para ouvir</small></span><button class="go" id="gemTest" type="button">Testar</button></div>
           <div class="li col"><b>Voz do Jarvis</b><div class="seg" id="uGv"><button type="button" data-v="Charon">Charon · masculina</button><button type="button" data-v="Kore">Kore · feminina</button></div></div>
           <div class="li col"><small id="gemUsage"></small><small>O Gemini grátis tem limite de falas por minuto e por dia. Para tirar o limite, ative o faturamento (pay-as-you-go) da sua chave no Google AI Studio: fica praticamente ilimitado e custa centavos por dia de uso comum.</small></div>
-          <div class="li col"><label for="gemStyle"><b>Jeito de falar</b></label><input id="gemStyle" type="text" autocomplete="off" spellcheck="false" placeholder="calmo, elegante e confiante"><small>Curto. Ex.: calmo e firme, animado, sussurrando. Deixe vazio para o padrão.</small></div>
+          <div class="li col"><b>Ritmo da fala</b><div class="seg" id="uPace"><button type="button" data-v="calm">Calmo</button><button type="button" data-v="nat">Natural</button><button type="button" data-v="fast">Rápido</button></div><small>Rápido = menos pausa em cada ponto e resposta que começa antes.</small></div>
+          <div class="li col"><label for="gemStyle"><b>Jeito de falar (personalizado)</b></label><input id="gemStyle" type="text" autocomplete="off" spellcheck="false" placeholder="ágil e direto, falando rápido e com pausas bem curtas"><small>Curto. Ex.: calmo e firme, animado, sussurrando.</small></div>
+          <label class="li"><span><b>Mostrar tempos na chamada</b><small>Mostra quanto o Jarvis levou para pensar e para ter a voz pronta</small></span><input type="checkbox" id="uLat"></label>
           <label class="li"><span><b>Ler respostas em voz alta</b><small>No chat de texto</small></span><input type="checkbox" id="speakReplies"></label>
         </div></div>
         <div class="grp"><div class="gt">Se a voz do Gemini falhar</div><div class="gl">
@@ -447,6 +450,40 @@ html.no-motion *{animation:none!important;transition:none!important}
           <label class="li"><span><b>Enter envia a mensagem</b><small>Desligado: Enter pula linha</small></span><input type="checkbox" id="uEnter"></label>
           <label class="li"><span><b>Botões copiar e ouvir</b><small>Embaixo de cada resposta</small></span><input type="checkbox" id="uActs"></label>
           <label class="li"><span><b>Atalhos na tela inicial</b><small>Cartões de sugestões</small></span><input type="checkbox" id="uQuick"></label>
+        </div></div>
+        <div class="grp"><div class="gt">Avisos quando o Jarvis responder</div><div class="gl">
+          <label class="li"><span><b>Avisar quando o Jarvis terminar</b><small>Só avisa se você estiver em outra aba ou aplicativo</small></span><input type="checkbox" id="uNotify"></label>
+          <label class="li"><span><b>Som</b></span><input type="checkbox" id="uNSound"></label>
+          <label class="li"><span><b>Vibração</b><small>No celular que tiver vibração (o iPhone não deixa)</small></span><input type="checkbox" id="uNVib"></label>
+          <label class="li"><span><b>Aviso no título da aba</b><small>Pisca "💬 Jarvis respondeu"</small></span><input type="checkbox" id="uNTitle"></label>
+          <label class="li"><span><b>Notificação do sistema</b><small>Pede permissão ao navegador</small></span><input type="checkbox" id="uNSys"></label>
+          <label class="li"><span><b>Avisar mesmo com o app na tela</b></span><input type="checkbox" id="uNAlways"></label>
+          <div class="li"><span><b>Testar aviso</b><small id="nStat">Toque e saia da tela por 5 segundos</small></span><button class="go" id="nTest" type="button">Testar</button></div>
+        </div></div>
+      </div>
+
+      <!-- Loja -->
+      <div class="cat" data-c="loja">
+        <div class="grp"><div class="gt">Conexão com o Base44</div><div class="gl">
+          <div class="li col"><small>1) No Base44, abra Secrets → Personal access tokens → Create access token. Dê acesso aos seus 2 apps e escolha "Full access" (para o Jarvis alterar estoque) ou "Read-only" (só consultar). 2) Copie o token (ele só aparece uma vez) e cole abaixo. 3) Cole o link do editor de cada app (ou só o ID).</small></div>
+          <div class="li col"><label for="b44Token"><b>Token pessoal do Base44</b></label><input id="b44Token" type="password" autocomplete="off" spellcheck="false" placeholder="Cole o token aqui"></div>
+          <div class="li col"><b>App 1</b><div class="two"><input id="b44N1" type="text" autocomplete="off" spellcheck="false"><input id="b44I1" type="text" autocomplete="off" spellcheck="false" placeholder="Link ou ID do app"></div></div>
+          <div class="li col"><b>App 2</b><div class="two"><input id="b44N2" type="text" autocomplete="off" spellcheck="false"><input id="b44I2" type="text" autocomplete="off" spellcheck="false" placeholder="Link ou ID do app"></div></div>
+          <div class="li"><span><b>Conectar e detectar a loja</b><small id="b44Stat">Toque em Conectar para testar</small></span><button class="go" id="b44Go" type="button">Conectar</button></div>
+        </div></div>
+        <div class="grp"><div class="gt">Vendas</div><div class="gl">
+          <div class="li col"><label for="b44Sales"><b>Onde ficam as vendas?</b></label><select id="b44Sales" class="wide"></select><small>A lista aparece depois de conectar.</small></div>
+          <label class="li"><span><b>Avisar vendas novas</b><small>Com o Jarvis aberto: aviso no chat, notificação e voz</small></span><input type="checkbox" id="b44Watch"></label>
+          <div class="li"><span><b>Conferir a cada</b></span><select id="b44Every"><option value="1">1 minuto</option><option value="2">2 minutos</option><option value="5">5 minutos</option><option value="10">10 minutos</option></select></div>
+          <label class="li"><span><b>Falar a venda em voz alta</b></span><input type="checkbox" id="b44Speak"></label>
+          <label class="li"><span><b>Perguntar se dou baixa no estoque</b><small>Depois do aviso, você responde "sim" e o Jarvis ajusta</small></span><input type="checkbox" id="b44Ask"></label>
+        </div></div>
+        <div class="grp"><div class="gt">Segurança</div><div class="gl">
+          <label class="li"><span><b>Pedir minha confirmação antes de alterar a loja</b><small>Recomendado: o Jarvis mostra o que vai mudar e você aprova</small></span><input type="checkbox" id="b44Confirm"></label>
+        </div></div>
+        <div class="grp"><div class="gt">Aviso por e-mail (com o Jarvis fechado)</div><div class="gl">
+          <div class="li col"><small>O Jarvis não consegue ver vendas com o app fechado. Este botão faz o Google conferir a loja a cada 5 minutos e mandar um e-mail para você a cada venda nova. Precisa do Google conectado.</small></div>
+          <div class="li col"><div class="btnrow"><button class="go" id="b44MailOn" type="button">Ligar aviso por e-mail</button><button class="go" id="b44MailOff" type="button">Desligar</button></div><small id="b44MailOut"></small></div>
         </div></div>
       </div>
 
@@ -542,6 +579,7 @@ const PERS = {
   coach: "motivador e energético, como um coach: incentiva, cobra com carinho e foca em ação",
   direto: "direto, objetivo e sem enrolação, respostas práticas",
   sarcastico: "sarcástico e espirituoso, com humor ácido, mas sempre útil e respeitoso",
+  adolescente: "adolescente sarcástico e entediado: gírias brasileiras leves, respostas curtas e debochadas, revira os olhos para tudo, mas ajuda de verdade e sem desrespeitar",
   professor: "paciente e didático, explica passo a passo com exemplos simples"
 };
 
@@ -649,9 +687,11 @@ const DEFAULTS = {
   ui_acc: "blue", ui_accc: "#3b82f6", ui_avatar: "face", ui_avc: "auto", ui_glow: "100", ui_bg: "aurora", ui_font: "system", ui_bub: "round", face_q: "mid", face_move: "100", ui_fs: "16", ui_blur: "22", ui_orb: "1", ui_motion: "1", ui_quick: "1", ui_acts: "1",
   enter_send: "1", mem_live: "1", u_name: "", u_addr: "", u_pers: "mordomo", u_len: "normal",
   ai_temp: "0.8", ai_model: "", ai_extra: "", gemini_key: "", jarvis_mode: "normal",
-  speak_replies: "0", stt_mode: "gemini", stt_sil: "0.8", voice_short: "1", web_search: "1", stt_sens: "7",
+  speak_replies: "0", stt_mode: "gemini", stt_sil: "0.7", show_lat: "0", voice_short: "1", web_search: "1",
+  b44_token: "", b44_watch: "0", b44_every: "2", b44_speak: "1", b44_ask: "1", b44_confirm: "1", b44_tr: "direct",
+  notify_on: "1", notify_sound: "1", notify_vib: "1", notify_title: "1", notify_sys: "0", notify_always: "0", stt_sens: "7",
  
-  voice_fb: "0", gem_voice: "Charon", gem_voice_custom: "", gem_style: "calmo, elegante e confiante", v_rate: "1",
+  voice_fb: "0", gem_voice: "Charon", gem_voice_custom: "", gem_style: "ágil e direto, falando rápido e com pausas bem curtas", v_rate: "1",
   g_url: "", g_pass: "", g_sheet: "", g_ok: "0", s_cat: "look", jarvis_bar: "1"
 };
 const RESET_KEYS = ["ui_theme","ui_acc","ui_accc","ui_avatar","ui_avc","ui_glow","ui_bg","ui_font","ui_bub","face_q","face_move","ui_fs","ui_blur","ui_orb","ui_motion","ui_quick","ui_acts","enter_send","u_name","u_addr","u_pers","u_len","ai_temp","ai_extra","ai_model","mem_live","gem_voice","v_rate"];
@@ -897,7 +937,7 @@ async function runActions(acts) {
       if (!GOOGLE_ACTIONS[a.a]) throw new Error("ação desconhecida: " + a.a);
       r = await GOOGLE_ACTIONS[a.a](a);
     } catch (e) { r = "ERRO: " + (e.message || e); }
-    out.push("[" + a.a + "] " + String(r).slice(0, 5000));
+    out.push("[" + a.a + "] " + String(r).slice(0, /^b44/.test(a.a) ? 12000 : 5000));
   }
   return out.join("\n\n");
 }
@@ -953,6 +993,20 @@ function mergeSearch(gm) {
 const searchBlocked = m => (LS.json("search_off", {})[m] || 0) > Date.now();
 function blockSearch(m, ms) { const o = LS.json("search_off", {}); o[m] = Date.now() + ms; LS.set("search_off", JSON.stringify(o)); }
 
+/* Formas de pedir "pense pouco" (cada família de modelo aceita uma): o app testa em ordem e lembra a que funciona */
+const THINK_VARIANTS = [{ thinkingLevel: "minimal" }, { thinkingLevel: "low" }, { thinkingBudget: 0 }];
+const sameThink = (a, b) => JSON.stringify(a) === JSON.stringify(b);
+function thinkOrder(model) {
+  const mem = LS.json("think_cfg", {}), k = mem[model];
+  if (k === -1) return [null];
+  if (typeof k === "number" && THINK_VARIANTS[k]) return [THINK_VARIANTS[k], null];
+  return THINK_VARIANTS.concat([null]);
+}
+function rememberThink(model, tv) {
+  const mem = LS.json("think_cfg", {}); mem[model] = tv ? THINK_VARIANTS.findIndex(v => sameThink(v, tv)) : -1;
+  LS.set("think_cfg", JSON.stringify(mem));
+}
+
 async function callAI(turns, system, opts) {
   opts = opts || {};
   const key = cfg("gemini_key").trim();
@@ -961,18 +1015,16 @@ async function callAI(turns, system, opts) {
   const basePayload = { contents, generationConfig: { temperature: cfgNum("ai_temp") } };
   if (instruction) basePayload.systemInstruction = { parts: [{ text: instruction }] };
   const wantSearch = opts.search !== false && cfg("web_search") !== "0";
-  /* na chamada de voz: respostas curtas e pouco "pensamento" = resposta bem mais rápida */
-  let quick = !!opts.fast && LS.get("think_off", "") !== "1";
-  const build = (q, s) => {
+  const build = (tv, s) => {
     const p = JSON.parse(JSON.stringify(basePayload));
     if (opts.fast) p.generationConfig.maxOutputTokens = opts.maxTokens || 600;
-    if (q) p.generationConfig.thinkingConfig = { thinkingLevel: "minimal" };
+    if (tv) p.generationConfig.thinkingConfig = tv;
     if (s) p.tools = [{ google_search: {} }];
     return p;
   };
-  const post = async (model, q, s) => {
+  const post = async (model, tv, s) => {
     const r = await fetchT("https://generativelanguage.googleapis.com/v1beta/models/" + encodeURIComponent(model) + ":generateContent",
-      { method: "POST", headers: { "Content-Type": "application/json", "x-goog-api-key": key }, body: JSON.stringify(build(q, s)) }, 60000);
+      { method: "POST", headers: { "Content-Type": "application/json", "x-goog-api-key": key }, body: JSON.stringify(build(tv, s)) }, 60000);
     let data;
     try { data = JSON.parse(await r.text()); } catch (e) { throw Object.assign(new Error("resposta inválida"), { code: "http", status: r.status }); }
     return { r, data };
@@ -981,22 +1033,22 @@ async function callAI(turns, system, opts) {
   let lastError = new Error("Nenhum modelo conseguiu responder.");
   for (const model of modelOrder(opts.fast)) {
     try {
-      const useS = wantSearch && !searchBlocked(model), useQ = quick;
-      let { r, data } = await post(model, useQ, useS);
-      if (!r.ok && (useQ || useS) && (r.status === 400 || (r.status === 429 && useS))) {
-        /* o modelo não aceitou o modo rápido ou a pesquisa: tira um de cada vez até funcionar */
-        const failed = r.status, combos = [], add = (q, s) => { if (!combos.some(c => c[0] === q && c[1] === s)) combos.push([q, s]); };
-        if (useQ && failed === 400) add(false, useS);
-        if (useS) { add(useQ, false); if (useQ && failed === 400) add(false, false); }
-        for (const [q, s] of combos) {
-          const res = await post(model, q, s);
-          if (res.r.ok) {
-            if (useQ && !q) { LS.set("think_off", "1"); quick = false; }
-            if (useS && !s) blockSearch(model, failed === 429 ? 10 * 60 * 1000 : 6 * 3600 * 1000);
-            ({ r, data } = res); break;
-          }
-          if (res.r.status !== 400 && res.r.status !== 429) { ({ r, data } = res); break; }
-        }
+      const useS = wantSearch && !searchBlocked(model), vs = opts.fast ? thinkOrder(model) : [null];
+      const cands = [], add = (t, sr) => { if (!cands.some(c => sameThink(c[0], t) && c[1] === sr)) cands.push([t, sr]); };
+      vs.forEach(t => add(t, useS));
+      if (useS) vs.forEach(t => add(t, false));
+      let res = null, failed0 = 0, won = -1;
+      for (let i = 0; i < cands.length; i++) {
+        res = await post(model, cands[i][0], cands[i][1]);
+        if (res.r.ok) { won = i; break; }
+        if (i === 0) failed0 = res.r.status;
+        const st = res.r.status;
+        if (!(st === 400 || (st === 429 && cands[i][1]))) break;    /* outro tipo de erro: não adianta trocar de forma */
+      }
+      const { r, data } = res;
+      if (won > 0) {                                                /* funcionou numa forma diferente da primeira: lembra */
+        if (opts.fast && !sameThink(cands[won][0], cands[0][0])) rememberThink(model, cands[won][0]);
+        if (useS && !cands[won][1]) blockSearch(model, failed0 === 429 ? 10 * 60 * 1000 : 6 * 3600 * 1000);
       }
       if (!r.ok) throw Object.assign(new Error((data.error && data.error.message) || "HTTP " + r.status), { code: "http", status: r.status });
       const cand = data.candidates && data.candidates[0];
@@ -1042,11 +1094,12 @@ function buildSystem(o) {
       : "NÃO use [[SAVE:...]] nesta conversa.",
     cfg("web_search") !== "0" ? "PESQUISA NA INTERNET: você pode pesquisar na web em tempo real. Use quando a pergunta depender de informação atual ou recente (notícias, clima, preços, cotações, resultados de jogos, horários, eventos, 'hoje', 'agora', 'último') ou de fatos de que você não tem certeza. Não pesquise em conversa comum, opiniões ou quando a resposta já estiver no Second Brain. Responda com base no que encontrou, sem inventar." : "",
     googlePrompt(),
+    b44Prompt(),
     len === "short" ? "TAMANHO: responda sempre de forma curta (no máximo 3 frases)." : len === "long" ? "TAMANHO: responda de forma detalhada e completa, com exemplos quando ajudar." : "",
     extra ? "INSTRUÇÕES EXTRAS DO USUÁRIO (siga sempre): " + extra : "",
     Call.on ? (cfg("voice_short") === "0"
       ? "VOCÊ ESTÁ EM UMA CHAMADA POR VOZ: sua resposta será FALADA. Responda em 1 a 3 frases curtas e naturais, sem listas, sem markdown, sem emojis, sem asteriscos."
-      : "VOCÊ ESTÁ EM UMA CHAMADA POR VOZ: sua resposta será FALADA e precisa ser RÁPIDA. Responda em 1 ou 2 frases bem curtas (no máximo 30 palavras), naturais, sem listas, sem markdown, sem emojis, sem asteriscos. Só se alongue se o usuário pedir uma explicação.") : "",
+      : "VOCÊ ESTÁ EM UMA CHAMADA POR VOZ: sua resposta será FALADA e precisa ser RÁPIDA. Responda direto, sem pensar demais: 1 ou 2 frases bem curtas (no máximo 25 palavras), naturais, sem listas, sem marcadores, sem reticências, sem markdown, sem emojis, sem asteriscos. Só se alongue se o usuário pedir uma explicação.") : "",
     o.audio ? "O usuário falou por ÁUDIO. COMECE a resposta SEMPRE com uma linha [[OUVI:o que ele disse, palavra por palavra]] e, logo depois, responda normalmente (essa linha é só de controle; nunca a explique nem a mencione). Se o áudio não tiver fala compreensível, responda apenas [[OUVI:]]." : ""
   ];
   return parts.filter(Boolean).join("\n\n");
@@ -1064,11 +1117,11 @@ function googlePrompt() {
 async function converse(turns, o) {
   o = o || {};
   const fast = Call.on || cfg("speak_replies") === "1";
-  const maxTokens = Call.on && cfg("voice_short") !== "0" ? 260 : 600;
+  const maxTokens = Call.on && cfg("voice_short") !== "0" ? 220 : 600;
   const ouvi = /\[\[OUVI:[\s\S]*?\]\]/;
   let raw = await callAI(turns, buildSystem(o), { fast, maxTokens }), rounds = 0;
   const heard0 = o.audio ? ouvi.exec(raw) : null;
-  while (gOn() && rounds < 4) {
+  while ((gOn() || b44On()) && rounds < 4) {
     const acts = scanActions(raw).acts;
     if (!acts.length) break;
     rounds++;
@@ -1135,7 +1188,42 @@ function doPost(e) {
 function autorizar() {
   CalendarApp.getDefaultCalendar().getName();
   GmailApp.getInboxUnreadCount();
+  UrlFetchApp.fetch("https://app.base44.com/", { muteHttpExceptions: true });
+  ScriptApp.getProjectTriggers();
+  PropertiesService.getScriptProperties().getKeys();
   Logger.log("Autorizado!");
+}
+
+/* ----- avisos de venda por e-mail (roda sozinho, mesmo com o Jarvis fechado) ----- */
+function resumoVenda(r) {
+  const pular = /^(id|created_by|created_by_id|is_sample|updated_date)$/;
+  const linhas = [];
+  Object.keys(r).forEach(k => {
+    if (pular.test(k)) return;
+    const v = r[k];
+    if (v === null || v === "" || typeof v === "object") return;
+    linhas.push(k + ": " + v);
+  });
+  return linhas.slice(0, 12).join("\n");
+}
+
+function verificarVendas() {
+  const P = PropertiesService.getScriptProperties();
+  const tok = P.getProperty("B44_TOKEN");
+  if (!tok) return;
+  const url = "https://app.base44.com/api/apps/" + P.getProperty("B44_APP") + "/entities/" + encodeURIComponent(P.getProperty("B44_ENTITY")) + "/v2/list?limit=15&sort=-created_date";
+  const r = UrlFetchApp.fetch(url, { headers: { Authorization: "Bearer " + tok }, muteHttpExceptions: true });
+  if (r.getResponseCode() !== 200) return;
+  const itens = (JSON.parse(r.getContentText()).items || []).filter(x => x && x.id);
+  const vistos = (P.getProperty("B44_SEEN") || "").split(",").filter(Boolean);
+  const primeira = P.getProperty("B44_INIT") !== "1";
+  const novos = itens.filter(x => vistos.indexOf(x.id) < 0).reverse();
+  P.setProperty("B44_SEEN", vistos.concat(novos.map(x => x.id)).slice(-200).join(","));
+  P.setProperty("B44_INIT", "1");
+  if (primeira || !novos.length) return;
+  GmailApp.sendEmail(Session.getEffectiveUser().getEmail(),
+    "🛒 " + novos.length + " nova(s) venda(s) na loja " + (P.getProperty("B44_NAME") || ""),
+    novos.map(resumoVenda).join("\n\n----------\n\n"));
 }
 
 function run(a) {
@@ -1146,6 +1234,27 @@ function run(a) {
     return v.map(r => r.concat(Array(w - r.length).fill("")));
   };
   switch (a.a) {
+    case "b44": {
+      const u = String(a.url);
+      if (!/^https:\/\/app\.base44\.com\/api\/apps\/[A-Za-z0-9]+\//.test(u)) throw new Error("Endereço não permitido");
+      const opt = { method: String(a.method || "get").toLowerCase(), headers: { Authorization: "Bearer " + a.token }, muteHttpExceptions: true };
+      if (a.body) { opt.payload = a.body; opt.contentType = "application/json"; }
+      const resp = UrlFetchApp.fetch(u, opt);
+      return JSON.stringify({ status: resp.getResponseCode(), text: resp.getContentText().slice(0, 400000) });
+    }
+    case "b44_alert_on": {
+      const P = PropertiesService.getScriptProperties();
+      P.setProperties({ B44_TOKEN: String(a.token), B44_APP: String(a.app), B44_ENTITY: String(a.entity), B44_NAME: String(a.name || ""), B44_SEEN: "", B44_INIT: "0" });
+      ScriptApp.getProjectTriggers().forEach(t => { if (t.getHandlerFunction() === "verificarVendas") ScriptApp.deleteTrigger(t); });
+      const n = [1, 5, 10, 15, 30].indexOf(Number(a.minutes)) >= 0 ? Number(a.minutes) : 5;
+      ScriptApp.newTrigger("verificarVendas").timeBased().everyMinutes(n).create();
+      verificarVendas();
+      return "Aviso por e-mail ligado: confiro a cada " + n + " min.";
+    }
+    case "b44_alert_off":
+      ScriptApp.getProjectTriggers().forEach(t => { if (t.getHandlerFunction() === "verificarVendas") ScriptApp.deleteTrigger(t); });
+      PropertiesService.getScriptProperties().deleteAllProperties();
+      return "Aviso por e-mail desligado.";
     case "ping":
       return "Conectado como " + Session.getEffectiveUser().getEmail();
     case "cal_list":
@@ -1325,14 +1434,15 @@ function setThinking(on) {
 /* Monta o histórico enviado ao Gemini (últimas mensagens + anexo atual) */
 function buildTurns(att) {
   let recent = Chats.log.slice(-CONFIG.historyLimit);
-  while (recent.length && recent[0].role !== "user") recent.shift();
+  /* o histórico precisa começar com uma fala do usuário; em vez de descartar os avisos do Jarvis (ex.: venda nova), mantém todos */
+  if (recent.length && recent[0].role !== "user") recent.unshift({ role: "user", content: "(início da conversa)" });
   return recent.map((m, i) => {
     if (att && i === recent.length - 1) {
       const parts = [{ text: m.content + (att.kind === "text" ? "\n\n[Arquivo: " + att.name + "]\n" + att.text : "") }];
       if (att.kind !== "text") parts.push({ inlineData: { mimeType: att.mime, data: att.data } });
       return { role: "user", parts };
     }
-    return { role: m.role, content: m.content + (m.att ? "\n[anexo enviado antes: " + m.att.name + "]" : "") };
+    return { role: m.role, content: m.content + (m.att ? "\n[anexo enviado antes: " + m.att.name + "]" : "") + (m.meta ? "\n[dados da venda: " + m.meta + "]" : "") };
   });
 }
 
@@ -1357,6 +1467,7 @@ async function sendMessage(text) {
     Chats.log.push(Object.assign({ role: "assistant", content: reply }, saved ? { search: saved } : {}));
     Chats.persist();
     pushMsg("assistant", reply, { search: found || undefined });
+    Notif.fire("Jarvis respondeu", reply);
     if (!Call.on && cfg("speak_replies") === "1") Speech.speak(reply);
   } catch (e) {
     setThinking(false);
@@ -1395,6 +1506,7 @@ async function sendVoiceMessage(b64) {
     Chats.log.push(Object.assign({ role: "assistant", content: reply }, saved ? { search: saved } : {}));
     Chats.persist();
     pushMsg("assistant", reply, { search: found || undefined });
+    Notif.fire("Jarvis respondeu", reply);
     if (CONFIG.makeTrigger.test(heard)) sendToMake("Comando Jarvis", heard);
     return { text: reply, heard };
   } catch (e) {
@@ -1547,6 +1659,374 @@ document.addEventListener("touchend", e => {
 });
 
 /* ==========================================================================
+   AVISOS: quando o Jarvis termina de responder (som, vibração, título da aba, notificação do sistema)
+   ========================================================================== */
+const CHIME_URL = (() => {   /* duas notas curtas, geradas aqui mesmo */
+  const sr = 22050, notes = [[880, .12], [1320, .22]], smp = [];
+  notes.forEach(([f, d]) => { const n = Math.floor(sr * d); for (let i = 0; i < n; i++) smp.push(Math.sin(2 * Math.PI * f * i / sr) * Math.min(1, i / 300) * Math.pow(1 - i / n, 1.6) * .5); });
+  const b = new ArrayBuffer(44 + smp.length * 2), v = new DataView(b), w = (o, t) => { for (let i = 0; i < t.length; i++) v.setUint8(o + i, t.charCodeAt(i)); };
+  w(0, "RIFF"); v.setUint32(4, 36 + smp.length * 2, true); w(8, "WAVEfmt "); v.setUint32(16, 16, true); v.setUint16(20, 1, true); v.setUint16(22, 1, true);
+  v.setUint32(24, sr, true); v.setUint32(28, sr * 2, true); v.setUint16(32, 2, true); v.setUint16(34, 16, true); w(36, "data"); v.setUint32(40, smp.length * 2, true);
+  smp.forEach((x, i) => v.setInt16(44 + i * 2, Math.max(-1, Math.min(1, x)) * 32767, true));
+  return URL.createObjectURL(new Blob([b], { type: "audio/wav" }));
+})();
+
+const Notif = {
+  el: null, ready: false, reg: null, flashing: null, baseTitle: document.title,
+  /* libera o som do aviso num toque do usuário (celulares exigem isso) */
+  prepare() {
+    if (this.ready) return;
+    try {
+      if (!this.el) { this.el = new Audio(CHIME_URL); this.el.preload = "auto"; }
+      this.el.muted = true;
+      const p = this.el.play();
+      if (p && p.then) p.then(() => { this.el.pause(); this.el.currentTime = 0; this.el.muted = false; this.ready = true; }).catch(() => { this.el.muted = false; });
+      else { this.el.pause(); this.el.muted = false; this.ready = true; }
+    } catch (e) {}
+  },
+  perm() { return typeof Notification !== "undefined" ? Notification.permission : "unsupported"; },
+  /* pede a permissão e tenta registrar o sw.js (opcional, melhora no celular) */
+  async enable() {
+    if (typeof Notification === "undefined") return "unsupported";
+    let p = Notification.permission;
+    if (p === "default") { try { p = await Notification.requestPermission(); } catch (e) {} }
+    if (p === "granted") await this.register();
+    return p;
+  },
+  async register() {
+    try {
+      if ("serviceWorker" in navigator) { const r = await navigator.serviceWorker.register("sw.js"); this.reg = (await navigator.serviceWorker.ready) || r; }
+    } catch (e) { this.reg = null; }
+  },
+  away() { return document.hidden || cfg("notify_always") === "1"; },
+  fire(title, body, force) {
+    if (cfg("notify_on") === "0") return;
+    if (!force && !this.away()) return;                    /* com o app na tela não precisa avisar */
+    if (cfg("notify_sound") !== "0") this.chime();
+    if (cfg("notify_vib") !== "0") { try { if (navigator.vibrate) navigator.vibrate([120, 70, 120]); } catch (e) {} }
+    if (cfg("notify_title") !== "0") this.flash(title);
+    if (cfg("notify_sys") === "1" && this.perm() === "granted") this.system(title, body);
+  },
+  chime() { try { if (!this.el) this.prepare(); this.el.currentTime = 0; const p = this.el.play(); if (p && p.catch) p.catch(() => {}); } catch (e) {} },
+  system(title, body) {
+    const opts = { body: String(body || "").replace(/\s+/g, " ").slice(0, 140), tag: "jarvis", renotify: true };
+    try { if (this.reg && this.reg.showNotification) { this.reg.showNotification(title, opts); return; } } catch (e) {}
+    try { const n = new Notification(title, opts); n.onclick = () => { try { window.focus(); n.close(); } catch (e) {} }; } catch (e) {}
+  },
+  flash(title) {
+    this.clear(); let on = true; document.title = "💬 " + title;
+    this.flashing = setInterval(() => { on = !on; document.title = on ? "💬 " + title : this.baseTitle; }, 1000);
+  },
+  clear() { if (this.flashing) { clearInterval(this.flashing); this.flashing = null; } document.title = this.baseTitle; }
+};
+document.addEventListener("visibilitychange", () => { if (!document.hidden) Notif.clear(); });
+window.addEventListener("focus", () => Notif.clear());
+
+/* ==========================================================================
+   LOJA (Base44): o Jarvis lê e altera os dados dos seus apps e avisa vendas novas
+   Usa a API oficial do Base44 com um token pessoal (Authorization: Bearer).
+   ========================================================================== */
+const b44Token = () => cfg("b44_token").trim();
+const b44Apps = () => { const a = LS.json("b44_apps", []); return (Array.isArray(a) ? a : []).filter(x => x && x.id); };
+const b44On = () => !!b44Token() && b44Apps().length > 0;
+const appIdFrom = x => { const m = String(x || "").match(/[0-9a-f]{24}/i); return m ? m[0] : String(x || "").trim(); };
+const enc = encodeURIComponent;
+
+/* "Gestão", "gestao" ou o próprio ID: todos acham o app certo */
+function b44App(ref) {
+  const apps = b44Apps();
+  if (!apps.length) throw new Error("a loja ainda não foi conectada (Ajustes → Loja)");
+  if (!ref) return apps[0];
+  const n = norm(ref);
+  const f = apps.find(a => a.id === ref) || apps.find(a => norm(a.name) === n) || apps.find(a => norm(a.name).includes(n) || n.includes(norm(a.name)));
+  if (!f) throw new Error("app desconhecido: " + ref + ". Apps: " + apps.map(a => a.name).join(", "));
+  return f;
+}
+/* confere o nome da entidade (tabela) com o que foi detectado, ignorando maiúsculas/acentos */
+function b44Entity(app, name) {
+  if (!name) throw new Error("falta o nome da entidade (tabela)");
+  const sc = LS.json("b44_schema", {}), ents = sc[app.name] && sc[app.name].entities ? Object.keys(sc[app.name].entities) : [];
+  if (!ents.length) return String(name);
+  const f = ents.find(e => e === name) || ents.find(e => norm(e) === norm(name));
+  if (!f) throw new Error("a entidade '" + name + "' não existe em " + app.name + ". Existem: " + ents.join(", "));
+  return f;
+}
+function b44ErrText(status, data, text) {
+  const m = (data && (data.message || data.detail || data.error)) || String(text || "").slice(0, 120);
+  const msg = typeof m === "string" ? m : JSON.stringify(m).slice(0, 140);
+  if (status === 401) return "o Base44 recusou o token (crie um novo em Secrets → Personal access tokens). " + msg;
+  if (status === 403) return "sem permissão: o token pode ser só leitura, ou não tem acesso a esse app. " + msg;
+  if (status === 404) return "não encontrei esse app, entidade ou registro. " + msg;
+  if (status === 422) return "valor inválido para algum campo. " + msg;
+  if (status === 429) return "muitos pedidos ao Base44; espere um minuto e tente de novo. " + msg;
+  return "Base44 HTTP " + status + ": " + msg;
+}
+
+/* Faz um pedido ao Base44: direto do navegador ou, se o navegador bloquear, pelo script do Google */
+async function b44Request(appId, method, path, query, bodyObj) {
+  const qs = query ? Object.keys(query).filter(k => query[k] !== undefined && query[k] !== null && query[k] !== "")
+    .map(k => enc(k) + "=" + enc(typeof query[k] === "object" ? JSON.stringify(query[k]) : query[k])).join("&") : "";
+  const url = "https://app.base44.com/api/apps/" + appId + path + (qs ? "?" + qs : "");
+  const body = bodyObj !== undefined && bodyObj !== null ? JSON.stringify(bodyObj) : undefined;
+  let status, text;
+  if (cfg("b44_tr") === "proxy") {
+    const d = JSON.parse(await gs({ a: "b44", method, url, body, token: b44Token() }));
+    status = d.status; text = d.text;
+  } else {
+    const r = await fetchT(url, { method, headers: Object.assign({ Authorization: "Bearer " + b44Token() }, body ? { "Content-Type": "application/json" } : {}), body }, 30000);
+    status = r.status; text = await r.text();
+  }
+  let data = null; try { data = JSON.parse(text); } catch (e) {}
+  if (status < 200 || status >= 300) throw Object.assign(new Error(b44ErrText(status, data, text)), { status, http: status });
+  return data;
+}
+
+async function b44List(app, entity, o) {
+  o = o || {};
+  const limit = Math.min(Math.max(parseInt(o.limit, 10) || 50, 1), 500);
+  const q = o.q && typeof o.q === "object" ? (Object.keys(o.q).length ? o.q : undefined) : (o.q || undefined);
+  return b44Request(app.id, "GET", "/entities/" + enc(entity) + "/v2/list", { q, limit, sort: o.sort, fields: o.fields, cursor: o.cursor });
+}
+async function b44All(app, entity, o, max) {
+  const items = []; let cursor, more = true, truncated = false;
+  while (more) {
+    const d = await b44List(app, entity, { q: o.q, fields: o.fields, limit: 500, cursor, sort: o.sort });
+    (d.items || []).forEach(x => items.push(x));
+    more = !!(d.has_more && d.next_cursor); cursor = d.next_cursor;
+    if (more && items.length >= max) { truncated = true; break; }
+  }
+  return { items, truncated };
+}
+const getPath = (o, path) => String(path).split(".").reduce((x, k) => (x === null || x === undefined ? undefined : x[k]), o);
+
+/* contas e somas feitas aqui no app (o modelo não precisa fazer conta) */
+async function b44Stats(app, entity, a) {
+  const fields = [a.sum, a.groupBy].filter(Boolean).join(",") || undefined;
+  const { items, truncated } = await b44All(app, entity, { q: a.q, fields }, 5000);
+  const num = v => { const n = typeof v === "number" ? v : parseFloat(String(v).replace(",", ".")); return isNaN(n) ? 0 : n; };
+  const out = { registros: items.length };
+  if (a.sum) out.soma = +items.reduce((s, r) => s + num(getPath(r, a.sum)), 0).toFixed(2);
+  if (a.groupBy) {
+    const g = {};
+    items.forEach(r => {
+      let k = getPath(r, a.groupBy); if (k === undefined || k === null || k === "") k = "(vazio)";
+      (Array.isArray(k) ? k : [k]).forEach(x => { const key = String(x); g[key] = g[key] || { chave: key, qtd: 0, soma: 0 }; g[key].qtd++; if (a.sum) g[key].soma += num(getPath(r, a.sum)); });
+    });
+    out.grupos = Object.values(g).map(x => ({ chave: x.chave, qtd: x.qtd, soma: a.sum ? +x.soma.toFixed(2) : undefined }))
+      .sort((x, y) => (a.sum ? y.soma - x.soma : y.qtd - x.qtd)).slice(0, Math.min(parseInt(a.top, 10) || 20, 100));
+  }
+  if (truncated) out.aviso = "só os 5000 registros mais recentes entraram na conta";
+  return out;
+}
+
+const recLabel = r => { for (const k of ["name", "nome", "title", "titulo", "product_name", "produto"]) if (r && r[k] && typeof r[k] !== "object") return String(r[k]); return r && r.id ? "registro " + r.id : "registro"; };
+const b44Confirm = msg => (cfg("b44_confirm") === "0" ? true : confirm(msg));
+function trimJson(obj, limit) {
+  let s = JSON.stringify(obj);
+  if (s.length <= limit) return s;
+  const arr = obj && Array.isArray(obj.itens) ? obj.itens.slice() : null;
+  if (!arr) return s.slice(0, limit) + "…(cortado)";
+  while (arr.length > 1 && JSON.stringify(Object.assign({}, obj, { itens: arr })).length > limit - 160) arr.length = Math.ceil(arr.length * .7);
+  return JSON.stringify(Object.assign({}, obj, { itens: arr, aviso: "resultado cortado para caber: use 'fields', 'limit' ou 'q', ou b44_stats" }));
+}
+
+/* ----- ações que o Jarvis pode usar ([[G:{...}]]) ----- */
+GOOGLE_ACTIONS.b44_list = async a => {
+  const app = b44App(a.app), ent = b44Entity(app, a.entity), d = await b44List(app, ent, a);
+  return trimJson({ itens: d.items, tem_mais: d.has_more, proximo: d.next_cursor || undefined }, 11500);
+};
+GOOGLE_ACTIONS.b44_stats = async a => { const app = b44App(a.app); return JSON.stringify(await b44Stats(app, b44Entity(app, a.entity), a)); };
+GOOGLE_ACTIONS.b44_adjust = async a => {
+  const app = b44App(a.app), ent = b44Entity(app, a.entity), field = String(a.field || ""), delta = Number(a.delta);
+  if (!a.id || !field || isNaN(delta)) throw new Error("faltam id, field ou delta");
+  const rec = await b44Request(app.id, "GET", "/entities/" + enc(ent) + "/" + enc(a.id));
+  const cur = Number(rec[field]);
+  if (isNaN(cur)) throw new Error("o campo '" + field + "' não é um número nesse registro");
+  const next = cur + delta;
+  if (next < 0) throw new Error("ficaria negativo (" + next + "); não alterei");
+  if (!b44Confirm("O Jarvis quer ALTERAR a loja (" + app.name + "):\n" + recLabel(rec) + "\n" + field + ": " + cur + " → " + next + "\n\nPermitir?")) return "O usuário NÃO autorizou. Nada foi alterado.";
+  await b44Request(app.id, "PUT", "/entities/" + enc(ent) + "/" + enc(a.id), null, { [field]: next });
+  return "OK: " + recLabel(rec) + " — " + field + " de " + cur + " para " + next;
+};
+GOOGLE_ACTIONS.b44_update = async a => {
+  const app = b44App(a.app), ent = b44Entity(app, a.entity);
+  if (!a.id || !a.data || typeof a.data !== "object") throw new Error("faltam id e data");
+  if (!b44Confirm("O Jarvis quer ALTERAR a loja (" + app.name + " · " + ent + "):\nregistro " + a.id + "\n" + JSON.stringify(a.data) + "\n\nPermitir?")) return "O usuário NÃO autorizou. Nada foi alterado.";
+  const r = await b44Request(app.id, "PUT", "/entities/" + enc(ent) + "/" + enc(a.id), null, a.data);
+  return "OK, registro atualizado: " + JSON.stringify(r).slice(0, 600);
+};
+GOOGLE_ACTIONS.b44_create = async a => {
+  const app = b44App(a.app), ent = b44Entity(app, a.entity);
+  if (!a.data || typeof a.data !== "object") throw new Error("falta data");
+  if (!b44Confirm("O Jarvis quer CRIAR um registro na loja (" + app.name + " · " + ent + "):\n" + JSON.stringify(a.data) + "\n\nPermitir?")) return "O usuário NÃO autorizou. Nada foi criado.";
+  const r = await b44Request(app.id, "POST", "/entities/" + enc(ent), null, a.data);
+  return "OK, registro criado: " + JSON.stringify(r).slice(0, 600);
+};
+
+/* o que o Jarvis sabe sobre a loja (apps, tabelas e campos) */
+function b44Prompt() {
+  if (!b44On()) return "";
+  const sc = LS.json("b44_schema", {}), apps = b44Apps();
+  let t = "LOJA ONLINE (Base44): o usuário tem uma loja de roupas. Apps: " + apps.map(a => '"' + a.name + '"').join(", ") + ".";
+  Object.keys(sc).forEach(n => {
+    const ents = sc[n].entities || {};
+    t += '\nApp "' + n + '": ' + Object.keys(ents).map(e => e + "(" + ents[e].slice(0, 30).join(", ") + ")").join("; ");
+  });
+  t += '\nAÇÕES DA LOJA (uma linha [[G:{json}]] por ação; só afirme algo depois de receber o resultado): ' +
+    '{"a":"b44_list","app":"","entity":"","q":{"campo":"valor"},"fields":"a,b","limit":50,"sort":"-created_date"} lista registros (q aceita operadores como {"campo":{"$gte":"2026-10-01"}}); ' +
+    '{"a":"b44_stats","app":"","entity":"","q":{},"sum":"campo_numerico","groupBy":"campo","top":10} conta e soma (use para vendas do mês, mais vendidos e totais; o app faz a conta); ' +
+    '{"a":"b44_adjust","app":"","entity":"","id":"","field":"estoque","delta":-1} soma ou subtrai de um número (use para baixar o estoque); ' +
+    '{"a":"b44_update","app":"","entity":"","id":"","data":{"campo":"valor"}} altera campos; {"a":"b44_create","app":"","entity":"","data":{}} cria registro. ' +
+    "Regras: só altere dados da loja quando o usuário pedir claramente; antes de mexer no estoque busque o produto e confirme o item certo (nome, tamanho, cor); dinheiro em reais (R$); datas em ISO; nunca invente números, use b44_list ou b44_stats; " +
+    "se uma venda foi avisada no chat ([dados da venda: ...]) e o usuário pedir para baixar o estoque, use esses dados para achar o produto.";
+  return t;
+}
+
+/* ----- detectar os apps (tabelas e campos) ----- */
+async function b44Detect() {
+  const out = {};
+  for (const app of b44Apps()) {
+    const d = await b44Request(app.id, "GET", "/entity-schemas");
+    const list = Array.isArray(d) ? d : (d && (d.schemas || d.items)) || [];
+    const ents = {};
+    list.forEach(s => {
+      const sch = (s && (s.schema || s.json_schema)) || s || {};
+      const name = (s && (s.entity_name || s.name || s.title)) || sch.name || sch.title;
+      const props = sch.properties || {};
+      if (name) ents[name] = Object.keys(props).map(k => k + (props[k] && props[k].type ? ":" + props[k].type : ""));
+    });
+    out[app.name] = { id: app.id, entities: ents };
+  }
+  LS.set("b44_schema", JSON.stringify(out));
+  return out;
+}
+
+/* ----- aviso de venda nova ----- */
+const pickField = (rec, words) => {
+  for (const k of Object.keys(rec)) if (words.some(w => norm(k).includes(w))) { const v = rec[k]; if (v !== null && v !== "" && typeof v !== "object") return v; }
+  return null;
+};
+const reais = v => (typeof v === "number" || /^[\d.,]+$/.test(String(v))) ? "R$ " + Number(String(v).replace(",", ".")).toFixed(2).replace(".", ",") : String(v);
+function saleText(rec) {
+  const cliente = pickField(rec, ["cliente", "customer", "buyer", "comprador", "nome_cliente"]);
+  const produto = pickField(rec, ["produto", "product", "item", "titulo", "title"]);
+  const qtd = pickField(rec, ["quant", "qty", "qtd"]);
+  const total = pickField(rec, ["total", "valor", "amount", "price", "preco"]);
+  const status = pickField(rec, ["pagamento", "payment", "status"]);
+  if (cliente === null && produto === null && total === null) {
+    const f = Object.keys(rec).filter(k => !/^(id|created_by|created_by_id|is_sample|updated_date|created_date)$/.test(k) && rec[k] !== null && typeof rec[k] !== "object").slice(0, 4).map(k => k + ": " + rec[k]);
+    return "🛒 Nova venda registrada, " + ME.address + (f.length ? ": " + f.join(" · ") : ".");
+  }
+  let t = "🛒 Nova venda, " + ME.address + "!";
+  if (cliente !== null) t += " " + cliente + " comprou";
+  if (produto !== null) t += " " + (qtd !== null ? qtd + "x " : "") + produto;
+  if (total !== null) t += ", total " + reais(total);
+  if (status !== null) t += " (" + status + ")";
+  return t + ".";
+}
+async function announceSale(rec) {
+  const base = saleText(rec), ask = cfg("b44_ask") !== "0" ? " Quer que eu dê baixa no estoque?" : "";
+  const text = base + ask;
+  const meta = JSON.stringify(Object.keys(rec).filter(k => !/^(created_by|created_by_id|is_sample|updated_date)$/.test(k) && rec[k] !== null && rec[k] !== "")
+    .reduce((o, k) => { o[k] = typeof rec[k] === "object" ? JSON.stringify(rec[k]).slice(0, 200) : rec[k]; return o; }, {})).slice(0, 1200);
+  Chats.log.push({ role: "assistant", content: text, meta });
+  Chats.persist();
+  pushMsg("assistant", text);
+  Notif.fire("🛒 Nova venda", text);
+  if (cfg("b44_speak") !== "0" && !Speech.tok && !Call.busy) Speech.speak(text);
+}
+
+const Sales = {
+  timer: null, busy: false,
+  cfgSales() { return LS.json("b44_sales", null); },
+  stop() { if (this.timer) { clearInterval(this.timer); this.timer = null; } },
+  start() {
+    this.stop();
+    if (cfg("b44_watch") !== "1" || !b44On() || !this.cfgSales()) return;
+    this.timer = setInterval(() => this.check(), Math.max(1, cfgNum("b44_every")) * 60000);
+    setTimeout(() => this.check(), 4000);
+  },
+  async check() {
+    if (this.busy) return; this.busy = true;
+    try {
+      const sc = this.cfgSales(); if (!sc) return;
+      const app = b44App(sc.app), d = await b44List(app, sc.entity, { limit: 20, sort: "-created_date" });
+      const items = (d.items || []).filter(x => x && x.id), key = "b44_seen_" + app.id + "_" + sc.entity;
+      let seen = LS.json(key, null);
+      if (!Array.isArray(seen)) { LS.set(key, JSON.stringify(items.map(x => x.id))); return; }   /* primeira vez: só memoriza, sem avisar */
+      const fresh = items.filter(x => !seen.includes(x.id)).reverse();
+      if (fresh.length) {
+        seen = seen.concat(fresh.map(x => x.id)).slice(-300); LS.set(key, JSON.stringify(seen));
+        for (const rec of fresh) await announceSale(rec);
+      }
+    } catch (e) { console.warn("vendas:", e); }
+    finally { this.busy = false; }
+  }
+};
+
+/* ----- tela de ajustes da loja ----- */
+function b44Status(msg, ok) { const e = $("b44Stat"); if (!e) return; e.textContent = msg; e.style.color = ok === true ? "var(--ok)" : ok === false ? "var(--bad)" : ""; }
+function saveB44Apps() {
+  const apps = [[$("b44N1").value, $("b44I1").value], [$("b44N2").value, $("b44I2").value]]
+    .map((p, i) => ({ name: (p[0] || "").trim() || "Loja " + (i + 1), id: appIdFrom(p[1]) })).filter(a => a.id);
+  LS.set("b44_apps", JSON.stringify(apps)); return apps;
+}
+function fillSalesSelect() {
+  const sel = $("b44Sales"), sc = LS.json("b44_schema", {}), cur = LS.json("b44_sales", null);
+  const opts = []; Object.keys(sc).forEach(n => Object.keys(sc[n].entities || {}).forEach(e => opts.push([n, e])));
+  sel.innerHTML = '<option value="">— escolha —</option>' + opts.map(o => '<option value="' + esc(o[0] + "|" + o[1]) + '">' + esc(o[0] + " · " + o[1]) + "</option>").join("");
+  if (cur) sel.value = cur.app + "|" + cur.entity;
+  else { const g = opts.find(o => /order|pedido|sale|venda|compra|purchase/i.test(o[1])); if (g) { sel.value = g[0] + "|" + g[1]; LS.set("b44_sales", JSON.stringify({ app: g[0], entity: g[1] })); } }
+}
+async function b44Connect() {
+  const apps = saveB44Apps();
+  if (!b44Token()) { b44Status("✗ Cole primeiro o token do Base44.", false); return; }
+  if (!apps.length) { b44Status("✗ Cole o link (ou ID) de pelo menos um app.", false); return; }
+  b44Status("Conectando...");
+  let sc = null, mode = "direct";
+  LS.set("b44_tr", "direct");
+  try { sc = await b44Detect(); }
+  catch (e) {
+    if (e.http) { b44Status("✗ " + e.message, false); return; }                       /* o Base44 respondeu com erro: é o token/app */
+    if (!gOn()) { b44Status("✗ O navegador bloqueou o acesso direto ao Base44 (" + e.message + ").\nConecte o Google em Ajustes → Google: o Jarvis passa a falar com o Base44 por ele.", false); return; }
+    LS.set("b44_tr", "proxy"); mode = "proxy";
+    try { sc = await b44Detect(); } catch (e2) { b44Status("✗ " + e2.message + (/DESATUALIZADO|desconhecida|Endereço/.test(e2.message) ? "\nCopie o código do Google de novo (Ajustes → Google) e faça uma Nova implantação." : ""), false); return; }
+  }
+  fillSalesSelect();
+  const linhas = Object.keys(sc).map(n => n + ": " + (Object.keys(sc[n].entities).join(", ") || "(nenhuma tabela encontrada)"));
+  b44Status("✓ Loja conectada" + (mode === "proxy" ? " (pelo Google)" : "") + "\n" + linhas.join("\n"), true);
+  Sales.start();
+}
+function bindLoja() {
+  const apps = LS.json("b44_apps", []);
+  [["b44N1", "b44I1", 0, "Gestão"], ["b44N2", "b44I2", 1, "Loja"]].forEach(([n, i, idx, def]) => {
+    $(n).value = (apps[idx] && apps[idx].name) || ""; $(n).placeholder = "Apelido (ex.: " + def + ")"; $(i).value = (apps[idx] && apps[idx].id) || "";
+    [n, i].forEach(id => $(id).addEventListener("input", () => { saveB44Apps(); LS.del("b44_schema"); }));
+  });
+  bind.text("b44Token", "b44_token", "", () => { LS.del("b44_schema"); });
+  $("b44Go").onclick = b44Connect;
+  bind.toggle("b44Watch", "b44_watch", "0", () => Sales.start());
+  bind.select("b44Every", "b44_every", "2", () => Sales.start());
+  bind.toggle("b44Speak", "b44_speak", "1"); bind.toggle("b44Ask", "b44_ask", "1"); bind.toggle("b44Confirm", "b44_confirm", "1");
+  fillSalesSelect();
+  $("b44Sales").onchange = () => { const v = $("b44Sales").value; if (!v) LS.del("b44_sales"); else { const [a, e] = v.split("|"); LS.set("b44_sales", JSON.stringify({ app: a, entity: e })); } Sales.start(); };
+  const mailMsg = (m, ok) => { const e = $("b44MailOut"); e.textContent = m; e.style.color = ok ? "var(--ok)" : "var(--bad)"; };
+  $("b44MailOn").onclick = async () => {
+    const sc = LS.json("b44_sales", null);
+    if (!sc) return mailMsg("Escolha antes onde ficam as vendas (e toque em Conectar).", false);
+    if (!gOn()) return mailMsg("Conecte o Google em Ajustes → Google primeiro.", false);
+    try {
+      const app = b44App(sc.app);
+      mailMsg("✓ " + await gs({ a: "b44_alert_on", token: b44Token(), app: app.id, entity: sc.entity, name: app.name, minutes: 5 }), true);
+    } catch (e) { mailMsg("✗ " + e.message + (/desconhecida|Unexpected|ação/i.test(e.message) ? " (copie o código do Google de novo e faça uma Nova implantação)" : ""), false); }
+  };
+  $("b44MailOff").onclick = async () => {
+    if (!gOn()) return mailMsg("Conecte o Google em Ajustes → Google primeiro.", false);
+    try { mailMsg("✓ " + await gs({ a: "b44_alert_off" }), true); } catch (e) { mailMsg("✗ " + e.message, false); }
+  };
+}
+
+/* ==========================================================================
    ROSTO DE PARTÍCULAS (alternativa à esfera): boca sincronizada com a fala e expressões
    ========================================================================== */
 let avatarMode = "face";
@@ -1558,13 +2038,15 @@ const EMOTIONS = {
   triste:   { smile: -.5, brow: .1,  furrow: -.6,  eye: .85,  roll: -.06 },
   surpreso: { smile: .1,  brow: .9,  furrow: 0,    eye: 1.3,  roll: 0 },
   serio:    { smile: -.12, brow: -.1, furrow: .5,  eye: .95,  roll: 0 },
-  curioso:  { smile: .1,  brow: .5,  furrow: 0,    eye: 1.1,  roll: .1 }
+  curioso:  { smile: .1,  brow: .5,  furrow: 0,    eye: 1.1,  roll: .1 },
+  sarcastico: { smile: .45, brow: .1, furrow: 0,   eye: .6,   roll: .07, asym: 1 }
 };
 
 function guessEmotion(text) {
   const t = norm(text), raw = String(text).trim();
   if (/haha|kkk|\brs\b|parabens|otimo|excelente|perfeito|legal|bacana|adorei|com prazer|feliz|show de bola|maravilh/.test(t)) return "feliz";
   if (/infelizmente|sinto muito|lamento|nao consegui|nao foi possivel|desculp|triste|deu erro|falhou/.test(t)) return "triste";
+  if (/\bobviamente\b|que surpresa|genial\.|claro que sim|ah,? sim|sei,? sei|como se eu|nossa,? que (?:novidade|original)/.test(t)) return "sarcastico";
   if (/\buau\b|nossa|incrivel|impressionante|surpreen|\?!|!\?/.test(t)) return "surpreso";
   if (/atencao|cuidado|importante|perigo|alerta|urgente|aviso/.test(t)) return "serio";
   if (/\?\s*$/.test(raw)) return "curioso";
@@ -1672,7 +2154,8 @@ function faceHeight(x, y) {
 
 const Face = {
   built: false, N: 0, SP: [], step: .023, quality: "mid", moveK: 1, colors: FACE_THEMES.dark,
-  p: { mo: 0, mw: 0, smile: .12, brow: 0, furrow: 0, eye: 1, eyeF: 1, lx: 0, ly: 0, yaw: 0, pitch: 0, roll: 0 },
+  p: { mo: 0, mw: 0, smile: .12, brow: 0, furrow: 0, asym: 0, eye: 1, eyeF: 1, lx: 0, ly: 0, yaw: 0, pitch: 0, roll: 0 },
+  flick: 0, nextFlick: 0,
   tl: null, emoName: "neutro", emoUntil: 0, nextBlink: 0, blinkStart: -1e9,
 
   /* ----- geometria (gerada uma vez): nuvem de pontos sobre a superfície ----- */
@@ -1765,8 +2248,10 @@ const Face = {
   update(now, dt, state, energy) {
     const t = now / 1000, P = this.p, pn = performance.now();
     if (!this.tl && pn > this.emoUntil) this.emoName = "neutro";
-    const E = EMOTIONS[this.emoName] || EMOTIONS.neutro;
-    const T = { mo: 0, mw: 0, smile: E.smile, brow: E.brow, furrow: E.furrow, eye: E.eye,
+    const sarc = /^(sarcastico|adolescente)$/.test(cfg("u_pers"));
+    let E = EMOTIONS[this.emoName] || EMOTIONS.neutro;
+    if (sarc && this.emoName === "neutro") E = EMOTIONS.sarcastico;      /* no modo sarcástico/adolescente o rosto fica de deboche */
+    const T = { mo: 0, mw: 0, smile: E.smile, brow: E.brow, furrow: E.furrow, asym: E.asym || 0, eye: E.eye,
       lx: .18 * Math.sin(t * .7) + .1 * Math.sin(t * 2.3), ly: .08 * Math.sin(t * .9),
       yaw: .2 * Math.sin(t * .45), pitch: .05 * Math.sin(t * .37), roll: E.roll };
     if (state === "listening") {
@@ -1775,6 +2260,13 @@ const Face = {
       T.lx = -.55 + .25 * Math.sin(t * 1.1); T.ly = -.55; T.furrow = .35; T.brow = .15 + .1 * Math.sin(t * 2);
       T.smile = -.08; T.mw = -.3; T.roll = -.08; T.yaw = -.18 + .1 * Math.sin(t * .9);
     }
+    if (sarc) {
+      if (!this.nextFlick) this.nextFlick = pn + 3500;
+      if (!this.tl && pn > this.nextFlick) { this.flick = pn + 1100; this.nextFlick = pn + 5000 + Math.random() * 6000; }
+      if (pn < this.flick) { T.asym = 1; T.brow += .45; }                                    /* levanta uma sobrancelha de vez em quando */
+      if (state === "thinking") { T.lx = Math.cos(t * 2.6) * .9; T.ly = -.3 + Math.sin(t * 2.6) * .8; T.furrow = 0; T.asym = .6; }   /* revira os olhos */
+    }
+    if (!this.tl && this.emoName === "surpreso") { T.mo = .5; T.mw = -.7; }                 /* surpresa: boca aberta em "o" */
     if (this.tl) {
       const tl = this.tl, p = Math.min(1, Math.max(0, tl.getP() || 0)), x = p * tl.total;
       let lo = 0, hi = tl.cum.length - 1;
@@ -1786,7 +2278,7 @@ const Face = {
     const mk = this.moveK; T.yaw *= mk; T.pitch *= mk; T.roll *= mk;
     const k = r => 1 - Math.exp(-r * dt);
     P.mo += (T.mo - P.mo) * k(24); P.mw += (T.mw - P.mw) * k(24);
-    ["smile", "brow", "furrow", "eye"].forEach(n => P[n] += (T[n] - P[n]) * k(6));
+    ["smile", "brow", "furrow", "eye", "asym"].forEach(n => P[n] += (T[n] - P[n]) * k(6));
     ["lx", "ly"].forEach(n => P[n] += (T[n] - P[n]) * k(9));
     ["yaw", "pitch", "roll"].forEach(n => P[n] += (T[n] - P[n]) * k(4));
     if (!this.nextBlink) this.nextBlink = pn + 1500;
@@ -1917,29 +2409,58 @@ function drawReactor(o, now, dt) {
 }
 
 /* ---------- Ondas: barras que dançam com a voz ---------- */
-function drawWaves(o, now, dt) {
+/* Robô: rostinho de olhos e boca brilhantes (sobrancelhas, piscar, boca que abre e deboche) */
+function drawRobot(o, now, dt) {
   const dim = prepCanvas(o); if (!dim) return;
-  const { w, h, dpr } = dim, st = o.state(), t = now / 1000, light = isLightTheme(), c1 = AV.c1, c2 = AV.c2, G = AV.glow;
+  const { w, h, dpr } = dim, st = o.state(), t = now / 1000, light = isLightTheme(), G = AV.glow;
   Face.update(now, dt, st, o.energy);
   const P = Face.p, energy = o.energy; o.energy *= Math.exp(-2.6 * dt);
   const c = o.ctx; c.setTransform(dpr, 0, 0, dpr, 0, 0); c.clearRect(0, 0, w, h);
-  const N = 33, span = w * .84, x0 = (w - span) / 2, cy = h / 2, maxH = h * .42, barW = Math.max(3, span / N * .55);
-  const grad = c.createLinearGradient(x0, 0, x0 + span, 0); grad.addColorStop(0, c1); grad.addColorStop(1, c2);
-  c.strokeStyle = grad; c.lineWidth = barW; c.lineCap = "round"; c.globalAlpha = Math.min(1, .55 + .45 * Math.min(1.4, G));
-  if (!light) { c.shadowColor = c1; c.shadowBlur = 14 * G; }
-  c.beginPath();
-  for (let i = 0; i < N; i++) {
-    const u = (i - (N - 1) / 2) / ((N - 1) / 2), env = Math.pow(Math.cos(u * Math.PI / 2), 1.4);
-    const n = .5 + .5 * Math.sin(t * (2.2 + (i % 5) * .4) + i * .9) * Math.sin(t * 1.3 + i * .37);
-    const a = st === "speaking" ? .12 + P.mo * 1.05 * (.4 + .6 * n) : st === "listening" ? .1 + energy * 1.2 * (.3 + .7 * n)
-            : st === "thinking" ? .12 + .5 * Math.pow(.5 + .5 * Math.sin(t * 5 - i * .5), 2) : .06 + .04 * n;
-    const hh = Math.max(3, Math.min(1, a) * env * maxH), x = x0 + (i + .5) * span / N;
-    c.moveTo(x, cy - hh); c.lineTo(x, cy + hh);
+  const s = Math.min(w, h), col = light ? "#0891b2" : (cfg("ui_acc") === "blue" ? "#5ee1ff" : AV.c1), dark = light ? "#e6f6fb" : "#04121c";
+  c.save(); c.translate(w / 2 + P.yaw * .05 * s, h / 2 + P.pitch * .06 * s + .01 * s * Math.sin(t * 1.3)); c.rotate(P.roll * .35);
+  c.fillStyle = col; c.strokeStyle = col; c.lineCap = "round"; c.lineJoin = "round";
+  if (!light) { c.shadowColor = col; c.shadowBlur = 22 * G * (s / 320); }
+  const open = Math.max(.04, Math.min(1.3, P.eyeF)), asym = Math.max(0, Math.min(1, P.asym));
+  /* olhos */
+  [-1, 1].forEach(side => {
+    const ex = side * .2 * s, ey = -.02 * s, rx = .062 * s, ry = Math.max(.008 * s, .078 * s * Math.min(open, 1.25));
+    const half = side === 1 ? asym * .08 : asym * .15;                       /* olho do lado levantado fica mais aberto */
+    const eyY = ey + (1 - Math.min(open, 1)) * .03 * s + (side === -1 ? asym * .012 * s : 0);
+    c.beginPath(); c.ellipse(ex, eyY, rx, ry * (1 - half), 0, 0, Math.PI * 2); c.fill();
+    if (open > .3) {                                                            /* pupila escura: mostra para onde ele olha */
+      const px = ex + P.lx * .028 * s, py = eyY + P.ly * .03 * s;
+      c.save(); c.shadowBlur = 0; c.fillStyle = dark; c.globalAlpha = .55;
+      c.beginPath(); c.ellipse(px, py, rx * .42, Math.min(ry * .5, .042 * s), 0, 0, Math.PI * 2); c.fill(); c.restore();
+    }
+  });
+  /* sobrancelhas */
+  [-1, 1].forEach(side => {
+    const bx = side * .2 * s, raise = P.brow * .055 * s + (side === 1 ? asym * .085 * s : -asym * .02 * s);
+    const by = -.17 * s - raise, ang = -side * P.furrow * .45 + (side === 1 ? -asym * .14 : asym * .1);
+    c.save(); c.translate(bx, by); c.rotate(ang); c.lineWidth = .036 * s;
+    c.beginPath(); c.moveTo(-.075 * s, 0); c.lineTo(.075 * s, 0); c.stroke(); c.restore();
+  });
+  /* boca */
+  const my = .165 * s, hw = .125 * s * (1 + .3 * P.mw), lw = .034 * s;
+  if (P.mo > .09) {
+    const mh = Math.max(.02 * s, P.mo * .15 * s);
+    c.beginPath(); c.ellipse(0, my + mh * .5 - .01 * s, hw * .72, mh * .5 + .008 * s, 0, 0, Math.PI * 2); c.fill();
+  } else {
+    const sm = P.smile, lift = (asym * .04) * s;
+    c.lineWidth = lw; c.beginPath();
+    c.moveTo(-hw, my - sm * .035 * s + asym * .01 * s);
+    c.quadraticCurveTo(0, my + sm * .075 * s + .012 * s, hw, my - sm * .035 * s - lift);
+    c.stroke();
   }
-  c.stroke(); c.shadowBlur = 0; c.globalAlpha = 1;
+  c.shadowBlur = 0;
+  /* luzinha de estado (canto): ouvindo, pensando, falando */
+  const led = st === "listening" ? "#34d399" : st === "thinking" ? "#fbbf24" : st === "speaking" ? col : "rgba(150,160,180,.5)";
+  c.fillStyle = led; c.globalAlpha = .55 + .4 * Math.sin(t * (st === "thinking" ? 8 : 3));
+  c.beginPath(); c.arc(.34 * s, -.36 * s, .016 * s, 0, Math.PI * 2); c.fill();
+  c.restore(); c.globalAlpha = 1;
 }
 
-const AVATARS = { face: drawFace, orb: drawOrb, reactor: drawReactor, waves: drawWaves };
+const AVATARS = { face: drawFace, orb: drawOrb, reactor: drawReactor, robo: drawRobot };
 const drawAvatar = (o, now, dt) => (AVATARS[avatarMode] || drawFace)(o, now, dt);
 
 /* ==========================================================================
@@ -2091,7 +2612,7 @@ const SILENT_URL = (() => {   /* 0,1 s de silêncio: alguns navegadores só libe
   v.setUint32(24, 8000, true); v.setUint32(28, 16000, true); v.setUint16(32, 2, true); v.setUint16(34, 16, true); w(36, "data"); v.setUint32(40, n * 2, true);
   return URL.createObjectURL(new Blob([b], { type: "audio/wav" }));
 })();
-function unlockAudio() { try { if (Speech.tok) return; player.src = SILENT_URL; player.volume = 1; const p = player.play(); if (p && p.catch) p.catch(() => {}); } catch (e) {} }
+function unlockAudio() { try { Notif.prepare(); if (Speech.tok) return; player.src = SILENT_URL; player.volume = 1; const p = player.play(); if (p && p.catch) p.catch(() => {}); } catch (e) {} }
 
 function pcmToWav(b64) {
   const bin = atob(b64), n = bin.length, buf = new ArrayBuffer(44 + n), v = new DataView(buf);
@@ -2123,7 +2644,7 @@ async function geminiInteractionsTts(model, txt, voice, style, key) {
 async function geminiLegacyTts(model, txt, key) {
   const r = await fetchT("https://generativelanguage.googleapis.com/v1beta/models/" + model + ":generateContent", {
     method: "POST", headers: { "Content-Type": "application/json", "x-goog-api-key": key },
-    body: JSON.stringify({ contents: [{ parts: [{ text: "Diga em português do Brasil, com voz calma e elegante: " + txt }] }],
+    body: JSON.stringify({ contents: [{ parts: [{ text: "Diga em português do Brasil, em ritmo natural e ágil, sem pausas longas: " + txt }] }],
       generationConfig: { responseModalities: ["AUDIO"], speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: cfg("gem_voice") } } } } })
   }, 25000);
   let d = {}; try { d = await r.json(); } catch (e) {}
@@ -2169,6 +2690,7 @@ async function geminiSpeakRaw(txt, again) {
   throw new Error(geminiVoiceErr(worst && worst.status, worst && worst.message, custom));
 }
 /* Áudios já gerados ficam guardados: ouvir de novo não gasta pedido nem espera */
+const PACE_STYLES = { calm: "calmo, elegante e confiante", nat: "natural e fluido, com pausas curtas entre as frases", fast: "ágil e direto, falando rápido e com pausas bem curtas" };
 const ttsCache = new Map();
 /* contador de falas geradas hoje (ajuda a perceber o limite do plano grátis) */
 const dayKey = () => new Date().toISOString().slice(0, 10);
@@ -2202,10 +2724,26 @@ async function speechBlob(txt, errs) {
   catch (e) { const m = String(e.message || e); if (!errs.includes(m)) errs.push(m); return null; }
 }
 /* No máximo 2 pedidos de voz por resposta: um começo curto (a fala começa logo) e o resto. Menos pedidos = menos espera e menos limite estourado. */
+/* Prepara o texto para ser FALADO: tira marcadores de lista, troca "24.5" por "24,5" (não lê "ponto"),
+   junta reticências e abreviações (pausas longas) e remove o que não deve ser lido */
+function speechText(raw) {
+  let t = String(raw);
+  t = t.replace(/```[\s\S]*?```/g, " ").replace(/\[\[[\s\S]*?\]\]/g, " ").replace(/https?:\/\/\S+/g, " link ");
+  t = t.replace(/^[ \t]*(?:[-–—•*·▪●]|\d{1,2}[.)])[ \t]+/gm, "");                       /* marcadores: "- item", "1. item" */
+  t = t.replace(/(\d)\.(\d{3})(?!\d)/g, "$1$2").replace(/(\d)\.(\d{3})(?!\d)/g, "$1$2");   /* 1.000 → 1000 */
+  t = t.replace(/(\d)\.(\d)/g, "$1,$2");                                                /* 24.5 → 24,5 */
+  const ab = { Sr: "senhor", Sra: "senhora", Dr: "doutor", Dra: "doutora", Prof: "professor", Profa: "professora" };
+  t = t.replace(/\b(Sr|Sra|Dr|Dra|Prof|Profa)\./g, (m, a) => ab[a]).replace(/\betc\./gi, "etcétera");
+  t = t.replace(/\.{2,}|…/g, ".").replace(/[ \t]+[-–—][ \t]+/g, ", ");                   /* "..." e travessão viram pausa curta */
+  t = t.replace(/([^.!?:;,\n])[ \t]*\n+[ \t]*/g, "$1. ").replace(/([.!?:;,])[ \t]*\n+[ \t]*/g, "$1 ");
+  t = t.replace(/[*_`#>~|]/g, "").replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/gu, "");
+  return t.replace(/\s+/g, " ").trim();
+}
 function chunkText(t) {
+  if (t.length <= 110) return [t];                       /* resposta curta: um pedido só, sem emenda no meio */
   const sentences = t.match(/[^.!?…]+[.!?…]*\s*/g) || [t];
   let first = "", i = 0;
-  while (i < sentences.length) { first += sentences[i++]; if (first.length >= 45) break; }
+  while (i < sentences.length) { first += sentences[i++]; if (first.length >= 40) break; }
   let rest = sentences.slice(i).join("");
   if (first.length > 220) {
     let cut = first.lastIndexOf(",", 200); if (cut < 60) cut = first.lastIndexOf(" ", 200); if (cut < 40) cut = 200;
@@ -2240,7 +2778,7 @@ function speakOnDevice(text, done) {
   const fin = () => { if (finished) return; finished = true; if (done) done(); };
   try {
     if (!("speechSynthesis" in window)) { fin(); return; }
-    const voice = pickDeviceVoice(), clean = cleanText(text);
+    const voice = pickDeviceVoice(), clean = speechText(text);
     const parts = (clean.match(/[^.!?\n]+[.!?]*/g) || [clean]).map(x => x.trim()).filter(Boolean);
     if (!parts.length) { fin(); return; }
     Face.speakEstimate(clean);
@@ -2274,7 +2812,7 @@ function voiceNote(text, label, retry) {
 }
 
 const Speech = {
-  tok: null, done: null,
+  tok: null, done: null, lat: 0,
   /* corta o áudio sem avisar quem estava esperando */
   halt() {
     this.tok = null; this.done = null; Face.endSpeech();
@@ -2285,14 +2823,16 @@ const Speech = {
   /* corta o áudio e avisa quem estava esperando */
   stop() { const d = this.done; this.halt(); if (d) d(); },
   async speak(text, done) {
-    const txt = cleanText(text).replace(/https?:\/\/\S+/g, " link ").slice(0, 700);
+    const txt = speechText(text).slice(0, 700);
     if (!txt) { if (done) done(); return; }
     this.halt(); clearVoiceNotes();
     const original = text;
     Face.setEmotion(guessEmotion(txt));
     const tok = {}; this.tok = tok; this.done = done || null;
     const parts = chunkText(txt), errs = [], jobs = [];
+    const t0 = performance.now();
     const job = i => jobs[i] || (jobs[i] = speechBlob(parts[i], errs));
+    parts.forEach((_, i) => job(i));                       /* todas as partes ao mesmo tempo: sem espera quando acaba a frase */
     const finish = () => { if (this.tok !== tok) return; Face.endSpeech(); const d = this.done; this.tok = null; this.done = null; if (d) d(); };
     const fail = (msg, rest, blocked) => {
       voiceStatus("✗ " + msg + (cfg("voice_fb") === "1" ? " → usando a voz do aparelho." : ""), false);
@@ -2304,7 +2844,7 @@ const Speech = {
     for (let i = 0; i < parts.length; i++) {
       const r = await job(i);
       if (this.tok !== tok) return;
-      if (i + 1 < parts.length) job(i + 1);        /* só pede o próximo depois de receber este: 1 pedido por vez */
+      if (i === 0) this.lat = Math.round(performance.now() - t0);
       if (!r) { fail(errs.join(" | ") || "a voz não respondeu", parts.slice(i).join(" ")); return; }
       try { src = r.src; await playBlob(r.bl, parts[i]); }
       catch (e) {
@@ -2464,12 +3004,16 @@ const Call = {
     this.busy = true;
     try {
       $("cAi").textContent = ""; this.setState("thinking"); App.lastError = "";
+      const tIA = performance.now();
       const r = await sendVoiceMessage(b64);
+      const msIA = Math.round(performance.now() - tIA);
       if (!this.on) return;
       if (r) {
         this.setState("speaking");
         if (cfg("stt_mode") === "gemini") this.micStop();
+        Speech.lat = 0;
         await this.speakAndWait(r.text);
+        if (cfg("show_lat") === "1") $("cAi").textContent = "⏱ pensou " + (msIA / 1000).toFixed(1) + " s · voz pronta em " + (Speech.lat / 1000).toFixed(1) + " s";
       }
       else if (App.lastError) $("cAi").textContent = App.lastError;
     } catch (e) { console.error(e); }
@@ -2574,7 +3118,7 @@ function applyUI() {
   Face.setColors(light, AV.pair); Face.setQuality(cfg("face_q")); Face.moveK = Math.max(0, Math.min(1.6, cfgNum("face_move") / 100));
   R.style.setProperty("--fs", cfg("ui_fs") + "px"); R.style.setProperty("--blur", cfg("ui_blur") + "px");
   R.style.setProperty("--sans", FONTS[cfg("ui_font")] || FONTS.system);
-  avatarMode = AVATARS[cfg("ui_avatar")] ? cfg("ui_avatar") : "face";
+  avatarMode = AVATARS[cfg("ui_avatar") === "waves" ? "robo" : cfg("ui_avatar")] ? (cfg("ui_avatar") === "waves" ? "robo" : cfg("ui_avatar")) : "face";
   ["aurora", "solid", "grid", "dots"].forEach(k => R.classList.toggle("bg-" + k, cfg("ui_bg") === k));
   ["round", "sharp", "glass"].forEach(k => R.classList.toggle("bub-" + k, cfg("ui_bub") === k));
   R.classList.toggle("no-orb", cfg("ui_orb") === "0");
@@ -2657,6 +3201,25 @@ function testVoice() {
   Speech.speak("Certamente, " + ME.address + ". Minha voz está pronta. Como posso ajudar?");
 }
 
+/* ----- avisos quando o Jarvis responde ----- */
+function bindNotify() {
+  bind.toggle("uNotify", "notify_on", "1"); bind.toggle("uNSound", "notify_sound", "1"); bind.toggle("uNVib", "notify_vib", "1");
+  bind.toggle("uNTitle", "notify_title", "1"); bind.toggle("uNAlways", "notify_always", "0");
+  const nst = (m, ok) => { const e = $("nStat"); e.textContent = m; e.style.color = ok ? "var(--ok)" : "var(--bad)"; };
+  bind.toggle("uNSys", "notify_sys", "0", async () => {
+    if (!$("uNSys").checked) return;
+    const p = await Notif.enable();
+    if (p !== "granted") {
+      LS.set("notify_sys", "0"); $("uNSys").checked = false;
+      nst(p === "unsupported" ? "Este navegador não tem notificações do sistema (no iPhone só funciona com o app adicionado à Tela de Início)." : "Permissão negada. Libere as notificações deste site nas configurações do navegador.", false);
+    } else nst("✓ Notificações do sistema ligadas.", true);
+  });
+  $("nTest").onclick = () => {
+    Notif.prepare(); nst("Pode sair da tela: em 5 segundos você recebe um aviso de teste.", true);
+    setTimeout(() => Notif.fire("Jarvis", "Aviso de teste: é assim que você será avisado.", true), 5000);
+  };
+}
+
 /* ----- ligação de todos os campos ----- */
 function bindSettings() {
   /* aparência */
@@ -2697,14 +3260,19 @@ function bindSettings() {
 
   /* voz */
   bind.toggle("speakReplies", "speak_replies", "0");
-  bind.seg("uStt", "stt_mode", "gemini"); bind.range("uSil", "stt_sil", "0.8"); bind.toggle("uVshort", "voice_short", "1"); bind.range("uSens", "stt_sens", "7");
+  bind.seg("uStt", "stt_mode", "gemini"); bind.range("uSil", "stt_sil", "0.7"); bind.toggle("uVshort", "voice_short", "1"); bind.range("uSens", "stt_sens", "7");
   bind.seg("uFb", "voice_fb", "0");
   if (!["Charon", "Kore"].includes(cfg("gem_voice"))) LS.set("gem_voice", "Charon");   /* só Charon e uma feminina */
   bind.seg("uGv", "gem_voice", "Charon", () => { ttsCache.clear(); LS.del("gem_tts_ok"); });
-  bind.text("gemStyle", "gem_style", "calmo, elegante e confiante"); updateGemUsage();
+  bind.text("gemStyle", "gem_style", PACE_STYLES.fast); updateGemUsage();
+  const paintPace = () => document.querySelectorAll("#uPace button").forEach(b => b.classList.toggle("on", PACE_STYLES[b.dataset.v] === cfg("gem_style").trim()));
+  document.querySelectorAll("#uPace button").forEach(b => b.onclick = () => { LS.set("gem_style", PACE_STYLES[b.dataset.v]); $("gemStyle").value = PACE_STYLES[b.dataset.v]; ttsCache.clear(); paintPace(); });
+  $("gemStyle").addEventListener("input", paintPace); paintPace();
+  bind.toggle("uLat", "show_lat", "0");
   $("gemTest").onclick = testGemini; bind.range("uVr", "v_rate", "1");
   $("voiceTest").onclick = testVoice;
 
+  bindNotify(); bindLoja();
   /* chat */
   bind.toggle("uEnter", "enter_send", "1"); bind.toggle("uActs", "ui_acts", "1", applyUI); bind.toggle("uQuick", "ui_quick", "1", applyUI);
 
@@ -2769,12 +3337,14 @@ function bindEvents() {
 }
 
 function startAnimationLoop() {
-  let last = performance.now();
+  let last = performance.now(), lastDraw = 0;
   const visible = id => !$(id).classList.contains("hidden");
   (function frame(now) {
     requestAnimationFrame(frame);
     if (!$("call").classList.contains("hidden")) { const bar = $("cLevelBar"); if (bar) bar.style.width = Math.round(Math.min(1, Call.lv) * 100) + "%"; $("cLevel").classList.toggle("off", cfg("stt_mode") !== "gemini"); }
     if (document.hidden) { last = now; return; }
+    if (avatarMode === "face" && now - lastDraw < 30) return;      /* rosto a ~30 quadros por segundo: deixa o celular mais livre */
+    lastDraw = now;
     const still = document.documentElement.classList.contains("no-motion");
     const dt = still ? 0 : Math.min(.05, (now - last) / 1000); last = now;
     const t = still ? 0 : now;
@@ -2792,7 +3362,7 @@ function init() {
   applyUI(); bindSettings(); bindEvents();
   renderModes(); renderQuick(); renderSide(); renderHistory(); renderBrain();
   updateHome(); updateStats(); autoGrow(); showView("vChat");
-  startAnimationLoop();
+  startAnimationLoop(); Sales.start();
   /* vigia da chamada: se o microfone parar sozinho, volta a ouvir */
   setInterval(() => { if (Call.on && !Call.busy && !App.sending && !Call.recActive && Date.now() - Call.lastAct > 3500) Call.listen(); }, 2000);
   setTimeout(() => { $("splash").classList.add("fade"); setTimeout(() => $("splash").classList.add("hidden"), 750); }, 1700);
