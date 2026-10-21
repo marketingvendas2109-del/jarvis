@@ -286,6 +286,13 @@ html[data-theme=light] #call{background:radial-gradient(ellipse 85% 55% at 50% 3
 .vnote{margin-top:8px;font-size:12.5px;color:var(--dim);display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 .vnote button{padding:5px 11px;border-radius:999px;background:var(--glass2);border:1px solid var(--line);font-size:12.5px;color:var(--txt)}
 
+.miniX{display:none}
+#call.mini{inset:auto 14px calc(92px + env(safe-area-inset-bottom,0px)) auto;width:150px;height:150px;padding:0;border-radius:50%;background:rgba(8,12,28,.88);border:1px solid var(--line);overflow:hidden;cursor:pointer;justify-content:center;box-shadow:0 10px 40px rgba(0,0,0,.5),0 0 40px color-mix(in srgb,var(--acc) 40%,transparent);animation:fi .25s both}
+html[data-theme=light] #call.mini{background:rgba(255,255,255,.92)}
+#call.mini .ctop,#call.mini .ctxt,#call.mini #cStatus,#call.mini #cLevel,#call.mini .cctl{display:none}
+#call.mini #callOrb{width:150px!important;height:150px!important;margin:0!important}
+#call.mini .miniX{display:grid;place-items:center;position:absolute;top:6px;right:8px;width:26px;height:26px;border-radius:50%;background:var(--glass2);font-size:16px;line-height:1;z-index:2}
+
 /* ============ 13. PREFERÊNCIAS VISUAIS ============ */
 html.no-orb #heroOrb{display:none}
 html.no-quick #quick{display:none!important}
@@ -422,6 +429,11 @@ html.no-motion *{animation:none!important;transition:none!important}
 
       <!-- Voz -->
       <div class="cat" data-c="voz">
+        <div class="grp"><div class="gt">Chamar o Jarvis por voz</div><div class="gl">
+          <label class="li"><span><b>Escutar "Ei Jarvis"</b><small>Com o app aberto e a tela ligada. Diga "Ei Jarvis" e a pergunta, ou só "Ei Jarvis"</small></span><input type="checkbox" id="uWake"></label>
+          <label class="li"><span><b>Aparecer como bolinha</b><small>Uma bolinha no canto; toque nela para abrir a tela cheia</small></span><input type="checkbox" id="uWakeMini"></label>
+          <div class="li col"><small id="wakeStat">Desligado.</small><small>Importante: o celular não deixa um site escutar com a tela bloqueada ou o app fechado (como a Siri faz). Funciona enquanto o Jarvis estiver aberto. Usa o reconhecimento de voz do navegador (Chrome, Edge, Safari; não funciona no Brave) e gasta mais bateria.</small></div>
+        </div></div>
         <div class="grp"><div class="gt">Voz do Jarvis (Gemini)</div><div class="gl">
           <div class="li"><span><b>Testar a voz</b><small id="gemOut">Toque em Testar para ouvir</small></span><button class="go" id="gemTest" type="button">Testar</button></div>
           <div class="li col"><b>Voz do Jarvis</b><div class="seg" id="uGv"><button type="button" data-v="Charon">Charon · masculina</button><button type="button" data-v="Kore">Kore · feminina</button></div></div>
@@ -437,7 +449,7 @@ html.no-motion *{animation:none!important;transition:none!important}
           <div class="li"><span><b>Testar voz</b><small id="voiceOut">Toque em Testar para ouvir</small></span><button class="go" id="voiceTest" type="button">Testar</button></div>
         </div></div>
         <div class="grp"><div class="gt">Microfone (conversa por voz)</div><div class="gl">
-          <label class="li"><span><b>Respostas por voz bem curtas</b><small>Fala mais rápido: 1 ou 2 frases. Desligue para respostas mais longas</small></span><input type="checkbox" id="uVshort"></label>
+          <div class="li col"><b>Tamanho das respostas por voz</b><div class="seg" id="uVlen"><button type="button" data-v="short">Curtas</button><button type="button" data-v="normal">Normais</button><button type="button" data-v="long">Longas</button></div><small>Curtas = mais rápido. Normais e Longas = conversa mais natural, com opinião e humor.</small></div>
           <div class="li col"><b>Reconhecimento de voz (chamada)</b><div class="seg" id="uStt"><button type="button" data-v="gemini">Gemini (recomendado)</button><button type="button" data-v="browser">Navegador</button></div><small>O Gemini funciona no Brave, no Safari e em qualquer navegador. O do navegador falha no Brave.</small></div>
           <div class="li col"><div class="spread"><b>Pausa para o Jarvis responder (segundos)</b><span class="val" id="uSilV"></span></div><input type="range" id="uSil" min="0.6" max="2" step="0.1"></div>
           <div class="li col"><div class="spread"><b>Sensibilidade do microfone</b><span class="val" id="uSensV"></span></div><input type="range" id="uSens" min="1" max="10" step="1"><small>Aumente se ele não te ouve; diminua se ele reage a barulho</small></div>
@@ -555,6 +567,7 @@ html.no-motion *{animation:none!important;transition:none!important}
 <div id="toast" class="hidden" role="status"></div>
 
 <div id="call" class="hidden">
+  <button class="miniX" id="miniX" type="button" aria-label="Encerrar">×</button>
   <div class="ctop"><button class="ic" id="cMin" type="button" aria-label="Voltar ao chat" data-ico="down"></button><div class="cttl">Jarvis · voz</div><span style="width:42px"></span></div>
   <canvas id="callOrb"></canvas>
   <div id="cStatus"></div>
@@ -687,7 +700,7 @@ const DEFAULTS = {
   ui_acc: "blue", ui_accc: "#3b82f6", ui_avatar: "face", ui_avc: "auto", ui_glow: "100", ui_bg: "aurora", ui_font: "system", ui_bub: "round", face_q: "mid", face_move: "100", ui_fs: "16", ui_blur: "22", ui_orb: "1", ui_motion: "1", ui_quick: "1", ui_acts: "1",
   enter_send: "1", mem_live: "1", u_name: "", u_addr: "", u_pers: "mordomo", u_len: "normal",
   ai_temp: "0.8", ai_model: "", ai_extra: "", gemini_key: "", jarvis_mode: "normal",
-  speak_replies: "0", stt_mode: "gemini", stt_sil: "0.7", show_lat: "0", voice_short: "1", web_search: "1",
+  speak_replies: "0", stt_mode: "gemini", stt_sil: "0.7", show_lat: "0", wake_on: "0", wake_mini: "1", voice_len: "normal", web_search: "1",
   b44_token: "", b44_watch: "0", b44_every: "2", b44_speak: "1", b44_ask: "1", b44_confirm: "1", b44_tr: "direct",
   notify_on: "1", notify_sound: "1", notify_vib: "1", notify_title: "1", notify_sys: "0", notify_always: "0", stt_sens: "7",
  
@@ -1012,7 +1025,7 @@ async function callAI(turns, system, opts) {
   const key = cfg("gemini_key").trim();
   if (!key) throw Object.assign(new Error("sem chave"), { code: "nokey" });
   const { contents, instruction } = normalizeTurns(turns, system);
-  const basePayload = { contents, generationConfig: { temperature: cfgNum("ai_temp") } };
+  const basePayload = { contents, generationConfig: { temperature: opts.temp !== undefined ? opts.temp : cfgNum("ai_temp") } };
   if (instruction) basePayload.systemInstruction = { parts: [{ text: instruction }] };
   const wantSearch = opts.search !== false && cfg("web_search") !== "0";
   const build = (tv, s) => {
@@ -1097,9 +1110,11 @@ function buildSystem(o) {
     b44Prompt(),
     len === "short" ? "TAMANHO: responda sempre de forma curta (no máximo 3 frases)." : len === "long" ? "TAMANHO: responda de forma detalhada e completa, com exemplos quando ajudar." : "",
     extra ? "INSTRUÇÕES EXTRAS DO USUÁRIO (siga sempre): " + extra : "",
-    Call.on ? (cfg("voice_short") === "0"
-      ? "VOCÊ ESTÁ EM UMA CHAMADA POR VOZ: sua resposta será FALADA. Responda em 1 a 3 frases curtas e naturais, sem listas, sem markdown, sem emojis, sem asteriscos."
-      : "VOCÊ ESTÁ EM UMA CHAMADA POR VOZ: sua resposta será FALADA e precisa ser RÁPIDA. Responda direto, sem pensar demais: 1 ou 2 frases bem curtas (no máximo 25 palavras), naturais, sem listas, sem marcadores, sem reticências, sem markdown, sem emojis, sem asteriscos. Só se alongue se o usuário pedir uma explicação.") : "",
+    Call.on ? ({
+      short: "VOCÊ ESTÁ EM UMA CHAMADA POR VOZ: sua resposta será FALADA e precisa ser RÁPIDA. Responda direto, em 1 ou 2 frases curtas (no máximo 25 palavras), naturais, sem listas, sem marcadores, sem reticências, sem markdown, sem emojis, sem asteriscos. Só se alongue se o usuário pedir uma explicação.",
+      normal: "VOCÊ ESTÁ EM UMA CHAMADA POR VOZ: sua resposta será FALADA. Converse como uma pessoa de verdade, com personalidade: 2 a 4 frases (uns 40 a 60 palavras). Seja criativo e interessante: dê opinião, um exemplo curto, uma tirada de humor quando combinar, e de vez em quando faça uma pergunta de volta. Varie a forma de começar as respostas e nunca seja seco. Sem listas, sem marcadores, sem reticências, sem markdown, sem emojis, sem asteriscos.",
+      long: "VOCÊ ESTÁ EM UMA CHAMADA POR VOZ: sua resposta será FALADA. Converse à vontade, com muita personalidade e criatividade: explique bem, dê exemplos, opinião e humor quando combinar (até uns 120 palavras) e faça perguntas de volta. Varie a forma de começar. Sem listas, sem marcadores, sem reticências, sem markdown, sem emojis, sem asteriscos."
+    }[cfg("voice_len")] || "") : "",
     o.audio ? "O usuário falou por ÁUDIO. COMECE a resposta SEMPRE com uma linha [[OUVI:o que ele disse, palavra por palavra]] e, logo depois, responda normalmente (essa linha é só de controle; nunca a explique nem a mencione). Se o áudio não tiver fala compreensível, responda apenas [[OUVI:]]." : ""
   ];
   return parts.filter(Boolean).join("\n\n");
@@ -1117,9 +1132,10 @@ function googlePrompt() {
 async function converse(turns, o) {
   o = o || {};
   const fast = Call.on || cfg("speak_replies") === "1";
-  const maxTokens = Call.on && cfg("voice_short") !== "0" ? 220 : 600;
+  const len = cfg("voice_len"), maxTokens = Call.on ? ({ short: 220, long: 800 }[len] || 420) : 600;
+  const temp = Call.on ? Math.min(1.3, cfgNum("ai_temp") + .2) : undefined;     /* na conversa por voz fica um pouco mais criativo */
   const ouvi = /\[\[OUVI:[\s\S]*?\]\]/;
-  let raw = await callAI(turns, buildSystem(o), { fast, maxTokens }), rounds = 0;
+  let raw = await callAI(turns, buildSystem(o), { fast, maxTokens, temp }), rounds = 0;
   const heard0 = o.audio ? ouvi.exec(raw) : null;
   while ((gOn() || b44On()) && rounds < 4) {
     const acts = scanActions(raw).acts;
@@ -1130,7 +1146,7 @@ async function converse(turns, o) {
       { role: "assistant", content: raw },
       { role: "user", content: "[RESULTADO DAS AÇÕES DO GOOGLE]\n" + result + "\n\nResponda agora ao usuário, em português, usando só esses resultados. Se faltar algo, use outra ação." }
     ]);
-    raw = await callAI(turns, buildSystem(), { fast, maxTokens });
+    raw = await callAI(turns, buildSystem(), { fast, maxTokens, temp });
   }
   let out = scanActions(raw).clean || "Feito, " + ME.address + ".";
   if (heard0 && !ouvi.test(out)) out = heard0[0] + "\n" + out;     /* mantém o que ele ouviu mesmo depois das ações */
@@ -2027,6 +2043,72 @@ function bindLoja() {
 }
 
 /* ==========================================================================
+   CHAMAR POR VOZ ("Ei Jarvis"): escuta com o app aberto e abre a bolinha de conversa
+   Usa o reconhecimento de voz do navegador (grátis). Não funciona com o app fechado ou a tela bloqueada.
+   ========================================================================== */
+const WAKE_RE = /(?:\b(?:ei|hey|ol[aá]|oi|e a[ií]|opa|fala|ok|okay)[\s,]+)?\b(?:j[aá]rv[ií]s?|jarves|jarvi|garvis|jarbas|jarviz|charvis|jarvice)\b[\s,.!?:;-]*/i;
+function matchWake(txt) {
+  const m = WAKE_RE.exec(String(txt));
+  if (!m || m.index > 14) return null;                       /* só vale no começo da frase ("o Jarvis do filme" não chama) */
+  return { rest: String(txt).slice(m.index + m[0].length).trim() };
+}
+
+const Wake = {
+  rec: null, on: false, paused: false, timer: null, fireT: null, busy: false, quick: 0, fails: 0, started: 0,
+  supported() { return !!(window.SpeechRecognition || window.webkitSpeechRecognition); },
+  status(msg, ok) { const e = $("wakeStat"); if (e) { e.textContent = msg; e.style.color = ok === true ? "var(--ok)" : ok === false ? "var(--bad)" : ""; } },
+  chip() { const s = document.querySelector("#provChip span"); if (s) s.textContent = "Gemini" + (this.on && !this.paused ? " · 👂" : ""); },
+  off(msg) { this.on = false; clearTimeout(this.timer); clearTimeout(this.fireT); LS.set("wake_on", "0"); const t = $("uWake"); if (t) t.checked = false; this.status(msg, false); this.chip(); },
+  sync() { if (cfg("wake_on") === "1") this.start(); else this.stop(); },
+  start() {
+    if (!this.supported()) { this.off("✗ Este navegador não reconhece voz em segundo plano (use Chrome, Edge ou Safari; o Brave não funciona)."); return; }
+    unlockAudio(); Notif.prepare();
+    this.on = true; this.paused = false; this.fails = 0;
+    this.status("👂 Escutando “Ei Jarvis”…", true); this.chip(); this.loop();
+  },
+  stop() { this.on = false; clearTimeout(this.timer); clearTimeout(this.fireT); try { this.rec && this.rec.abort(); } catch (e) {} this.rec = null; this.status("Desligado."); this.chip(); },
+  pause() { this.paused = true; clearTimeout(this.timer); clearTimeout(this.fireT); const r = this.rec; this.rec = null; try { r && r.abort(); } catch (e) {} this.chip(); },
+  resume() { if (!this.on) return; this.paused = false; this.status("👂 Escutando “Ei Jarvis”…", true); this.chip(); this.schedule(700); },
+  schedule(ms) { clearTimeout(this.timer); this.timer = setTimeout(() => this.loop(), ms); },
+  loop() {
+    if (!this.on || this.paused || Call.on || this.rec) return;
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition; let r;
+    try { r = new SR(); } catch (e) { return; }
+    this.rec = r; this.started = Date.now();
+    r.lang = "pt-BR"; r.continuous = true; r.interimResults = true;
+    r.onresult = e => {
+      if (this.paused || Speech.tok || Call.on) return;              /* não se chama a si mesmo: ignora enquanto o Jarvis fala */
+      const res = e.results[e.results.length - 1], txt = (res && res[0] && res[0].transcript) || "";
+      this.fails = 0;
+      const m = matchWake(txt); if (!m) return;
+      clearTimeout(this.fireT);
+      if (res.isFinal) this.trigger(m.rest); else this.fireT = setTimeout(() => this.trigger(m.rest), 1300);   /* parou de falar: chama */
+    };
+    r.onerror = e => {
+      const c = e && e.error;
+      if (c === "not-allowed" || c === "service-not-allowed") this.off("✗ O microfone está bloqueado para este site. Libere nas configurações do navegador e ligue de novo.");
+      else if (c === "network" && ++this.fails >= 5) this.off("✗ O reconhecimento de voz do navegador não conectou (Brave e redes que bloqueiam o Google não funcionam).");
+    };
+    r.onend = () => {
+      if (this.rec === r) this.rec = null;
+      if (!this.on || this.paused) return;
+      const quick = Date.now() - this.started < 800;                  /* terminou rápido demais: espera mais para não ficar em laço */
+      this.quick = quick ? Math.min(this.quick + 1, 8) : 0;
+      this.schedule(quick ? 300 * (1 + this.quick) : 200);
+    };
+    try { r.start(); } catch (e) { this.rec = null; this.schedule(1500); }
+  },
+  trigger(rest) {
+    if (this.busy || !this.on || this.paused || Call.on || Speech.tok) return;
+    this.busy = true; setTimeout(() => { this.busy = false; }, 2500);
+    const cmd = String(rest || "").replace(/^[\s,.!?:;-]+/, "").trim();
+    this.pause(); Notif.chime();
+    setTimeout(() => Call.startWake(cmd), 350);
+  }
+};
+document.addEventListener("visibilitychange", () => { if (!document.hidden && Wake.on && !Wake.paused && !Wake.rec) Wake.schedule(300); });
+
+/* ==========================================================================
    ROSTO DE PARTÍCULAS (alternativa à esfera): boca sincronizada com a fala e expressões
    ========================================================================== */
 let avatarMode = "face";
@@ -2862,7 +2944,7 @@ const Speech = {
    13. VOZ: chamada com o Jarvis (ouvir → pensar → falar)
    ========================================================================== */
 const Call = {
-  on: false, busy: false, state: "idle", lastAct: 0, orb: null,
+  on: false, busy: false, state: "idle", lastAct: 0, orb: null, wake: false, idleT: null, idleMs: 10000,
   /* captura de áudio (reconhecimento pelo Gemini) */
   ctx: null, stream: null, src: null, proc: null, buf: [], pre: [], inSp: false, hits: 0, sil: 0, t0: 0, noise: .008, lv: 0,
   /* reconhecimento do navegador */
@@ -2875,8 +2957,23 @@ const Call = {
   },
   pulse() { this.orb.energy = Math.min(1.5, this.orb.energy + .5); },
 
+  /* Chamada aberta pelo "Ei Jarvis": bolinha, resposta direta se já veio a pergunta, e fecha sozinha se ninguém falar */
+  armIdle() {
+    clearTimeout(this.idleT); if (!this.wake) return;
+    this.idleT = setTimeout(() => { if (!this.on) return; if (this.busy || App.sending || this.inSp) { this.armIdle(); return; } this.end(); }, this.idleMs);
+  },
+  cancelIdle() { clearTimeout(this.idleT); },
+  async startWake(cmd) {
+    if (this.on) return;
+    this.wake = true;
+    $("call").classList.toggle("mini", cfg("wake_mini") !== "0");
+    await this.start();
+    if (!this.on) { this.wake = false; return; }
+    if (cmd && cmd.length >= 3) this.turn(cmd); else this.armIdle();
+  },
   async start() {
     if (this.on) return;
+    Wake.pause();
     unlockAudio(); this.initCtx();
     this.on = true; micUI(true);
     $("call").classList.remove("hidden"); $("cAi").textContent = "";
@@ -2902,6 +2999,7 @@ const Call = {
     try { if (this.ctx) this.ctx.close(); } catch (e) {}
     this.ctx = null;
     $("call").classList.add("hidden"); this.state = "idle"; micUI(false);
+    this.cancelIdle(); this.wake = false; $("call").classList.remove("mini"); Wake.resume();
   },
 
   /* ----- um turno completo da conversa ----- */
@@ -2922,7 +3020,7 @@ const Call = {
     } catch (e) { console.error(e); }
     finally {
       this.busy = false; this.lastAct = Date.now();
-      if (this.on) { this.setState("listening"); if (cfg("stt_mode") === "browser") this.schedule(250); else this.listen(); }
+      if (this.on) { this.setState("listening"); if (cfg("stt_mode") === "browser") this.schedule(250); else this.listen(); if (this.wake) this.armIdle(); }
     }
   },
   speakAndWait(text) {
@@ -2983,7 +3081,7 @@ const Call = {
       if (rms < thr) this.noise = Math.max(.002, this.noise * .95 + rms * .05);
       this.pre.push(new Float32Array(d)); if (this.pre.length > 6) this.pre.shift();
       if (rms > thr) {
-        if (++this.hits >= 2) { this.inSp = true; this.buf = this.pre.slice(); this.pre = []; this.sil = 0; this.t0 = Date.now(); $("cStatus").textContent = "OUVINDO VOCÊ..."; }
+        if (++this.hits >= 2) { this.cancelIdle(); this.inSp = true; this.buf = this.pre.slice(); this.pre = []; this.sil = 0; this.t0 = Date.now(); $("cStatus").textContent = "OUVINDO VOCÊ..."; }
       } else this.hits = 0;
       return;
     }
@@ -3019,7 +3117,7 @@ const Call = {
     } catch (e) { console.error(e); }
     finally {
       this.busy = false; this.lastAct = Date.now();
-      if (this.on) { this.setState("listening"); if (cfg("stt_mode") === "browser") this.schedule(250); else this.listen(); }
+      if (this.on) { this.setState("listening"); if (cfg("stt_mode") === "browser") this.schedule(250); else this.listen(); if (this.wake) this.armIdle(); }
     }
   },
 
@@ -3201,6 +3299,13 @@ function testVoice() {
   Speech.speak("Certamente, " + ME.address + ". Minha voz está pronta. Como posso ajudar?");
 }
 
+/* ----- chamar por voz ----- */
+function bindWake() {
+  bind.toggle("uWake", "wake_on", "0", () => Wake.sync()); bind.toggle("uWakeMini", "wake_mini", "1");
+  $("miniX").onclick = e => { e.stopPropagation(); Call.end(); };
+  $("call").addEventListener("click", e => { if ($("call").classList.contains("mini") && !(e.target.closest && e.target.closest("#miniX"))) $("call").classList.remove("mini"); });
+}
+
 /* ----- avisos quando o Jarvis responde ----- */
 function bindNotify() {
   bind.toggle("uNotify", "notify_on", "1"); bind.toggle("uNSound", "notify_sound", "1"); bind.toggle("uNVib", "notify_vib", "1");
@@ -3260,7 +3365,7 @@ function bindSettings() {
 
   /* voz */
   bind.toggle("speakReplies", "speak_replies", "0");
-  bind.seg("uStt", "stt_mode", "gemini"); bind.range("uSil", "stt_sil", "0.7"); bind.toggle("uVshort", "voice_short", "1"); bind.range("uSens", "stt_sens", "7");
+  bind.seg("uStt", "stt_mode", "gemini"); bind.range("uSil", "stt_sil", "0.7"); bind.seg("uVlen", "voice_len", "normal"); bind.range("uSens", "stt_sens", "7");
   bind.seg("uFb", "voice_fb", "0");
   if (!["Charon", "Kore"].includes(cfg("gem_voice"))) LS.set("gem_voice", "Charon");   /* só Charon e uma feminina */
   bind.seg("uGv", "gem_voice", "Charon", () => { ttsCache.clear(); LS.del("gem_tts_ok"); });
@@ -3272,7 +3377,7 @@ function bindSettings() {
   $("gemTest").onclick = testGemini; bind.range("uVr", "v_rate", "1");
   $("voiceTest").onclick = testVoice;
 
-  bindNotify(); bindLoja();
+  bindNotify(); bindLoja(); bindWake();
   /* chat */
   bind.toggle("uEnter", "enter_send", "1"); bind.toggle("uActs", "ui_acts", "1", applyUI); bind.toggle("uQuick", "ui_quick", "1", applyUI);
 
@@ -3362,7 +3467,7 @@ function init() {
   applyUI(); bindSettings(); bindEvents();
   renderModes(); renderQuick(); renderSide(); renderHistory(); renderBrain();
   updateHome(); updateStats(); autoGrow(); showView("vChat");
-  startAnimationLoop(); Sales.start();
+  startAnimationLoop(); Sales.start(); Wake.sync();
   /* vigia da chamada: se o microfone parar sozinho, volta a ouvir */
   setInterval(() => { if (Call.on && !Call.busy && !App.sending && !Call.recActive && Date.now() - Call.lastAct > 3500) Call.listen(); }, 2000);
   setTimeout(() => { $("splash").classList.add("fade"); setTimeout(() => $("splash").classList.add("hidden"), 750); }, 1700);
