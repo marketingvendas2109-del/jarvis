@@ -8,27 +8,25 @@
 <style>
 /* ============ 1. TOKENS ============ */
 :root{
-  --bg:#060910;--txt:#f5f7ff;--dim:#9aa7c4;--acc:#7cc8ff;--acc2:#7af0d1;
-  --glass:rgba(255,255,255,.06);--glass2:rgba(255,255,255,.10);--line:rgba(151,173,220,.18);
-  --sbg:rgba(10,15,26,.72);--cardbg:rgba(18,23,36,.7);--hl:rgba(255,255,255,.08);
-  --ok:#42d392;--bad:#ff6b6b;--blur:18px;--fs:16px;
-  --sans:system-ui,-apple-system,"SF Pro Display","Segoe UI",Roboto,Arial,sans-serif;
+  --bg:#04050c;--txt:#f4f6ff;--dim:#9aa3c7;--acc:#3b82f6;--acc2:#7c3aed;
+  --glass:rgba(255,255,255,.06);--glass2:rgba(255,255,255,.1);--line:rgba(130,160,255,.22);
+  --sbg:rgba(14,18,40,.58);--cardbg:rgba(255,255,255,.07);--hl:rgba(255,255,255,.12);
+  --ok:#10b981;--bad:#ef4444;--blur:22px;--fs:16px;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
   --mono:"SF Mono","Cascadia Mono",Consolas,Menlo,monospace;color-scheme:dark}
 html[data-theme=light]{
-  --bg:#f4f7fb;--txt:#101827;--dim:#53627d;--glass:rgba(255,255,255,.86);--glass2:rgba(255,255,255,.9);
-  --line:rgba(69,94,156,.18);--sbg:rgba(255,255,255,.78);--cardbg:rgba(255,255,255,.75);--hl:#fff;color-scheme:light}
+  --bg:#fff;--txt:#0a0f1f;--dim:#364065;--glass:rgba(255,255,255,.66);--glass2:rgba(255,255,255,.9);
+  --line:rgba(25,45,140,.3);--sbg:rgba(255,255,255,.78);--cardbg:rgba(255,255,255,.7);--hl:#fff;color-scheme:light}
 
 /* ============ 2. BASE ============ */
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html,body{height:100%;background:var(--bg);color:var(--txt);font-family:var(--sans)}
 body{overflow:hidden;background:
-  radial-gradient(ellipse 90% 45% at 50% -10%, rgba(124,200,255,.20), transparent 62%),
-  radial-gradient(ellipse 70% 38% at 100% 100%, rgba(122,240,209,.15), transparent 62%),
-  linear-gradient(180deg,#050811 0%,#090d15 34%,#070b12 100%);}
+  radial-gradient(ellipse 90% 45% at 50% -8%,color-mix(in srgb,var(--acc) 40%,#000) 0,transparent 65%),
+  radial-gradient(ellipse 70% 40% at 100% 100%,color-mix(in srgb,var(--acc2) 40%,#000) 0,transparent 70%),var(--bg)}
 html[data-theme=light] body{background:
-  radial-gradient(ellipse 90% 45% at 50% -10%, rgba(124,200,255,.18), transparent 62%),
-  radial-gradient(ellipse 70% 38% at 100% 100%, rgba(122,240,209,.12), transparent 62%),
-  linear-gradient(180deg,#f4f7fb 0%,#eef4ff 100%)}
+  radial-gradient(ellipse 90% 45% at 50% -8%,color-mix(in srgb,var(--acc) 16%,#fff) 0,transparent 65%),
+  radial-gradient(ellipse 70% 40% at 100% 100%,color-mix(in srgb,var(--acc2) 16%,#fff) 0,transparent 70%),#fff}
 button{font-family:inherit;cursor:pointer;color:inherit;border:0;background:none}
 input,select,textarea{font-family:inherit;color:var(--txt)}
 .hidden{display:none!important}
@@ -38,41 +36,42 @@ svg.i{width:22px;height:22px;display:block}
 .view:not(.hidden){animation:fi .35s ease both}
 @keyframes fi{from{opacity:0;transform:translateY(8px)}}
 
+#app { opacity: 0; transition: opacity .35s ease; }
+#app.ready { opacity: 1; }
+
 /* ============ 3. SPLASH ============ */
-#splash{position:fixed;inset:0;z-index:100;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;background:radial-gradient(circle at 50% 30%, rgba(124,200,255,.10), transparent 40%),#070a11;transition:opacity .7s}
+#splash{position:fixed;inset:0;z-index:100;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;background:var(--bg);transition:opacity .7s}
 #splash.fade{opacity:0;pointer-events:none}
-#splash .nm{font-family:var(--mono);font-weight:700;font-size:clamp(34px,10vw,64px);letter-spacing:.32em;padding-left:.32em;background:linear-gradient(90deg,#dfeaff 0%,var(--acc) 25%,var(--acc2) 70%,#dfeaff 100%);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 0 18px rgba(124,200,255,.25)}
-#splash .ln{width:min(320px,60vw);height:2px;background:linear-gradient(90deg,transparent,var(--acc),var(--acc2),transparent);box-shadow:0 0 20px rgba(124,200,255,.35)}
-#splash .sy{font-family:var(--mono);font-size:11px;letter-spacing:.3em;color:#b8d7ff;animation:bl 1s steps(2,start) infinite}
+#splash .nm{font-family:var(--mono);font-weight:700;font-size:clamp(34px,10vw,64px);letter-spacing:.35em;padding-left:.35em;background:linear-gradient(90deg,var(--acc),var(--acc2));-webkit-background-clip:text;background-clip:text;color:transparent}
+#splash .ln{width:min(320px,60vw);height:2px;background:linear-gradient(90deg,transparent,var(--acc),var(--acc2),transparent)}
+#splash .sy{font-family:var(--mono);font-size:12px;letter-spacing:.3em;color:var(--acc);animation:bl 1s steps(2,start) infinite}
 @keyframes bl{50%{opacity:.2}}
 
 /* ============ 4. ESTRUTURA ============ */
 #app{height:100dvh;max-width:560px;margin:0 auto;display:flex;flex-direction:column;position:relative;padding-top:env(safe-area-inset-top,0px)}
-@media(min-width:600px){#app{border-left:1px solid var(--line);border-right:1px solid var(--line);background:rgba(8,12,21,.64);box-shadow:0 0 0 1px rgba(255,255,255,.02) inset}
-  html[data-theme=light] #app{background:rgba(255,255,255,.68)}}
-.hdr{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;gap:10px}
-.hdr .ttl{font-size:19px;font-weight:600;letter-spacing:.08em;text-transform:uppercase}
-.hdr .ttl::after{content:"BETA";margin-left:7px;font-size:8px;letter-spacing:.12em;padding:4px 7px;border-radius:999px;background:linear-gradient(135deg,var(--acc),var(--acc2));color:#08121d;font-weight:700;vertical-align:middle;box-shadow:0 0 16px rgba(124,200,255,.35)}
-.chip{display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border-radius:999px;background:rgba(255,255,255,.05);border:1px solid var(--line);font-size:12px;color:var(--dim);min-width:92px;justify-content:center}
-.chip i{width:7px;height:7px;border-radius:50%;background:var(--ok);box-shadow:0 0 10px rgba(66,211,146,.9)}
-.ic{width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,.05);border:1px solid var(--line);display:grid;place-items:center;color:var(--txt);transition:transform .15s,background .2s,box-shadow .2s}
-.ic:hover{box-shadow:0 8px 18px rgba(124,200,255,.12)}
+@media(min-width:600px){#app{border-left:1px solid var(--line);border-right:1px solid var(--line);background:rgba(4,5,12,.6)}
+  html[data-theme=light] #app{background:rgba(255,255,255,.6)}}
+.hdr{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;gap:10px}
+.hdr .ttl{font-size:19px;font-weight:600;letter-spacing:.02em}
+.hdr .ttl::after{content:"BETA";margin-left:7px;font-size:9px;letter-spacing:.08em;padding:3px 7px;border-radius:999px;background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;vertical-align:middle}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border-radius:999px;background:var(--glass);border:1px solid var(--line);font-size:12px;color:var(--dim);min-width:84px;justify-content:center}
+.chip i{width:7px;height:7px;border-radius:50%;background:var(--ok);box-shadow:0 0 8px var(--ok)}
+.ic{width:42px;height:42px;border-radius:50%;background:var(--glass);border:1px solid var(--line);display:grid;place-items:center;color:var(--txt);transition:transform .15s,background .2s}
 .ic:active,.chip:active,.rb:active,.qc:active,.row:active{transform:scale(.94);background:var(--glass2)}
 #main{flex:1;overflow-y:auto;overflow-x:hidden;padding:4px 16px 16px}
 
 /* ============ 5. TELA INICIAL ============ */
 #hero{display:flex;flex-direction:column;align-items:center;text-align:center;padding-top:6px}
-#heroOrb{flex:none;width:min(62vw,230px);height:min(62vw,230px);display:block;filter:drop-shadow(0 0 26px rgba(124,200,255,.25))}
-#hero h1{font-size:26px;font-weight:600;margin-top:2px;background:linear-gradient(90deg,#fff,var(--acc));-webkit-background-clip:text;background-clip:text;color:transparent}
+#heroOrb{flex:none;width:min(62vw,230px);height:min(62vw,230px);display:block}
+#hero h1{font-size:26px;font-weight:600;margin-top:2px;background:linear-gradient(90deg,var(--txt),color-mix(in srgb,var(--acc) 45%,var(--txt)));-webkit-background-clip:text;background-clip:text;color:transparent}
 #hero p{color:var(--dim);margin-top:6px;font-size:15px}
-.modeChip{margin-top:12px;font-size:12px;color:var(--acc);border:1px solid rgba(124,200,255,.35);background:rgba(124,200,255,.08);padding:6px 12px;border-radius:999px;box-shadow:0 0 12px rgba(124,200,255,.08)}
+.modeChip{margin-top:12px;font-size:12px;color:var(--acc);border:1px solid var(--line);background:var(--glass);padding:6px 12px;border-radius:999px}
 #quick{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px}
-.qc{display:flex;flex-direction:column;align-items:flex-start;justify-content:space-between;gap:10px;min-height:104px;text-align:left;padding:13px;border-radius:22px;background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.025));border:1px solid var(--line);position:relative;overflow:hidden;box-shadow:0 10px 22px rgba(7,11,18,.18)}
-.qc::before{content:"";position:absolute;inset:0;background:linear-gradient(135deg, rgba(124,200,255,.10), transparent 38%, rgba(122,240,209,.08));pointer-events:none}
+.qc{display:flex;flex-direction:column;align-items:flex-start;justify-content:space-between;gap:10px;min-height:104px;text-align:left;padding:13px;border-radius:22px;background:rgba(255,255,255,.04);border:1px solid var(--line);position:relative;overflow:hidden}
 .qc::after{content:"↗";position:absolute;right:14px;bottom:10px;color:var(--dim);font-size:15px}
-.qc:hover{border-color:rgba(124,200,255,.45);box-shadow:0 0 0 1px rgba(124,200,255,.18),0 16px 32px rgba(124,200,255,.12)}
-html[data-theme=light] .qc{background:rgba(255,255,255,.72);border-color:rgba(25,45,140,.16);box-shadow:0 1px 0 #fff inset,0 10px 30px rgba(30,60,160,.08)}
-.qc .em,.row .em{width:34px;height:34px;flex:none;border-radius:10px;background:linear-gradient(135deg, rgba(124,200,255,.18), rgba(122,240,209,.12));display:grid;place-items:center;font-size:17px;border:1px solid rgba(255,255,255,.06)}
+.qc:hover{border-color:var(--acc2)}
+html[data-theme=light] .qc{background:rgba(255,255,255,.72);border-color:rgba(25,45,140,.3);box-shadow:0 1px 0 #fff inset,0 10px 30px rgba(30,60,160,.14)}
+.qc .em,.row .em{width:34px;height:34px;flex:none;border-radius:10px;background:color-mix(in srgb,var(--acc) 18%,transparent);display:grid;place-items:center;font-size:17px}
 
 /* ============ 6. MENSAGENS ============ */
 #msgs{display:flex;flex-direction:column;gap:14px;padding-top:6px}
@@ -80,75 +79,75 @@ html[data-theme=light] .qc{background:rgba(255,255,255,.72);border-color:rgba(25
 @keyframes up{from{opacity:0;transform:translateY(12px) scale(.98)}}
 .m.u{justify-content:flex-end}
 .m .bub{max-width:86%;line-height:1.62;font-size:var(--fs);overflow-wrap:anywhere}
-.m.u .bub{background:linear-gradient(135deg,var(--acc),var(--acc2));color:#06131d;padding:10px 14px;border-radius:22px 22px 8px 22px;box-shadow:0 18px 30px rgba(124,200,255,.22);border:1px solid rgba(255,255,255,.22)}
-.m.a .av{width:28px;height:28px;flex:none;border-radius:50%;margin-top:2px;background:radial-gradient(circle at 35% 30%,#fff 0%,#cfeaff 24%,rgba(124,200,255,.72) 44%,var(--acc2) 85%);box-shadow:0 0 20px rgba(124,200,255,.25)}
+.m.u .bub{background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;padding:10px 14px;border-radius:22px 22px 6px 22px;box-shadow:0 8px 28px color-mix(in srgb,var(--acc) 30%,transparent)}
+.m.a .av{width:28px;height:28px;flex:none;border-radius:50%;margin-top:2px;background:radial-gradient(circle at 35% 30%,#fff,color-mix(in srgb,var(--acc) 60%,#fff) 40%,var(--acc2) 85%)}
 .m.a .bub{padding:2px 0}
 .m.a.err .bub{color:#ffb4a8}
 html[data-theme=light] .m.a.err .bub{color:#c2410c}
 .bub ul{margin:6px 0 6px 20px}
-.bub code{font-family:var(--mono);font-size:13px;background:rgba(255,255,255,.10);padding:1px 5px;border-radius:5px}
-.bub pre{font-family:var(--mono);font-size:13px;background:rgba(0,0,0,.32);border:1px solid var(--line);padding:10px;border-radius:10px;overflow-x:auto;margin:6px 0}
-html[data-theme=light] .bub code{background:rgba(30,50,140,.06)}
+.bub code{font-family:var(--mono);font-size:13px;background:rgba(255,255,255,.1);padding:1px 5px;border-radius:5px}
+.bub pre{font-family:var(--mono);font-size:13px;background:rgba(0,0,0,.4);border:1px solid var(--line);padding:10px;border-radius:10px;overflow-x:auto;margin:6px 0}
+html[data-theme=light] .bub code{background:rgba(30,50,140,.08)}
 html[data-theme=light] .bub pre{background:#f1f3fb}
 .act{display:flex;gap:4px;margin-top:6px}
-.act button{padding:4px 9px;border-radius:999px;color:var(--dim);background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.04)}
+.act button{padding:4px 9px;border-radius:999px;color:var(--dim);background:var(--glass)}
 .act button:active{background:var(--glass2)}
 .act svg.i{width:17px;height:17px}
-.attm{display:block;max-width:230px;max-height:230px;border-radius:16px;margin:0 0 8px;object-fit:cover;box-shadow:0 10px 24px rgba(0,0,0,.20)}
+.attm{display:block;max-width:230px;max-height:230px;border-radius:16px;margin:0 0 8px;object-fit:cover}
 .u .attm{margin-left:auto}
-.attf{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:14px;background:rgba(255,255,255,.08);font-size:13.5px;margin-bottom:6px;border:1px solid rgba(255,255,255,.06)}
+.attf{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:14px;background:rgba(255,255,255,.2);font-size:13.5px;margin-bottom:6px}
 .attf svg.i{width:18px;height:18px}
 .dots{display:inline-flex;gap:5px;padding:8px 0}
-.dots span{width:7px;height:7px;border-radius:50%;background:var(--acc2);animation:dt 1s infinite ease-in-out;box-shadow:0 0 12px rgba(122,240,209,.5)}
+.dots span{width:7px;height:7px;border-radius:50%;background:var(--acc2);animation:dt 1s infinite ease-in-out}
 .dots span:nth-child(2){animation-delay:.15s}.dots span:nth-child(3){animation-delay:.3s}
 @keyframes dt{0%,80%,100%{opacity:.25;transform:scale(.8)}40%{opacity:1;transform:scale(1.1)}}
 
 /* ============ 7. CAMPO DE MENSAGEM E ABAS ============ */
 #composer{padding:8px 14px 10px}
-.pill{display:flex;align-items:flex-end;gap:8px;padding:6px 8px;border-radius:30px;background:rgba(11,15,24,.86);border:1px solid var(--line);box-shadow:0 12px 26px rgba(2,6,23,.32), inset 0 1px 0 rgba(255,255,255,.04)}
-html[data-theme=light] .pill{background:#fff;box-shadow:0 1px 0 #fff inset,0 8px 28px rgba(30,60,180,.10)}
+.pill{display:flex;align-items:flex-end;gap:8px;padding:6px 6px 6px 6px;border-radius:30px;background:var(--glass2);border:1px solid var(--line);box-shadow:0 1px 0 var(--hl) inset,0 8px 30px rgba(0,0,0,.15)}
+html[data-theme=light] .pill{background:#fff;box-shadow:0 1px 0 #fff inset,0 8px 28px rgba(30,60,180,.12)}
 #txt{flex:1;min-width:0;background:none;border:0;resize:none;font-size:16px;line-height:1.4;max-height:120px;padding:9px 0;outline:none}
 #txt::placeholder{color:var(--dim)}
 .rb{width:42px;height:42px;flex:none;border-radius:50%;display:grid;place-items:center;transition:transform .15s}
-#attBtn{background:rgba(255,255,255,.04);color:var(--txt);border:1px solid transparent}
+#attBtn{background:var(--glass2);color:var(--txt)}
 #attBtn svg.i{width:21px;height:21px}
-#sendBtn{background:linear-gradient(135deg,var(--acc),var(--acc2));color:#06131d;box-shadow:0 0 22px rgba(124,200,255,.28)}
-#voiceBtn{background:linear-gradient(135deg,rgba(124,200,255,.10),rgba(122,240,209,.12));border:1px solid var(--line);color:#dfeeff}
-#voiceBtn.live{background:rgba(255,80,60,.48)}
+#sendBtn{background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;box-shadow:0 0 22px color-mix(in srgb,var(--acc) 55%,transparent)}
+#voiceBtn{background:linear-gradient(135deg,color-mix(in srgb,var(--acc) 50%,transparent),color-mix(in srgb,var(--acc2) 50%,transparent));border:1px solid var(--line);color:#fff}
+#voiceBtn.live{background:rgba(255,80,60,.55)}
 #attPrev{display:flex;padding:0 8px 8px}
-.ap{display:flex;align-items:center;gap:10px;padding:7px 8px;border-radius:16px;background:rgba(255,255,255,.04);border:1px solid var(--line);max-width:100%}
+.ap{display:flex;align-items:center;gap:10px;padding:7px 8px 7px 7px;border-radius:16px;background:var(--glass2);border:1px solid var(--line);max-width:100%}
 .ap img{width:44px;height:44px;border-radius:10px;object-fit:cover}
-.ap .fi{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,var(--acc),var(--acc2));color:#06131d;display:grid;place-items:center;flex:none}
+.ap .fi{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;display:grid;place-items:center;flex:none}
 .ap .fi svg.i{width:22px;height:22px}
 .ap .n{font-size:13.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:46vw}
-.ap button{width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.05);flex:none;display:grid;place-items:center}
+.ap button{width:28px;height:28px;border-radius:50%;background:var(--glass);flex:none;display:grid;place-items:center}
 .ap button svg.i{width:16px;height:16px}
-.tabs{display:grid;grid-template-columns:1fr 1fr 74px 1fr 1fr;align-items:end;padding:8px 10px calc(8px + env(safe-area-inset-bottom,0px));border-top:1px solid var(--line);background:rgba(7,11,18,.88)}
-html[data-theme=light] .tabs{background:rgba(255,255,255,.8)}
+.tabs{display:grid;grid-template-columns:1fr 1fr 74px 1fr 1fr;align-items:end;padding:8px 10px calc(8px + env(safe-area-inset-bottom,0px));border-top:1px solid var(--line);background:rgba(6,8,18,.85)}
+html[data-theme=light] .tabs{background:rgba(255,255,255,.82)}
 .tab{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:11px;color:var(--dim);padding:4px 0}
 .tab .e{opacity:.72}.tab .e svg.i{width:25px;height:25px}
 .tab.on{color:var(--txt)}.tab.on .e{opacity:1;color:var(--acc)}
-#plus{width:58px;height:58px;margin:0 auto;border-radius:50%;background:linear-gradient(135deg,var(--acc),var(--acc2));display:grid;place-items:center;color:#06131d;transform:translateY(-14px);box-shadow:0 10px 24px rgba(124,200,255,.28)}
+#plus{width:58px;height:58px;margin:0 auto;border-radius:50%;background:linear-gradient(135deg,var(--acc),var(--acc2));display:grid;place-items:center;color:#fff;transform:translateY(-14px);box-shadow:0 0 24px color-mix(in srgb,var(--acc) 30%,transparent)}
 
 /* ============ 8. EXPLORAR, LISTAS E BOTÕES ============ */
 .pg{font-size:22px;font-weight:600;margin:6px 2px 4px}
 .sec{font-size:13px;color:var(--dim);margin:18px 2px 8px;letter-spacing:.04em}
-.row{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:16px;background:rgba(255,255,255,.04);border:1px solid var(--line);margin-bottom:8px;text-align:left;width:100%;box-shadow:0 1px 0 rgba(255,255,255,.03) inset}
-html[data-theme=light] .row{box-shadow:0 1px 0 #fff inset,0 10px 30px rgba(30,60,160,.06)}
+.row{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:16px;background:var(--glass);border:1px solid var(--line);margin-bottom:8px;text-align:left;width:100%;box-shadow:0 1px 0 rgba(255,255,255,.04) inset}
+html[data-theme=light] .row{box-shadow:0 1px 0 #fff inset,0 10px 30px rgba(30,60,160,.14)}
 .row .em{width:38px;height:38px;border-radius:11px;font-size:18px}
 .row b{display:block;font-size:15px;font-weight:600}
 .row small{display:block;color:var(--dim);font-size:12.5px;margin-top:2px;line-height:1.35}
-.row.sel{border-color:rgba(124,200,255,.55);box-shadow:0 0 0 1px rgba(124,200,255,.28) inset,0 0 18px rgba(124,200,255,.10)}
+.row.sel{border-color:var(--acc);box-shadow:0 0 0 1px var(--acc) inset,0 0 18px color-mix(in srgb,var(--acc) 30%,transparent)}
 .dot{width:10px;height:10px;border-radius:50%;flex:none}
-.btn{padding:11px 16px;border-radius:12px;border:1px solid var(--line);background:rgba(255,255,255,.04);font-size:14px;color:var(--txt)}
-.btn.pri{background:linear-gradient(135deg,var(--acc),var(--acc2));border-color:transparent;font-weight:600;color:#06131d}
-.btn.del{color:#ff8a8a;border-color:rgba(255,138,138,.35)}
+.btn{padding:11px 16px;border-radius:12px;border:1px solid var(--line);background:var(--glass2);font-size:14px;color:var(--txt)}
+.btn.pri{background:linear-gradient(135deg,var(--acc),var(--acc2));border-color:transparent;font-weight:600;color:#fff}
+.btn.del{color:#ff7a6b;border-color:#ff7a6b55}
 .ok{color:var(--ok)}
 
 /* ============ 9. SECOND BRAIN ============ */
 .bhero{display:flex;justify-content:space-between;align-items:center;gap:10px}
 #bCount{font-family:var(--mono);font-size:12px;color:var(--acc)}
-#graph{margin-top:8px;border:1px solid var(--line);border-radius:18px;background:rgba(8,13,22,.72);overflow:hidden;box-shadow:inset 0 1px 0 rgba(255,255,255,.04)}
+#graph{margin-top:8px;border:1px solid var(--line);border-radius:18px;background:rgba(6,10,24,.7);overflow:hidden}
 html[data-theme=light] #graph{background:rgba(240,243,255,.85)}
 #graph svg{width:100%;height:auto;display:block}
 .legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:12px;color:var(--dim);margin:10px 2px}
@@ -163,10 +162,10 @@ html[data-theme=light] #graph{background:rgba(240,243,255,.85)}
 .node.flash .ncircle{animation:fl .45s ease-in-out 4}
 @keyframes fl{50%{opacity:.15}}
 #editor{position:fixed;inset:0;z-index:90;background:rgba(2,4,12,.78);display:flex;align-items:center;justify-content:center;padding:16px}
-.ed{width:min(460px,100%);background:rgba(9,13,19,.78);border:1px solid var(--line);border-radius:20px;padding:18px;display:flex;flex-direction:column;gap:10px;box-shadow:0 18px 40px rgba(0,0,0,.25)}
+.ed{width:min(460px,100%);background:#0b0e1c;border:1px solid var(--line);border-radius:20px;padding:18px;display:flex;flex-direction:column;gap:10px}
 html[data-theme=light] .ed{background:#fff}
 .ed h3{font-size:16px}.ed label{font-size:12.5px;color:var(--dim)}
-.ed input,.ed select,.ed textarea{width:100%;background:rgba(127,127,170,.14);border:1px solid var(--line);border-radius:12px;padding:11px;font-size:15px}
+.ed input,.ed select,.ed textarea{width:100%;background:rgba(0,0,0,.3);border:1px solid var(--line);border-radius:12px;padding:11px;font-size:15px}
 html[data-theme=light] .ed input,html[data-theme=light] .ed select,html[data-theme=light] .ed textarea{background:#f3f5fd}
 .ed textarea{min-height:120px;resize:vertical}
 .ed .rw{display:flex;gap:8px;justify-content:flex-end}.ed .rw .del{margin-right:auto}
@@ -178,32 +177,32 @@ html[data-theme=light] .ed input,html[data-theme=light] .ed select,html[data-the
 #scrim.on{opacity:1;pointer-events:auto}
 .sh{display:flex;justify-content:space-between;align-items:center}
 .brand{font-size:20px;font-weight:700;letter-spacing:.02em}
-.snew{display:flex;align-items:center;gap:10px;padding:13px 14px;border-radius:16px;background:linear-gradient(135deg,var(--acc),var(--acc2));color:#06131d;font-weight:600;font-size:15px;box-shadow:0 12px 30px rgba(124,200,255,.2)}
-#sSearch{width:100%;padding:11px 14px;border-radius:14px;border:1px solid var(--line);background:rgba(255,255,255,.04);font-size:15px;color:var(--txt);outline:none}
+.snew{display:flex;align-items:center;gap:10px;padding:13px 14px;border-radius:16px;background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;font-weight:600;font-size:15px}
+#sSearch{width:100%;padding:11px 14px;border-radius:14px;border:1px solid var(--line);background:var(--glass);font-size:15px;color:var(--txt);outline:none}
 #sList{flex:1;overflow-y:auto;margin:0 -4px;padding:0 4px}
 .sg{font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--dim);margin:14px 8px 6px}
 .si{display:flex;align-items:center;gap:6px;padding:11px 12px;border-radius:13px;font-size:15px;cursor:pointer}
-.si:active,.si:hover{background:rgba(255,255,255,.04)}
-.si.on{background:rgba(255,255,255,.04);box-shadow:0 0 0 1px var(--line) inset}
+.si:active,.si:hover{background:var(--glass2)}
+.si.on{background:var(--glass2);box-shadow:0 0 0 1px var(--line) inset}
 .si .st{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .si .sd{width:30px;height:30px;border-radius:9px;color:var(--dim);display:grid;place-items:center;flex:none}
 .si .sd svg.i{width:17px;height:17px}
 .si .sd.arm{background:var(--bad);color:#fff;width:auto;padding:0 9px;font-size:12px}
-.sset{display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:14px;background:rgba(255,255,255,.04);border:1px solid var(--line);font-size:15px}
+.sset{display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:14px;background:var(--glass);border:1px solid var(--line);font-size:15px}
 
 /* ============ 11. AJUSTES ============ */
-.prof{display:flex;align-items:center;gap:14px;padding:16px;border-radius:22px;border:1px solid var(--line);background:rgba(255,255,255,.04);margin-top:6px}
-.pav{width:58px;height:58px;border-radius:50%;background:linear-gradient(135deg,var(--acc),var(--acc2));display:grid;place-items:center;font-size:24px;font-weight:700;color:#06131d;box-shadow:0 0 22px rgba(124,200,255,.28)}
+.prof{display:flex;align-items:center;gap:14px;padding:16px;border-radius:22px;border:1px solid var(--line);background:var(--cardbg);margin-top:6px}
+.pav{width:58px;height:58px;border-radius:50%;background:linear-gradient(135deg,var(--acc),var(--acc2));display:grid;place-items:center;font-size:24px;font-weight:700;color:#fff;box-shadow:0 0 24px rgba(59,130,246,.25)}
 .pst{display:flex;flex-wrap:wrap;gap:4px 14px;margin-top:5px;font-size:12.5px;color:var(--dim)}
 .snav{display:flex;gap:8px;overflow-x:auto;margin:14px -4px 2px;padding:2px 4px 6px;scrollbar-width:none}
 .snav::-webkit-scrollbar{display:none}
-.snav button{flex:none;padding:9px 16px;border-radius:999px;background:rgba(255,255,255,.04);border:1px solid var(--line);font-size:14px;font-weight:600;color:var(--dim)}
-.snav button.on{background:linear-gradient(135deg,var(--acc),var(--acc2));color:#06131d;border-color:transparent;box-shadow:0 10px 24px rgba(124,200,255,.18)}
+.snav button{flex:none;padding:9px 16px;border-radius:999px;background:var(--glass);border:1px solid var(--line);font-size:14px;font-weight:600;color:var(--dim)}
+.snav button.on{background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;border-color:transparent}
 .cat{animation:fi .3s both}
 .grp{margin-top:20px}
 .gt{font-size:12px;letter-spacing:.07em;text-transform:uppercase;color:var(--dim);margin:0 8px 8px}
-.gl{border:1px solid var(--line);border-radius:22px;background:rgba(255,255,255,.04);overflow:hidden;box-shadow:0 1px 0 rgba(255,255,255,.04) inset,0 10px 30px rgba(0,0,0,.12)}
-html[data-theme=light] .gl{box-shadow:0 1px 0 #fff inset,0 10px 30px rgba(30,60,160,.05)}
+.gl{border:1px solid var(--line);border-radius:22px;background:var(--cardbg);overflow:hidden;box-shadow:0 1px 0 rgba(255,255,255,.04) inset,0 10px 30px rgba(0,0,0,.2)}
+html[data-theme=light] .gl{box-shadow:0 1px 0 #fff inset,0 10px 30px rgba(30,60,160,.14)}
 .li{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;border-top:1px solid var(--line);width:100%;text-align:left;font-size:15px}
 .gl>.li:first-child{border-top:0}
 .li.col{flex-direction:column;align-items:stretch;gap:8px}
@@ -215,68 +214,41 @@ html[data-theme=light] .gl{box-shadow:0 1px 0 #fff inset,0 10px 30px rgba(30,60,
 .li select{background:rgba(127,127,170,.14);border:1px solid var(--line);border-radius:10px;padding:9px 10px;color:var(--txt);font-size:14px;max-width:52%}
 .li select.wide{max-width:100%;width:100%}
 .li input[type=range]{width:100%;accent-color:var(--acc)}
-.li input[type=checkbox]{width:48px;height:29px;appearance:none;-webkit-appearance:none;background:rgba(127,127,170,.35);border-radius:999px;position:relative;transition:.2s;flex:none}
+.li input[type=checkbox]{width:48px;height:29px;appearance:none;-webkit-appearance:none;background:rgba(127,127,170,.38);border-radius:999px;position:relative;transition:.2s;flex:none}
 .li input[type=checkbox]::after{content:"";position:absolute;top:3px;left:3px;width:23px;height:23px;border-radius:50%;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.35);transition:.2s}
 .li input[type=checkbox]:checked{background:linear-gradient(135deg,var(--acc),var(--acc2))}
 .li input[type=checkbox]:checked::after{left:22px}
-.li .go{padding:10px 18px;border-radius:12px;background:linear-gradient(135deg,var(--acc),var(--acc2));color:#06131d;font-weight:600;font-size:14px;flex:none}
+.li .go{padding:10px 18px;border-radius:12px;background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;font-weight:600;font-size:14px;flex:none}
 .li .btnrow{display:flex;gap:8px;flex-wrap:wrap}
 .val{font-size:13px;color:var(--dim)}
 .dng{color:var(--bad);font-weight:600}
 .note{font-size:12px;color:var(--dim);margin:22px 6px 6px;text-align:center}
-.seg{display:flex;background:rgba(127,127,170,.14);border-radius:12px;padding:3px;gap:3px}
+.seg{display:flex;background:rgba(127,127,170,.16);border-radius:12px;padding:3px;gap:3px}
 .seg button{flex:1;padding:9px 6px;border-radius:10px;font-size:13.5px;font-weight:600;color:var(--dim)}
-.seg button.on{background:rgba(255,255,255,.06);color:var(--txt);box-shadow:0 1px 4px rgba(0,0,0,.2);border:1px solid rgba(255,255,255,.04)}
+.seg button.on{background:var(--glass2);color:var(--txt);box-shadow:0 1px 4px rgba(0,0,0,.25)}
 .swa{display:flex;gap:14px;padding:4px 2px}
 .swa button{width:38px;height:38px;border-radius:50%;border:2px solid transparent}
 .swa button.on{border-color:#fff;box-shadow:0 0 0 2px var(--acc)}
 .gbtn{display:flex;align-items:center;gap:8px;padding:9px 14px;border-radius:12px;background:#fff;color:#1f1f1f;border:1px solid #dadce0;font-weight:600;font-size:14px;flex:none;box-shadow:0 1px 2px rgba(0,0,0,.08)}
 .gbtn.on{background:#e6f4ea;border-color:#34a853;color:#137333}
 
-/* ----- novos: aviso, prévia do avatar, cor própria ----- */
-#toast{position:fixed;left:50%;bottom:calc(150px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);max-width:min(92vw,520px);z-index:95;padding:11px 16px;border-radius:14px;background:rgba(10,14,22,.88);border:1px solid var(--line);box-shadow:0 18px 32px rgba(0,0,0,.25)}
-.avprev{display:block;width:min(100%,260px);height:230px;margin:4px auto 10px}
-.rowc{display:flex;align-items:center;gap:10px}
-.rowc input[type=color]{width:42px;height:34px;border:1px solid var(--line);border-radius:10px;background:none;padding:2px;flex:none}
-.swa{flex-wrap:wrap}
-
-/* ----- estilos de fundo e de balões ----- */
-html.bg-solid body{background:var(--bg)}
-html.bg-grid body{background:
-  linear-gradient(rgba(124,200,255,.12) 1px,transparent 1px) 0 0/38px 38px,
-  linear-gradient(90deg,rgba(124,200,255,.12) 1px,transparent 1px) 0 0/38px 38px,
-  radial-gradient(ellipse 90% 45% at 50% -8%, rgba(124,200,255,.25), transparent 65%),var(--bg)}
-html.bg-dots body{background:
-  radial-gradient(rgba(124,200,255,.32) 1.2px,transparent 1.5px) 0 0/22px 22px,
-  radial-gradient(ellipse 90% 45% at 50% -8%, rgba(124,200,255,.25), transparent 65%),var(--bg)}
-html[data-theme=light].bg-grid body{background:
-  linear-gradient(rgba(124,200,255,.18) 1px,transparent 1px) 0 0/38px 38px,
-  linear-gradient(90deg,rgba(124,200,255,.18) 1px,transparent 1px) 0 0/38px 38px,
-  radial-gradient(ellipse 90% 45% at 50% -8%, rgba(124,200,255,.12), transparent 65%),#fff}
-html[data-theme=light].bg-dots body{background:
-  radial-gradient(rgba(124,200,255,.32) 1.2px,transparent 1.5px) 0 0/22px 22px,
-  radial-gradient(ellipse 90% 45% at 50% -8%, rgba(124,200,255,.12), transparent 65%),#fff}
-html[data-theme=light].bg-solid body{background:#fff}
-html.bub-sharp .m.u .bub{border-radius:8px}
-html.bub-glass .m.u .bub{background:rgba(255,255,255,.08);color:var(--txt);border:1px solid rgba(124,200,255,.45);box-shadow:0 0 20px rgba(124,200,255,.12);-webkit-backdrop-filter:blur(var(--blur));backdrop-filter:blur(var(--blur))}
-
 /* ============ 12. TELA DE CHAMADA ============ */
-#call{position:fixed;inset:0;z-index:80;display:flex;flex-direction:column;align-items:center;background:radial-gradient(ellipse 85% 55% at 50% 38%,rgba(124,200,255,.22),transparent 30%),#060a12}
-html[data-theme=light] #call{background:radial-gradient(ellipse 85% 55% at 50% 38%,rgba(124,200,255,.18),#fff 72%)}
+#call{position:fixed;inset:0;z-index:80;display:flex;flex-direction:column;align-items:center;background:radial-gradient(ellipse 85% 55% at 50% 38%,color-mix(in srgb,var(--acc) 35%,#000) 0,var(--bg) 72%)}
+html[data-theme=light] #call{background:radial-gradient(ellipse 85% 55% at 50% 38%,color-mix(in srgb,var(--acc) 18%,#fff) 0,#fff 72%)}
 .ctop{width:100%;max-width:560px;display:flex;justify-content:space-between;align-items:center}
 .cttl{font-weight:600;font-size:17px}
-#callOrb{flex:none;width:min(88vw,46vh,420px);height:min(88vw,46vh,420px);margin:auto 0 0;filter:drop-shadow(0 0 25px rgba(124,200,255,.20))}
-#cStatus{font-size:13px;letter-spacing:.2em;color:rgba(124,200,255,.8);text-transform:uppercase;margin-top:4px;min-height:18px}
+#callOrb{flex:none;width:min(88vw,46vh,420px);height:min(88vw,46vh,420px);margin:auto 0 0}
+#cStatus{font-size:13px;letter-spacing:.2em;color:color-mix(in srgb,var(--acc) 40%,var(--txt));text-transform:uppercase;margin-top:4px;min-height:18px}
 .ctxt{width:min(560px,100%);text-align:center;margin:10px 0 auto;max-height:26vh;overflow:auto;display:flex;flex-direction:column;gap:8px}
 #cYou{display:none}
 #cAi{font-size:18px;line-height:1.45}
 .cctl{display:flex;gap:22px;align-items:center;margin-top:14px}
-.cb2{width:58px;height:58px;border-radius:50%;background:rgba(255,255,255,.05);border:1px solid var(--line);display:grid;place-items:center;color:var(--txt)}
+.cb2{width:58px;height:58px;border-radius:50%;background:var(--glass2);border:1px solid var(--line);display:grid;place-items:center;color:var(--txt)}
 .cb2 svg.i{width:24px;height:24px}
-.cb2.big{width:84px;height:84px;color:#06131d;background:linear-gradient(135deg,var(--acc),var(--acc2));box-shadow:0 0 0 10px rgba(124,200,255,.12),0 0 30px rgba(124,200,255,.18)}
+.cb2.big{width:84px;height:84px;color:#fff;background:linear-gradient(135deg,var(--acc),var(--acc2));box-shadow:0 0 0 10px color-mix(in srgb,var(--acc) 15%,transparent),0 0 34px color-mix(in srgb,var(--acc2) 30%,transparent)}
 .cb2.big svg.i{width:34px;height:34px}
 #call[data-s="thinking"] .cb2.big{animation-duration:.7s}
-@keyframes pl{50%{box-shadow:0 0 0 18px rgba(124,200,255,.08),0 0 44px rgba(122,240,209,.6)}}
+@keyframes pl{50%{box-shadow:0 0 0 18px color-mix(in srgb,var(--acc) 8%,transparent),0 0 44px color-mix(in srgb,var(--acc2) 80%,transparent)}}
 
 #cLevel{width:min(260px,64vw);height:6px;border-radius:999px;background:rgba(127,127,170,.25);overflow:hidden;margin:6px 0 2px}
 #cLevel i{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,var(--acc),var(--acc2));transition:width .08s linear}
@@ -285,10 +257,10 @@ html[data-theme=light] #call{background:radial-gradient(ellipse 85% 55% at 50% 3
 .two{display:grid;grid-template-columns:1fr 2fr;gap:8px}
 .srcs{margin-top:10px;font-size:12.5px;color:var(--dim)}
 .srcs .sl{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
-.srcs a{padding:4px 10px;border-radius:999px;background:rgba(255,255,255,.04);border:1px solid var(--line);color:var(--txt);text-decoration:none;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.srcs a{padding:4px 10px;border-radius:999px;background:var(--glass2);border:1px solid var(--line);color:var(--txt);text-decoration:none;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .srcs iframe.sug{border:0;width:100%;height:46px;margin-top:6px;border-radius:12px;color-scheme:normal}
 .vnote{margin-top:8px;font-size:12.5px;color:var(--dim);display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-.vnote button{padding:5px 11px;border-radius:999px;background:rgba(255,255,255,.04);border:1px solid var(--line);font-size:12.5px;color:var(--txt)}
+.vnote button{padding:5px 11px;border-radius:999px;background:var(--glass2);border:1px solid var(--line);font-size:12.5px;color:var(--txt)}
 
 #callBg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
 #call>:where(.ctop,#callClock,#callOrb,#cStatus,#cLevel,.ctxt,#callInfo,#callQuick,.cctl){position:relative;z-index:1}
@@ -296,24 +268,24 @@ html[data-theme=light] #call{background:radial-gradient(ellipse 85% 55% at 50% 3
 #ckT{font:600 34px var(--mono);letter-spacing:.08em}
 #ckD{display:block;font-size:11.5px;color:var(--dim);letter-spacing:.14em;text-transform:uppercase;margin-top:2px}
 #callInfo{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;max-width:min(560px,94vw);margin-top:6px}
-.ipill{font-size:11.5px;padding:5px 10px;border-radius:999px;background:rgba(255,255,255,.04);border:1px solid var(--line);color:var(--dim);white-space:nowrap}
+.ipill{font-size:11.5px;padding:5px 10px;border-radius:999px;background:var(--glass2);border:1px solid var(--line);color:var(--dim);white-space:nowrap}
 .ipill.on{color:var(--txt)}
 #callQuick{display:flex;gap:8px;overflow-x:auto;max-width:min(560px,96vw);padding:4px 2px;margin-top:8px;scrollbar-width:none}
 #callQuick::-webkit-scrollbar{display:none}
-.qchip{flex:none;padding:9px 14px;border-radius:999px;background:rgba(255,255,255,.04);border:1px solid var(--line);font-size:13px;color:var(--txt)}
+.qchip{flex:none;padding:9px 14px;border-radius:999px;background:var(--glass2);border:1px solid var(--line);font-size:13px;color:var(--txt)}
 .qchip:active{transform:scale(.95)}
 #call.rich #callOrb{width:min(84vw,34vh,380px);height:min(84vw,34vh,380px)}
 #call.caps #cYou{display:block}
 #call.mini #callBg,#call.mini #callClock,#call.mini #callInfo,#call.mini #callQuick{display:none}
 #emoBtns{display:flex;flex-wrap:wrap;gap:8px;padding:12px 14px}
-.chipb{padding:8px 12px;border-radius:999px;background:rgba(255,255,255,.04);border:1px solid var(--line);font-size:13px;color:var(--txt)}
+.chipb{padding:8px 12px;border-radius:999px;background:var(--glass2);border:1px solid var(--line);font-size:13px;color:var(--txt)}
 .chipb:active{transform:scale(.94)}
 .miniX{display:none}
-#call.mini{inset:auto 14px calc(92px + env(safe-area-inset-bottom,0px)) auto;width:150px;height:150px;padding:0;border-radius:50%;background:rgba(8,12,28,.88);border:1px solid var(--line);overflow:hidden;box-shadow:0 18px 32px rgba(0,0,0,.25)}
+#call.mini{inset:auto 14px calc(92px + env(safe-area-inset-bottom,0px)) auto;width:150px;height:150px;padding:0;border-radius:50%;background:rgba(8,12,28,.88);border:1px solid var(--line);overflow:hidden}
 html[data-theme=light] #call.mini{background:rgba(255,255,255,.92)}
 #call.mini .ctop,#call.mini .ctxt,#call.mini #cStatus,#call.mini #cLevel,#call.mini .cctl{display:none}
 #call.mini #callOrb{width:150px!important;height:150px!important;margin:0!important}
-#call.mini .miniX{display:grid;place-items:center;position:absolute;top:6px;right:8px;width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,.06);font-size:16px;line-height:1;z-index:2}
+#call.mini .miniX{display:grid;place-items:center;position:absolute;top:6px;right:8px;width:26px;height:26px;border-radius:50%;background:var(--glass2);font-size:16px;line-height:1;z-index:2}
 
 /* ============ 13. PREFERÊNCIAS VISUAIS ============ */
 html.no-orb #heroOrb{display:none}
@@ -335,7 +307,6 @@ html.no-motion *{animation:none!important;transition:none!important}
   </header>
 
   <main id="main">
-    <!-- CHAT -->
     <section id="vChat" class="view">
       <div id="hero">
         <canvas id="heroOrb"></canvas>
@@ -346,237 +317,7 @@ html.no-motion *{animation:none!important;transition:none!important}
       <div id="quick"></div>
       <div id="msgs"></div>
     </section>
-
-    <!-- EXPLORAR -->
-    <section id="vExplore" class="view hidden">
-      <div class="pg">Explorar</div>
-      <div class="sec">MODOS DO JARVIS</div><div id="modes"></div>
-      <div class="sec">TÓPICOS POPULARES</div><div id="topics"></div>
-    </section>
-
-    <!-- MEMÓRIA -->
-    <section id="vMemory" class="view hidden">
-      <div class="bhero">
-        <div class="pg">Second Brain</div>
-        <div style="display:flex;gap:8px;align-items:center">
-          <span id="bCount"></span>
-          <button class="ic" id="addBtn" type="button" aria-label="Nova nota" style="width:38px;height:38px" data-ico="plus" data-sw="2.2"></button>
-        </div>
-      </div>
-      <div id="graph"></div>
-      <div class="legend" id="legend"></div>
-      <div class="sec">SUAS NOTAS</div>
-      <div id="notesList"></div>
-      <div class="legend ok">✓ contexto injetado em todas as conversas do Jarvis</div>
-    </section>
-
-    <!-- AJUSTES -->
-    <section id="vSettings" class="view hidden">
-      <div class="pg">Ajustes</div>
-      <div class="prof">
-        <div class="pav" id="pAv">J</div>
-        <div><b id="pName" style="font-size:18px"></b><div class="pst"><span id="pC"></span><span id="pM"></span><span id="pN"></span></div></div>
-      </div>
-      <div class="snav" id="snav">
-        <button type="button" data-c="look">Aparência</button><button type="button" data-c="avatar">Avatar</button><button type="button" data-c="jarvis">Jarvis</button>
-        <button type="button" data-c="voz">Voz</button><button type="button" data-c="chat">Chat</button>
-        <button type="button" data-c="loja">Loja</button><button type="button" data-c="google">Google</button><button type="button" data-c="dados">Dados</button>
-      </div>
-
-      <!-- Aparência -->
-      <div class="cat" data-c="look">
-        <div class="grp"><div class="gt">Tema e cores</div><div class="gl">
-          <div class="li col"><b>Tema</b><div class="seg" id="uTheme"><button type="button" data-v="dark">Escuro</button><button type="button" data-v="light">Claro</button><button type="button" data-v="mid">Aero</button></div></div>
-          <div class="li col"><b>Cor de destaque</b><div class="swa" id="uAcc"></div>
-            <div class="rowc"><input type="color" id="uAccC" aria-label="Escolher cor própria"><small>Cor própria: toque no quadrado e escolha qualquer cor</small></div></div>
-        </div></div>
-        <div class="grp"><div class="gt">Fundo</div><div class="gl">
-          <div class="li col"><b>Estilo do fundo</b><div class="seg" id="uBg"><button type="button" data-v="aurora">Aurora</button><button type="button" data-v="solid">Sólido</button><button type="button" data-v="grid">Grade</button><button type="button" data-v="dots">Pontos</button></div></div>
-        </div></div>
-        <div class="grp"><div class="gt">Texto e balões</div><div class="gl">
-          <div class="li col"><div class="spread"><b>Tamanho do texto</b><span class="val" id="uFsV"></span></div><input type="range" id="uFs" min="14" max="20" step="1"></div>
-          <div class="li col"><b>Fonte</b><div class="seg" id="uFont"><button type="button" data-v="system">Padrão</button><button type="button" data-v="elegant">Elegante</button><button type="button" data-v="soft">Suave</button></div></div>
-          <div class="li col"><b>Balões da conversa</b><div class="seg" id="uBub"><button type="button" data-v="round">Redondo</button><button type="button" data-v="sharp">Reto</button><button type="button" data-v="glass">Glass</button></div></div>
-        </div></div>
-        <div class="grp"><div class="gt">Efeitos</div><div class="gl">
-          <div class="li col"><div class="spread"><b>Vidro fosco (desfoque)</b><span class="val" id="uBlurV"></span></div><input type="range" id="uBlur" min="0" max="40" step="2"></div>
-          <label class="li"><span><b>Animações</b><small>Desligue para economizar bateria</small></span><input type="checkbox" id="uMotion"></label>
-        </div></div>
-      </div>
-
-      <!-- Avatar -->
-      <div class="cat" data-c="avatar">
-        <div class="grp"><div class="gt">Prévia ao vivo</div><div class="gl">
-          <div class="li col"><canvas id="avPrev" class="avprev"></canvas>
-            <div class="seg" id="avState"><button type="button" data-v="idle">Parado</button><button type="button" data-v="listening">Ouvindo</button><button type="button" data-v="thinking">Pensando</button></div>
-        </div></div>
-        <div class="grp"><div class="gt">Estilo do Jarvis</div><div class="gl">
-          <div class="li col"><b>Visual</b><div class="seg" id="uAvatar"><button type="button" data-v="face">Rosto</button><button type="button" data-v="orb">Esfera</button><button type="button" data-v="core">Núcleo</button></div>
-            <small>Aparece na tela inicial e na chamada de voz.</small></div>
-          <div class="li col"><b>Cor do avatar</b><div class="swa" id="uAvc"></div><small>Automático: o rosto usa as cores originais e os outros seguem a cor de destaque.</small></div>
-          <div class="li col"><div class="spread"><b>Brilho</b><span class="val" id="uGlowV"></span></div><input type="range" id="uGlow" min="40" max="160" step="5" data-suf="%"></div>
-        </div></div>
-        <div class="grp"><div class="gt">Rosto</div><div class="gl">
-          <div class="li col"><b>Qualidade dos pontos</b><div class="seg" id="uFq"><button type="button" data-v="low">Leve</button><button type="button" data-v="mid">Normal</button><button type="button" data-v="high">Alta</button></div></div>
-          <div class="li col"><div class="spread"><b>Movimento da cabeça</b><span class="val" id="uMoveV"></span></div><input type="range" id="uMove" min="0" max="150" step="5" data-suf="%"></div>
-        </div></div>
-        <div class="grp"><div class="gt">Onde aparece</div><div class="gl">
-          <label class="li"><span><b>Mostrar na tela inicial</b><small>Acima do cumprimento, antes da primeira mensagem</small></span><input type="checkbox" id="uOrb"></label>
-        </div></div>
-        <div class="grp"><div class="gt">Expressões do robô (toque para testar)</div><div class="gl">
-          <div id="emoBtns"></div>
-          <div class="li col"><small>O Robô faz todas essas carinhas sozinho: pelo que você conversa, pelo humor da resposta e, de vez em quando, uma espontânea. O Rosto usa as expressões básicas e a IA ajusta a energia.</small></div>
-        </div></div>
-        <div class="grp"><div class="gt">Tela da chamada</div><div class="gl">
-          <div class="li col"><b>Design</b><div class="seg" id="uCdesign"><button type="button" data-v="hud">HUD Jarvis</button><button type="button" data-v="grid">Grade</button><button type="button" data-v="focus">Foco</button></div></div>
-          <label class="li"><span><b>Relógio e data</b></span><input type="checkbox" id="uCclock"></label>
-          <label class="li"><span><b>Informações</b><small>Bateria, internet, pesquisa, loja e vendas de hoje</small></span><input type="checkbox" id="uCinfo"></label>
-          <label class="li"><span><b>Atalhos rápidos</b><small>Agenda, vendas, notícias, resumo do dia e piada: um toque e ele responde</small></span><input type="checkbox" id="uCquick"></label>
-          <label class="li"><span><b>Mostrar o que ouvi e respondi</b><small>Texto na tela durante a chamada</small></span><input type="checkbox" id="uCcaps"></label>
-        </div></div>
-      </div>
-
-      <!-- Jarvis -->
-      <div class="cat" data-c="jarvis">
-        <div class="grp"><div class="gt">Personalidade</div><div class="gl">
-          <div class="li col"><label for="uName"><b>Seu nome</b></label><input id="uName" type="text" autocomplete="off" spellcheck="false" placeholder="Wagner"></div>
-          <div class="li col"><label for="uAddr"><b>Como o Jarvis te chama</b></label><input id="uAddr" type="text" autocomplete="off" spellcheck="false" placeholder="senhor"></div>
-          <div class="li"><span><b>Jeito de falar</b><small>Muda o tom das respostas</small></span>
-            <select id="uPers"><option value="mordomo">Mordomo britânico</option><option value="amigo">Amigo descontraído</option><option value="coach">Coach motivador</option><option value="direto">Direto</option><option value="sarcastico">Sarcástico</option><option value="adolescente">Adolescente</option><option value="professor">Professor</option></select></div>
-          <div class="li col"><b>Tamanho das respostas</b><div class="seg" id="uLen"><button type="button" data-v="short">Curtas</button><button type="button" data-v="normal">Normais</button><button type="button" data-v="long">Longas</button></div></div>
-          <div class="li col"><div class="spread"><b>Criatividade</b><span class="val" id="uTempV"></span></div><input type="range" id="uTemp" min="0" max="1.5" step="0.1"></div>
-          <div class="li col"><label for="uExtra"><b>Instruções extras</b></label><textarea id="uExtra" placeholder="Ex.: Sempre me responda com exemplos de marketing. Nunca use emojis."></textarea></div>
-        </div></div>
-        <div class="grp"><div class="gt">Inteligência</div><div class="gl">
-          <div class="li"><span><b>Provedor</b><small>Gemini (Google)</small></span></div>
-          <div class="li col"><label for="gemKey"><b>Chave do Gemini</b></label><input id="gemKey" type="password" autocomplete="off" spellcheck="false" placeholder="Cole sua chave aqui"></div>
-          <div class="li"><span><b>Modelo do Gemini</b><small>Automático tenta os melhores</small></span>
-            <select id="uModel"><option value="">Automático</option><option value="gemini-3.5-flash">Gemini 3.5 Flash</option><option value="gemini-3-flash-preview">Gemini 3 Flash</option><option value="gemini-3.5-flash-lite">Gemini 3.5 Flash Lite</option></select></div>
-          <label class="li"><span><b>Pesquisar na internet</b><small>Notícias, clima, preços e tudo em tempo real. Grátis até 5.000 pesquisas por mês</small></span><input type="checkbox" id="uWeb"></label>
-          <div class="li"><span><b>Testar conexão</b><small id="testOut">Verifica se a chave funciona</small></span><button class="go" id="testAI" type="button">Testar</button></div>
-        </div></div>
-        <div class="grp"><div class="gt">Memória</div><div class="gl">
-          <label class="li"><span><b>Memória viva</b><small>O Jarvis salva fatos novos no Second Brain sozinho</small></span><input type="checkbox" id="uMem"></label>
-        </div></div>
-      </div>
-
-      <!-- Voz -->
-      <div class="cat" data-c="voz">
-        <div class="grp"><div class="gt">Chamar o Jarvis por voz</div><div class="gl">
-          <label class="li"><span><b>Escutar "Ei Jarvis"</b><small>Com o app aberto e a tela ligada. Diga "Ei Jarvis" e a pergunta, ou só "Ei Jarvis"</small></span><input type="checkbox" id="uWake"></label>
-          <label class="li"><span><b>Aparecer como bolinha</b><small>Uma bolinha no canto; toque nela para abrir a tela cheia</small></span><input type="checkbox" id="uWakeMini"></label>
-          <div class="li col"><small id="wakeStat">Desligado.</small><small>Importante: o celular não deixa um site escutar com a tela bloqueada ou o app fechado (como a Siri faz). Funciona enquanto o navegador estiver em primeiro plano.</small></div>
-        </div></div>
-        <div class="grp"><div class="gt">Voz do Jarvis (Gemini)</div><div class="gl">
-          <div class="li"><span><b>Testar a voz</b><small id="gemOut">Toque em Testar para ouvir</small></span><button class="go" id="gemTest" type="button">Testar</button></div>
-          <div class="li col"><b>Voz do Jarvis</b><div class="seg" id="uGv"><button type="button" data-v="Charon">Charon · masculina</button><button type="button" data-v="Kore">Kore · feminina</button></div></div>
-          <div class="li col"><small id="gemUsage"></small><small>O Gemini grátis tem limite de falas por minuto e por dia. Para tirar o limite, ative o faturamento (pay-as-you-go) da sua chave no Google AI Studio.</small></div>
-          <div class="li col"><b>Ritmo da fala</b><div class="seg" id="uPace"><button type="button" data-v="calm">Calmo</button><button type="button" data-v="nat">Natural</button><button type="button" data-v="fast">Ágil</button></div></div>
-          <div class="li col"><label for="gemStyle"><b>Jeito de falar (personalizado)</b></label><input id="gemStyle" type="text" autocomplete="off" spellcheck="false" placeholder="ágil e direto, falando rápido e com pausas bem curtas"></div>
-          <label class="li"><span><b>Mostrar tempos na chamada</b><small>Mostra quanto o Jarvis levou para pensar e para ter a voz pronta</small></span><input type="checkbox" id="uLat"></label>
-          <label class="li"><span><b>Ler respostas em voz alta</b><small>No chat de texto</small></span><input type="checkbox" id="speakReplies"></label>
-        </div></div>
-        <div class="grp"><div class="gt">Se a voz do Gemini falhar</div><div class="gl">
-          <div class="li col"><b>O que fazer</b><div class="seg" id="uFb"><button type="button" data-v="0">Avisar o erro</button><button type="button" data-v="1">Falar com a voz do aparelho</button></div></div>
-          <div class="li col"><div class="spread"><b>Velocidade (voz do aparelho)</b><span class="val" id="uVrV"></span></div><input type="range" id="uVr" min="0.6" max="1.4" step="0.05"></div>
-          <div class="li"><span><b>Testar voz</b><small id="voiceOut">Toque em Testar para ouvir</small></span><button class="go" id="voiceTest" type="button">Testar</button></div>
-        </div></div>
-        <div class="grp"><div class="gt">Microfone (conversa por voz)</div><div class="gl">
-          <div class="li col"><b>Tamanho das respostas por voz</b><div class="seg" id="uVlen"><button type="button" data-v="short">Curtas</button><button type="button" data-v="normal">Normais</button><button type="button" data-v="long">Longas</button></div></div>
-          <div class="li col"><b>Reconhecimento de voz (chamada)</b><div class="seg" id="uStt"><button type="button" data-v="gemini">Gemini (recomendado)</button><button type="button" data-v="browser">Navegador</button></div></div>
-          <div class="li col"><div class="spread"><b>Pausa para o Jarvis responder (segundos)</b><span class="val" id="uSilV"></span></div><input type="range" id="uSil" min="0.6" max="2" step="0.1"></div>
-          <div class="li col"><div class="spread"><b>Sensibilidade do microfone</b><span class="val" id="uSensV"></span></div><input type="range" id="uSens" min="1" max="10" step="1"><small>Aumente se sua voz não for detectada com clareza.</small></div>
-        </div></div>
-      </div>
-
-      <!-- Chat -->
-      <div class="cat" data-c="chat">
-        <div class="grp"><div class="gt">Conversa</div><div class="gl">
-          <label class="li"><span><b>Enter envia a mensagem</b><small>Desligado: Enter pula linha</small></span><input type="checkbox" id="uEnter"></label>
-          <label class="li"><span><b>Botões copiar e ouvir</b><small>Embaixo de cada resposta</small></span><input type="checkbox" id="uActs"></label>
-          <label class="li"><span><b>Atalhos na tela inicial</b><small>Cartões de sugestões</small></span><input type="checkbox" id="uQuick"></label>
-        </div></div>
-        <div class="grp"><div class="gt">Avisos quando o Jarvis responder</div><div class="gl">
-          <label class="li"><span><b>Avisar quando o Jarvis terminar</b><small>Só avisa se você estiver em outra aba ou aplicativo</small></span><input type="checkbox" id="uNotify"></label>
-          <label class="li"><span><b>Som</b></span><input type="checkbox" id="uNSound"></label>
-          <label class="li"><span><b>Vibração</b><small>No celular que tiver vibração (o iPhone não deixa)</small></span><input type="checkbox" id="uNVib"></label>
-          <label class="li"><span><b>Aviso no título da aba</b><small>Pisca "💬 Jarvis respondeu"</small></span><input type="checkbox" id="uNTitle"></label>
-          <label class="li"><span><b>Notificação do sistema</b><small>Pede permissão ao navegador</small></span><input type="checkbox" id="uNSys"></label>
-          <label class="li"><span><b>Avisar mesmo com o app na tela</b></span><input type="checkbox" id="uNAlways"></label>
-          <div class="li"><span><b>Testar aviso</b><small id="nStat">Toque e saia da tela por 5 segundos</small></span><button class="go" id="nTest" type="button">Testar</button></div>
-        </div></div>
-      </div>
-
-      <!-- Loja -->
-      <div class="cat" data-c="loja">
-        <div class="grp"><div class="gt">Conexão com o Base44</div><div class="gl">
-          <div class="li col"><small>1) No Base44, abra Secrets → Personal access tokens → Create access token. Dê acesso aos seus 2 apps e escolha "Full access" (para o Jarvis alterar estoque) ou "Read + write" (se quiser só consultar).</small></div>
-          <div class="li col"><label for="b44Token"><b>Token pessoal do Base44</b></label><input id="b44Token" type="password" autocomplete="off" spellcheck="false" placeholder="Cole o token aqui"></div>
-          <div class="li col"><b>App 1</b><div class="two"><input id="b44N1" type="text" autocomplete="off" spellcheck="false" placeholder="Nome"><input id="b44I1" type="text" autocomplete="off" spellcheck="false" placeholder="ID"></div></div>
-          <div class="li col"><b>App 2</b><div class="two"><input id="b44N2" type="text" autocomplete="off" spellcheck="false" placeholder="Nome"><input id="b44I2" type="text" autocomplete="off" spellcheck="false" placeholder="ID"></div></div>
-          <div class="li"><span><b>Conectar e detectar a loja</b><small id="b44Stat">Toque em Conectar para testar</small></span><button class="go" id="b44Go" type="button">Conectar</button></div>
-        </div></div>
-        <div class="grp"><div class="gt">Vendas</div><div class="gl">
-          <div class="li col"><label for="b44Sales"><b>Onde ficam as vendas?</b></label><select id="b44Sales" class="wide"></select><small>A lista aparece depois de conectar.</small></div>
-          <label class="li"><span><b>Avisar vendas novas</b><small>Com o Jarvis aberto: aviso no chat, notificação e voz</small></span><input type="checkbox" id="b44Watch"></label>
-          <div class="li"><span><b>Conferir a cada</b></span><select id="b44Every"><option value="1">1 minuto</option><option value="2">2 minutos</option><option value="5">5 minutos</option><option value="10">10 minutos</option></select></div>
-          <label class="li"><span><b>Falar a venda em voz alta</b></span><input type="checkbox" id="b44Speak"></label>
-          <label class="li"><span><b>Perguntar se dou baixa no estoque</b><small>Depois do aviso, você responde "sim" e o Jarvis ajusta</small></span><input type="checkbox" id="b44Ask"></label>
-        </div></div>
-        <div class="grp"><div class="gt">Segurança</div><div class="gl">
-          <label class="li"><span><b>Pedir minha confirmação antes de alterar a loja</b><small>Recomendado: o Jarvis mostra o que vai mudar e você aprova</small></span><input type="checkbox" id="b44Confirm"></label>
-        </div></div>
-        <div class="grp"><div class="gt">Aviso por e-mail (com o Jarvis fechado)</div><div class="gl">
-          <div class="li col"><small>O Jarvis não consegue ver vendas com o app fechado. Este botão faz o Google conferir a loja a cada 5 minutos e mandar um e-mail para você a cada venda nova. Previamente, o Google Script precisa estar conectado.</small></div>
-          <div class="li col"><div class="btnrow"><button class="go" id="b44MailOn" type="button">Ligar aviso por e-mail</button><button class="go" id="b44MailOff" type="button">Desligar</button></div></div>
-        </div></div>
-      </div>
-
-      <!-- Google -->
-      <div class="cat" data-c="google">
-        <div class="grp"><div class="gt">Google (Agenda, Planilhas e Gmail)</div><div class="gl">
-          <div class="li"><span><b>1. Copiar o código do script</b><small>Gera a senha sozinho e copia o código</small></span><button class="go" id="gCopy" type="button">Copiar</button></div>
-          <div class="li"><span><b>2. Abrir o Google Script</b><small>Cole o código lá e salve. Depois: Implantar → Nova implantação → App da Web → Executar como: Eu → Quem pode acessar: Qualquer pessoa</small></span></div>
-          <div class="li col"><label for="gUrl"><b>3. Link do script (depois de implantar)</b></label><input id="gUrl" type="text" autocomplete="off" spellcheck="false" placeholder="https://script.google.com/..."></div>
-          <div class="li col"><label for="gPass"><b>Senha do script</b></label><input id="gPass" type="password" autocomplete="off" spellcheck="false"></div>
-          <div class="li col"><label for="gSheet"><b>Planilha padrão (link ou ID)</b></label><input id="gSheet" type="text" autocomplete="off" spellcheck="false" placeholder="Cole o link da planilha ou o ID"></div>
-          <div class="li"><span><b>Conectar Google</b><small id="gStat">Toque para testar</small></span>
-            <button class="gbtn" id="gBtn" type="button"><svg viewBox="0 0 48 48" width="18" height="18"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.9 2.4 30.4 0 24 0 14.6 0 6.5 5.8 2.5 14.2l7.8 6.1C12.5 15.8 17.6 12.5 24 12.5z"/><path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v8.5h12.7c-.6 3.1-2.3 5.7-4.9 7.4l7.9 6.2c4.6-4.2 7.8-10.4 7.8-18.6z"/><path fill="#FBBC05" d="M32.8 35.3c-1.7 1.1-3.8 1.8-8.8 1.8-6.6 0-12.2-4.5-14.2-10.6l-8 6.2C4.8 41.6 13.1 48 24 48c7.2 0 13.2-2.4 17.7-6.5l-8.9-6.2z"/><path fill="#34A853" d="M10 27.5c-.6-1.7-.9-3.5-.9-5.5s.3-3.8.9-5.5l-8-6.2C.9 12.1 0 15.7 0 19.9S.9 27.7 2 31.6l8-4.1z"/></svg>Google</button></div>
-        </div></div>
-      </div>
-
-      <!-- Dados -->
-      <div class="cat" data-c="dados">
-        <div class="grp"><div class="gt">Dados</div><div class="gl">
-          <button class="li" id="clearChat" type="button"><span class="dng">Limpar conversa atual</span></button>
-          <button class="li" id="exportBtn" type="button"><span><b>Exportar conversas</b><small>Baixa um arquivo com tudo</small></span></button>
-          <button class="li" id="delAll" type="button"><span class="dng">Apagar todas as conversas</span></button>
-          <button class="li" id="resetUI" type="button"><span class="dng">Restaurar ajustes visuais e do Jarvis</span></button>
-        </div></div>
-        <div class="note">Jarvis · tudo é salvo só neste navegador</div>
-      </div>
-    </section>
   </main>
-
-  <aside id="side" class="side" aria-label="Conversas">
-    <div class="sh"><div class="brand">Jarvis</div><button class="ic" id="sClose" type="button" aria-label="Fechar" data-ico="x"></button></div>
-    <button class="snew" id="sNew" type="button"><span data-ico="plus" data-sw="2.2"></span>Nova conversa</button>
-    <input id="sSearch" type="search" placeholder="Buscar conversas" autocomplete="off">
-    <div id="sList"></div>
-    <button class="sset" id="sSet" type="button"><span data-ico="sliders"></span>Ajustes</button>
-  </aside>
-  <div id="scrim"></div>
-
-  <div id="composer">
-    <div id="attPrev" class="hidden"></div>
-    <input type="file" id="fileIn" class="hidden" accept="image/*,.pdf,.txt,.md,.csv,.json,.js,.html,.css,.py,.xml,.log,.yml,.yaml">
-    <div class="pill">
-      <button class="rb" id="attBtn" type="button" aria-label="Anexar foto ou arquivo" data-ico="clip"></button>
-      <textarea id="txt" rows="1" placeholder="Pergunte qualquer coisa..."></textarea>
-      <button class="rb hidden" id="sendBtn" type="button" aria-label="Enviar" data-ico="send" data-sw="2.4"></button>
-      <button class="rb" id="voiceBtn" type="button" aria-label="Conversar por voz" data-ico="wave" data-sw="2.2"></button>
-    </div>
-  </div>
 
   <nav class="tabs">
     <button class="tab on" data-v="vChat" type="button"><span class="e" data-ico="chat"></span>Chat</button>
@@ -587,394 +328,21 @@ html.no-motion *{animation:none!important;transition:none!important}
   </nav>
 </div>
 
-<div id="editor" class="hidden">
-  <div class="ed">
-    <h3 id="edTitle">Nota</h3>
-    <label for="edT">Título</label><input id="edT" type="text" maxlength="40">
-    <label for="edA">Área</label><select id="edA"></select>
-    <label for="edB">Conteúdo</label><textarea id="edB"></textarea>
-    <div class="rw"><button class="btn del" id="edDel" type="button">Excluir</button><button class="btn" id="edCancel" type="button">Cancelar</button><button class="btn pri" id="edSave" type="button">Salvar</button></div>
-  </div>
-</div>
-
-<div id="toast" class="hidden" role="status"></div>
-
-<div id="call" class="hidden">
-  <button class="miniX" id="miniX" type="button" aria-label="Encerrar">×</button>
-  <canvas id="callBg"></canvas>
-  <div class="ctop"><button class="ic" id="cMin" type="button" aria-label="Voltar ao chat" data-ico="down"></button><div class="cttl">Jarvis · voz</div><span style="width:42px"></span></div>
-  <div id="callClock"><b id="ckT"></b><small id="ckD"></small></div>
-  <canvas id="callOrb"></canvas>
-  <div id="cStatus"></div>
-  <div id="cLevel" title="Nível do microfone"><i id="cLevelBar"></i></div>
-  <div class="ctxt"><div id="cYou"></div><div id="cAi"></div></div>
-  <div id="callInfo"></div>
-  <div id="callQuick"></div>
-  <div class="cctl">
-    <button class="cb2" id="cStop" type="button" aria-label="Interromper fala" data-ico="stop"></button>
-    <button class="cb2 big" id="cMic" type="button" aria-label="Falar agora" data-ico="mic"></button>
-    <button class="cb2" id="cEnd" type="button" aria-label="Encerrar" data-ico="x"></button>
-  </div>
-</div>
-
 <script>
-"use strict";
+  document.addEventListener('DOMContentLoaded', () => {
+    const splash = document.getElementById('splash');
+    const app = document.getElementById('app');
 
-/* ==========================================================================
-   1. CONFIGURAÇÃO E DADOS FIXOS
-   ========================================================================== */
-const PERS = {
-  mordomo: "formal britânico, no estilo de um mordomo: educado, elegante, preciso e com leve fineza irônica, sempre muito respeitoso",
-  amigo: "descontraído e amigável, fala como um amigo próximo, com bom humor e linguagem leve",
-  coach: "motivador e energético, como um coach: incentiva, cobra com carinho e foca em ação",
-  direto: "direto, objetivo e sem enrolação, respostas práticas",
-  sarcastico: "sarcástico e espirituoso, com humor ácido, mas sempre útil e respeitoso",
-  adolescente: "adolescente sarcástico e entediado: gírias brasileiras leves, respostas curtas e debochadas, revira os olhos para tudo, mas ajuda de verdade e sem desrespeitar",
-  professor: "paciente e didático, explica passo a passo com exemplos simples"
-};
-
-const CONFIG = {
-  name: "Jarvis",
-  defaultUser: "Wagner",
-  defaultAddress: "senhor",
-  makeWebhook: "https://hook.eu1.make.com/vbalf9eezx9j3nioplq7lye2xfi9kf8f",
-  makeTrigger: /planilha|agenda|marcar/i,
-  geminiModels: ["gemini-3.5-flash", "gemini-3-flash-preview", "gemini-3.5-flash-lite"],
-  geminiTtsModels: ["gemini-3.8-flash-lite-tts", "gemini-3.8-flash-tts"],
-  geminiLegacyTtsModels: ["gemini-3.1-flash-tts-preview", "gemini-2.5-flash-preview-tts"],
-  historyLimit: 20,
-  storedMessages: 60
-};
-
-const ME = { name: CONFIG.defaultUser, address: CONFIG.defaultAddress, persona: PERS.mordomo };
-
-const MODES = [
-  { id: "normal", em: "🤖", label: "Normal", desc: "Assistente pessoal geral, do dia a dia.", extra: "" },
-  { id: "zenon", em: "👕", label: "ZENON", desc: "Foco na marca de roupas: estratégia, marketing, vendas e operação.", extra: "MODO ZENON ATIVO: priorize ajudar com a marca ZENON (roupas masculinas, vendas e estratégia) e priorize o tom prático, elegante e executivo." },
-  { id: "estudo", em: "📚", label: "Estudos", desc: "Explica conceitos de forma simples e ajuda a revisar.", extra: "MODO ESTUDOS ATIVO: explique de forma simples e didática, com exemplos curtos, e mantenha respostas claras e objetivas." },
-  { id: "criativo", em: "💡", label: "Criativo", desc: "Brainstorm de ideias, nomes, textos e campanhas.", extra: "MODO CRIATIVO ATIVO: traga ideias originais, ousadas e variadas; ofereça várias opções e destaque o melhor caminho." }
-];
-
-const TOPICS = [
-  ["📝", "Escrever um e-mail", "Escreva um e-mail profissional sobre: "],
-  ["📄", "Resumir um texto", "Resuma o texto a seguir em poucos pontos:\n"],
-  ["💡", "Explicar um conceito", "Explique de forma simples: "],
-  ["📊", "Analisar dados", "Analise estes dados e me dê os principais insights:\n"],
-  ["👕", "Ideias para a ZENON", "Me dê 5 ideias de conteúdo para a marca ZENON esta semana."],
-  ["🗓️", "Planejar meu dia", "Me ajude a planejar meu dia de hoje. Minhas tarefas são: "]
-];
-
-const AREA = {
-  metas: { label: "Metas", color: "#fbbf24" },
-  trabalho: { label: "Carreira", color: "#ff5547" },
-  projetos: { label: "Projetos", color: "#8b7cff" },
-  financas: { label: "Finanças", color: "#f7931a" },
-  aprendizado: { label: "Aprendizado", color: "#2dd4ff" },
-  saude: { label: "Saúde", color: "#10b981" },
-  relacoes: { label: "Relações", color: "#ec4899" },
-  meta: { label: "Você", color: "#8a90a6" }
-};
-
-const SEED_NOTES = [
-  { id: "n1", area: "meta", title: "Wagner", body: "Wagner é estudante e empreendedor. Perfil de criador, estrategista e visionário; gosta de criar ideias, pesquisar tendências, tecnologia e marketing." },
-  { id: "n2", area: "trabalho", title: "Diretor", body: "Fundador e Diretor de Marca e Estratégia da ZENON, marca de roupas masculinas." },
-  { id: "n3", area: "projetos", title: "ZENON", body: "Marca de roupas masculinas vendida pela Shopee, com plano de crescimento de 30 dias. O estoque fica na casa do Wagner, que separa, embala e envia." },
-  { id: "n4", area: "projetos", title: "Jarvis", body: "Está criando um assistente pessoal com IA no estilo Jarvis." },
-  { id: "n5", area: "aprendizado", title: "Estudos", body: "Estuda de segunda a sexta, das 7h às 14h." },
-  { id: "n6", area: "saude", title: "Karatê", body: "Treina karatê às terças e quintas, das 14h às 16h30 aproximadamente." },
-  { id: "n7", area: "relacoes", title: "Samuel", body: "Amigo e sócio na ZENON, Diretor Comercial e de Crescimento." },
-  { id: "n8", area: "metas", title: "Crescer", body: "Fazer a ZENON crescer, seguindo o plano de 30 dias." }
-];
-const SEED_REL = [["n1","n2"],["n1","n5"],["n1","n6"],["n1","n8"],["n2","n3"],["n2","n7"],["n3","n7"],["n3","n8"],["n4","n1"],["n4","n8"],["n5","n6"],["n7","n8"],["n2","n8"]];
-
-const PAL = {
-  blue:   ["#3b82f6", "#7c3aed", ["#93c5fd", "#a78bfa", "#ffffff", "#60a5fa"]],
-  green:  ["#10b981", "#0ea5e9", ["#6ee7b7", "#7dd3fc", "#ffffff", "#34d399"]],
-  orange: ["#f97316", "#ec4899", ["#fdba74", "#f9a8d4", "#ffffff", "#fb923c"]],
-  pink:   ["#ec4899", "#8b5cf6", ["#f9a8d4", "#c4b5fd", "#ffffff", "#f472b6"]],
-  cyan:   ["#06b6d4", "#3b82f6", ["#67e8f9", "#93c5fd", "#ffffff", "#22d3ee"]]
-};
-const AV_COLORS = {
-  cyan: ["#22d3ee", "#3b82f6"], violet: ["#a78bfa", "#6366f1"], green: ["#34d399", "#10b981"], orange: ["#fb923c", "#f59e0b"],
-  pink: ["#f472b6", "#c026d3"], gold: ["#fbbf24", "#f97316"], white: ["#e5e7eb", "#94a3b8"]
-};
-const AV_COLORS_LIGHT = { white: ["#334155", "#64748b"] };
-const AV = { pair: null, c1: "#3b82f6", c2: "#7c3aed", glow: 1 };
-const FONTS = {
-  system: 'system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif',
-  elegant: 'Georgia,"Times New Roman",serif',
-  tech: '"SF Mono","Cascadia Mono",Consolas,Menlo,monospace',
-  soft: 'ui-rounded,"SF Pro Rounded","Nunito","Segoe UI",system-ui,sans-serif'
-};
-const ORB_COLORS = { dark: PAL.blue[2].slice(), light: [PAL.blue[0], PAL.blue[1], PAL.blue[0], PAL.blue[1]] };
-
-const ICONS = {
-  menu: '<path d="M4 8h16M4 16h10"/>',
-  x: '<path d="M6 6l12 12M18 6 6 18"/>',
-  plus: '<path d="M12 5v14M5 12h14"/>',
-  chat: '<path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/>',
-  compass: '<circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2 5-5 2 2-5 5-2Z"/>',
-  brain: '<circle cx="6" cy="7" r="2.2"/><circle cx="18" cy="7" r="2.2"/><circle cx="12" cy="18" r="2.2"/><path d="M8 8l3 8M16 8l-3 8M8.3 7h7.4"/>',
-  sliders: '<path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/>',
-  clip: '<path d="m21 11-8.5 8.5a5 5 0 0 1-7-7L14 4a3.3 3.3 0 0 1 4.7 4.7l-8.6 8.6a1.7 1.7 0 0 1-2.4-2.4L15 7"/>',
-  send: '<path d="M12 19V5M5 12l7-7 7 7"/>',
-  wave: '<path d="M4 10v4M8 6v12M12 3v18M16 7v10M20 10v4"/>',
-  down: '<path d="m6 9 6 6 6-6"/>',
-  stop: '<rect x="7" y="7" width="10" height="10" rx="2" fill="currentColor"/>',
-  mic: '<rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/>',
-  copy: '<rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/>',
-  spk: '<path d="M4 9v6h4l5 4V5L8 9H4Z"/><path d="M16.5 8.5a5 5 0 0 1 0 7"/>',
-  trash: '<path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/>',
-  file: '<path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5"/>',
-  ok: '<path d="m5 13 4 4L19 7"/>'
-};
-
-const DEFAULTS = {
-  ui_acc: "blue", ui_accc: "#3b82f6", ui_avatar: "face", ui_avc: "auto", ui_glow: "100", ui_bg: "aurora", ui_font: "system", ui_bub: "round", face_q: "mid", face_move: "100", ui_fs: "16", ui_blur: "22",
-  ui_theme: "dark", ui_orb: "1", ui_motion: "1", ui_quick: "1", ui_acts: "1", enter_send: "1", mem_live: "1", u_name: "", u_addr: "", u_pers: "mordomo", u_len: "normal",
-  ai_temp: "0.8", ai_model: "", ai_extra: "", gemini_key: "", jarvis_mode: "normal",
-  speak_replies: "0", stt_mode: "gemini", stt_sil: "0.7", show_lat: "0", wake_on: "0", wake_mini: "1", call_design: "hud", call_clock: "1", call_info: "1", call_quick: "1", call_caps: "0", voice_len: "normal",
-  b44_token: "", b44_watch: "0", b44_every: "2", b44_speak: "1", b44_ask: "1", b44_confirm: "1", b44_tr: "direct",
-  notify_on: "1", notify_sound: "1", notify_vib: "1", notify_title: "1", notify_sys: "0", notify_always: "0", stt_sens: "7",
-  voice_fb: "0", gem_voice: "Charon", gem_voice_custom: "", gem_style: "ágil e direto, falando rápido e com pausas bem curtas", v_rate: "1",
-  g_url: "", g_pass: "", g_sheet: "", g_ok: "0", s_cat: "look", jarvis_bar: "1"
-};
-const RESET_KEYS = ["ui_theme","ui_acc","ui_accc","ui_avatar","ui_avc","ui_glow","ui_bg","ui_font","ui_bub","face_q","face_move","ui_fs","ui_blur","ui_orb","ui_motion","ui_quick","ui_acts","enter_send","mem_live","u_name","u_addr","u_pers","u_len","ai_temp","ai_model","ai_extra","gemini_key","jarvis_mode","speak_replies","stt_mode","stt_sil","show_lat","wake_on","wake_mini","call_design","call_clock","call_info","call_quick","call_caps","voice_len","b44_token","b44_watch","b44_every","b44_speak","b44_ask","b44_confirm","notify_on","notify_sound","notify_vib","notify_title","notify_sys","notify_always","stt_sens","voice_fb","gem_voice","gem_voice_custom","gem_style","v_rate","g_url","g_pass","g_sheet","g_ok", "s_cat", "jarvis_bar"];
-
-const $ = id => document.getElementById(id);
-const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
-const norm = s => String(s).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-const uid = p => p + Date.now().toString(36) + Math.floor(Math.random() * 1296).toString(36);
-const clone = o => JSON.parse(JSON.stringify(o));
-
-const hexRgb = h => { h = String(h).replace("#", ""); if (h.length === 3) h = h.split("").map(x => x + x).join(""); const n = parseInt(h, 16) || 0; return [(n >> 16) & 255, (n >> 8) & 255, n & 255]; };
-const rgbHex = (r, g, b) => "#" + [r, g, b].map(v => Math.max(0, Math.min(255, Math.round(v))).toString(16).padStart(2, "0")).join("");
-const mixHex = (a, b, t) => { const x = hexRgb(a), y = hexRgb(b); return rgbHex(x[0] + (y[0] - x[0]) * t, x[1] + (y[1] - x[1]) * t, x[2] + (y[2] - x[2]) * t); };
-const rgbaHex = (h, a) => { const c = hexRgb(h); return "rgba(" + c[0] + "," + c[1] + "," + c[2] + "," + Math.max(0, Math.min(1, a)).toFixed(3) + ")"; };
-function hueShift(hex, deg) {
-  const [r, g, b] = hexRgb(hex).map(v => v / 255), mx = Math.max(r, g, b), mn = Math.min(r, g, b), l = (mx + mn) / 2, d = mx - mn;
-  let h = 0, s = 0;
-  if (d) { s = l > .5 ? d / (2 - mx - mn) : d / (mx + mn); h = mx === r ? (g - b) / d + (g < b ? 6 : 0) : mx === g ? (b - r) / d + 2 : (r - g) / d + 4; h *= 60; }
-  h = (h + deg + 360) % 360;
-  const a = s * Math.min(l, 1 - l), f = n => { const k = (n + h / 30) % 12; return l - a * Math.max(-1, Math.min(k - 3, 9 - k, 1)); };
-  return rgbHex(f(0) * 255, f(8) * 255, f(4) * 255);
-}
-
-const LS = {
-  get(k, d) { try { const v = localStorage.getItem(k); return v === null ? d : v; } catch (e) { return d; } },
-  set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} },
-  del(k) { try { localStorage.removeItem(k); } catch (e) {} },
-  json(k, d) { try { const v = JSON.parse(localStorage.getItem(k)); return v === null || v === undefined ? d : v; } catch (e) { return d; } }
-};
-const cfg = k => LS.get(k, DEFAULTS[k]);
-const cfgNum = k => { const n = parseFloat(cfg(k)); return isNaN(n) ? parseFloat(DEFAULTS[k]) : n; };
-
-async function fetchT(url, opts, ms) {
-  const ctl = new AbortController(), timer = setTimeout(() => ctl.abort(), ms || 30000);
-  try {
-    return await fetch(url, Object.assign({}, opts, { signal: ctl.signal }));
-  } catch (e) {
-    throw Object.assign(new Error(e.name === "AbortError" ? "tempo esgotado" : (e.message || "falha de rede")), { code: e.name === "AbortError" ? "timeout" : "net" });
-  } finally { clearTimeout(timer); }
-}
-
-function b64Blob(b64, type) {
-  const bin = atob(b64), u = new Uint8Array(bin.length);
-  for (let i = 0; i < bin.length; i++) u[i] = bin.charCodeAt(i);
-  return new Blob([u], { type });
-}
-function bytesToB64(bytes) {
-  let bin = "";
-  for (let i = 0; i < bytes.length; i += 8192) bin += String.fromCharCode.apply(null, bytes.subarray(i, i + 8192));
-  return btoa(bin);
-}
-function downloadJSON(name, obj) {
-  const a = document.createElement("a");
-  a.href = URL.createObjectURL(new Blob([JSON.stringify(obj, null, 1)], { type: "application/json" }));
-  a.download = name; document.body.appendChild(a); a.click(); a.remove();
-}
-async function copyText(txt) {
-  try { await navigator.clipboard.writeText(txt); return true; } catch (e) {}
-  try {
-    const t = document.createElement("textarea");
-    t.value = txt; t.style.cssText = "position:fixed;top:0;left:0;opacity:0";
-    document.body.appendChild(t); t.focus(); t.select();
-    const ok = document.execCommand("copy"); t.remove(); return ok;
-  } catch (e) { return false; }
-}
-const ico = (k, sw) => '<svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="' + (sw || 1.9) + '" stroke-linecap="round" stroke-linejoin="round">' + ICONS[k] + "</svg>";
-const cleanText = t => String(t).replace(/[*_`#>]/g, "").replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/gu, "").replace(/\s+/g, " ").trim();
-
-function md(t) {
-  const blocks = [];
-  let h = esc(t).replace(/```[a-z]*\n?([\s\S]*?)```/g, (m, c) => { blocks.push(c); return "\u0000" + (blocks.length - 1) + "\u0000"; });
-  h = h.replace(/`([^`\n]+)`/g, "<code>$1</code>").replace(/\*\*([^*\n]+)\*\*/g, "<b>$1</b>");
-  let out = "", inList = false;
-  h.split("\n").forEach(line => {
-    const m = /^\s*[-*•]\s+(.*)/.exec(line);
-    if (m) { if (!inList) { out += "<ul>"; inList = true; } out += "<li>" + m[1] + "</li>"; }
-    else { if (inList) { out += "</ul>"; inList = false; } out += line.trim() === "" ? "<br>" : line + "<br>"; }
-  });
-  if (inList) out += "</ul>";
-  return out.replace(/\u0000(\d+)\u0000/g, (m, i) => "<pre>" + blocks[+i] + "</pre>");
-}
-
-const Brain = {
-  notes: [], rel: [],
-  load() {
-    const n = LS.json("jarvis_notes", null), r = LS.json("jarvis_rel", null);
-    if (Array.isArray(n) && n.length) { this.notes = n; this.rel = Array.isArray(r) ? r : []; return; }
-    this.notes = clone(SEED_NOTES); this.rel = clone(SEED_REL); this.save();
-  },
-  save() { LS.set("jarvis_notes", JSON.stringify(this.notes)); LS.set("jarvis_rel", JSON.stringify(this.rel)); },
-  byId(id) { return this.notes.find(n => n.id === id); },
-  byTitle(t) { return this.notes.find(n => norm(n.title) === norm(t)); },
-  add(area, title, body) {
-    const id = uid("n");
-    this.notes.push({ id, area, title, body });
-    const mate = this.notes.find(n => n.id !== id && n.area === area) || this.notes.find(n => n.id !== id);
-    if (mate) this.rel.push([id, mate.id]);
-    const hub = this.notes.find(n => n.id !== id && n.area === "metas" && (!mate || n.id !== mate.id));
-    if (hub) this.rel.push([id, hub.id]);
-    return id;
-  },
-  remove(id) {
-    this.notes = this.notes.filter(n => n.id !== id);
-    this.rel = this.rel.filter(r => r[0] !== id && r[1] !== id);
-  },
-  applySaves(text) {
-    const re = /\[\[SAVE:([a-z_]+)\|([^|]+)\|([\s\S]+?)\]\]/g;
-    if (cfg("mem_live") === "0") return String(text).replace(/\[\[SAVE:[\s\S]*?\]\]/g, "").trim();
-    let m, changed = false, last = null;
-    while ((m = re.exec(text)) !== null) {
-      const area = AREA[m[1].trim()] ? m[1].trim() : "meta", title = m[2].trim().slice(0, 40), body = m[3].trim();
-      const found = this.byTitle(title);
-      if (found) { found.body = body; found.area = area; last = found.id; }
-      else last = this.add(area, title, body);
-      changed = true;
+    if (app) {
+      app.classList.add('ready');
     }
-    text = String(text).replace(re, "").trim();
-    if (changed) { this.save(); renderBrain(); if (last) flashNode(last); }
-    return text;
-  },
-  asPrompt() {
-    const g = {}; this.notes.forEach(n => (g[n.area] = g[n.area] || []).push(n));
-    let out = "";
-    Object.keys(AREA).forEach(k => {
-      if (!g[k]) return;
-      out += "\n[" + AREA[k].label.toUpperCase() + "]\n";
-      g[k].forEach(n => out += "- " + n.title + ": " + n.body + "\n");
-    });
-    return out || "(vazio)";
-  }
-};
 
-const gOn = () => cfg("g_ok") === "1" && !!cfg("g_url").trim() && !!cfg("g_pass").trim();
-const sheetId = x => { x = String(x || cfg("g_sheet")).trim(); const m = /\/d\/([a-zA-Z0-9-_]+)/.exec(x); return m ? m[1] : x; };
-
-function gsBody(action) {
-  const url = cfg("g_url").trim(), key = cfg("g_pass").trim();
-  if (!url || !key) throw new Error("Cole o link e a senha do script em Ajustes → Google.");
-  const body = Object.assign({}, action, { key });
-  if (String(action.a).startsWith("sheet_")) {
-    body.sheet = sheetId(action.sheet);
-    if (!body.sheet) throw new Error("Falta a planilha padrão (ou o link da planilha).");
-  }
-  return body;
-}
-async function gsPost(body) {
-  const r = await fetchT(cfg("g_url").trim(), { method: "POST", body: JSON.stringify(body) }, 60000);
-  try { return await r.json(); }
-  catch (e) { throw Object.assign(new Error("O link do script não respondeu direito. Confira se a implantação está como 'Qualquer pessoa'."), { code: "badresp" }); }
-}
-function jsonpCall(url, params, ms) {
-  return new Promise((resolve, reject) => {
-    const cb = "__gs" + Math.random().toString(36).slice(2, 10), s = document.createElement("script");
-    let done = false, timer = null;
-    const finish = (fn, v) => {
-      if (done) return; done = true; clearTimeout(timer);
-      try { delete window[cb]; } catch (e) { window[cb] = undefined; }
-      if (s.parentNode) s.parentNode.removeChild(s);
-      fn(v);
-    };
-    window[cb] = d => finish(resolve, d);
-    s.onerror = () => finish(reject, Object.assign(new Error("não consegui abrir o link do script"), { code: "net" }));
-    s.onload = () => setTimeout(() => finish(reject, Object.assign(new Error("o link respondeu, mas não é o script do Jarvis"), { code: "badresp" })), 1000);
-    timer = setTimeout(() => finish(reject, Object.assign(new Error("tempo esgotado"), { code: "timeout" })), ms || 45000);
-    const q = Object.keys(params).map(k => encodeURIComponent(k) + "=" + encodeURIComponent(params[k])).join("&");
-    s.src = url + (url.indexOf("?") >= 0 ? "&" : "?") + "cb=" + cb + "&" + q;
-    document.head.appendChild(s);
+    setTimeout(() => {
+      if (splash) {
+        splash.classList.add('fade');
+      }
+    }, 1200);
   });
-}
-async function gsJsonp(body) {
-  const url = cfg("g_url").trim();
-  const enc = btoa(unescape(encodeURIComponent(JSON.stringify(body)))).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
-  const CH = 1800;
-  if (enc.length <= CH) return jsonpCall(url, { op: "run", d: enc });
-  const id = uid("j"), n = Math.ceil(enc.length / CH);
-  for (let i = 0; i < n; i++) {
-    const r = await jsonpCall(url, { op: "part", id, i, d: enc.slice(i * CH, (i + 1) * CH) });
-    if (!r || !r.ok) throw new Error((r && r.error) || "erro ao enviar para o script");
-  }
-  return jsonpCall(url, { op: "run", id, t: n });
-}
-async function gs(action) {
-  const body = gsBody(action);
-  const d = cfg("g_tr") === "jsonp" ? await gsJsonp(body) : await gsPost(body);
-  if (!d.ok) throw new Error(d.error || "erro no script");
-  return d.result;
-}
-
-const GOOGLE_ACTIONS = {};
-["cal_list", "cal_create", "cal_delete", "sheet_info", "sheet_read", "sheet_append", "sheet_update", "mail_list", "mail_read", "mail_draft"]
-  .forEach(n => GOOGLE_ACTIONS[n] = a => gs(a));
-GOOGLE_ACTIONS.mail_send = async a => {
-  if (!confirm("O Jarvis quer ENVIAR um e-mail.\nPara: " + a.to + "\nAssunto: " + a.subject + "\n\nEnviar agora?"))
-    return "O usuário NÃO autorizou o envio. Nada foi enviado.";
-  return gs(a);
-};
-
-function scanActions(text) {
-  const t = String(text), acts = []; let out = "", i = 0;
-  while (true) {
-    const j = t.indexOf("[[G:", i);
-    if (j < 0) { out += t.slice(i); break; }
-    out += t.slice(i, j);
-    let k = j + 4, depth = 0, inStr = false, esc_ = false, start = -1, end = -1;
-    for (; k < t.length; k++) {
-      const ch = t[k];
-      if (inStr) { if (esc_) esc_ = false; else if (ch === "\\") esc_ = true; else if (ch === '"') inStr = false; continue; }
-      if (ch === '"') inStr = true;
-      else if (ch === "{") { if (depth === 0) start = k; depth++; }
-      else if (ch === "}") { depth--; if (depth === 0) { end = k; break; } }
-    }
-    if (end < 0) { out += t.slice(j); break; }
-    try { acts.push(JSON.parse(t.slice(start, end + 1))); } catch (e) { acts.push({ a: "_erro" }); }
-    i = end + 1;
-    if (t.slice(i, i + 2) === "]]") i += 2;
-  }
-  return { acts, clean: out.trim() };
-}
-
-async function runActions(acts) {
-  const out = [];
-  for (const a of acts) {
-    let r;
-    try {
-      if (!GOOGLE_ACTIONS[a.a]) throw new Error("ação desconhecida: " + a.a);
-      r = await GOOGLE_ACTIONS[a.a](a);
-    } catch (e) { r = "ERRO: " + (e.message || e); }
-    out.push("[" + a.a + "] " + String(r).slice(0, /^b44/.test(a.a) ? 12000 : 5000));
-  }
-  return out.join("\n\n");
-}
-
-function sendToMake(title, details) {
-  fetch(CONFIG.makeWebhook, {
-    method: "POST", headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ title, description: details, start: new Date().toISOString() })
-  }).catch(e => console.error("Erro no Make:", e));
-}
 </script>
 </body>
 </html>
