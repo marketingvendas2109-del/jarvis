@@ -286,6 +286,24 @@ html[data-theme=light] #call{background:radial-gradient(ellipse 85% 55% at 50% 3
 .vnote{margin-top:8px;font-size:12.5px;color:var(--dim);display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 .vnote button{padding:5px 11px;border-radius:999px;background:var(--glass2);border:1px solid var(--line);font-size:12.5px;color:var(--txt)}
 
+#callBg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
+#call>:where(.ctop,#callClock,#callOrb,#cStatus,#cLevel,.ctxt,#callInfo,#callQuick,.cctl){position:relative;z-index:1}
+#callClock{text-align:center;margin-top:2px}
+#ckT{font:600 34px var(--mono);letter-spacing:.08em}
+#ckD{display:block;font-size:11.5px;color:var(--dim);letter-spacing:.14em;text-transform:uppercase;margin-top:2px}
+#callInfo{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;max-width:min(560px,94vw);margin-top:6px}
+.ipill{font-size:11.5px;padding:5px 10px;border-radius:999px;background:var(--glass2);border:1px solid var(--line);color:var(--dim);white-space:nowrap}
+.ipill.on{color:var(--txt)}
+#callQuick{display:flex;gap:8px;overflow-x:auto;max-width:min(560px,96vw);padding:4px 2px;margin-top:8px;scrollbar-width:none}
+#callQuick::-webkit-scrollbar{display:none}
+.qchip{flex:none;padding:9px 14px;border-radius:999px;background:var(--glass2);border:1px solid var(--line);font-size:13px;color:var(--txt)}
+.qchip:active{transform:scale(.95)}
+#call.rich #callOrb{width:min(84vw,34vh,380px);height:min(84vw,34vh,380px)}
+#call.caps #cYou{display:block}
+#call.mini #callBg,#call.mini #callClock,#call.mini #callInfo,#call.mini #callQuick{display:none}
+#emoBtns{display:flex;flex-wrap:wrap;gap:8px;padding:12px 14px}
+.chipb{padding:8px 12px;border-radius:999px;background:var(--glass2);border:1px solid var(--line);font-size:13px;color:var(--txt)}
+.chipb:active{transform:scale(.94)}
 .miniX{display:none}
 #call.mini{inset:auto 14px calc(92px + env(safe-area-inset-bottom,0px)) auto;width:150px;height:150px;padding:0;border-radius:50%;background:rgba(8,12,28,.88);border:1px solid var(--line);overflow:hidden;cursor:pointer;justify-content:center;box-shadow:0 10px 40px rgba(0,0,0,.5),0 0 40px color-mix(in srgb,var(--acc) 40%,transparent);animation:fi .25s both}
 html[data-theme=light] #call.mini{background:rgba(255,255,255,.92)}
@@ -400,6 +418,17 @@ html.no-motion *{animation:none!important;transition:none!important}
         </div></div>
         <div class="grp"><div class="gt">Onde aparece</div><div class="gl">
           <label class="li"><span><b>Mostrar na tela inicial</b><small>Acima do cumprimento, antes da primeira mensagem</small></span><input type="checkbox" id="uOrb"></label>
+        </div></div>
+        <div class="grp"><div class="gt">Expressões do robô (toque para testar)</div><div class="gl">
+          <div id="emoBtns"></div>
+          <div class="li col"><small>O Robô faz todas essas carinhas sozinho: pelo que você conversa, pelo humor da resposta e, de vez em quando, uma espontânea. O Rosto usa as expressões básicas.</small></div>
+        </div></div>
+        <div class="grp"><div class="gt">Tela da chamada</div><div class="gl">
+          <div class="li col"><b>Design</b><div class="seg" id="uCdesign"><button type="button" data-v="hud">HUD Jarvis</button><button type="button" data-v="grid">Grade</button><button type="button" data-v="aurora">Aurora</button><button type="button" data-v="classic">Clássico</button></div></div>
+          <label class="li"><span><b>Relógio e data</b></span><input type="checkbox" id="uCclock"></label>
+          <label class="li"><span><b>Informações</b><small>Bateria, internet, pesquisa, loja e vendas de hoje</small></span><input type="checkbox" id="uCinfo"></label>
+          <label class="li"><span><b>Atalhos rápidos</b><small>Agenda, vendas, notícias, resumo do dia e piada: um toque e ele responde</small></span><input type="checkbox" id="uCquick"></label>
+          <label class="li"><span><b>Mostrar o que ouvi e respondi</b><small>Texto na tela durante a chamada</small></span><input type="checkbox" id="uCcaps"></label>
         </div></div>
       </div>
 
@@ -568,11 +597,15 @@ html.no-motion *{animation:none!important;transition:none!important}
 
 <div id="call" class="hidden">
   <button class="miniX" id="miniX" type="button" aria-label="Encerrar">×</button>
+  <canvas id="callBg"></canvas>
   <div class="ctop"><button class="ic" id="cMin" type="button" aria-label="Voltar ao chat" data-ico="down"></button><div class="cttl">Jarvis · voz</div><span style="width:42px"></span></div>
+  <div id="callClock"><b id="ckT"></b><small id="ckD"></small></div>
   <canvas id="callOrb"></canvas>
   <div id="cStatus"></div>
   <div id="cLevel" title="Nível do microfone"><i id="cLevelBar"></i></div>
   <div class="ctxt"><div id="cYou"></div><div id="cAi"></div></div>
+  <div id="callInfo"></div>
+  <div id="callQuick"></div>
   <div class="cctl">
     <button class="cb2" id="cStop" type="button" aria-label="Interromper fala" data-ico="stop"></button>
     <button class="cb2 big" id="cMic" type="button" aria-label="Falar agora" data-ico="mic"></button>
@@ -700,7 +733,7 @@ const DEFAULTS = {
   ui_acc: "blue", ui_accc: "#3b82f6", ui_avatar: "face", ui_avc: "auto", ui_glow: "100", ui_bg: "aurora", ui_font: "system", ui_bub: "round", face_q: "mid", face_move: "100", ui_fs: "16", ui_blur: "22", ui_orb: "1", ui_motion: "1", ui_quick: "1", ui_acts: "1",
   enter_send: "1", mem_live: "1", u_name: "", u_addr: "", u_pers: "mordomo", u_len: "normal",
   ai_temp: "0.8", ai_model: "", ai_extra: "", gemini_key: "", jarvis_mode: "normal",
-  speak_replies: "0", stt_mode: "gemini", stt_sil: "0.7", show_lat: "0", wake_on: "0", wake_mini: "1", voice_len: "normal", web_search: "1",
+  speak_replies: "0", stt_mode: "gemini", stt_sil: "0.7", show_lat: "0", wake_on: "0", wake_mini: "1", call_design: "hud", call_clock: "1", call_info: "1", call_quick: "1", call_caps: "0", voice_len: "normal", web_search: "1",
   b44_token: "", b44_watch: "0", b44_every: "2", b44_speak: "1", b44_ask: "1", b44_confirm: "1", b44_tr: "direct",
   notify_on: "1", notify_sound: "1", notify_vib: "1", notify_title: "1", notify_sys: "0", notify_always: "0", stt_sens: "7",
  
@@ -1980,6 +2013,16 @@ const Sales = {
   }
 };
 
+/* vendas de hoje (para a tela da chamada) */
+async function b44Today() {
+  const sc = LS.json("b44_sales", null); if (!sc || !b44On()) return null;
+  const app = b44App(sc.app), ent = b44Entity(app, sc.entity), d0 = new Date(); d0.setHours(0, 0, 0, 0);
+  const schema = LS.json("b44_schema", {}), fields = ((schema[app.name] || {}).entities || {})[ent] || [];
+  const sumField = fields.map(f => f.split(":")[0]).find(f => /total|valor|amount|price|preco/i.test(f)) || undefined;
+  const st = await b44Stats(app, ent, { q: { created_date: { "$gte": d0.toISOString() } }, sum: sumField });
+  return { n: st.registros, soma: st.soma };
+}
+
 /* ----- tela de ajustes da loja ----- */
 function b44Status(msg, ok) { const e = $("b44Stat"); if (!e) return; e.textContent = msg; e.style.color = ok === true ? "var(--ok)" : ok === false ? "var(--bad)" : ""; }
 function saveB44Apps() {
@@ -2109,6 +2152,132 @@ const Wake = {
 document.addEventListener("visibilitychange", () => { if (!document.hidden && Wake.on && !Wake.paused && !Wake.rec) Wake.schedule(300); });
 
 /* ==========================================================================
+   TELA DA CHAMADA: design (HUD, grade, aurora), relógio, informações e atalhos
+   ========================================================================== */
+const CALL_QUICK = [
+  ["📅 Agenda de hoje", "O que tenho na agenda hoje?", () => gOn()],
+  ["💰 Vendas de hoje", "Como estão as vendas de hoje?", () => b44On()],
+  ["📰 Notícias", "Quais são as principais notícias de hoje?", () => cfg("web_search") !== "0"],
+  ["☀️ Resumo do dia", "Faça um resumo do meu dia: agenda, vendas e o que mais importa agora.", () => true],
+  ["😄 Conte uma piada", "Conte uma piada curta e boa.", () => true]
+];
+
+const CallHud = {
+  sec: -1, bat: null, batTried: false, sales: null, salesAt: 0, lastBg: 0,
+  apply() {
+    const el = $("call"), rich = cfg("call_clock") !== "0" || cfg("call_info") !== "0" || cfg("call_quick") !== "0";
+    el.classList.toggle("rich", rich); el.classList.toggle("caps", cfg("call_caps") === "1"); el.dataset.d = cfg("call_design");
+    $("callClock").classList.toggle("hidden", cfg("call_clock") === "0");
+    $("callInfo").classList.toggle("hidden", cfg("call_info") === "0");
+    this.renderQuick(); this.sec = -1;
+  },
+  renderQuick() {
+    const box = $("callQuick"), list = CALL_QUICK.filter(q => q[2]());
+    box.classList.toggle("hidden", cfg("call_quick") === "0");
+    box.innerHTML = list.map((q, i) => '<button class="qchip" type="button" data-i="' + i + '">' + esc(q[0]) + "</button>").join("");
+    box.querySelectorAll(".qchip").forEach(b => b.onclick = () => {
+      if (!Call.on || Call.busy || App.sending) return;
+      Call.cancelIdle(); Call.turn(list[+b.dataset.i][1]);
+    });
+  },
+  async refreshSales() {
+    if (!b44On() || !LS.json("b44_sales", null) || Date.now() - this.salesAt < 60000) return;
+    this.salesAt = Date.now();
+    try { this.sales = await b44Today(); } catch (e) { this.sales = null; }
+  },
+  pills() {
+    const p = [];
+    p.push(["🎤 " + (cfg("stt_mode") === "gemini" ? "Gemini" : "Navegador"), true]);
+    p.push(["🧠 Gemini", true]);
+    if (cfg("web_search") !== "0") p.push(["🔎 Pesquisa", true]);
+    if (Wake.on) p.push(["👂 Ei Jarvis", true]);
+    if (b44On()) p.push(["🛍️ Loja", true]);
+    if (this.sales) p.push(["💰 Hoje: " + (this.sales.soma !== undefined ? reais(this.sales.soma) + " · " : "") + this.sales.n + " venda" + (this.sales.n === 1 ? "" : "s"), true]);
+    if (this.bat) p.push(["🔋 " + Math.round(this.bat.level * 100) + "%" + (this.bat.charging ? " ⚡" : ""), this.bat.level > .2]);
+    const net = typeof navigator !== "undefined" && navigator.onLine === false ? ["⚠️ Sem internet", false] : ["📶 " + ((navigator.connection && navigator.connection.effectiveType) || "online").toUpperCase(), true];
+    p.push(net);
+    return p;
+  },
+  tick(now) {                                         /* relógio e informações: 1 vez por segundo */
+    const sec = Math.floor(now / 1000); if (sec === this.sec) return; this.sec = sec;
+    const d = new Date();
+    if (cfg("call_clock") !== "0") {
+      $("ckT").textContent = d.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" });
+      $("ckD").textContent = d.toLocaleDateString("pt-BR", { weekday: "long", day: "numeric", month: "long" });
+    }
+    if (cfg("call_info") !== "0") {
+      if (!this.batTried) { this.batTried = true; try { if (navigator.getBattery) navigator.getBattery().then(b => { this.bat = b; }).catch(() => {}); } catch (e) {} }
+      this.refreshSales();
+      $("callInfo").innerHTML = this.pills().map(x => '<span class="ipill' + (x[1] ? " on" : "") + '">' + esc(x[0]) + "</span>").join("");
+    }
+  },
+
+  /* ----- fundo animado ----- */
+  drawBg(now) {
+    const cv = $("callBg"), d = cfg("call_design");
+    if (now - this.lastBg < 30) return; this.lastBg = now;
+    const W = cv.clientWidth, H = cv.clientHeight; if (!W || !H) return;
+    const dpr = window.devicePixelRatio || 1;
+    if (cv.width !== Math.round(W * dpr)) { cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr); }
+    const c = cv.getContext("2d"); c.setTransform(dpr, 0, 0, dpr, 0, 0); c.clearRect(0, 0, W, H);
+    if (d === "classic") return;
+    let cx = W / 2, cy = H * .42, R = Math.min(W, H) * .22;
+    try {
+      const ob = $("callOrb").getBoundingClientRect(), ho = $("call").getBoundingClientRect();
+      if (ob && ob.width) { cx = ob.left - ho.left + ob.width / 2; cy = ob.top - ho.top + ob.height / 2; R = ob.width / 2; }
+    } catch (e) {}
+    const t = now / 1000, light = isLightTheme(), amp = Math.min(1, (Call.orb ? Call.orb.energy : 0) + (Face.tl ? Face.p.mo : 0) * .8);
+    const fast = Call.state === "thinking" ? 3 : 1, a1 = AV.c1, a2 = AV.c2;
+    if (d === "hud") this.hud(c, W, H, cx, cy, R, t, amp, fast, a1, a2, light);
+    else if (d === "grid") this.grid(c, W, H, cx, t, a1, a2, light);
+    else if (d === "aurora") this.aurora(c, W, H, t, a1, a2, light);
+  },
+  hud(c, W, H, cx, cy, R, t, amp, fast, a1, a2, light) {
+    c.lineCap = "round"; const k = light ? .75 : 1;
+    const r1 = R * 1.14 * (1 + .012 * amp), r2 = R * 1.3, r3 = R * 1.48;
+    /* anel 1: arcos tracejados */
+    c.strokeStyle = a1; c.lineWidth = 2; c.globalAlpha = (.5 + .3 * amp) * k;
+    const rot1 = t * .25 * fast;
+    for (let i = 0; i < 24; i++) { const a = rot1 + i * Math.PI / 12; c.beginPath(); c.arc(cx, cy, r1, a, a + .2); c.stroke(); }
+    /* anel 2: marcas de régua girando ao contrário */
+    c.strokeStyle = a2; c.lineWidth = 1.4; c.globalAlpha = .5 * k; const rot2 = -t * .12 * fast;
+    for (let i = 0; i < 90; i++) { const a = rot2 + i * Math.PI / 45, big = i % 5 === 0, rr = r2 + (big ? 10 : 5); c.beginPath(); c.moveTo(cx + Math.cos(a) * r2, cy + Math.sin(a) * r2); c.lineTo(cx + Math.cos(a) * rr, cy + Math.sin(a) * rr); c.stroke(); }
+    /* anel 3: círculo fino com arcos de luz que varrem */
+    c.strokeStyle = a1; c.lineWidth = 1; c.globalAlpha = .2 * k; c.beginPath(); c.arc(cx, cy, r3, 0, Math.PI * 2); c.stroke();
+    c.lineWidth = 3; c.globalAlpha = (.65 + .3 * amp) * k; const rot3 = t * .6 * fast;
+    c.beginPath(); c.arc(cx, cy, r3, rot3, rot3 + 1.1); c.stroke();
+    c.strokeStyle = a2; c.beginPath(); c.arc(cx, cy, r3, rot3 + Math.PI, rot3 + Math.PI + .5); c.stroke();
+    /* cantoneiras */
+    c.strokeStyle = a1; c.lineWidth = 2; c.globalAlpha = .55 * k;
+    const x0 = 16, x1 = W - 16, y0 = 66, y1 = H - 150, L = 26;
+    [[x0, y0, 1, 1], [x1, y0, -1, 1], [x0, y1, 1, -1], [x1, y1, -1, -1]].forEach(([x, y, sx, sy]) => { c.beginPath(); c.moveTo(x, y + sy * L); c.lineTo(x, y); c.lineTo(x + sx * L, y); c.stroke(); });
+    /* réguas laterais */
+    c.lineWidth = 1; const hi = Math.floor((t * 8) % 40);
+    for (let i = 0; i < 40; i++) { const y = y0 + 20 + i * ((y1 - y0 - 40) / 39), on = Math.abs(i - hi) < 2; c.globalAlpha = (on ? .8 : .18) * k; c.beginPath(); c.moveTo(x0 - 6, y); c.lineTo(x0 - 6 + (i % 5 === 0 ? 10 : 5), y); c.moveTo(x1 + 6, y); c.lineTo(x1 + 6 - (i % 5 === 0 ? 10 : 5), y); c.stroke(); }
+    /* linha de varredura */
+    const sy = y0 + ((t * 70) % (y1 - y0)); c.globalAlpha = .16 * k; c.lineWidth = 1.5; c.strokeStyle = a1; c.beginPath(); c.moveTo(x0, sy); c.lineTo(x1, sy); c.stroke();
+    c.globalAlpha = 1;
+  },
+  grid(c, W, H, cx, t, a1, a2, light) {
+    const hz = H * .6, k = light ? .6 : 1; c.lineWidth = 1;
+    const g = c.createLinearGradient(0, hz - 80, 0, hz + 40); g.addColorStop(0, "rgba(0,0,0,0)"); g.addColorStop(1, a1); c.globalAlpha = .12 * k; c.fillStyle = g; c.fillRect(0, hz - 80, W, 120);
+    c.strokeStyle = a1;
+    for (let i = -14; i <= 14; i++) { c.globalAlpha = .28 * k; c.beginPath(); c.moveTo(cx + i * W * .075, H); c.lineTo(cx + i * W * .008, hz); c.stroke(); }
+    for (let j = 0; j < 12; j++) { const f = ((j + (t * .35) % 1) / 12), y = hz + (H - hz) * f * f; c.globalAlpha = (.12 + .5 * f) * k; c.beginPath(); c.moveTo(0, y); c.lineTo(W, y); c.stroke(); }
+    c.strokeStyle = a2; c.globalAlpha = .5 * k; c.lineWidth = 1.5; c.beginPath(); c.moveTo(0, hz); c.lineTo(W, hz); c.stroke(); c.globalAlpha = 1;
+  },
+  aurora(c, W, H, t, a1, a2, light) {
+    const m = Math.max(W, H); c.globalCompositeOperation = light ? "source-over" : "lighter";
+    [[a1, .0, .35, .25], [a2, 2.1, .65, .3], [a1, 4.2, .5, .7]].forEach(([col, ph, bx, by]) => {
+      const x = W * (bx + .18 * Math.sin(t * .17 + ph)), y = H * (by + .12 * Math.cos(t * .13 + ph)), r = m * .55;
+      const g = c.createRadialGradient(x, y, 0, x, y, r); g.addColorStop(0, col); g.addColorStop(1, "rgba(0,0,0,0)");
+      c.globalAlpha = light ? .16 : .24; c.fillStyle = g; c.fillRect(0, 0, W, H);
+    });
+    c.globalAlpha = 1; c.globalCompositeOperation = "source-over";
+  }
+};
+
+/* ==========================================================================
    ROSTO DE PARTÍCULAS (alternativa à esfera): boca sincronizada com a fala e expressões
    ========================================================================== */
 let avatarMode = "face";
@@ -2121,11 +2290,36 @@ const EMOTIONS = {
   surpreso: { smile: .1,  brow: .9,  furrow: 0,    eye: 1.3,  roll: 0 },
   serio:    { smile: -.12, brow: -.1, furrow: .5,  eye: .95,  roll: 0 },
   curioso:  { smile: .1,  brow: .5,  furrow: 0,    eye: 1.1,  roll: .1 },
-  sarcastico: { smile: .45, brow: .1, furrow: 0,   eye: .6,   roll: .07, asym: 1 }
+  sarcastico: { smile: .45, brow: .1, furrow: 0,   eye: .6,   roll: .07, asym: 1 },
+  apaixonado: { smile: .7,  brow: .25, furrow: 0,  eye: 1,    roll: .05, heart: 1, blush: .6 },
+  rindo:      { smile: 1,   brow: .3,  furrow: 0,  eye: .9,   roll: .04, squint: 1, dm: 1, blush: .2 },
+  empolgado:  { smile: 1,   brow: .5,  furrow: 0,  eye: 1.2,  roll: 0,   sparkle: 1, dm: .75 },
+  bravo:      { smile: -.5, brow: -.1, furrow: .85, eye: .85, roll: 0,   tint: 1 },
+  sonolento:  { smile: 0,   brow: -.2, furrow: 0,  eye: .28,  roll: -.05, zz: 1 },
+  confuso:    { smile: -.1, brow: .2,  furrow: 0,  eye: 1.05, roll: .08, asym: 1, q: 1 },
+  timido:     { smile: .4,  brow: .2,  furrow: -.2, eye: .9,  roll: .03, blush: 1, lx: -.6, ly: .5 },
+  chorando:   { smile: -.6, brow: .1,  furrow: -.7, eye: .8,  roll: 0,   tear: 1 },
+  piscadinha: { smile: .8,  brow: .2,  furrow: 0,  eye: 1,    roll: .05, wink: 1, asym: .3 },
+  cool:       { smile: .5,  brow: 0,   furrow: 0,  eye: 1,    roll: 0,   shades: 1 },
+  pensativo:  { smile: -.05, brow: .25, furrow: 0, eye: .95,  roll: -.05, lx: .5, ly: -.6, dots: 1, mo: .16, mw: -.6 }
 };
+const EXTRAS = ["heart", "squint", "blush", "tear", "shades", "wink", "tint", "q", "zz", "sparkle", "dm", "dots"];
+const MICRO_POOL = ["piscadinha", "pensativo", "timido", "cool", "curioso", "feliz"];
+const EMO_LABELS = [["neutro", "😐 Normal"], ["feliz", "😊 Feliz"], ["rindo", "😂 Rindo"], ["empolgado", "🤩 Empolgado"], ["apaixonado", "😍 Apaixonado"], ["sarcastico", "😏 Sarcástico"], ["piscadinha", "😉 Piscadinha"], ["cool", "😎 Descolado"], ["pensativo", "🤔 Pensativo"], ["confuso", "😕 Confuso"], ["surpreso", "😮 Surpreso"], ["timido", "😳 Tímido"], ["triste", "😢 Triste"], ["chorando", "😭 Chorando"], ["bravo", "😠 Bravo"], ["sonolento", "😴 Sonolento"]];
 
 function guessEmotion(text) {
   const t = norm(text), raw = String(text).trim();
+  if (/\bk{3,}\b|haha|hehe|rsrs|\brs\b|engracad|piada|morri de rir/.test(t)) return "rindo";
+  if (/te amo|\bamo\b|apaixonad|coracao|que lindo|que fofo/.test(t)) return "apaixonado";
+  if (/\bbora\b|vamos la|sensacional|que demais|animad|empolgad/.test(t)) return "empolgado";
+  if (/raiva|irritad|absurdo|inaceitavel|furios|que odio/.test(t)) return "bravo";
+  if (/chorar|chorei|saudade|que pena/.test(t)) return "chorando";
+  if (/vergonha|timid|sem graca|constrang/.test(t)) return "timido";
+  if (/sono\b|cansad|bocej|dormir|descans/.test(t)) return "sonolento";
+  if (/nao entendi|confus|\bhein\b|como assim|estranho/.test(t)) return "confuso";
+  if (/de boa|na moral|sou demais/.test(t)) return "cool";
+  if (/hmm|deixa eu pensar|boa pergunta|depende|dificil/.test(t)) return "pensativo";
+  if (/combinado|fechou|deixa comigo|pode deixar|esta feito/.test(t)) return "piscadinha";
   if (/haha|kkk|\brs\b|parabens|otimo|excelente|perfeito|legal|bacana|adorei|com prazer|feliz|show de bola|maravilh/.test(t)) return "feliz";
   if (/infelizmente|sinto muito|lamento|nao consegui|nao foi possivel|desculp|triste|deu erro|falhou/.test(t)) return "triste";
   if (/\bobviamente\b|que surpresa|genial\.|claro que sim|ah,? sim|sei,? sei|como se eu|nossa,? que (?:novidade|original)/.test(t)) return "sarcastico";
@@ -2236,8 +2430,9 @@ function faceHeight(x, y) {
 
 const Face = {
   built: false, N: 0, SP: [], step: .023, quality: "mid", moveK: 1, colors: FACE_THEMES.dark,
-  p: { mo: 0, mw: 0, smile: .12, brow: 0, furrow: 0, asym: 0, eye: 1, eyeF: 1, lx: 0, ly: 0, yaw: 0, pitch: 0, roll: 0 },
-  flick: 0, nextFlick: 0,
+  p: { mo: 0, mw: 0, smile: .12, brow: 0, furrow: 0, asym: 0, heart: 0, squint: 0, blush: 0, tear: 0, shades: 0, wink: 0, tint: 0, q: 0, zz: 0, sparkle: 0, dm: 0, dots: 0, eye: 1, eyeF: 1, lx: 0, ly: 0, yaw: 0, pitch: 0, roll: 0 },
+  flick: 0, nextFlick: 0, micro: "", microUntil: 0, nextMicro: 0,
+  hold(name, ms) { this.emoName = EMOTIONS[name] ? name : "neutro"; this.emoUntil = performance.now() + (ms || 3500); },
   tl: null, emoName: "neutro", emoUntil: 0, nextBlink: 0, blinkStart: -1e9,
 
   /* ----- geometria (gerada uma vez): nuvem de pontos sobre a superfície ----- */
@@ -2331,16 +2526,26 @@ const Face = {
     const t = now / 1000, P = this.p, pn = performance.now();
     if (!this.tl && pn > this.emoUntil) this.emoName = "neutro";
     const sarc = /^(sarcastico|adolescente)$/.test(cfg("u_pers"));
-    let E = EMOTIONS[this.emoName] || EMOTIONS.neutro;
-    if (sarc && this.emoName === "neutro") E = EMOTIONS.sarcastico;      /* no modo sarcástico/adolescente o rosto fica de deboche */
+    /* expressões espontâneas do robô: de vez em quando faz uma carinha sozinho */
+    if (avatarMode === "robo" && !this.tl && state === "idle" && this.emoName === "neutro") {
+      if (!this.nextMicro) this.nextMicro = pn + 6000;
+      if (pn > this.nextMicro && pn > this.microUntil) { this.micro = MICRO_POOL[Math.floor(Math.random() * MICRO_POOL.length)]; this.microUntil = pn + 2200; this.nextMicro = pn + 9000 + Math.random() * 9000; }
+    }
+    const name = (pn < this.microUntil && this.emoName === "neutro" && state === "idle" && !this.tl) ? this.micro : this.emoName;
+    let E = EMOTIONS[name] || EMOTIONS.neutro;
+    if (sarc && name === "neutro") E = EMOTIONS.sarcastico;      /* no modo sarcástico/adolescente o rosto fica de deboche */
     const T = { mo: 0, mw: 0, smile: E.smile, brow: E.brow, furrow: E.furrow, asym: E.asym || 0, eye: E.eye,
       lx: .18 * Math.sin(t * .7) + .1 * Math.sin(t * 2.3), ly: .08 * Math.sin(t * .9),
       yaw: .2 * Math.sin(t * .45), pitch: .05 * Math.sin(t * .37), roll: E.roll };
+    EXTRAS.forEach(n => { T[n] = E[n] || 0; });
+    if (E.lx !== undefined) T.lx = E.lx;
+    if (E.ly !== undefined) T.ly = E.ly;
+    if (E.mo) { T.mo = E.mo; T.mw = E.mw || 0; } else if (E.mw) T.mw = E.mw;
     if (state === "listening") {
       T.brow = .28 + energy * .4; T.eye = 1.12; T.smile = .12; T.roll = .06 + .05 * Math.sin(t * .5); T.pitch += energy * .03;
     } else if (state === "thinking") {
       T.lx = -.55 + .25 * Math.sin(t * 1.1); T.ly = -.55; T.furrow = .35; T.brow = .15 + .1 * Math.sin(t * 2);
-      T.smile = -.08; T.mw = -.3; T.roll = -.08; T.yaw = -.18 + .1 * Math.sin(t * .9);
+      T.smile = -.08; T.mw = -.3; T.roll = -.08; T.yaw = -.18 + .1 * Math.sin(t * .9); T.dots = 1;   /* "..." pensando */
     }
     if (sarc) {
       if (!this.nextFlick) this.nextFlick = pn + 3500;
@@ -2362,6 +2567,7 @@ const Face = {
     P.mo += (T.mo - P.mo) * k(24); P.mw += (T.mw - P.mw) * k(24);
     ["smile", "brow", "furrow", "eye", "asym"].forEach(n => P[n] += (T[n] - P[n]) * k(6));
     ["lx", "ly"].forEach(n => P[n] += (T[n] - P[n]) * k(9));
+    EXTRAS.forEach(n => P[n] += (T[n] - P[n]) * k(7));
     ["yaw", "pitch", "roll"].forEach(n => P[n] += (T[n] - P[n]) * k(4));
     if (!this.nextBlink) this.nextBlink = pn + 1500;
     if (pn > this.nextBlink) { this.blinkStart = pn; this.nextBlink = pn + 2200 + Math.random() * 3500; }
@@ -2491,54 +2697,123 @@ function drawReactor(o, now, dt) {
 }
 
 /* ---------- Ondas: barras que dançam com a voz ---------- */
-/* Robô: rostinho de olhos e boca brilhantes (sobrancelhas, piscar, boca que abre e deboche) */
+/* Robô: rostinho de olhos e boca brilhantes. Piscar, sobrancelhas, boca que abre, deboche e mais de 15 expressões */
+const mixCol = (a, b, t) => {
+  if (!t) return a; const p = h => [1, 3, 5].map(i => parseInt(h.slice(i, i + 2), 16)), x = p(a), y = p(b);
+  return "#" + x.map((v, i) => Math.round(v + (y[i] - v) * Math.min(1, t)).toString(16).padStart(2, "0")).join("");
+};
+function heartPath(c, x, y, r) {
+  c.beginPath(); c.moveTo(x, y + r * .9);
+  c.bezierCurveTo(x - r * 1.5, y + r * .1, x - r * .9, y - r * 1.1, x, y - r * .35);
+  c.bezierCurveTo(x + r * .9, y - r * 1.1, x + r * 1.5, y + r * .1, x, y + r * .9); c.closePath();
+}
+function rrectPath(c, x, y, w, h, r) {
+  c.beginPath(); c.moveTo(x + r, y); c.arcTo(x + w, y, x + w, y + h, r); c.arcTo(x + w, y + h, x, y + h, r); c.arcTo(x, y + h, x, y, r); c.arcTo(x, y, x + w, y, r); c.closePath();
+}
 function drawRobot(o, now, dt) {
   const dim = prepCanvas(o); if (!dim) return;
   const { w, h, dpr } = dim, st = o.state(), t = now / 1000, light = isLightTheme(), G = AV.glow;
   Face.update(now, dt, st, o.energy);
-  const P = Face.p, energy = o.energy; o.energy *= Math.exp(-2.6 * dt);
+  const P = Face.p; o.energy *= Math.exp(-2.6 * dt);
   const c = o.ctx; c.setTransform(dpr, 0, 0, dpr, 0, 0); c.clearRect(0, 0, w, h);
-  const s = Math.min(w, h), col = light ? "#0891b2" : (cfg("ui_acc") === "blue" ? "#5ee1ff" : AV.c1), dark = light ? "#e6f6fb" : "#04121c";
+  const s = Math.min(w, h), clamp01 = v => Math.max(0, Math.min(1, v));
+  const base = light ? "#0891b2" : (cfg("ui_acc") === "blue" ? "#5ee1ff" : AV.c1);
+  const col = mixCol(base, light ? "#e11d48" : "#ff5a4d", P.tint), dark = light ? "#e6f6fb" : "#04121c";
   c.save(); c.translate(w / 2 + P.yaw * .05 * s, h / 2 + P.pitch * .06 * s + .01 * s * Math.sin(t * 1.3)); c.rotate(P.roll * .35);
   c.fillStyle = col; c.strokeStyle = col; c.lineCap = "round"; c.lineJoin = "round";
-  if (!light) { c.shadowColor = col; c.shadowBlur = 22 * G * (s / 320); }
-  const open = Math.max(.04, Math.min(1.3, P.eyeF)), asym = Math.max(0, Math.min(1, P.asym));
-  /* olhos */
+  const glow = () => { if (!light) { c.shadowColor = col; c.shadowBlur = 22 * G * (s / 320); } };
+  glow();
+  const open = Math.max(.04, Math.min(1.3, P.eyeF)), asym = clamp01(P.asym), ey0 = -.02 * s;
+  /* olhos: normal, "^ ^" (rindo/piscadinha), coração ou escondido pelos óculos */
   [-1, 1].forEach(side => {
-    const ex = side * .2 * s, ey = -.02 * s, rx = .062 * s, ry = Math.max(.008 * s, .078 * s * Math.min(open, 1.25));
-    const half = side === 1 ? asym * .08 : asym * .15;                       /* olho do lado levantado fica mais aberto */
-    const eyY = ey + (1 - Math.min(open, 1)) * .03 * s + (side === -1 ? asym * .012 * s : 0);
-    c.beginPath(); c.ellipse(ex, eyY, rx, ry * (1 - half), 0, 0, Math.PI * 2); c.fill();
-    if (open > .3) {                                                            /* pupila escura: mostra para onde ele olha */
-      const px = ex + P.lx * .028 * s, py = eyY + P.ly * .03 * s;
-      c.save(); c.shadowBlur = 0; c.fillStyle = dark; c.globalAlpha = .55;
-      c.beginPath(); c.ellipse(px, py, rx * .42, Math.min(ry * .5, .042 * s), 0, 0, Math.PI * 2); c.fill(); c.restore();
+    const ex = side * .2 * s, rx = .062 * s, ry = Math.max(.008 * s, .078 * s * Math.min(open, 1.25));
+    const closed = clamp01(Math.max(P.squint, side === 1 ? P.wink : 0)), shown = clamp01(1 - Math.max(closed, P.heart, P.shades));
+    const half = side === 1 ? asym * .08 : asym * .15, eyY = ey0 + (1 - Math.min(open, 1)) * .03 * s + (side === -1 ? asym * .012 * s : 0);
+    if (shown > .02) {
+      c.globalAlpha = shown; c.beginPath(); c.ellipse(ex, eyY, rx, ry * (1 - half), 0, 0, Math.PI * 2); c.fill();
+      if (open > .3) {
+        const px = ex + P.lx * .028 * s, py = eyY + P.ly * .03 * s;
+        c.save(); c.shadowBlur = 0;
+        if (P.sparkle > .3) {                                              /* empolgado: brilho em forma de estrela */
+          const r = .036 * s * (1 + .12 * Math.sin(t * 7)); c.fillStyle = "#ffffff"; c.globalAlpha = shown * P.sparkle;
+          c.beginPath(); c.moveTo(px, py - r); c.lineTo(px + r * .26, py - r * .26); c.lineTo(px + r, py); c.lineTo(px + r * .26, py + r * .26);
+          c.lineTo(px, py + r); c.lineTo(px - r * .26, py + r * .26); c.lineTo(px - r, py); c.lineTo(px - r * .26, py - r * .26); c.closePath(); c.fill();
+        } else { c.fillStyle = dark; c.globalAlpha = shown * .55; c.beginPath(); c.ellipse(px, py, rx * .42, Math.min(ry * .5, .042 * s), 0, 0, Math.PI * 2); c.fill(); }
+        c.restore();
+      }
     }
+    if (closed > .02) { c.globalAlpha = closed; c.lineWidth = .04 * s; c.beginPath(); c.arc(ex, ey0 + .04 * s, .06 * s, Math.PI * 1.1, Math.PI * 1.9); c.stroke(); }
+    if (P.heart > .02) { c.globalAlpha = P.heart; heartPath(c, ex, ey0, .072 * s * (1 + .08 * Math.sin(t * 6))); c.fill(); }
+    c.globalAlpha = 1;
   });
+  /* bochechas coradas */
+  if (P.blush > .02) {
+    c.save(); c.shadowBlur = 0; c.fillStyle = "#ff7aa8"; c.globalAlpha = P.blush * (light ? .45 : .5);
+    [-1, 1].forEach(sd => { c.beginPath(); c.ellipse(sd * .285 * s, .075 * s, .05 * s, .024 * s, 0, 0, Math.PI * 2); c.fill(); }); c.restore();
+  }
   /* sobrancelhas */
   [-1, 1].forEach(side => {
     const bx = side * .2 * s, raise = P.brow * .055 * s + (side === 1 ? asym * .085 * s : -asym * .02 * s);
     const by = -.17 * s - raise, ang = -side * P.furrow * .45 + (side === 1 ? -asym * .14 : asym * .1);
-    c.save(); c.translate(bx, by); c.rotate(ang); c.lineWidth = .036 * s;
-    c.beginPath(); c.moveTo(-.075 * s, 0); c.lineTo(.075 * s, 0); c.stroke(); c.restore();
+    c.save(); c.translate(bx, by); c.rotate(ang); c.lineWidth = .036 * s; c.beginPath(); c.moveTo(-.075 * s, 0); c.lineTo(.075 * s, 0); c.stroke(); c.restore();
   });
-  /* boca */
+  /* óculos escuros */
+  if (P.shades > .02) {
+    c.save(); c.globalAlpha = P.shades; c.fillStyle = light ? "#0c1a22" : "#020a10"; c.lineWidth = .014 * s;
+    [-1, 1].forEach(sd => { rrectPath(c, sd * .2 * s - .092 * s, ey0 - .05 * s, .184 * s, .105 * s, .038 * s); c.fill(); c.stroke(); });
+    c.beginPath(); c.moveTo(-.108 * s, ey0 - .012 * s); c.lineTo(.108 * s, ey0 - .012 * s); c.stroke();
+    c.shadowBlur = 0; c.globalAlpha = P.shades * .55; c.strokeStyle = "#ffffff"; c.lineWidth = .01 * s;
+    [-1, 1].forEach(sd => { c.beginPath(); c.moveTo(sd * .2 * s - .05 * s, ey0 - .03 * s); c.lineTo(sd * .2 * s - .02 * s, ey0 - .005 * s); c.stroke(); }); c.restore();
+  }
+  /* boca: aberta (falando), risada em "D", ondulada (confuso) ou sorriso/careta */
   const my = .165 * s, hw = .125 * s * (1 + .3 * P.mw), lw = .034 * s;
   if (P.mo > .09) {
     const mh = Math.max(.02 * s, P.mo * .15 * s);
     c.beginPath(); c.ellipse(0, my + mh * .5 - .01 * s, hw * .72, mh * .5 + .008 * s, 0, 0, Math.PI * 2); c.fill();
-  } else {
-    const sm = P.smile, lift = (asym * .04) * s;
+  } else if (P.dm > .3) {
+    c.globalAlpha = clamp01(P.dm); c.beginPath(); c.moveTo(-hw * .92, my - .012 * s); c.quadraticCurveTo(0, my + .27 * s * P.dm, hw * .92, my - .012 * s); c.closePath(); c.fill(); c.globalAlpha = 1;
+  } else if (P.q > .5) {
     c.lineWidth = lw; c.beginPath();
-    c.moveTo(-hw, my - sm * .035 * s + asym * .01 * s);
-    c.quadraticCurveTo(0, my + sm * .075 * s + .012 * s, hw, my - sm * .035 * s - lift);
+    for (let i = 0; i <= 14; i++) { const x = -hw + 2 * hw * i / 14, y = my + Math.sin(i / 14 * Math.PI * 3) * .014 * s; if (i) c.lineTo(x, y); else c.moveTo(x, y); }
     c.stroke();
+  } else {
+    const sm = P.smile, lift = asym * .04 * s;
+    c.lineWidth = lw; c.beginPath(); c.moveTo(-hw, my - sm * .035 * s + asym * .01 * s);
+    c.quadraticCurveTo(0, my + sm * .075 * s + .012 * s, hw, my - sm * .035 * s - lift); c.stroke();
   }
   c.shadowBlur = 0;
+  /* lágrimas */
+  if (P.tear > .02) {
+    c.save(); c.fillStyle = "#8fd6ff"; if (light) c.fillStyle = "#38bdf8";
+    [-1, 1].forEach((sd, i) => {
+      const ph = (t * .55 + i * .45) % 1, x = sd * .2 * s + sd * .01 * s, y = ey0 + .085 * s + ph * .2 * s;
+      c.globalAlpha = P.tear * (1 - ph * .85);
+      c.beginPath(); c.moveTo(x, y - .035 * s); c.quadraticCurveTo(x + .026 * s, y + .002 * s, x, y + .024 * s); c.quadraticCurveTo(x - .026 * s, y + .002 * s, x, y - .035 * s); c.fill();
+    }); c.restore();
+  }
+  /* "?" (confuso), "..." (pensando) e "zzz" (sonolento) */
+  if (P.q > .02) {
+    c.save(); c.globalAlpha = clamp01(P.q); c.lineWidth = .026 * s; const x = .33 * s, y = -.27 * s, r = .045 * s * (1 + .05 * Math.sin(t * 4));
+    c.beginPath(); c.arc(x, y, r, Math.PI * 1.05, Math.PI * 2.35); c.lineTo(x, y + r * 1.9); c.stroke();
+    c.beginPath(); c.arc(x, y + r * 2.7, .014 * s, 0, Math.PI * 2); c.fill(); c.restore();
+  }
+  if (P.dots > .02) {
+    c.save(); c.globalAlpha = clamp01(P.dots);
+    for (let i = 0; i < 3; i++) { c.beginPath(); c.arc((.27 + i * .055) * s, (-.27 - i * .03) * s, .014 * s * (1 + .5 * Math.max(0, Math.sin(t * 5 - i * 1.1))), 0, Math.PI * 2); c.fill(); }
+    c.restore();
+  }
+  if (P.zz > .02) {
+    c.save(); c.lineWidth = .012 * s;
+    for (let i = 0; i < 3; i++) {
+      const ph = (t * .45 + i / 3) % 1, z = .03 * s * (.7 + .7 * ph), x = (.27 + ph * .09) * s, y = (-.2 - ph * .17) * s;
+      c.globalAlpha = P.zz * (1 - ph) * .9; c.beginPath(); c.moveTo(x - z, y - z); c.lineTo(x + z, y - z); c.lineTo(x - z, y + z); c.lineTo(x + z, y + z); c.stroke();
+    }
+    c.restore();
+  }
   /* luzinha de estado (canto): ouvindo, pensando, falando */
   const led = st === "listening" ? "#34d399" : st === "thinking" ? "#fbbf24" : st === "speaking" ? col : "rgba(150,160,180,.5)";
   c.fillStyle = led; c.globalAlpha = .55 + .4 * Math.sin(t * (st === "thinking" ? 8 : 3));
-  c.beginPath(); c.arc(.34 * s, -.36 * s, .016 * s, 0, Math.PI * 2); c.fill();
+  c.beginPath(); c.arc(.4 * s, -.4 * s, .016 * s, 0, Math.PI * 2); c.fill();
   c.restore(); c.globalAlpha = 1;
 }
 
@@ -2976,7 +3251,7 @@ const Call = {
     Wake.pause();
     unlockAudio(); this.initCtx();
     this.on = true; micUI(true);
-    $("call").classList.remove("hidden"); $("cAi").textContent = "";
+    $("call").classList.remove("hidden"); $("cAi").textContent = ""; $("cYou").textContent = ""; CallHud.apply();
     this.setState("listening"); this.lastAct = Date.now();
     try {
       if (!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia)) throw new Error("nomic");
@@ -3012,6 +3287,7 @@ const Call = {
       const reply = await sendMessage(text);
       if (!this.on) return;
       if (reply) {
+        if (cfg("call_caps") === "1") { $("cYou").textContent = "“" + text + "”"; $("cAi").textContent = reply; }
         this.setState("speaking");
         if (cfg("stt_mode") === "gemini") this.micStop();   /* microfone fechado = o celular não abaixa o volume */
         await this.speakAndWait(reply);
@@ -3107,6 +3383,7 @@ const Call = {
       const msIA = Math.round(performance.now() - tIA);
       if (!this.on) return;
       if (r) {
+        if (cfg("call_caps") === "1") { $("cYou").textContent = "“" + r.heard + "”"; $("cAi").textContent = r.text; }
         this.setState("speaking");
         if (cfg("stt_mode") === "gemini") this.micStop();
         Speech.lat = 0;
@@ -3299,6 +3576,16 @@ function testVoice() {
   Speech.speak("Certamente, " + ME.address + ". Minha voz está pronta. Como posso ajudar?");
 }
 
+/* ----- tela da chamada e expressões do robô ----- */
+function bindCall() {
+  bind.seg("uCdesign", "call_design", "hud", () => CallHud.apply());
+  bind.toggle("uCclock", "call_clock", "1", () => CallHud.apply()); bind.toggle("uCinfo", "call_info", "1", () => CallHud.apply());
+  bind.toggle("uCquick", "call_quick", "1", () => CallHud.apply()); bind.toggle("uCcaps", "call_caps", "0", () => CallHud.apply());
+  const box = $("emoBtns");
+  box.innerHTML = EMO_LABELS.map(([k, l]) => '<button type="button" class="chipb" data-k="' + k + '">' + l + "</button>").join("");
+  box.querySelectorAll("button").forEach(b => b.onclick = () => Face.hold(b.dataset.k, 3500));
+}
+
 /* ----- chamar por voz ----- */
 function bindWake() {
   bind.toggle("uWake", "wake_on", "0", () => Wake.sync()); bind.toggle("uWakeMini", "wake_mini", "1");
@@ -3377,7 +3664,7 @@ function bindSettings() {
   $("gemTest").onclick = testGemini; bind.range("uVr", "v_rate", "1");
   $("voiceTest").onclick = testVoice;
 
-  bindNotify(); bindLoja(); bindWake();
+  bindNotify(); bindLoja(); bindWake(); bindCall();
   /* chat */
   bind.toggle("uEnter", "enter_send", "1"); bind.toggle("uActs", "ui_acts", "1", applyUI); bind.toggle("uQuick", "ui_quick", "1", applyUI);
 
@@ -3453,7 +3740,7 @@ function startAnimationLoop() {
     const still = document.documentElement.classList.contains("no-motion");
     const dt = still ? 0 : Math.min(.05, (now - last) / 1000); last = now;
     const t = still ? 0 : now;
-    if (visible("call")) drawAvatar(Call.orb, t, dt);
+    if (visible("call")) { drawAvatar(Call.orb, t, dt); CallHud.tick(now); if (!$("call").classList.contains("mini")) CallHud.drawBg(now); }
     else if (visible("vChat") && visible("hero")) drawAvatar(heroOrb, t, dt);
     else if (visible("vSettings") && prevOrb.cv.clientWidth) { previewTick(now); drawAvatar(prevOrb, t, dt); }
     if (visible("vMemory")) tickPulses();
