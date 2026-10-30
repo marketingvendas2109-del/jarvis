@@ -68,6 +68,20 @@ html.theme-gemini .m.u .bub,html.theme-gemini .btn.pri,html.theme-gemini .snav b
 html.theme-gemini .pill,html.theme-gemini #sendBtn,html.theme-gemini .cb2.big{box-shadow:0 0 30px rgba(66,133,244,.38),0 0 46px rgba(168,85,247,.20)}
 html.theme-gemini #hero h1{background:linear-gradient(90deg,#4285f4,#7c4dff,#34a853,#fbbc05);-webkit-background-clip:text;background-clip:text;color:transparent}
 html.theme-gemini .tab.on{color:#8ab4f8;text-shadow:0 0 12px rgba(66,133,244,.45)}
+/* Tema JARVIS: HUD tático, preto absoluto e ciano neon */
+html.theme-jarvis{--acc:#00ffff;--acc2:#006cff;--bg:#000000;--line:rgba(0,255,255,.32);--glass:rgba(0,255,255,.035);--glass2:rgba(0,255,255,.08);--sbg:rgba(0,10,18,.92);--cardbg:rgba(0,20,28,.72);--txt:#dffcff;--dim:#62aeb8;--mono:"Cascadia Mono","SFMono-Regular",Consolas,monospace;color-scheme:dark}
+html.theme-jarvis body{background:
+  linear-gradient(rgba(0,255,255,.025) 1px,transparent 1px) 0 0/34px 34px,
+  linear-gradient(90deg,rgba(0,255,255,.025) 1px,transparent 1px) 0 0/34px 34px,#000!important}
+html.theme-jarvis .hdr,html.theme-jarvis .tabs,html.theme-jarvis .pill,html.theme-jarvis .gl,html.theme-jarvis .prof,html.theme-jarvis .row,html.theme-jarvis .qc{clip-path:polygon(0 9px,9px 0,100% 0,100% calc(100% - 9px),calc(100% - 9px) 100%,0 100%);border-color:rgba(0,255,255,.38)!important;box-shadow:inset 0 0 18px rgba(0,255,255,.025),0 0 18px rgba(0,153,255,.08)!important}
+html.theme-jarvis .hdr .ttl,html.theme-jarvis .pg,html.theme-jarvis #hero h1,html.theme-jarvis #ckT,html.theme-jarvis .cttl{font-family:var(--mono);letter-spacing:.12em;text-transform:uppercase;text-shadow:0 0 12px rgba(0,255,255,.85)}
+html.theme-jarvis .m.u .bub,html.theme-jarvis .btn.pri,html.theme-jarvis .snav button.on,html.theme-jarvis .snew,html.theme-jarvis #plus{background:linear-gradient(135deg,#00ffff,#006cff)!important;color:#001018!important;box-shadow:0 0 20px rgba(0,255,255,.45)!important}
+html.theme-jarvis #call{background:#000!important;font-family:var(--mono);background-image:linear-gradient(rgba(0,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(0,255,255,.035) 1px,transparent 1px)!important;background-size:32px 32px!important}
+html.theme-jarvis #call:before{content:"JARVIS  //  MARK VI  ·  SYSTEM ONLINE\A LOCALIZATION LOCK  ·  BIOMETRIC LINK";white-space:pre;position:absolute;left:18px;top:68px;color:#00ffff;font:8px var(--mono);line-height:1.7;opacity:.72;text-shadow:0 0 8px #00ffff;z-index:2}
+html.theme-jarvis #call:after{content:"CORE  84%    >>>>>>    SIGNAL 97%    >>>>>>    SECURE";position:absolute;right:14px;bottom:21px;color:#00ffff;font:7px var(--mono);letter-spacing:.08em;opacity:.75;text-shadow:0 0 8px #00ffff;z-index:2}
+html.theme-jarvis #callOrb{filter:drop-shadow(0 0 16px rgba(0,255,255,.62))}
+html.theme-jarvis #ckT{color:#00ffff;font-size:31px}
+html.theme-jarvis .ipill,.html.theme-jarvis .qchip{border-radius:2px!important;border-color:rgba(0,255,255,.35)!important;clip-path:polygon(6px 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%,0 6px)}
 .chip{display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border-radius:999px;background:var(--glass);border:1px solid var(--line);font-size:12px;color:var(--dim);min-width:84px;justify-content:center}
 .chip i{width:7px;height:7px;border-radius:50%;background:var(--ok);box-shadow:0 0 8px var(--ok)}
 .ic{width:42px;height:42px;border-radius:50%;background:var(--glass);border:1px solid var(--line);display:grid;place-items:center;color:var(--txt);transition:transform .15s,background .2s}
