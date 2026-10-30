@@ -50,7 +50,24 @@ svg.i{width:22px;height:22px;display:block}
   html[data-theme=light] #app{background:rgba(255,255,255,.6)}}
 .hdr{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;gap:10px}
 .hdr .ttl{font-size:19px;font-weight:600;letter-spacing:.02em}
-.hdr .ttl::after{content:"BETA";margin-left:7px;font-size:9px;letter-spacing:.08em;padding:3px 7px;border-radius:999px;background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;vertical-align:middle}
+/* Estilo Gemini: brilho, cores vivas e superfícies suaves */
+html.theme-gemini{--acc:#4285f4;--acc2:#a855f7}
+html.theme-gemini[data-theme=light]{--acc:#4285f4;--acc2:#9333ea}
+html.theme-gemini body{background:
+  radial-gradient(circle at 12% 10%,rgba(66,133,244,.34),transparent 28%),
+  radial-gradient(circle at 88% 18%,rgba(168,85,247,.28),transparent 30%),
+  radial-gradient(circle at 75% 82%,rgba(52,211,153,.20),transparent 28%),
+  radial-gradient(circle at 20% 88%,rgba(251,188,5,.14),transparent 24%),var(--bg)}
+html.theme-gemini[data-theme=light] body{background:
+  radial-gradient(circle at 12% 10%,rgba(66,133,244,.20),transparent 28%),
+  radial-gradient(circle at 88% 18%,rgba(168,85,247,.18),transparent 30%),
+  radial-gradient(circle at 75% 82%,rgba(52,211,153,.14),transparent 28%),
+  radial-gradient(circle at 20% 88%,rgba(251,188,5,.12),transparent 24%),#fff}
+html.theme-gemini .hdr,html.theme-gemini .tabs,html.theme-gemini .pill,html.theme-gemini .gl,html.theme-gemini .prof,html.theme-gemini .row,html.theme-gemini .qc{border-color:color-mix(in srgb,var(--acc) 38%,var(--line));box-shadow:inset 0 1px 0 rgba(255,255,255,.14),0 10px 32px rgba(66,133,244,.10)}
+html.theme-gemini .m.u .bub,html.theme-gemini .btn.pri,html.theme-gemini .snav button.on,html.theme-gemini .snew,html.theme-gemini #plus{background:linear-gradient(135deg,#4285f4 0%,#7c4dff 48%,#db4cb2 100%)!important;box-shadow:0 8px 28px rgba(66,133,244,.28),0 0 18px rgba(168,85,247,.18)}
+html.theme-gemini .pill,html.theme-gemini #sendBtn,html.theme-gemini .cb2.big{box-shadow:0 0 30px rgba(66,133,244,.38),0 0 46px rgba(168,85,247,.20)}
+html.theme-gemini #hero h1{background:linear-gradient(90deg,#4285f4,#7c4dff,#34a853,#fbbc05);-webkit-background-clip:text;background-clip:text;color:transparent}
+html.theme-gemini .tab.on{color:#8ab4f8;text-shadow:0 0 12px rgba(66,133,244,.45)}
 .chip{display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border-radius:999px;background:var(--glass);border:1px solid var(--line);font-size:12px;color:var(--dim);min-width:84px;justify-content:center}
 .chip i{width:7px;height:7px;border-radius:50%;background:var(--ok);box-shadow:0 0 8px var(--ok)}
 .ic{width:42px;height:42px;border-radius:50%;background:var(--glass);border:1px solid var(--line);display:grid;place-items:center;color:var(--txt);transition:transform .15s,background .2s}
@@ -75,17 +92,40 @@ html[data-theme=light] .qc{background:rgba(255,255,255,.72);border-color:rgba(25
 .m{display:flex;gap:10px;max-width:100%;animation:up .35s cubic-bezier(.2,.8,.2,1) both}
 @keyframes up{from{opacity:0;transform:translateY(12px) scale(.98)}}
 .m.u{justify-content:flex-end}
-.m .bub{max-width:86%;line-height:1.62;font-size:var(--fs);overflow-wrap:anywhere}
+.m .bub{max-width:86%;min-width:0;line-height:1.62;font-size:var(--fs);overflow-wrap:anywhere}
 .m.u .bub{background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;padding:10px 14px;border-radius:22px 22px 6px 22px;box-shadow:0 8px 28px color-mix(in srgb,var(--acc) 30%,transparent)}
 .m.a .av{width:28px;height:28px;flex:none;border-radius:50%;margin-top:2px;background:radial-gradient(circle at 35% 30%,#fff,color-mix(in srgb,var(--acc) 60%,#fff) 40%,var(--acc2) 85%);box-shadow:0 0 16px color-mix(in srgb,var(--acc) 60%,transparent)}
 .m.a .bub{padding:2px 0}
 .m.a.err .bub{color:#ffb4a8}
 html[data-theme=light] .m.a.err .bub{color:#c2410c}
-.bub ul{margin:6px 0 6px 20px}
-.bub code{font-family:var(--mono);font-size:13px;background:rgba(255,255,255,.1);padding:1px 5px;border-radius:5px}
-.bub pre{font-family:var(--mono);font-size:13px;background:rgba(0,0,0,.4);border:1px solid var(--line);padding:10px;border-radius:10px;overflow-x:auto;margin:6px 0}
-html[data-theme=light] .bub code{background:rgba(30,50,140,.08)}
-html[data-theme=light] .bub pre{background:#f1f3fb}
+.m.a .bub{max-width:calc(100% - 38px)}
+.bub>*:first-child{margin-top:0}
+.bub p{margin:0 0 .7em}
+.bub h2,.bub h3,.bub h4,.bub h5{line-height:1.3;margin:1.1em 0 .45em;font-weight:650}
+.bub h2{font-size:1.22em}.bub h3{font-size:1.1em}.bub h4,.bub h5{font-size:1em;color:var(--dim)}
+.bub ul,.bub ol{margin:.2em 0 .75em;padding-left:1.35em}
+.bub li{margin:.28em 0;padding-left:.15em}
+.bub li::marker{color:var(--acc)}
+.bub li>ul,.bub li>ol{margin:.25em 0 .1em}
+.bub .tk{font-size:.95em}
+.bub a{color:var(--acc);text-decoration:underline;text-underline-offset:2px;word-break:break-all}
+.bub b{font-weight:650}
+.bub blockquote{margin:.6em 0 .8em;padding:.2em 0 .2em 12px;border-left:3px solid var(--acc);color:var(--dim)}
+.bub blockquote p{margin:.3em 0}
+.bub hr{border:0;border-top:1px solid var(--line);margin:1em 0}
+.bub .tw{max-width:100%;overflow-x:auto;margin:.6em 0 .85em;border:1px solid var(--line);border-radius:12px;-webkit-overflow-scrolling:touch}
+.bub table{border-collapse:collapse;width:100%;font-size:.88em;line-height:1.35}
+.bub th,.bub td{padding:8px 9px;border-bottom:1px solid var(--line);vertical-align:top;overflow-wrap:break-word;word-break:normal}
+.bub th{background:var(--glass2);font-weight:650}
+.bub tbody tr:nth-child(even){background:rgba(127,127,170,.08)}
+.bub tbody tr:last-child td{border-bottom:0}
+.bub code{font-family:var(--mono);font-size:.88em;background:rgba(127,127,170,.18);padding:1px 6px;border-radius:6px}
+.bub .cb{margin:.7em 0 .85em;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:rgba(0,0,0,.38)}
+html[data-theme=light] .bub .cb{background:#f1f3fb}
+.bub .cbh{display:flex;justify-content:space-between;align-items:center;padding:6px 10px 6px 12px;font-size:11.5px;color:var(--dim);background:var(--glass2);text-transform:lowercase}
+.bub .cpy{padding:3px 10px;border-radius:999px;background:var(--glass);border:1px solid var(--line);font-size:11.5px;color:var(--txt)}
+.bub .cb pre{margin:0;border:0;border-radius:0;background:none;padding:11px 13px;overflow-x:auto}
+.bub .cb code{background:none;padding:0;font-size:13px}
 .act{display:flex;gap:4px;margin-top:6px}
 .act button{padding:4px 9px;border-radius:999px;color:var(--dim);background:var(--glass)}
 .act button:active{background:var(--glass2)}
@@ -382,7 +422,7 @@ html.no-motion *{animation:none!important;transition:none!important}
       <!-- Aparência -->
       <div class="cat" data-c="look">
         <div class="grp"><div class="gt">Tema e cores</div><div class="gl">
-          <div class="li col"><b>Tema</b><div class="seg" id="uTheme"><button type="button" data-v="dark">Escuro</button><button type="button" data-v="light">Claro</button><button type="button" data-v="auto">Automático</button></div></div>
+          <div class="li col"><b>Tema</b><div class="seg" id="uTheme"><button type="button" data-v="dark">Escuro</button><button type="button" data-v="light">Claro</button><button type="button" data-v="auto">Automático</button><button type="button" data-v="gemini">Gemini</button></div></div>
           <div class="li col"><b>Cor de destaque</b><div class="swa" id="uAcc"></div>
             <div class="rowc"><input type="color" id="uAccC" aria-label="Escolher cor própria"><small>Cor própria: toque no quadrado e escolha qualquer cor</small></div></div>
         </div></div>
@@ -730,7 +770,7 @@ const ICONS = {
 
 /* Valores padrão de todos os ajustes salvos (mesmas chaves do localStorage de antes) */
 const DEFAULTS = {
-  ui_acc: "blue", ui_accc: "#3b82f6", ui_avatar: "face", ui_avc: "auto", ui_glow: "100", ui_bg: "aurora", ui_font: "system", ui_bub: "round", face_q: "mid", face_move: "100", ui_fs: "16", ui_blur: "22", ui_orb: "1", ui_motion: "1", ui_quick: "1", ui_acts: "1",
+  ui_acc: "blue", ui_accc: "#3b82f6", ui_avatar: "face", ui_avc: "auto", ui_glow: "100", ui_bg: "aurora", ui_font: "system", ui_bub: "round", face_q: "mid", face_move: "100", ui_fs: "16", ui_blur: "22", ui_orb: "1", ui_motion: "1", ui_quick: "1", ui_acts: "1", ui_theme: "dark",
   enter_send: "1", mem_live: "1", u_name: "", u_addr: "", u_pers: "mordomo", u_len: "normal",
   ai_temp: "0.8", ai_model: "", ai_extra: "", gemini_key: "", jarvis_mode: "normal",
   speak_replies: "0", stt_mode: "gemini", stt_sil: "0.7", show_lat: "0", wake_on: "0", wake_mini: "1", call_design: "hud", call_clock: "1", call_info: "1", call_quick: "1", call_caps: "0", voice_len: "normal", web_search: "1",
@@ -812,19 +852,76 @@ async function copyText(txt) {
 const ico = (k, sw) => '<svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="' + (sw || 1.9) + '" stroke-linecap="round" stroke-linejoin="round">' + ICONS[k] + "</svg>";
 const cleanText = t => String(t).replace(/[*_`#>]/g, "").replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/gu, "").replace(/\s+/g, " ").trim();
 
-/* Markdown mínimo: **negrito**, `código`, blocos ``` e listas */
+/* Markdown completo (como ChatGPT/Gemini): títulos, listas (numeradas e aninhadas), tabelas, citações,
+   blocos de código com botão de copiar, links, **negrito**, *itálico*, ~~riscado~~, `código` e linhas */
 function md(t) {
-  const blocks = [];
-  let h = esc(t).replace(/```[a-z]*\n?([\s\S]*?)```/g, (m, c) => { blocks.push(c); return "\u0000" + (blocks.length - 1) + "\u0000"; });
-  h = h.replace(/`([^`\n]+)`/g, "<code>$1</code>").replace(/\*\*([^*\n]+)\*\*/g, "<b>$1</b>");
-  let out = "", inList = false;
-  h.split("\n").forEach(line => {
-    const m = /^\s*[-*•]\s+(.*)/.exec(line);
-    if (m) { if (!inList) { out += "<ul>"; inList = true; } out += "<li>" + m[1] + "</li>"; }
-    else { if (inList) { out += "</ul>"; inList = false; } out += line.trim() === "" ? "<br>" : line + "<br>"; }
-  });
-  if (inList) out += "</ul>";
-  return out.replace(/\u0000(\d+)\u0000/g, (m, i) => "<pre>" + blocks[+i] + "</pre>");
+  const codes = [];
+  const src = String(t).replace(/\r\n?/g, "\n").replace(/```([\w+#.-]*)[ \t]*\n?([\s\S]*?)```/g, (m, lang, body) => { codes.push({ lang, body: body.replace(/\n$/, "") }); return "\n\u0000B" + (codes.length - 1) + "\u0000\n"; });
+  const lines = src.split("\n");
+  const inline = raw => {
+    const spans = [];
+    let x = String(raw).replace(/`([^`\n]+)`/g, (m, c) => { spans.push(c); return "\u0001" + (spans.length - 1) + "\u0001"; });
+    x = esc(x);
+    x = x.replace(/\[([^\]\n]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
+    x = x.replace(/(^|[\s(])(https?:\/\/[^\s<]+[^\s<.,;:!?)])/g, '$1<a href="$2" target="_blank" rel="noopener noreferrer">$2</a>');
+    x = x.replace(/\*\*([^\n]+?)\*\*/g, "<b>$1</b>").replace(/__([^\n]+?)__/g, "<b>$1</b>").replace(/~~([^\n]+?)~~/g, "<s>$1</s>");
+    x = x.replace(/(^|[^*\w])\*([^*\s][^*\n]*?)\*(?!\*)/g, "$1<i>$2</i>").replace(/(^|[^\w])_([^_\s][^_\n]*?)_(?!\w)/g, "$1<i>$2</i>");
+    x = x.replace(/&lt;br\s*\/?&gt;/gi, "<br>");
+    return x.replace(/\u0001(\d+)\u0001/g, (m, i) => "<code>" + esc(spans[i]) + "</code>");
+  };
+  const cellsOf = ln => ln.trim().replace(/\\\|/g, "\u0002").replace(/^\|/, "").replace(/\|$/, "").split("|").map(c => c.replace(/\u0002/g, "|").trim());
+  const isSep = ln => /^\s*\|?\s*:?-+:?\s*(\|\s*:?-+:?\s*)*\|?\s*$/.test(ln) && ln.indexOf("-") >= 0 && ln.indexOf("|") >= 0;
+  const itemRe = /^(\s*)([-*•+]|\d{1,3}[.)])\s+(.*)$/;
+  const isStart = (ln, nx) => /^\u0000B\d+\u0000$/.test(ln.trim()) || /^#{1,6}\s+/.test(ln) || /^\s*([-*_])(\s*\1){2,}\s*$/.test(ln) || /^\s*>/.test(ln) || itemRe.test(ln) || (ln.indexOf("|") >= 0 && nx !== undefined && isSep(nx));
+  let out = "", i = 0;
+  while (i < lines.length) {
+    const ln = lines[i]; let m;
+    if (/^\s*$/.test(ln)) { i++; continue; }
+    if ((m = /^\u0000B(\d+)\u0000$/.exec(ln.trim()))) {
+      const c = codes[+m[1]];
+      out += '<div class="cb"><div class="cbh"><span>' + esc(c.lang || "código") + '</span><button class="cpy" type="button">Copiar</button></div><pre><code>' + esc(c.body) + "</code></pre></div>";
+      i++; continue;
+    }
+    if ((m = /^(#{1,6})\s+(.*?)\s*#*\s*$/.exec(ln))) { const lv = Math.min(m[1].length + 1, 5); out += "<h" + lv + ">" + inline(m[2]) + "</h" + lv + ">"; i++; continue; }
+    if (/^\s*([-*_])(\s*\1){2,}\s*$/.test(ln)) { out += "<hr>"; i++; continue; }
+    if (/^\s*>/.test(ln)) {
+      const q = []; while (i < lines.length && /^\s*>/.test(lines[i])) { q.push(lines[i].replace(/^\s*>\s?/, "")); i++; }
+      out += "<blockquote>" + md(q.join("\n")) + "</blockquote>"; continue;
+    }
+    if (ln.indexOf("|") >= 0 && i + 1 < lines.length && isSep(lines[i + 1])) {
+      const head = cellsOf(ln), al = cellsOf(lines[i + 1]).map(c => /^:-+:$/.test(c) ? "center" : /^-+:$/.test(c) ? "right" : "left");
+      i += 2; const rows = [];
+      while (i < lines.length && lines[i].indexOf("|") >= 0 && !/^\s*$/.test(lines[i])) { rows.push(cellsOf(lines[i])); i++; }
+      out += '<div class="tw"><table><thead><tr>' + head.map((c, k) => '<th style="text-align:' + (al[k] || "left") + '">' + inline(c) + "</th>").join("") + "</tr></thead><tbody>" +
+        rows.map(r => "<tr>" + head.map((_, k) => '<td style="text-align:' + (al[k] || "left") + '">' + inline(r[k] || "") + "</td>").join("") + "</tr>").join("") + "</tbody></table></div>";
+      continue;
+    }
+    if (itemRe.test(ln)) {
+      const items = [];
+      while (i < lines.length) {
+        const l = lines[i], im = itemRe.exec(l);
+        if (im) { items.push({ ind: Math.floor(im[1].replace(/\t/g, "  ").length / 2), ord: /\d/.test(im[2]), n: parseInt(im[2], 10), text: im[3] }); i++; }
+        else if (/^\s*$/.test(l) && i + 1 < lines.length && itemRe.test(lines[i + 1])) i++;
+        else if (!/^\s*$/.test(l) && /^\s{2,}\S/.test(l) && items.length && !isStart(l, lines[i + 1])) { items[items.length - 1].text += " " + l.trim(); i++; }
+        else break;
+      }
+      let html = "", stack = [];
+      items.forEach(it => {
+        const tag = it.ord ? "ol" : "ul";
+        while (stack.length && it.ind < stack[stack.length - 1].ind) { html += "</li></" + stack[stack.length - 1].tag + ">"; stack.pop(); }
+        if (!stack.length || it.ind > stack[stack.length - 1].ind) { html += "<" + tag + (it.ord && it.n !== 1 && !stack.length ? ' start="' + it.n + '"' : "") + ">"; stack.push({ ind: it.ind, tag }); }
+        else html += "</li>";
+        const tk = /^\[( |x|X)\]\s+(.*)$/.exec(it.text);
+        html += "<li>" + (tk ? '<span class="tk">' + (tk[1] === " " ? "☐" : "☑") + "</span> " + inline(tk[2]) : inline(it.text));
+      });
+      while (stack.length) { html += "</li></" + stack[stack.length - 1].tag + ">"; stack.pop(); }
+      out += html; continue;
+    }
+    const para = [];
+    while (i < lines.length && !/^\s*$/.test(lines[i]) && !(para.length && isStart(lines[i], lines[i + 1]))) { para.push(lines[i]); i++; }
+    out += "<p>" + para.map(inline).join("<br>") + "</p>";
+  }
+  return out;
 }
 
 /* ==========================================================================
@@ -1131,7 +1228,7 @@ function buildSystem(o) {
   const live = cfg("mem_live") !== "0", len = cfg("u_len"), extra = cfg("ai_extra").trim();
   const parts = [
     "Você é " + CONFIG.name + ", o assistente pessoal do usuário (" + ME.name + "). Personalidade: " + ME.persona + '. Trate o usuário por "' + ME.address + '".',
-    "Responda sempre em português do Brasil. Responda de forma clara e objetiva. Pode usar listas curtas e **negrito** quando ajudar; evite textos longos demais e use poucos emojis.",
+    "Responda sempre em português do Brasil. Responda de forma clara e objetiva, bem organizada em Markdown: títulos curtos (## ) quando houver várias partes, listas e passos numerados, **negrito** só no essencial, TABELAS (| coluna | coluna |) sempre que comparar itens ou mostrar dados como produtos, vendas, preços e horários, e blocos de código para código. Respostas curtas continuam curtas, sem enfeite; use poucos emojis.",
     mode.extra,
     "Agora é " + new Date().toLocaleString("pt-BR", { dateStyle: "full", timeStyle: "short" }) + ".",
     "SECOND BRAIN DO USUÁRIO (o que você sabe sobre a vida dele; use para personalizar toda resposta):\n" + Brain.asPrompt(),
@@ -3085,7 +3182,7 @@ async function speechBlob(txt, errs) {
    junta reticências e abreviações (pausas longas) e remove o que não deve ser lido */
 function speechText(raw) {
   let t = String(raw);
-  t = t.replace(/```[\s\S]*?```/g, " ").replace(/\[\[[\s\S]*?\]\]/g, " ").replace(/https?:\/\/\S+/g, " link ");
+  t = t.replace(/^[ \t]*\|?[ \t]*:?-{2,}:?[ \t]*(\|[ \t]*:?-{2,}:?[ \t]*)*\|?[ \t]*$/gm, "").replace(/```[\s\S]*?```/g, " ").replace(/\[\[[\s\S]*?\]\]/g, " ").replace(/https?:\/\/\S+/g, " link ");
   t = t.replace(/^[ \t]*(?:[-–—•*·▪●]|\d{1,2}[.)])[ \t]+/gm, "");                       /* marcadores: "- item", "1. item" */
   t = t.replace(/(\d)\.(\d{3})(?!\d)/g, "$1$2").replace(/(\d)\.(\d{3})(?!\d)/g, "$1$2");   /* 1.000 → 1000 */
   t = t.replace(/(\d)\.(\d)/g, "$1,$2");                                                /* 24.5 → 24,5 */
@@ -3497,6 +3594,12 @@ function applyUI() {
   ["aurora", "solid", "grid", "dots"].forEach(k => R.classList.toggle("bg-" + k, cfg("ui_bg") === k));
   ["round", "sharp", "glass"].forEach(k => R.classList.toggle("bub-" + k, cfg("ui_bub") === k));
   R.classList.toggle("no-orb", cfg("ui_orb") === "0");
+  // Aplica o tema Gemini se selecionado
+  if (cfg("ui_theme") === "gemini") {
+    R.classList.add("theme-gemini");
+  } else {
+    R.classList.remove("theme-gemini");
+  }
   R.classList.toggle("no-motion", cfg("ui_motion") === "0");
   R.classList.toggle("no-quick", cfg("ui_quick") === "0");
   R.classList.toggle("no-acts", cfg("ui_acts") === "0");
@@ -3665,6 +3768,11 @@ function bindSettings() {
   $("voiceTest").onclick = testVoice;
 
   bindNotify(); bindLoja(); bindWake(); bindCall();
+  $("msgs").addEventListener("click", async e => {      /* botão "Copiar" dos blocos de código */
+    const b = e.target && e.target.closest ? e.target.closest(".cpy") : null; if (!b) return;
+    const pre = b.closest(".cb").querySelector("pre"), ok = await copyText(pre.textContent);
+    b.textContent = ok ? "Copiado ✓" : "Erro"; setTimeout(() => { b.textContent = "Copiar"; }, 1600);
+  });
   /* chat */
   bind.toggle("uEnter", "enter_send", "1"); bind.toggle("uActs", "ui_acts", "1", applyUI); bind.toggle("uQuick", "ui_quick", "1", applyUI);
 
