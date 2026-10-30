@@ -381,7 +381,7 @@ html.no-motion *{animation:none!important;transition:none!important}
   <header class="hdr">
     <button class="ic" id="hMenu" type="button" aria-label="Histórico de conversas" data-ico="menu"></button>
     <div class="ttl">Jarvis</div>
-    <button class="chip" id="provChip" type="button"><i></i><span>Gemini</span></button>
+    <button class="chip" id="provChip" type="button"><i></i><span>JARVIS</span></button>
   </header>
 
   <main id="main">
@@ -436,7 +436,7 @@ html.no-motion *{animation:none!important;transition:none!important}
       <!-- Aparência -->
       <div class="cat" data-c="look">
         <div class="grp"><div class="gt">Tema e cores</div><div class="gl">
-          <div class="li col"><b>Tema</b><div class="seg" id="uTheme"><button type="button" data-v="dark">Escuro</button><button type="button" data-v="light">Claro</button><button type="button" data-v="auto">Automático</button><button type="button" data-v="gemini">Gemini</button></div></div>
+          <div class="li col"><b>Tema</b><div class="seg" id="uTheme"><button type="button" data-v="dark">Escuro</button><button type="button" data-v="light">Claro</button><button type="button" data-v="auto">Automático</button><button type="button" data-v="gemini">Gemini</button><button type="button" data-v="jarvis">JARVIS</button></div></div>
           <div class="li col"><b>Cor de destaque</b><div class="swa" id="uAcc"></div>
             <div class="rowc"><input type="color" id="uAccC" aria-label="Escolher cor própria"><small>Cor própria: toque no quadrado e escolha qualquer cor</small></div></div>
         </div></div>
@@ -1171,7 +1171,8 @@ async function callAI(turns, system, opts) {
   const { contents, instruction } = normalizeTurns(turns, system);
   const basePayload = { contents, generationConfig: { temperature: opts.temp !== undefined ? opts.temp : cfgNum("ai_temp") } };
   if (instruction) basePayload.systemInstruction = { parts: [{ text: instruction }] };
-  const wantSearch = opts.search !== false && cfg("web_search") !== "0";
+  const wantSearch = opts.search !== false && cfg("web_search") !== "0" &&
+    confirm("O Jarvis pode pesquisar esta pergunta na internet?");
   const build = (tv, s) => {
     const p = JSON.parse(JSON.stringify(basePayload));
     if (opts.fast) p.generationConfig.maxOutputTokens = opts.maxTokens || 600;
@@ -1562,7 +1563,7 @@ function pushMsg(role, text, opts) {
   }
   if (!user && !opts.error && opts.search) {
     const sr = opts.search, box = document.createElement("div"); box.className = "srcs";
-    let h = "";
+    let h = '<div class="sq"><b>Fontes consultadas:</b></div>';
     if (sr.queries && sr.queries.length) h += '<div class="sq">🔎 Pesquisou: ' + sr.queries.slice(0, 3).map(esc).join(" · ") + "</div>";
     if (sr.sources && sr.sources.length) h += '<div class="sl">' + sr.sources.map(x => '<a href="' + esc(x.u) + '" target="_blank" rel="noopener noreferrer">' + esc(x.t) + "</a>").join("") + "</div>";
     box.innerHTML = h;
@@ -1626,7 +1627,15 @@ async function sendMessage(text) {
     const found = takeSearch(), saved = found ? { queries: found.queries, sources: found.sources } : undefined;
     Chats.log.push(Object.assign({ role: "assistant", content: reply }, saved ? { search: saved } : {}));
     Chats.persist();
-    pushMsg("assistant", reply, { search: found || undefined });
+    const bubble = pushMsg("assistant", "", { search: found || undefined });
+    const box = bubble.querySelector(".bub");
+    let typed = "";
+    for (const char of reply) {
+      typed += char;
+      box.innerHTML = md(typed) + '<span style="opacity:.55">?</span>';
+      await new Promise(resolve => setTimeout(resolve, 12));
+    }
+    box.innerHTML = md(reply);
     Notif.fire("Jarvis respondeu", reply);
     if (!Call.on && cfg("speak_replies") === "1") Speech.speak(reply);
   } catch (e) {
@@ -3608,12 +3617,9 @@ function applyUI() {
   ["aurora", "solid", "grid", "dots"].forEach(k => R.classList.toggle("bg-" + k, cfg("ui_bg") === k));
   ["round", "sharp", "glass"].forEach(k => R.classList.toggle("bub-" + k, cfg("ui_bub") === k));
   R.classList.toggle("no-orb", cfg("ui_orb") === "0");
-  // Aplica o tema Gemini se selecionado
-  if (cfg("ui_theme") === "gemini") {
-    R.classList.add("theme-gemini");
-  } else {
-    R.classList.remove("theme-gemini");
-  }
+  R.classList.remove("theme-gemini", "theme-jarvis");
+  if (cfg("ui_theme") === "gemini") R.classList.add("theme-gemini");
+  if (cfg("ui_theme") === "jarvis") R.classList.add("theme-jarvis");
   R.classList.toggle("no-motion", cfg("ui_motion") === "0");
   R.classList.toggle("no-quick", cfg("ui_quick") === "0");
   R.classList.toggle("no-acts", cfg("ui_acts") === "0");
