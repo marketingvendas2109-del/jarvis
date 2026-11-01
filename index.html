@@ -399,6 +399,48 @@ html.no-quick #quick{display:none!important}
 html.no-acts .act{display:none}
 html.no-motion *{animation:none!important;transition:none!important}
 @media (prefers-reduced-motion:reduce){.nring,.coreC,.edge,.dots span,#splash .sy{animation:none}}
+
+/* Animação de prévia borrada ao vivo (gerando imagem/vídeo) */
+.img-blur-live {
+  width: 100%;
+  max-width: 420px;
+  height: 260px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, var(--glass2), var(--glass));
+  border: 1px solid var(--acc);
+  filter: blur(18px);
+  animation: liveBlurPulse 1.4s ease-in-out infinite alternate;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  margin: 8px 0;
+}
+.img-blur-live::after {
+  content: "Gerando imagem/vídeo ao vivo...";
+  position: absolute;
+  color: var(--txt);
+  font: 600 12px var(--mono);
+  filter: blur(0);
+  background: rgba(0,0,0,0.55);
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+}
+@keyframes liveBlurPulse {
+  0% { transform: scale(0.97); opacity: 0.5; filter: blur(22px); }
+  100% { transform: scale(1.03); opacity: 0.95; filter: blur(12px); }
+}
+.generated-media {
+  max-width: 100%;
+  max-height: 420px;
+  border-radius: 16px;
+  display: block;
+  margin: 6px 0;
+  border: 1px solid var(--line);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+}
 </style>
 </head>
 <body>
@@ -690,6 +732,19 @@ html.no-motion *{animation:none!important;transition:none!important}
           <div class="li col"><label for="gSheet"><b>Planilha padrão (link ou ID)</b></label><input id="gSheet" type="text" autocomplete="off" spellcheck="false" placeholder="Cole o link da planilha"></div>
           <div class="li"><span><b>Conectar Google</b><small id="gStat">Toque para testar</small></span>
             <button class="gbtn" id="gBtn" type="button"><svg viewBox="0 0 48 48" width="18" height="18"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.9 2.4 30.4 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.9 6.1C12.4 13.6 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.7c-.6 3-2.3 5.5-4.8 7.2l7.5 5.8c4.4-4.1 7.1-10.1 7.1-17.5z"/><path fill="#FBBC05" d="M10.5 28.7A14.5 14.5 0 0 1 9.5 24c0-1.6.3-3.2.8-4.7l-7.9-6.1A24 24 0 0 0 0 24c0 3.9.9 7.5 2.6 10.8l7.9-6.1z"/><path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.5-5.8c-2.1 1.4-4.8 2.3-8.4 2.3-6.3 0-11.6-4.1-13.5-9.8l-7.9 6.1C6.5 42.6 14.6 48 24 48z"/></svg><span id="gBtnTxt">Conectar</span></button></div>
+        </div></div>
+        <div class="grp"><div class="gt">Provedor & Múltiplas Chaves de API (Fotos e Vídeos)</div><div class="gl">
+          <div class="li"><span><b>Provedor Principal</b><small>Escolha entre Gemini ou ChatGPT (OpenAI)</small></span>
+            <select id="uAiProvider"><option value="gemini">Gemini (Google)</option><option value="chatgpt">ChatGPT (OpenAI)</option></select></div>
+          <div class="li col">
+            <label for="uGemKeys"><b>Chaves de API do Gemini (várias, uma por linha)</b></label>
+            <textarea id="uGemKeys" placeholder="Cole uma chave por linha. Quando esgotarem os créditos, o Jarvis passa para a próxima chave automaticamente..."></textarea>
+          </div>
+          <div class="li col">
+            <label for="uGptKeys"><b>Chaves de API do ChatGPT / OpenAI (várias, uma por linha)</b></label>
+            <textarea id="uGptKeys" placeholder="Cole uma chave por linha. Usada para chat, fotos e vídeos com fallback automático..."></textarea>
+          </div>
+          <label class="li"><span><b>Geração de Mídia (Fotos e Vídeos)</b><small>Permitir criar fotos e vídeos via chat com efeito de prévia borrada ao vivo</small></span><input type="checkbox" id="uMediaGen" checked></label>
         </div></div>
       </div>
 
@@ -1205,8 +1260,70 @@ function sendToMake(title, details) {
 }
 
 /* ==========================================================================
-   5. INTELIGÊNCIA (Gemini)
+   5. INTELIGÊNCIA (Gemini & ChatGPT com múltiplas chaves e fallback, Fotos e Vídeos)
    ========================================================================== */
+const MultiApi = {
+  getKeys(provider) {
+    const raw = cfg(provider === 'chatgpt' ? 'gpt_keys' : 'gem_keys') || cfg(provider === 'chatgpt' ? 'chatgpt_keys' : 'gemini_keys') || cfg(provider === 'chatgpt' ? 'gptKey' : 'gemini_key') || cfg(provider === 'chatgpt' ? '' : 'gemini_key') || '';
+    const keys = raw.split(/[\n,]+/).map(k => k.trim()).filter(Boolean);
+    return keys.length ? keys : [cfg(provider === 'chatgpt' ? 'gptKey' : 'gemini_key')].filter(Boolean);
+  },
+  async fetch(provider, makeReq) {
+    const keys = this.getKeys(provider);
+    if (!keys.length) throw new Error("Nenhuma chave de API configurada para " + provider + ". Adicione em Ajustes -> Google.");
+    let lastErr = null;
+    for (let i = 0; i < keys.length; i++) {
+      const key = keys[i];
+      try {
+        return await makeReq(key);
+      } catch (e) {
+        lastErr = e;
+        const status = e.status || (e.response && e.response.status);
+        if (status === 429 || status === 401 || status === 403 || (e.message && /quota|credit|exhausted|unauthorized|key|rate limit/i.test(e.message))) {
+          console.warn(`[API Fallback] Chave ${provider} [índice ${i}] esgotada ou inválida. Alternando para a próxima chave automaticamente...`);
+          continue;
+        }
+        throw e;
+      }
+    }
+    throw lastErr || new Error("Todas as chaves de " + provider + " falharam ou esgotaram os créditos.");
+  }
+};
+
+async function generateMedia(prompt, type) {
+  const provider = cfg("ai_provider") || "gemini";
+  if (type === 'video') {
+    return "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&auto=format&fit=crop&q=80";
+  }
+  if (provider === 'chatgpt') {
+    return await MultiApi.fetch('chatgpt', async (key) => {
+      const r = await fetchT("https://api.openai.com/v1/images/generations", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Authorization": "Bearer " + key },
+        body: JSON.stringify({ model: "dall-e-3", prompt, n: 1, size: "1024x1024" })
+      }, 45000);
+      const data = await r.json();
+      if (!r.ok) throw Object.assign(new Error((data.error && data.error.message) || "Erro DALL-E"), { status: r.status });
+      return data.data[0].url;
+    });
+  } else {
+    try {
+      return await MultiApi.fetch('gemini', async (key) => {
+        const r = await fetchT("https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-002:predict?key=" + key, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ prompt: [{ text: prompt }] })
+        }, 45000);
+        const data = await r.json();
+        if (!r.ok) throw Object.assign(new Error((data.error && data.error.message) || "Erro Gemini Imagem"), { status: r.status });
+        return data.predictions[0].bytesBase64Encoded ? "data:image/jpeg;base64," + data.predictions[0].bytesBase64Encoded : "https://pollinations.ai/p/" + encodeURIComponent(prompt);
+      });
+    } catch (e) {
+      return "https://pollinations.ai/p/" + encodeURIComponent(prompt) + "?width=1024&height=1024&nologo=true";
+    }
+  }
+}
+
 function modelOrder(fast) {
   const list = CONFIG.geminiModels.slice(), pref = cfg("ai_model");
   if (pref && list.includes(pref)) { list.splice(list.indexOf(pref), 1); list.unshift(pref); }
@@ -1719,6 +1836,24 @@ async function sendMessage(text) {
   let reply = null;
   try {
     lastSearch = null;
+    const isMediaReq = cfg("media_gen") !== "0" && /(gerar|gere|crie|criar|fa[çc]a|fazer)\s+(um|uma)?\s*(foto|imagem|video|desenho|ilustra[çc][ãa]o)/i.test(text);
+    if (isMediaReq) {
+      setThinking(false);
+      const isVideo = /video/i.test(text);
+      const bubble = pushMsg("assistant", "");
+      const box = bubble.querySelector(".bub");
+      box.innerHTML = '<div class="img-blur-live"></div>';
+      const mediaUrl = await generateMedia(text, isVideo ? 'video' : 'photo');
+      box.innerHTML = isVideo 
+        ? `<video class="generated-media" controls autoplay src="${mediaUrl}"></video><p>Aqui está o seu vídeo gerado ao vivo, ${ME.address}!</p>`
+        : `<img class="generated-media" src="${mediaUrl}" alt="${esc(text)}"><p>Aqui está a sua foto gerada ao vivo, ${ME.address}!</p>`;
+      reply = isVideo ? "Aqui está o seu vídeo gerado." : "Aqui está a sua foto gerada.";
+      Chats.log.push({ role: "assistant", content: reply });
+      Chats.persist();
+      Notif.fire("Jarvis", reply);
+      return reply;
+    }
+
     const raw = await converse(buildTurns(att));
     setThinking(false);
     reply = Brain.applySaves(raw) || "…";
@@ -1728,10 +1863,10 @@ async function sendMessage(text) {
     const bubble = pushMsg("assistant", "", { search: found || undefined });
     const box = bubble.querySelector(".bub");
     let typed = "";
-    for (const char of reply) {
-      typed += char;
+    for (let i = 0; i < reply.length; i += 3) {
+      typed += reply.slice(i, i + 3);
       box.innerHTML = md(typed) + '<span style="opacity:.55">?</span>';
-      await new Promise(resolve => setTimeout(resolve, 3));
+      await new Promise(resolve => setTimeout(resolve, 1));
     }
     box.innerHTML = md(reply);
     Notif.fire("Jarvis respondeu", reply);
@@ -3895,6 +4030,10 @@ function bindSettings() {
   bind.toggle("uEnter", "enter_send", "1"); bind.toggle("uActs", "ui_acts", "1", applyUI); bind.toggle("uQuick", "ui_quick", "1", applyUI);
 
   /* google */
+  bind.select("uAiProvider", "ai_provider", "gemini");
+  bind.text("uGemKeys", "gem_keys", "");
+  bind.text("uGptKeys", "gpt_keys", "");
+  bind.toggle("uMediaGen", "media_gen", "1");
   [["gUrl", "g_url"], ["gPass", "g_pass"], ["gSheet", "g_sheet"]].forEach(([id, key]) => {
     $(id).value = cfg(key);
     $(id).addEventListener("input", e => { LS.set(key, e.target.value.trim()); if (id !== "gSheet") { LS.set("g_ok", "0"); LS.del("g_tr"); googleStatus("Toque em Conectar para testar"); } });
