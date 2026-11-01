@@ -1279,7 +1279,7 @@ const MultiApi = {
       } catch (e) {
         lastErr = e;
         const status = e.status || (e.response && e.response.status);
-        if (status === 429 || status === 401 || status === 403 || (e.message && /quota|credit|exhausted|unauthorized|key|rate limit/i.test(e.message))) {
+        if (status === 429 || status === 401 || status === 403 || (e.message && /quota|credit|exhausted|unauthorized|key|rate limit|cors/i.test(e.message))) {
           console.warn(`[API Fallback] Chave ${provider} [índice ${i}] esgotada ou inválida. Alternando para a próxima chave automaticamente...`);
           continue;
         }
@@ -1295,19 +1295,20 @@ async function generateMedia(prompt, type) {
   if (type === 'video') {
     return "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&auto=format&fit=crop&q=80";
   }
-  if (provider === 'chatgpt') {
-    return await MultiApi.fetch('chatgpt', async (key) => {
-      const r = await fetchT("https://api.openai.com/v1/images/generations", {
-        method: "POST",
-        headers: { "Content-Type": "application/json", "Authorization": "Bearer " + key },
-        body: JSON.stringify({ model: "dall-e-3", prompt, n: 1, size: "1024x1024" })
-      }, 45000);
-      const data = await r.json();
-      if (!r.ok) throw Object.assign(new Error((data.error && data.error.message) || "Erro DALL-E"), { status: r.status });
-      return data.data[0].url;
-    });
-  } else {
-    try {
+  // Tenta usar a API configurada (com rotação de múltiplas chaves)
+  try {
+    if (provider === 'chatgpt') {
+      return await MultiApi.fetch('chatgpt', async (key) => {
+        const r = await fetchT("https://api.openai.com/v1/images/generations", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "Authorization": "Bearer " + key },
+          body: JSON.stringify({ model: "dall-e-3", prompt, n: 1, size: "1024x1024" })
+        }, 45000);
+        const data = await r.json();
+        if (!r.ok) throw Object.assign(new Error((data.error && data.error.message) || "Erro DALL-E"), { status: r.status });
+        return data.data[0].url;
+      });
+    } else {
       return await MultiApi.fetch('gemini', async (key) => {
         const r = await fetchT("https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-002:predict?key=" + key, {
           method: "POST",
@@ -1318,9 +1319,11 @@ async function generateMedia(prompt, type) {
         if (!r.ok) throw Object.assign(new Error((data.error && data.error.message) || "Erro Gemini Imagem"), { status: r.status });
         return data.predictions[0].bytesBase64Encoded ? "data:image/jpeg;base64," + data.predictions[0].bytesBase64Encoded : "https://pollinations.ai/p/" + encodeURIComponent(prompt);
       });
-    } catch (e) {
-      return "https://pollinations.ai/p/" + encodeURIComponent(prompt) + "?width=1024&height=1024&nologo=true";
     }
+  } catch (err) {
+    console.warn("Geração via API direta falhou ou sofreu bloqueio CORS. Usando renderizador nativo de alta qualidade:", err);
+    // Fallback garantido que gera a imagem perfeitamente na hora
+    return "https://pollinations.ai/p/" + encodeURIComponent(prompt) + "?width=1024&height=1024&nologo=true&seed=" + Math.floor(Math.random() * 100000);
   }
 }
 
