@@ -442,6 +442,8 @@ html.no-motion *{animation:none!important;transition:none!important}
   box-shadow: 0 8px 30px rgba(0,0,0,0.4);
 }
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
 </head>
 <body>
 
@@ -451,6 +453,7 @@ html.no-motion *{animation:none!important;transition:none!important}
   <header class="hdr">
     <button class="ic" id="hMenu" type="button" aria-label="Histórico de conversas" data-ico="menu"></button>
     <div class="ttl">Jarvis</div>
+    <button class="chip" id="magicBtn" type="button" title="Abrir Portal Mágico & Holograma nas Mãos" style="cursor:pointer;border-color:var(--acc);color:var(--acc);font-weight:600;">🔮 <span>Holograma</span></button>
     <button class="chip" id="provChip" type="button"><i></i><span>JARVIS</span></button>
   </header>
 
@@ -820,8 +823,111 @@ html.no-motion *{animation:none!important;transition:none!important}
   </div>
 </div>
 
+<div id="magicOverlay" class="hidden" style="position:fixed;inset:0;z-index:200;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;">
+  <video id="magicCam" autoplay playsinline muted style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scaleX(-1);opacity:0.85;"></video>
+  <canvas id="magicCanvas" style="position:absolute;inset:0;width:100%;height:100%;z-index:2;pointer-events:none;"></canvas>
+  <div style="position:absolute;top:20px;left:20px;z-index:3;display:flex;gap:10px;align-items:center;">
+    <div style="font-family:var(--mono);font-size:14px;color:#00ffff;background:rgba(0,0,0,0.7);padding:8px 14px;border-radius:12px;border:1px solid rgba(0,255,255,0.4);">🔮 MODO PORTAL MÁGICO & HOLOGRAMA</div>
+    <button type="button" id="magicClose" style="background:rgba(255,0,0,0.7);color:#fff;border:none;padding:8px 16px;border-radius:12px;cursor:pointer;font-family:var(--mono);">Fechar (ESC)</button>
+  </div>
+  <div style="position:absolute;bottom:25px;z-index:3;font-family:var(--mono);font-size:12px;color:rgba(255,255,255,0.9);background:rgba(0,0,0,0.65);padding:8px 18px;border-radius:999px;border:1px solid rgba(0,255,255,0.4);">
+    Abra as mãos na frente da câmera para invocar o portal mágico e estique os punhos para redimensionar!
+  </div>
+</div>
+
 <script>
 "use strict";
+
+/* ==========================================================================
+   PORTAL MÁGICO & HOLOGRAMA (MediaPipe Hands)
+   ========================================================================== */
+const MagicPortal = {
+  active: false,
+  hands: null,
+  camera: null,
+  async open() {
+    if (this.active) return;
+    this.active = true;
+    $("magicOverlay").classList.remove("hidden");
+    const videoElement = $("magicCam");
+    const canvasElement = $("magicCanvas");
+    const canvasCtx = canvasElement.getContext("2d");
+
+    this.hands = new Hands({ locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}` });
+    this.hands.setOptions({ maxNumHands: 2, modelComplexity: 1, minDetectionConfidence: 0.65, minTrackingConfidence: 0.65 });
+
+    this.hands.onResults(results => {
+      canvasElement.width = canvasElement.clientWidth;
+      canvasElement.height = canvasElement.clientHeight;
+      const W = canvasElement.width, H = canvasElement.height;
+      canvasCtx.clearRect(0, 0, W, H);
+
+      if (results.multiHandLandmarks && results.multiHandLandmarks.length > 0) {
+        const hand = results.multiHandLandmarks[0];
+        const cx = (1 - hand[9].x) * W, cy = hand[9].y * H;
+        
+        let radius = 95;
+        if (results.multiHandLandmarks.length > 1) {
+          const h1 = results.multiHandLandmarks[0][9], h2 = results.multiHandLandmarks[1][9];
+          const dist = Math.hypot((h1.x - h2.x) * W, (h1.y - h2.y) * H);
+          radius = Math.max(60, Math.min(280, dist * .45));
+        }
+
+        canvasCtx.save();
+        canvasCtx.translate(cx, cy);
+        const t = performance.now() / 250;
+        
+        canvasCtx.strokeStyle = "#00ffff";
+        canvasCtx.lineWidth = 4;
+        canvasCtx.shadowColor = "#00ffff";
+        canvasCtx.shadowBlur = 30;
+        canvasCtx.beginPath();
+        canvasCtx.arc(0, 0, radius, 0, Math.PI * 2);
+        canvasCtx.stroke();
+
+        canvasCtx.strokeStyle = "#ff5500";
+        canvasCtx.lineWidth = 3;
+        canvasCtx.shadowColor = "#ff5500";
+        canvasCtx.rotate(t);
+        for (let i = 0; i < 8; i++) {
+          const a = i * Math.PI / 4;
+          canvasCtx.beginPath();
+          canvasCtx.arc(Math.cos(a) * (radius * .75), Math.sin(a) * (radius * .75), 9, 0, Math.PI * 2);
+          canvasCtx.fillStyle = "#ffaa00";
+          canvasCtx.fill();
+        }
+
+        const grad = canvasCtx.createRadialGradient(0, 0, 0, 0, 0, radius);
+        grad.addColorStop(0, "rgba(0, 255, 255, 0.9)");
+        grad.addColorStop(0.55, "rgba(255, 100, 0, 0.45)");
+        grad.addColorStop(1, "rgba(0, 0, 0, 0)");
+        canvasCtx.fillStyle = grad;
+        canvasCtx.beginPath();
+        canvasCtx.arc(0, 0, radius * .92, 0, Math.PI * 2);
+        canvasCtx.fill();
+
+        canvasCtx.restore();
+      }
+    });
+
+    try {
+      this.camera = new Camera(videoElement, {
+        onFrame: async () => { if (this.active) await this.hands.send({ image: videoElement }); },
+        width: 1280, height: 720
+      });
+      await this.camera.start();
+    } catch (e) {
+      console.warn("Erro ao iniciar câmera para portal mágico:", e);
+      toast("Não foi possível acessar a câmera para o Portal Mágico.");
+    }
+  },
+  close() {
+    this.active = false;
+    $("magicOverlay").classList.add("hidden");
+    try { if (this.camera) this.camera.stop(); } catch (e) {}
+    try { if (this.hands) this.hands.close(); } catch (e) {}
+  }
+};
 
 /* ==========================================================================
    1. CONFIGURAÇÃO E DADOS FIXOS
@@ -4069,6 +4175,9 @@ function bindEvents() {
   document.querySelectorAll(".tab").forEach(t => t.addEventListener("click", () => showView(t.dataset.v)));
   $("provChip").onclick = () => showView("vSettings");
   $("modeChip").onclick = () => showView("vExplore");
+  $("magicBtn").onclick = () => MagicPortal.open();
+  $("magicClose").onclick = () => MagicPortal.close();
+  window.addEventListener("keydown", e => { if (e.key === "Escape") MagicPortal.close(); });
   $("plus").onclick = () => { newChat(); $("txt").focus(); };
 
   $("hMenu").onclick = () => setSide(true);
