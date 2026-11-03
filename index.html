@@ -8,7 +8,7 @@
 <style>
 /* ============ 1. TOKENS ============ */
 :root{
-  --bg:#02040a;--txt:#dffcff;--dim:#62aeb8;--acc:#00ffff;--acc2:#006cff;
+  --bg:#04050c;--txt:#f4f6ff;--dim:#9aa3c7;--acc:#3b82f6;--acc2:#7c3aed;
   --glass:rgba(255,255,255,.06);--glass2:rgba(255,255,255,.1);--line:rgba(130,160,255,.22);
   --sbg:rgba(14,18,40,.58);--cardbg:rgba(255,255,255,.07);--hl:rgba(255,255,255,.12);
   --ok:#10b981;--bad:#ef4444;--blur:22px;--fs:16px;
@@ -31,16 +31,8 @@ button{font-family:inherit;cursor:pointer;color:inherit;border:0;background:none
 input,select,textarea{font-family:inherit;color:var(--txt)}
 .hidden{display:none!important}
 svg.i{width:22px;height:22px;display:block}
-.hdr,.tabs,.pill,.gl,.card,.row,.qc,.side,.ed,.chip,.ic,.cb2,.btn,.prof,.snav button,.hub-engine-btn,#hubMainGrid>div,.hub-hist-item{
-  -webkit-backdrop-filter:blur(26px) saturate(190%)!important;
-  backdrop-filter:blur(26px) saturate(190%)!important;
-  background:rgba(255,255,255,0.04)!important;
-  border:1px solid rgba(255,255,255,0.12)!important;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,0.16),0 12px 36px rgba(0,0,0,0.35)!important}
-html[data-theme=light] .hdr,html[data-theme=light] .tabs,html[data-theme=light] .pill,html[data-theme=light] .gl,html[data-theme=light] .card,html[data-theme=light] .row,html[data-theme=light] .qc,html[data-theme=light] .side,html[data-theme=light] .ed,html[data-theme=light] .chip,html[data-theme=light] .ic,html[data-theme=light] .cb2,html[data-theme=light] .btn,html[data-theme=light] .prof,html[data-theme=light] .snav button,html[data-theme=light] .hub-engine-btn,html[data-theme=light] #hubMainGrid>div,html[data-theme=light] .hub-hist-item{
-  background:rgba(255,255,255,0.75)!important;
-  border:1px solid rgba(25,45,140,0.22)!important;
-  box-shadow:inset 0 1px 0 #fff,0 12px 32px rgba(30,60,180,0.12)!important}
+.hdr,.tabs,.pill,.gl,.card,.row,.qc,.side,.ed,.chip,.ic,.cb2,.btn,.prof,.snav button{
+  -webkit-backdrop-filter:blur(var(--blur)) saturate(180%);backdrop-filter:blur(var(--blur)) saturate(180%)}
 .view:not(.hidden){animation:fi .35s ease both}
 @keyframes fi{from{opacity:0;transform:translateY(8px)}}
 
@@ -53,63 +45,12 @@ html[data-theme=light] .hdr,html[data-theme=light] .tabs,html[data-theme=light] 
 @keyframes bl{50%{opacity:.2}}
 
 /* ============ 4. ESTRUTURA ============ */
-#app{height:100dvh;width:100%;max-width:850px;margin:0 auto;display:flex;flex-direction:column;position:relative;padding-top:env(safe-area-inset-top,0px)}
+#app{height:100dvh;max-width:560px;margin:0 auto;display:flex;flex-direction:column;position:relative;padding-top:env(safe-area-inset-top,0px)}
 @media(min-width:600px){#app{border-left:1px solid var(--line);border-right:1px solid var(--line);background:rgba(4,5,12,.6)}
   html[data-theme=light] #app{background:rgba(255,255,255,.6)}}
 .hdr{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;gap:10px}
 .hdr .ttl{font-size:19px;font-weight:600;letter-spacing:.02em}
-/* Estilo Gemini: brilho, cores vivas e superfícies suaves */
-html.theme-gemini { --acc: #4285f4; --acc2: #a855f7; }
-html.theme-gemini[data-theme=light]{--acc:#4285f4;--acc2:#9333ea}
-html.theme-gemini body{background:
-  radial-gradient(circle at 12% 10%,rgba(66,133,244,.34),transparent 28%),
-  radial-gradient(circle at 88% 18%,rgba(168,85,247,.28),transparent 30%),
-  radial-gradient(circle at 75% 82%,rgba(52,211,153,.20),transparent 28%),
-  radial-gradient(circle at 20% 88%,rgba(251,188,5,.14),transparent 24%),var(--bg)}
-html.theme-gemini[data-theme=light] body{background:
-  radial-gradient(circle at 12% 10%,rgba(66,133,244,.20),transparent 28%),
-  radial-gradient(circle at 88% 18%,rgba(168,85,247,.18),transparent 30%),
-  radial-gradient(circle at 75% 82%,rgba(52,211,153,.14),transparent 28%),
-  radial-gradient(circle at 20% 88%,rgba(251,188,5,.12),transparent 24%),#fff}
-html.theme-gemini .hdr,html.theme-gemini .tabs,html.theme-gemini .pill,html.theme-gemini .gl,html.theme-gemini .prof,html.theme-gemini .row,html.theme-gemini .qc{border-color:color-mix(in srgb,var(--acc) 38%,var(--line));box-shadow:inset 0 1px 0 rgba(255,255,255,.14),0 10px 32px rgba(66,133,244,.10)}
-html.theme-gemini .m.u .bub,html.theme-gemini .btn.pri,html.theme-gemini .snav button.on,html.theme-gemini .snew,html.theme-gemini #plus{background:linear-gradient(135deg,#4285f4 0%,#7c4dff 48%,#db4cb2 100%)!important;box-shadow:0 8px 28px rgba(66,133,244,.28),0 0 18px rgba(168,85,247,.18)}
-html.theme-gemini .pill,html.theme-gemini #sendBtn,html.theme-gemini .cb2.big{box-shadow:0 0 30px rgba(66,133,244,.38),0 0 46px rgba(168,85,247,.20)}
-html.theme-gemini #hero h1{background:linear-gradient(90deg,#4285f4,#7c4dff,#34a853,#fbbc05);-webkit-background-clip:text;background-clip:text;color:transparent}
-html.theme-gemini .tab.on{color:#8ab4f8;text-shadow:0 0 12px rgba(66,133,244,.45)}
-/* Tema JARVIS: HUD tático, preto absoluto e ciano neon */
-html.theme-jarvis { 
-  --acc: #00ffff !important; 
-  --acc2: #00bfff !important; 
-  --bg: #00040a !important;
-  --line: rgba(0,255,255,0.6) !important;
-  --glass: rgba(0,255,255,0.08) !important;
-  --glass2: rgba(0,255,255,0.18) !important;
-  --sbg: rgba(0,10,20,0.98) !important;
-  --cardbg: rgba(0,20,35,0.9) !important;
-  --txt: #dffcff !important;
-  --dim: #5fc4d9 !important;
-  --mono: "Cascadia Mono","SFMono-Regular",Consolas,monospace !important;
-  color-scheme: dark !important;
-}
-html.theme-jarvis body {
-  background: linear-gradient(rgba(0,255,255,0.06) 1px, transparent 1px) 0 0/28px 28px,
-              linear-gradient(90deg, rgba(0,255,255,0.06) 1px, transparent 1px) 0 0/28px 28px,
-              radial-gradient(circle at 50% 50%, #011627, #000208) !important;
-}
-html.theme-jarvis .hdr, html.theme-jarvis .tabs, html.theme-jarvis .pill, html.theme-jarvis .gl, html.theme-jarvis .prof, html.theme-jarvis .row, html.theme-jarvis .qc {
-  clip-path: polygon(0 12px, 12px 0, calc(100% - 12px) 0, 100% 12px, 100% calc(100% - 12px), calc(100% - 12px) 100%, 12px 100%, 0 calc(100% - 12px)) !important;
-  border: 1px solid rgba(0,255,255,0.7) !important;
-  background: rgba(0,22,38,0.92) !important;
-  box-shadow: inset 0 0 30px rgba(0,255,255,0.12), 0 0 25px rgba(0,200,255,0.3) !important;
-}
-html.theme-jarvis .hdr .ttl,html.theme-jarvis .pg,html.theme-jarvis #hero h1,html.theme-jarvis #ckT,html.theme-jarvis .cttl{font-family:var(--mono);letter-spacing:.12em;text-transform:uppercase;text-shadow:0 0 12px rgba(0,255,255,.85)}
-html.theme-jarvis .m.u .bub,html.theme-jarvis .btn.pri,html.theme-jarvis .snav button.on,html.theme-jarvis .snew,html.theme-jarvis #plus{background:linear-gradient(135deg,#00ffff,#006cff)!important;color:#001018!important;box-shadow:0 0 20px rgba(0,255,255,.45)!important}
-html.theme-jarvis #call{background:#000!important;font-family:var(--mono);background-image:linear-gradient(rgba(0,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(0,255,255,.035) 1px,transparent 1px)!important;background-size:32px 32px!important}
-html.theme-jarvis #call:before{content:"JARVIS  //  MARK VI  ·  SYSTEM ONLINE\A LOCALIZATION LOCK  ·  BIOMETRIC LINK";white-space:pre;position:absolute;left:18px;top:68px;color:#00ffff;font:8px var(--mono);line-height:1.7;opacity:.72;text-shadow:0 0 8px #00ffff;z-index:2}
-html.theme-jarvis #call:after{content:"CORE  84%    >>>>>>    SIGNAL 97%    >>>>>>    SECURE";position:absolute;right:14px;bottom:21px;color:#00ffff;font:7px var(--mono);letter-spacing:.08em;opacity:.75;text-shadow:0 0 8px #00ffff;z-index:2}
-html.theme-jarvis #callOrb{filter:drop-shadow(0 0 16px rgba(0,255,255,.62))}
-html.theme-jarvis #ckT{color:#00ffff;font-size:31px}
-html.theme-jarvis .ipill,.html.theme-jarvis .qchip{border-radius:2px!important;border-color:rgba(0,255,255,.35)!important;clip-path:polygon(6px 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%,0 6px)}
+.hdr .ttl::after{content:"BETA";margin-left:7px;font-size:9px;letter-spacing:.08em;padding:3px 7px;border-radius:999px;background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;vertical-align:middle}
 .chip{display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border-radius:999px;background:var(--glass);border:1px solid var(--line);font-size:12px;color:var(--dim);min-width:84px;justify-content:center}
 .chip i{width:7px;height:7px;border-radius:50%;background:var(--ok);box-shadow:0 0 8px var(--ok)}
 .ic{width:42px;height:42px;border-radius:50%;background:var(--glass);border:1px solid var(--line);display:grid;place-items:center;color:var(--txt);transition:transform .15s,background .2s}
@@ -341,11 +282,11 @@ html.bub-glass .m.u .bub{background:var(--glass2);color:var(--txt);border:1px so
 /* ============ 12. TELA DE CHAMADA ============ */
 #call{position:fixed;inset:0;z-index:80;display:flex;flex-direction:column;align-items:center;background:radial-gradient(ellipse 85% 55% at 50% 38%,color-mix(in srgb,var(--acc) 35%,#000) 0,var(--bg) 72%);padding:calc(14px + env(safe-area-inset-top,0px)) 16px calc(24px + env(safe-area-inset-bottom,0px));animation:fi .3s both}
 html[data-theme=light] #call{background:radial-gradient(ellipse 85% 55% at 50% 38%,color-mix(in srgb,var(--acc) 18%,#fff) 0,#fff 72%)}
-.ctop{width:100%;max-width:850px;display:flex;justify-content:space-between;align-items:center}
+.ctop{width:100%;max-width:560px;display:flex;justify-content:space-between;align-items:center}
 .cttl{font-weight:600;font-size:17px}
 #callOrb{flex:none;width:min(88vw,46vh,420px);height:min(88vw,46vh,420px);margin:auto 0 0}
 #cStatus{font-size:13px;letter-spacing:.2em;color:color-mix(in srgb,var(--acc) 40%,var(--txt));text-transform:uppercase;margin-top:4px;min-height:18px}
-.ctxt{width:min(850px,100%);text-align:center;margin:10px 0 auto;max-height:26vh;overflow:auto;display:flex;flex-direction:column;gap:8px}
+.ctxt{width:min(560px,100%);text-align:center;margin:10px 0 auto;max-height:26vh;overflow:auto;display:flex;flex-direction:column;gap:8px}
 #cYou{display:none}
 #cAi{font-size:18px;line-height:1.45}
 .cctl{display:flex;gap:22px;align-items:center;margin-top:14px}
@@ -373,10 +314,10 @@ html[data-theme=light] #call{background:radial-gradient(ellipse 85% 55% at 50% 3
 #callClock{text-align:center;margin-top:2px}
 #ckT{font:600 34px var(--mono);letter-spacing:.08em}
 #ckD{display:block;font-size:11.5px;color:var(--dim);letter-spacing:.14em;text-transform:uppercase;margin-top:2px}
-#callInfo{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;max-width:min(850px,94vw);margin-top:6px}
+#callInfo{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;max-width:min(560px,94vw);margin-top:6px}
 .ipill{font-size:11.5px;padding:5px 10px;border-radius:999px;background:var(--glass2);border:1px solid var(--line);color:var(--dim);white-space:nowrap}
 .ipill.on{color:var(--txt)}
-#callQuick{display:flex;gap:8px;overflow-x:auto;max-width:min(850px,96vw);padding:4px 2px;margin-top:8px;scrollbar-width:none}
+#callQuick{display:flex;gap:8px;overflow-x:auto;max-width:min(560px,96vw);padding:4px 2px;margin-top:8px;scrollbar-width:none}
 #callQuick::-webkit-scrollbar{display:none}
 .qchip{flex:none;padding:9px 14px;border-radius:999px;background:var(--glass2);border:1px solid var(--line);font-size:13px;color:var(--txt)}
 .qchip:active{transform:scale(.95)}
@@ -400,50 +341,82 @@ html.no-acts .act{display:none}
 html.no-motion *{animation:none!important;transition:none!important}
 @media (prefers-reduced-motion:reduce){.nring,.coreC,.edge,.dots span,#splash .sy{animation:none}}
 
-/* Animação de prévia borrada ao vivo (gerando imagem/vídeo) */
-.img-blur-live {
-  width: 100%;
-  max-width: 420px;
-  height: 260px;
-  border-radius: 16px;
-  background: linear-gradient(135deg, var(--glass2), var(--glass));
-  border: 1px solid var(--acc);
-  filter: blur(18px);
-  animation: liveBlurPulse 1.4s ease-in-out infinite alternate;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  overflow: hidden;
-  margin: 8px 0;
-}
-.img-blur-live::after {
-  content: "Gerando imagem/vídeo ao vivo...";
-  position: absolute;
-  color: var(--txt);
-  font: 600 12px var(--mono);
-  filter: blur(0);
-  background: rgba(0,0,0,0.55);
-  padding: 6px 14px;
-  border-radius: 999px;
-  border: 1px solid var(--line);
-}
-@keyframes liveBlurPulse {
-  0% { transform: scale(0.97); opacity: 0.5; filter: blur(22px); }
-  100% { transform: scale(1.03); opacity: 0.95; filter: blur(12px); }
-}
-.generated-media {
-  max-width: 100%;
-  max-height: 420px;
-  border-radius: 16px;
-  display: block;
-  margin: 6px 0;
-  border: 1px solid var(--line);
-  box-shadow: 0 8px 30px rgba(0,0,0,0.4);
-}
+/* ============ PAINEL HUD E TEMA HUD STARK ============ */
+.hudtop{display:flex;justify-content:space-between;align-items:flex-end;padding:4px 2px 0}
+.hudtitle{font:700 20px var(--mono);letter-spacing:.3em;color:var(--txt)}
+.hudsub{font:600 10.5px var(--mono);letter-spacing:.2em;color:var(--acc);margin-top:3px}
+.hudclock{text-align:right}
+.hudclock b{font:600 26px var(--mono);letter-spacing:.06em}
+.hudclock small{display:block;font:10px var(--mono);letter-spacing:.14em;color:var(--dim);text-transform:uppercase}
+.hudcore{display:flex;justify-content:center;margin:0 -8px}
+#hudCore{width:100%;max-width:430px;height:320px;display:block}
+.hudgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:6px}
+.hudp{--hudpbg:rgba(6,28,60,.55);position:relative;padding:12px 12px 13px;border:1px solid var(--line);border-radius:6px;min-width:0;
+  background:
+  linear-gradient(var(--acc),var(--acc)) top left/12px 2px no-repeat,linear-gradient(var(--acc),var(--acc)) top left/2px 12px no-repeat,
+  linear-gradient(var(--acc),var(--acc)) top right/12px 2px no-repeat,linear-gradient(var(--acc),var(--acc)) top right/2px 12px no-repeat,
+  linear-gradient(var(--acc),var(--acc)) bottom left/12px 2px no-repeat,linear-gradient(var(--acc),var(--acc)) bottom left/2px 12px no-repeat,
+  linear-gradient(var(--acc),var(--acc)) bottom right/12px 2px no-repeat,linear-gradient(var(--acc),var(--acc)) bottom right/2px 12px no-repeat,var(--hudpbg);
+  box-shadow:0 0 22px rgba(47,212,255,.07) inset}
+html[data-theme=light] .hudp{--hudpbg:rgba(255,255,255,.78)}
+.hudp.wide{grid-column:1/-1}
+.hudp h4{font:600 10.5px var(--mono);letter-spacing:.15em;color:var(--acc);margin:0 0 9px;display:flex;justify-content:space-between;align-items:center}
+.hudp h4 .demo{font-style:normal;font-size:9px;color:#fbbf24;border:1px solid #fbbf2480;border-radius:3px;padding:1px 5px;letter-spacing:.1em}
+.hudp h4 .demo:empty{display:none}
+.hsvg{width:100%;height:auto;display:block}
+.hsvg text{font:8px var(--mono);fill:var(--dim)}
+.gauges{display:flex;justify-content:space-between;gap:6px}
+.gg{flex:1;text-align:center;min-width:0}
+.gg svg{width:100%;max-width:62px;display:block;margin:0 auto}
+.gg .gbg{fill:none;stroke:rgba(127,160,200,.2);stroke-width:4}
+.gg .gfg{fill:none;stroke:var(--acc);stroke-width:4;stroke-linecap:butt;filter:drop-shadow(0 0 3px var(--acc))}
+.gg .gfg.bad{stroke:#ff5a4d;filter:drop-shadow(0 0 3px #ff5a4d)}
+.gg text{font:600 11px var(--mono);fill:var(--txt);text-anchor:middle}
+.gg span{display:block;font:9px var(--mono);letter-spacing:.12em;color:var(--dim);margin-top:4px}
+.bigline{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px;margin-top:6px}
+.bigline b{font:600 22px var(--mono);white-space:nowrap}
+.bigline small{font:10px var(--mono);color:var(--dim);letter-spacing:.08em}
+.goalbox{display:flex;flex-direction:column;align-items:center;gap:4px}
+.goalbox svg{width:100%;max-width:118px}
+.goalbox .gbg{fill:none;stroke:rgba(127,160,200,.2);stroke-width:7}
+.goalbox .gfg{fill:none;stroke:var(--acc);stroke-width:7;filter:drop-shadow(0 0 4px var(--acc))}
+.goalbox text{font:700 17px var(--mono);fill:var(--txt);text-anchor:middle}
+.goalbox small{font:9.5px var(--mono);color:var(--dim);text-align:center;letter-spacing:.05em}
+.pie{display:flex;flex-direction:column;align-items:center;gap:7px}
+.pie svg{width:100%;max-width:104px}
+.pie ul{list-style:none;font:9.5px var(--mono);color:var(--dim);width:100%}
+.pie li{display:flex;align-items:center;gap:6px;margin:2px 0;white-space:nowrap}
+.pie li i{width:8px;height:8px;border-radius:2px;flex:none}
+.pie li span{overflow:hidden;text-overflow:ellipsis;flex:1}
+.hrow{display:flex;align-items:center;gap:10px;font-size:13px;padding:5px 0;border-bottom:1px solid rgba(127,160,200,.14)}
+.hrow:last-child{border-bottom:0}
+.hrow .hn{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hrow .hb{width:78px;height:6px;background:rgba(127,160,200,.2);border-radius:3px;flex:none;overflow:hidden}
+.hrow .hb i{display:block;height:100%;background:var(--acc);box-shadow:0 0 6px var(--acc)}
+.hrow .hb i.low{background:#ff5a4d;box-shadow:0 0 6px #ff5a4d}
+.hrow .hv{font:600 12px var(--mono);width:34px;text-align:right}
+.hrow .ht{font:600 12px var(--mono);color:var(--acc);width:48px;flex:none}
+.hempty{font-size:12.5px;color:var(--dim);padding:2px 0}
+html.hud{--bg:#020a1a;--line:rgba(56,189,248,.4);--glass:rgba(10,40,80,.4);--glass2:rgba(20,85,150,.38);--cardbg:rgba(8,32,66,.5);--sbg:rgba(3,16,38,.82)}
+html.hud body{background:radial-gradient(ellipse 85% 38% at 50% -6%,rgba(47,212,255,.26),transparent 66%),radial-gradient(ellipse 60% 40% at 100% 100%,rgba(43,107,255,.25),transparent 70%),linear-gradient(rgba(56,189,248,.055) 1px,transparent 1px) 0 0/34px 34px,linear-gradient(90deg,rgba(56,189,248,.055) 1px,transparent 1px) 0 0/34px 34px,#020a1a}
+html.hud #app{background:transparent}
+html.hud .gl,html.hud .prof{border-radius:6px;position:relative;background:
+  linear-gradient(var(--acc),var(--acc)) top left/12px 2px no-repeat,linear-gradient(var(--acc),var(--acc)) top left/2px 12px no-repeat,
+  linear-gradient(var(--acc),var(--acc)) top right/12px 2px no-repeat,linear-gradient(var(--acc),var(--acc)) top right/2px 12px no-repeat,
+  linear-gradient(var(--acc),var(--acc)) bottom left/12px 2px no-repeat,linear-gradient(var(--acc),var(--acc)) bottom left/2px 12px no-repeat,
+  linear-gradient(var(--acc),var(--acc)) bottom right/12px 2px no-repeat,linear-gradient(var(--acc),var(--acc)) bottom right/2px 12px no-repeat,rgba(6,28,60,.5);
+  box-shadow:0 0 22px rgba(47,212,255,.07) inset}
+html.hud .row,html.hud .qc,html.hud .ed,html.hud .pill{border-radius:8px;border-color:var(--line);background-color:rgba(6,28,60,.5)}
+html.hud .pg,html.hud .gt,html.hud .sec{font-family:var(--mono);text-transform:uppercase;letter-spacing:.16em}
+html.hud .gt,html.hud .sec{color:var(--acc)}
+html.hud .pg{font-size:18px}
+html.hud .hdr .ttl{font-family:var(--mono);letter-spacing:.26em;text-transform:uppercase;font-size:17px}
+html.hud .tabs{border-top:1px solid var(--acc);box-shadow:0 -8px 26px rgba(47,212,255,.14);background:rgba(2,10,26,.9)}
+html.hud .tab{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase}
+html.hud .snav button,html.hud .chip,html.hud .ic{border-color:var(--line)}
+html.hud .snav button.on{box-shadow:0 0 14px rgba(47,212,255,.4)}
+html.hud .m.u .bub{border-radius:10px 10px 3px 10px}
 </style>
-<script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
 </head>
 <body>
 
@@ -453,8 +426,7 @@ html.no-motion *{animation:none!important;transition:none!important}
   <header class="hdr">
     <button class="ic" id="hMenu" type="button" aria-label="Histórico de conversas" data-ico="menu"></button>
     <div class="ttl">Jarvis</div>
-    <button class="chip" id="magicBtn" type="button" title="Abrir Portal Mágico & Holograma nas Mãos" style="cursor:pointer;border-color:var(--acc);color:var(--acc);font-weight:600;">🔮 <span>Holograma</span></button>
-    <button class="chip" id="provChip" type="button"><i></i><span>JARVIS</span></button>
+    <button class="chip" id="provChip" type="button"><i></i><span>Gemini</span></button>
   </header>
 
   <main id="main">
@@ -470,81 +442,24 @@ html.no-motion *{animation:none!important;transition:none!important}
       <div id="msgs"></div>
     </section>
 
-    <!-- EXPLORAR: HUB MULTI-FUNÇÕES -->
-    <section id="vExplore" class="view hidden" style="padding: 16px; height: 100%; display: flex; flex-direction: column; overflow-y: auto;">
-      <div id="modes" class="hidden"></div>
-      <div id="topics" class="hidden"></div>
-      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; border-bottom: 1px solid var(--line); padding-bottom: 12px;">
-        <div>
-          <div class="pg" style="font-size: 22px; font-weight: 700; font-family: var(--mono); letter-spacing: 0.05em; color: var(--txt);">HUB MULTI-FUNÇÕES</div>
-          <div style="font-size: 12.5px; color: var(--dim); margin-top: 2px;">Central de alta performance: Prompts, Growth, APIs & MVPs</div>
-        </div>
-        <div style="font-size: 11px; font-family: var(--mono); padding: 4px 10px; border-radius: 999px; background: var(--glass2); border: 1px solid var(--line); color: var(--acc);">
-          ENGINES v4.4 ONLINE
-        </div>
+    <!-- EXPLORAR -->
+    <section id="vHud" class="view hidden">
+      <div class="hudtop">
+        <div><div class="hudtitle">J.A.R.V.I.S</div><div class="hudsub" id="hudSub">SISTEMAS ONLINE</div></div>
+        <div class="hudclock"><b id="hudT">--:--</b><small id="hudD"></small></div>
       </div>
-
-      <!-- Seletor de 4 Engines -->
-      <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 16px;" id="hubEngineGrid">
-        <button type="button" class="hub-engine-btn on" data-engine="prompt-studio" style="text-align: left; padding: 12px; border-radius: 14px; background: var(--cardbg); border: 1px solid var(--acc); cursor: pointer; transition: all 0.2s;">
-          <div style="font-size: 10px; text-transform: uppercase; color: var(--acc); font-family: var(--mono); margin-bottom: 2px;">Gerador IA</div>
-          <div style="font-weight: 700; font-size: 14px; color: var(--txt);">Prompt Studio</div>
-          <div style="font-size: 11.5px; color: var(--dim); margin-top: 3px; line-height: 1.35;">Gera prompts otimizados em inglês para Midjourney, Flux e Runway.</div>
-        </button>
-        <button type="button" class="hub-engine-btn" data-engine="viral-lab" style="text-align: left; padding: 12px; border-radius: 14px; background: var(--cardbg); border: 1px solid var(--line); cursor: pointer; transition: all 0.2s;">
-          <div style="font-size: 10px; text-transform: uppercase; color: var(--dim); font-family: var(--mono); margin-bottom: 2px;">Growth & Roteiros</div>
-          <div style="font-weight: 700; font-size: 14px; color: var(--txt);">Viral Lab</div>
-          <div style="font-size: 11.5px; color: var(--dim); margin-top: 3px; line-height: 1.35;">Cria ganchos magnéticos e roteiros virais de alta retenção.</div>
-        </button>
-        <button type="button" class="hub-engine-btn" data-engine="api-architect" style="text-align: left; padding: 12px; border-radius: 14px; background: var(--cardbg); border: 1px solid var(--line); cursor: pointer; transition: all 0.2s;">
-          <div style="font-size: 10px; text-transform: uppercase; color: var(--dim); font-family: var(--mono); margin-bottom: 2px;">Backend & Schema</div>
-          <div style="font-weight: 700; font-size: 14px; color: var(--txt);">API Architect</div>
-          <div style="font-size: 11.5px; color: var(--dim); margin-top: 3px; line-height: 1.35;">Estrutura JSONs, webhooks e scripts de integração backend.</div>
-        </button>
-        <button type="button" class="hub-engine-btn" data-engine="reality-check" style="text-align: left; padding: 12px; border-radius: 14px; background: var(--cardbg); border: 1px solid var(--line); cursor: pointer; transition: all 0.2s;">
-          <div style="font-size: 10px; text-transform: uppercase; color: var(--dim); font-family: var(--mono); margin-bottom: 2px;">Validação & MVP</div>
-          <div style="font-weight: 700; font-size: 14px; color: var(--txt);">Reality Check</div>
-          <div style="font-size: 11.5px; color: var(--dim); margin-top: 3px; line-height: 1.35;">Realiza stress-test estratégico e validação rigorosa de MVP.</div>
-        </button>
+      <div class="hudcore"><canvas id="hudCore"></canvas></div>
+      <div class="hudgrid">
+        <div class="hudp wide"><h4>STATUS DO SISTEMA</h4><div class="gauges" id="hudGauges"></div></div>
+        <div class="hudp wide"><h4>VENDAS · ÚLTIMOS 7 DIAS <i class="demo" id="demoSales"></i></h4><div id="hudBars"></div><div class="bigline"><b id="hudTot">--</b><small id="hudTotS"></small></div></div>
+        <div class="hudp"><h4>META DO MÊS</h4><div id="hudGoal"></div></div>
+        <div class="hudp"><h4>MAIS VENDIDOS</h4><div id="hudPie"></div></div>
+        <div class="hudp wide"><h4>ESTOQUE BAIXO <i class="demo" id="demoStock"></i></h4><div id="hudStock"></div></div>
+        <div class="hudp wide"><h4>AGENDA DE HOJE</h4><div id="hudAgenda"></div></div>
+        <div class="hudp wide"><h4>E-MAILS NÃO LIDOS</h4><div id="hudMail"></div></div>
       </div>
-
-      <!-- Grid de 2 Colunas (Desktop) / 1 Coluna (Mobile) -->
-      <div style="display: grid; grid-template-columns: 1fr; gap: 16px;" id="hubMainGrid">
-        
-        <!-- Coluna Esquerda: Input & Controls -->
-        <div style="background: var(--cardbg); border: 1px solid var(--line); border-radius: 18px; padding: 16px;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-            <label for="hubInput" style="font-size: 13px; font-weight: 600; color: var(--txt); text-transform: uppercase; font-family: var(--mono);" id="hubInputLabel">Contexto / Instrução</label>
-            <span style="font-size: 11px; color: var(--dim);" id="hubEngineBadge">Prompt Studio</span>
-          </div>
-          <textarea id="hubInput" rows="5" placeholder="Ex: Cyberpunk samurai running across neon rain rooftops, cinematic lighting..." style="width: 100%; background: rgba(0,0,0,0.35); border: 1px solid var(--line); border-radius: 12px; padding: 12px; font-size: 14.5px; color: var(--txt); outline: none; resize: vertical; font-family: var(--mono); line-height: 1.4;"></textarea>
-          
-          <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 12px;">
-            <button type="button" id="hubClearHistoryBtn" style="font-size: 12px; color: var(--dim); background: none; border: none; cursor: pointer;">Limpar Histórico</button>
-            <button type="button" id="hubExecBtn" style="padding: 11px 22px; border-radius: 12px; background: linear-gradient(135deg, var(--acc), var(--acc2)); color: #fff; font-weight: 600; font-size: 14px; cursor: pointer; border: none; box-shadow: 0 0 20px color-mix(in srgb, var(--acc) 40%, transparent);">Executar Engine</button>
-          </div>
-        </div>
-
-        <!-- Coluna Direita: Output Renderizado -->
-        <div style="background: var(--cardbg); border: 1px solid var(--line); border-radius: 18px; padding: 16px; display: flex; flex-direction: column;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-            <span style="font-size: 13px; font-weight: 600; color: var(--txt); text-transform: uppercase; font-family: var(--mono);">Output Renderizado</span>
-            <button type="button" id="hubCopyBtn" class="hidden" style="padding: 5px 12px; border-radius: 999px; background: var(--glass2); border: 1px solid var(--line); font-size: 12px; color: var(--txt); cursor: pointer;">Copiar Output</button>
-          </div>
-          <div id="hubOutput" style="flex: 1; min-height: 220px; background: rgba(0,0,0,0.45); border: 1px solid var(--line); border-radius: 12px; padding: 14px; font-family: var(--mono); font-size: 13.5px; line-height: 1.5; color: var(--txt); overflow-x: auto; white-space: pre-wrap;">
-<span style="color: var(--dim); font-style: italic;">Nenhum output gerado ainda. Selecione uma engine, insira o prompt e clique em "Executar Engine".</span>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- Histórico Local (Accordion / Lista) -->
-      <div style="margin-top: 16px; background: var(--cardbg); border: 1px solid var(--line); border-radius: 18px; padding: 16px;">
-        <div style="font-size: 12px; text-transform: uppercase; font-family: var(--mono); color: var(--dim); margin-bottom: 10px;">Histórico Local & Cache (<span id="hubHistoryCount">0</span>/10)</div>
-        <div id="hubHistoryList" style="display: flex; flex-direction: column; gap: 8px; max-height: 180px; overflow-y: auto;">
-          <div style="font-size: 12.5px; color: var(--dim); font-style: italic;">Nenhuma execução recente gravada.</div>
-        </div>
-      </div>
+      <div class="sec">MODOS DO JARVIS</div><div id="modes"></div>
+      <div class="sec">ATALHOS</div><div id="topics"></div>
     </section>
 
     <!-- MEMÓRIA -->
@@ -578,8 +493,11 @@ html.no-motion *{animation:none!important;transition:none!important}
 
       <!-- Aparência -->
       <div class="cat" data-c="look">
+        <div class="grp"><div class="gt">Estilo do app</div><div class="gl">
+          <div class="li col"><b>Visual</b><div class="seg" id="uSkin"><button type="button" data-v="hud">HUD Stark</button><button type="button" data-v="default">Padrão</button></div><small>HUD Stark: azul tecnológico com painéis de gráficos, como a central do Jarvis. É sempre escuro.</small></div>
+        </div></div>
         <div class="grp"><div class="gt">Tema e cores</div><div class="gl">
-          <div class="li col"><b>Tema</b><div class="seg" id="uTheme"><button type="button" data-v="dark">Escuro</button><button type="button" data-v="light">Claro</button><button type="button" data-v="auto">Automático</button><button type="button" data-v="jarvis">JARVIS</button></div></div>
+          <div class="li col"><b>Tema</b><div class="seg" id="uTheme"><button type="button" data-v="dark">Escuro</button><button type="button" data-v="light">Claro</button><button type="button" data-v="auto">Automático</button></div></div>
           <div class="li col"><b>Cor de destaque</b><div class="swa" id="uAcc"></div>
             <div class="rowc"><input type="color" id="uAccC" aria-label="Escolher cor própria"><small>Cor própria: toque no quadrado e escolha qualquer cor</small></div></div>
         </div></div>
@@ -702,6 +620,10 @@ html.no-motion *{animation:none!important;transition:none!important}
 
       <!-- Loja -->
       <div class="cat" data-c="loja">
+        <div class="grp"><div class="gt">Painel</div><div class="gl">
+          <div class="li col"><label for="uGoal"><b>Meta de vendas do mês (R$)</b></label><input id="uGoal" type="text" inputmode="numeric" autocomplete="off" placeholder="10000"></div>
+          <div class="li col"><label for="uLow"><b>Estoque baixo: avisar abaixo de</b></label><input id="uLow" type="text" inputmode="numeric" autocomplete="off" placeholder="5"><small>O painel mostra em vermelho os produtos com menos unidades que isso.</small></div>
+        </div></div>
         <div class="grp"><div class="gt">Conexão com o Base44</div><div class="gl">
           <div class="li col"><small>1) No Base44, abra Secrets → Personal access tokens → Create access token. Dê acesso aos seus 2 apps e escolha "Full access" (para o Jarvis alterar estoque) ou "Read-only" (só consultar). 2) Copie o token (ele só aparece uma vez) e cole abaixo. 3) Cole o link do editor de cada app (ou só o ID).</small></div>
           <div class="li col"><label for="b44Token"><b>Token pessoal do Base44</b></label><input id="b44Token" type="password" autocomplete="off" spellcheck="false" placeholder="Cole o token aqui"></div>
@@ -735,19 +657,6 @@ html.no-motion *{animation:none!important;transition:none!important}
           <div class="li col"><label for="gSheet"><b>Planilha padrão (link ou ID)</b></label><input id="gSheet" type="text" autocomplete="off" spellcheck="false" placeholder="Cole o link da planilha"></div>
           <div class="li"><span><b>Conectar Google</b><small id="gStat">Toque para testar</small></span>
             <button class="gbtn" id="gBtn" type="button"><svg viewBox="0 0 48 48" width="18" height="18"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.9 2.4 30.4 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.9 6.1C12.4 13.6 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.7c-.6 3-2.3 5.5-4.8 7.2l7.5 5.8c4.4-4.1 7.1-10.1 7.1-17.5z"/><path fill="#FBBC05" d="M10.5 28.7A14.5 14.5 0 0 1 9.5 24c0-1.6.3-3.2.8-4.7l-7.9-6.1A24 24 0 0 0 0 24c0 3.9.9 7.5 2.6 10.8l7.9-6.1z"/><path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.5-5.8c-2.1 1.4-4.8 2.3-8.4 2.3-6.3 0-11.6-4.1-13.5-9.8l-7.9 6.1C6.5 42.6 14.6 48 24 48z"/></svg><span id="gBtnTxt">Conectar</span></button></div>
-        </div></div>
-        <div class="grp"><div class="gt">Provedor & Múltiplas Chaves de API (Fotos e Vídeos)</div><div class="gl">
-          <div class="li"><span><b>Provedor Principal</b><small>Escolha entre Gemini ou ChatGPT (OpenAI)</small></span>
-            <select id="uAiProvider"><option value="gemini">Gemini (Google)</option><option value="chatgpt">ChatGPT (OpenAI)</option></select></div>
-          <div class="li col">
-            <label for="uGemKeys"><b>Chaves de API do Gemini (várias, uma por linha)</b></label>
-            <textarea id="uGemKeys" placeholder="Cole uma chave por linha. Quando esgotarem os créditos, o Jarvis passa para a próxima chave automaticamente..."></textarea>
-          </div>
-          <div class="li col">
-            <label for="uGptKeys"><b>Chaves de API do ChatGPT / OpenAI (várias, uma por linha)</b></label>
-            <textarea id="uGptKeys" placeholder="Cole uma chave por linha. Usada para chat, fotos e vídeos com fallback automático..."></textarea>
-          </div>
-          <label class="li"><span><b>Geração de Mídia (Fotos e Vídeos)</b><small>Permitir criar fotos e vídeos via chat com efeito de prévia borrada ao vivo</small></span><input type="checkbox" id="uMediaGen" checked></label>
         </div></div>
       </div>
 
@@ -786,7 +695,7 @@ html.no-motion *{animation:none!important;transition:none!important}
 
   <nav class="tabs">
     <button class="tab on" data-v="vChat" type="button"><span class="e" data-ico="chat"></span>Chat</button>
-    <button class="tab" data-v="vExplore" type="button"><span class="e" data-ico="compass"></span>Explorar</button>
+    <button class="tab" data-v="vHud" type="button"><span class="e" data-ico="gauge"></span>Painel</button>
     <button id="plus" type="button" aria-label="Nova conversa" data-ico="plus" data-sw="2.6"></button>
     <button class="tab" data-v="vMemory" type="button"><span class="e" data-ico="brain"></span>Memória</button>
     <button class="tab" data-v="vSettings" type="button"><span class="e" data-ico="sliders"></span>Ajustes</button>
@@ -823,111 +732,8 @@ html.no-motion *{animation:none!important;transition:none!important}
   </div>
 </div>
 
-<div id="magicOverlay" class="hidden" style="position:fixed;inset:0;z-index:200;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;">
-  <video id="magicCam" autoplay playsinline muted style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scaleX(-1);opacity:0.85;"></video>
-  <canvas id="magicCanvas" style="position:absolute;inset:0;width:100%;height:100%;z-index:2;pointer-events:none;"></canvas>
-  <div style="position:absolute;top:20px;left:20px;z-index:3;display:flex;gap:10px;align-items:center;">
-    <div style="font-family:var(--mono);font-size:14px;color:#00ffff;background:rgba(0,0,0,0.7);padding:8px 14px;border-radius:12px;border:1px solid rgba(0,255,255,0.4);">🔮 MODO PORTAL MÁGICO & HOLOGRAMA</div>
-    <button type="button" id="magicClose" style="background:rgba(255,0,0,0.7);color:#fff;border:none;padding:8px 16px;border-radius:12px;cursor:pointer;font-family:var(--mono);">Fechar (ESC)</button>
-  </div>
-  <div style="position:absolute;bottom:25px;z-index:3;font-family:var(--mono);font-size:12px;color:rgba(255,255,255,0.9);background:rgba(0,0,0,0.65);padding:8px 18px;border-radius:999px;border:1px solid rgba(0,255,255,0.4);">
-    Abra as mãos na frente da câmera para invocar o portal mágico e estique os punhos para redimensionar!
-  </div>
-</div>
-
 <script>
 "use strict";
-
-/* ==========================================================================
-   PORTAL MÁGICO & HOLOGRAMA (MediaPipe Hands)
-   ========================================================================== */
-const MagicPortal = {
-  active: false,
-  hands: null,
-  camera: null,
-  async open() {
-    if (this.active) return;
-    this.active = true;
-    $("magicOverlay").classList.remove("hidden");
-    const videoElement = $("magicCam");
-    const canvasElement = $("magicCanvas");
-    const canvasCtx = canvasElement.getContext("2d");
-
-    this.hands = new Hands({ locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}` });
-    this.hands.setOptions({ maxNumHands: 2, modelComplexity: 1, minDetectionConfidence: 0.65, minTrackingConfidence: 0.65 });
-
-    this.hands.onResults(results => {
-      canvasElement.width = canvasElement.clientWidth;
-      canvasElement.height = canvasElement.clientHeight;
-      const W = canvasElement.width, H = canvasElement.height;
-      canvasCtx.clearRect(0, 0, W, H);
-
-      if (results.multiHandLandmarks && results.multiHandLandmarks.length > 0) {
-        const hand = results.multiHandLandmarks[0];
-        const cx = (1 - hand[9].x) * W, cy = hand[9].y * H;
-        
-        let radius = 95;
-        if (results.multiHandLandmarks.length > 1) {
-          const h1 = results.multiHandLandmarks[0][9], h2 = results.multiHandLandmarks[1][9];
-          const dist = Math.hypot((h1.x - h2.x) * W, (h1.y - h2.y) * H);
-          radius = Math.max(60, Math.min(280, dist * .45));
-        }
-
-        canvasCtx.save();
-        canvasCtx.translate(cx, cy);
-        const t = performance.now() / 250;
-        
-        canvasCtx.strokeStyle = "#00ffff";
-        canvasCtx.lineWidth = 4;
-        canvasCtx.shadowColor = "#00ffff";
-        canvasCtx.shadowBlur = 30;
-        canvasCtx.beginPath();
-        canvasCtx.arc(0, 0, radius, 0, Math.PI * 2);
-        canvasCtx.stroke();
-
-        canvasCtx.strokeStyle = "#ff5500";
-        canvasCtx.lineWidth = 3;
-        canvasCtx.shadowColor = "#ff5500";
-        canvasCtx.rotate(t);
-        for (let i = 0; i < 8; i++) {
-          const a = i * Math.PI / 4;
-          canvasCtx.beginPath();
-          canvasCtx.arc(Math.cos(a) * (radius * .75), Math.sin(a) * (radius * .75), 9, 0, Math.PI * 2);
-          canvasCtx.fillStyle = "#ffaa00";
-          canvasCtx.fill();
-        }
-
-        const grad = canvasCtx.createRadialGradient(0, 0, 0, 0, 0, radius);
-        grad.addColorStop(0, "rgba(0, 255, 255, 0.9)");
-        grad.addColorStop(0.55, "rgba(255, 100, 0, 0.45)");
-        grad.addColorStop(1, "rgba(0, 0, 0, 0)");
-        canvasCtx.fillStyle = grad;
-        canvasCtx.beginPath();
-        canvasCtx.arc(0, 0, radius * .92, 0, Math.PI * 2);
-        canvasCtx.fill();
-
-        canvasCtx.restore();
-      }
-    });
-
-    try {
-      this.camera = new Camera(videoElement, {
-        onFrame: async () => { if (this.active) await this.hands.send({ image: videoElement }); },
-        width: 1280, height: 720
-      });
-      await this.camera.start();
-    } catch (e) {
-      console.warn("Erro ao iniciar câmera para portal mágico:", e);
-      toast("Não foi possível acessar a câmera para o Portal Mágico.");
-    }
-  },
-  close() {
-    this.active = false;
-    $("magicOverlay").classList.add("hidden");
-    try { if (this.camera) this.camera.stop(); } catch (e) {}
-    try { if (this.hands) this.hands.close(); } catch (e) {}
-  }
-};
 
 /* ==========================================================================
    1. CONFIGURAÇÃO E DADOS FIXOS
@@ -1003,7 +809,8 @@ const PAL = {
   green:  ["#10b981", "#0ea5e9", ["#6ee7b7", "#7dd3fc", "#ffffff", "#34d399"]],
   orange: ["#f97316", "#ec4899", ["#fdba74", "#f9a8d4", "#ffffff", "#fb923c"]],
   pink:   ["#ec4899", "#8b5cf6", ["#f9a8d4", "#c4b5fd", "#ffffff", "#f472b6"]],
-  cyan:   ["#06b6d4", "#3b82f6", ["#67e8f9", "#93c5fd", "#ffffff", "#22d3ee"]]
+  cyan:   ["#06b6d4", "#3b82f6", ["#67e8f9", "#93c5fd", "#ffffff", "#22d3ee"]],
+  hud:    ["#2fd4ff", "#2b6bff", ["#9be8ff", "#6aa8ff", "#ffffff", "#38bdf8"]]
 };
 /* Cor do avatar (par de cores); "auto" segue a cor de destaque */
 const AV_COLORS = {
@@ -1038,12 +845,14 @@ const ICONS = {
   spk: '<path d="M4 9v6h4l5 4V5L8 9H4Z"/><path d="M16.5 8.5a5 5 0 0 1 0 7"/>',
   trash: '<path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/>',
   file: '<path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5"/>',
-  ok: '<path d="m5 13 4 4L19 7"/>'
+  ok: '<path d="m5 13 4 4L19 7"/>',
+  gauge: '<path d="M4 16a8 8 0 1 1 16 0"/><path d="M12 16l4-5"/><circle cx="12" cy="16" r="1.4"/>'
 };
 
 /* Valores padrão de todos os ajustes salvos (mesmas chaves do localStorage de antes) */
 const DEFAULTS = {
-  ui_acc: "blue", ui_accc: "#3b82f6", ui_avatar: "face", ui_avc: "auto", ui_glow: "100", ui_bg: "aurora", ui_font: "system", ui_bub: "round", face_q: "mid", face_move: "100", ui_fs: "16", ui_blur: "22", ui_orb: "1", ui_motion: "1", ui_quick: "1", ui_acts: "1", ui_theme: "dark",
+  ui_skin: "hud", hud_goal: "10000", hud_low: "5",
+  ui_acc: "blue", ui_accc: "#3b82f6", ui_avatar: "face", ui_avc: "auto", ui_glow: "100", ui_bg: "aurora", ui_font: "system", ui_bub: "round", face_q: "mid", face_move: "100", ui_fs: "16", ui_blur: "22", ui_orb: "1", ui_motion: "1", ui_quick: "1", ui_acts: "1",
   enter_send: "1", mem_live: "1", u_name: "", u_addr: "", u_pers: "mordomo", u_len: "normal",
   ai_temp: "0.8", ai_model: "", ai_extra: "", gemini_key: "", jarvis_mode: "normal",
   speak_replies: "0", stt_mode: "gemini", stt_sil: "0.7", show_lat: "0", wake_on: "0", wake_mini: "1", call_design: "hud", call_clock: "1", call_info: "1", call_quick: "1", call_caps: "0", voice_len: "normal", web_search: "1",
@@ -1366,73 +1175,8 @@ function sendToMake(title, details) {
 }
 
 /* ==========================================================================
-   5. INTELIGÊNCIA (Gemini & ChatGPT com múltiplas chaves e fallback, Fotos e Vídeos)
+   5. INTELIGÊNCIA (Gemini)
    ========================================================================== */
-const MultiApi = {
-  getKeys(provider) {
-    const raw = cfg(provider === 'chatgpt' ? 'gpt_keys' : 'gem_keys') || cfg(provider === 'chatgpt' ? 'chatgpt_keys' : 'gemini_keys') || cfg(provider === 'chatgpt' ? 'gptKey' : 'gemini_key') || cfg(provider === 'chatgpt' ? '' : 'gemini_key') || '';
-    const keys = raw.split(/[\n,]+/).map(k => k.trim()).filter(Boolean);
-    return keys.length ? keys : [cfg(provider === 'chatgpt' ? 'gptKey' : 'gemini_key')].filter(Boolean);
-  },
-  async fetch(provider, makeReq) {
-    const keys = this.getKeys(provider);
-    if (!keys.length) throw new Error("Nenhuma chave de API configurada para " + provider + ". Adicione em Ajustes -> Google.");
-    let lastErr = null;
-    for (let i = 0; i < keys.length; i++) {
-      const key = keys[i];
-      try {
-        return await makeReq(key);
-      } catch (e) {
-        lastErr = e;
-        const status = e.status || (e.response && e.response.status);
-        if (status === 429 || status === 401 || status === 403 || (e.message && /quota|credit|exhausted|unauthorized|key|rate limit|cors/i.test(e.message))) {
-          console.warn(`[API Fallback] Chave ${provider} [índice ${i}] esgotada ou inválida. Alternando para a próxima chave automaticamente...`);
-          continue;
-        }
-        throw e;
-      }
-    }
-    throw lastErr || new Error("Todas as chaves de " + provider + " falharam ou esgotaram os créditos.");
-  }
-};
-
-async function generateMedia(prompt, type) {
-  const provider = cfg("ai_provider") || "gemini";
-  if (type === 'video') {
-    return "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&auto=format&fit=crop&q=80";
-  }
-  // Tenta usar a API configurada (com rotação de múltiplas chaves)
-  try {
-    if (provider === 'chatgpt') {
-      return await MultiApi.fetch('chatgpt', async (key) => {
-        const r = await fetchT("https://api.openai.com/v1/images/generations", {
-          method: "POST",
-          headers: { "Content-Type": "application/json", "Authorization": "Bearer " + key },
-          body: JSON.stringify({ model: "dall-e-3", prompt, n: 1, size: "1024x1024" })
-        }, 45000);
-        const data = await r.json();
-        if (!r.ok) throw Object.assign(new Error((data.error && data.error.message) || "Erro DALL-E"), { status: r.status });
-        return data.data[0].url;
-      });
-    } else {
-      return await MultiApi.fetch('gemini', async (key) => {
-        const r = await fetchT("https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-002:predict?key=" + key, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ prompt: [{ text: prompt }] })
-        }, 45000);
-        const data = await r.json();
-        if (!r.ok) throw Object.assign(new Error((data.error && data.error.message) || "Erro Gemini Imagem"), { status: r.status });
-        return data.predictions[0].bytesBase64Encoded ? "data:image/jpeg;base64," + data.predictions[0].bytesBase64Encoded : "https://pollinations.ai/p/" + encodeURIComponent(prompt);
-      });
-    }
-  } catch (err) {
-    console.warn("Geração via API direta falhou ou sofreu bloqueio CORS. Usando renderizador nativo de alta qualidade:", err);
-    // Fallback garantido que gera a imagem perfeitamente na hora
-    return "https://pollinations.ai/p/" + encodeURIComponent(prompt) + "?width=1024&height=1024&nologo=true&seed=" + Math.floor(Math.random() * 100000);
-  }
-}
-
 function modelOrder(fast) {
   const list = CONFIG.geminiModels.slice(), pref = cfg("ai_model");
   if (pref && list.includes(pref)) { list.splice(list.indexOf(pref), 1); list.unshift(pref); }
@@ -1495,8 +1239,7 @@ async function callAI(turns, system, opts) {
   const { contents, instruction } = normalizeTurns(turns, system);
   const basePayload = { contents, generationConfig: { temperature: opts.temp !== undefined ? opts.temp : cfgNum("ai_temp") } };
   if (instruction) basePayload.systemInstruction = { parts: [{ text: instruction }] };
-  const wantSearch = opts.search !== false && cfg("web_search") !== "0" &&
-    confirm("O Jarvis pode pesquisar esta pergunta na internet?");
+  const wantSearch = opts.search !== false && cfg("web_search") !== "0";
   const build = (tv, s) => {
     const p = JSON.parse(JSON.stringify(basePayload));
     if (opts.fast) p.generationConfig.maxOutputTokens = opts.maxTokens || 600;
@@ -1887,7 +1630,7 @@ function pushMsg(role, text, opts) {
   }
   if (!user && !opts.error && opts.search) {
     const sr = opts.search, box = document.createElement("div"); box.className = "srcs";
-    let h = '<div class="sq"><b>Fontes consultadas:</b></div>';
+    let h = "";
     if (sr.queries && sr.queries.length) h += '<div class="sq">🔎 Pesquisou: ' + sr.queries.slice(0, 3).map(esc).join(" · ") + "</div>";
     if (sr.sources && sr.sources.length) h += '<div class="sl">' + sr.sources.map(x => '<a href="' + esc(x.u) + '" target="_blank" rel="noopener noreferrer">' + esc(x.t) + "</a>").join("") + "</div>";
     box.innerHTML = h;
@@ -1945,39 +1688,13 @@ async function sendMessage(text) {
   let reply = null;
   try {
     lastSearch = null;
-    const isMediaReq = cfg("media_gen") !== "0" && /(gerar|gere|crie|criar|fa[çc]a|fazer)\s+(um|uma)?\s*(foto|imagem|video|desenho|ilustra[çc][ãa]o)/i.test(text);
-    if (isMediaReq) {
-      setThinking(false);
-      const isVideo = /video/i.test(text);
-      const bubble = pushMsg("assistant", "");
-      const box = bubble.querySelector(".bub");
-      box.innerHTML = '<div class="img-blur-live"></div>';
-      const mediaUrl = await generateMedia(text, isVideo ? 'video' : 'photo');
-      box.innerHTML = isVideo 
-        ? `<video class="generated-media" controls autoplay src="${mediaUrl}"></video><p>Aqui está o seu vídeo gerado ao vivo, ${ME.address}!</p>`
-        : `<img class="generated-media" src="${mediaUrl}" alt="${esc(text)}"><p>Aqui está a sua foto gerada ao vivo, ${ME.address}!</p>`;
-      reply = isVideo ? "Aqui está o seu vídeo gerado." : "Aqui está a sua foto gerada.";
-      Chats.log.push({ role: "assistant", content: reply });
-      Chats.persist();
-      Notif.fire("Jarvis", reply);
-      return reply;
-    }
-
     const raw = await converse(buildTurns(att));
     setThinking(false);
     reply = Brain.applySaves(raw) || "…";
     const found = takeSearch(), saved = found ? { queries: found.queries, sources: found.sources } : undefined;
     Chats.log.push(Object.assign({ role: "assistant", content: reply }, saved ? { search: saved } : {}));
     Chats.persist();
-    const bubble = pushMsg("assistant", "", { search: found || undefined });
-    const box = bubble.querySelector(".bub");
-    let typed = "";
-    for (let i = 0; i < reply.length; i += 3) {
-      typed += reply.slice(i, i + 3);
-      box.innerHTML = md(typed) + '<span style="opacity:.55">?</span>';
-      await new Promise(resolve => setTimeout(resolve, 1));
-    }
-    box.innerHTML = md(reply);
+    pushMsg("assistant", reply, { search: found || undefined });
     Notif.fire("Jarvis respondeu", reply);
     if (!Call.on && cfg("speak_replies") === "1") Speech.speak(reply);
   } catch (e) {
@@ -2098,12 +1815,13 @@ function renderQuick() {
 }
 function useTopic(i) { showView("vChat"); $("txt").value = TOPICS[i][2]; autoGrow(); $("txt").focus(); }
 
-const VIEWS = ["vChat", "vExplore", "vMemory", "vSettings"];
+const VIEWS = ["vChat", "vHud", "vMemory", "vSettings"];
 function showView(id) {
   VIEWS.forEach(v => $(v).classList.toggle("hidden", v !== id));
   document.querySelectorAll(".tab").forEach(t => t.classList.toggle("on", t.dataset.v === id));
   $("composer").classList.toggle("hidden", id !== "vChat");
   if (id === "vMemory") renderBrain();
+  if (id === "vHud") HudPanel.open();
   if (id === "vSettings") { updateStats(); updateGemUsage(); }
   $("main").scrollTop = (id === "vChat" && Chats.log.length) ? $("main").scrollHeight : 0;
 }
@@ -2695,29 +2413,22 @@ const CallHud = {
     else if (d === "aurora") this.aurora(c, W, H, t, a1, a2, light);
   },
   hud(c, W, H, cx, cy, R, t, amp, fast, a1, a2, light) {
-    c.lineCap = "round"; const k = light ? .75 : 1;
-    const r1 = R * 1.14 * (1 + .012 * amp), r2 = R * 1.3, r3 = R * 1.48;
-    /* anel 1: arcos tracejados */
-    c.strokeStyle = a1; c.lineWidth = 2; c.globalAlpha = (.5 + .3 * amp) * k;
-    const rot1 = t * .25 * fast;
-    for (let i = 0; i < 24; i++) { const a = rot1 + i * Math.PI / 12; c.beginPath(); c.arc(cx, cy, r1, a, a + .2); c.stroke(); }
-    /* anel 2: marcas de régua girando ao contrário */
-    c.strokeStyle = a2; c.lineWidth = 1.4; c.globalAlpha = .5 * k; const rot2 = -t * .12 * fast;
-    for (let i = 0; i < 90; i++) { const a = rot2 + i * Math.PI / 45, big = i % 5 === 0, rr = r2 + (big ? 10 : 5); c.beginPath(); c.moveTo(cx + Math.cos(a) * r2, cy + Math.sin(a) * r2); c.lineTo(cx + Math.cos(a) * rr, cy + Math.sin(a) * rr); c.stroke(); }
-    /* anel 3: círculo fino com arcos de luz que varrem */
-    c.strokeStyle = a1; c.lineWidth = 1; c.globalAlpha = .2 * k; c.beginPath(); c.arc(cx, cy, r3, 0, Math.PI * 2); c.stroke();
-    c.lineWidth = 3; c.globalAlpha = (.65 + .3 * amp) * k; const rot3 = t * .6 * fast;
-    c.beginPath(); c.arc(cx, cy, r3, rot3, rot3 + 1.1); c.stroke();
-    c.strokeStyle = a2; c.beginPath(); c.arc(cx, cy, r3, rot3 + Math.PI, rot3 + Math.PI + .5); c.stroke();
+    const k = light ? .75 : 1;
+    hudReactor(c, W, H, cx, cy, R * .66, t * fast, amp, a1, a2, light, null);
     /* cantoneiras */
-    c.strokeStyle = a1; c.lineWidth = 2; c.globalAlpha = .55 * k;
-    const x0 = 16, x1 = W - 16, y0 = 66, y1 = H - 150, L = 26;
+    c.lineCap = "round"; c.strokeStyle = a1; c.lineWidth = 2; c.globalAlpha = .6 * k;
+    const rich = $("call").classList.contains("rich"), x0 = 16, x1 = W - 16, y0 = 66, y1 = H - (rich ? 232 : 150), L = 26;
     [[x0, y0, 1, 1], [x1, y0, -1, 1], [x0, y1, 1, -1], [x1, y1, -1, -1]].forEach(([x, y, sx, sy]) => { c.beginPath(); c.moveTo(x, y + sy * L); c.lineTo(x, y); c.lineTo(x + sx * L, y); c.stroke(); });
-    /* réguas laterais */
-    c.lineWidth = 1; const hi = Math.floor((t * 8) % 40);
-    for (let i = 0; i < 40; i++) { const y = y0 + 20 + i * ((y1 - y0 - 40) / 39), on = Math.abs(i - hi) < 2; c.globalAlpha = (on ? .8 : .18) * k; c.beginPath(); c.moveTo(x0 - 6, y); c.lineTo(x0 - 6 + (i % 5 === 0 ? 10 : 5), y); c.moveTo(x1 + 6, y); c.lineTo(x1 + 6 - (i % 5 === 0 ? 10 : 5), y); c.stroke(); }
-    /* linha de varredura */
-    const sy = y0 + ((t * 70) % (y1 - y0)); c.globalAlpha = .16 * k; c.lineWidth = 1.5; c.strokeStyle = a1; c.beginPath(); c.moveTo(x0, sy); c.lineTo(x1, sy); c.stroke();
+    /* barras animadas nos cantos (como o gráfico do HUD) */
+    c.fillStyle = a1;
+    for (let i = 0; i < 14; i++) {
+      const h = 6 + 26 * Math.abs(Math.sin(t * (.8 + i * .13) + i)) * (.5 + amp), bw = 5;
+      c.globalAlpha = (.35 + .35 * (i / 14)) * k; c.fillRect(x0 + 4 + i * 8, y1 - 8 - h, bw, h); c.fillRect(x1 - 4 - bw - i * 8, y1 - 8 - h, bw, h);
+    }
+    /* réguas laterais e linha de varredura */
+    c.lineWidth = 1; c.strokeStyle = a1; const hi = Math.floor((t * 8) % 40);
+    for (let i = 0; i < 40; i++) { const y = y0 + 20 + i * ((y1 - y0 - 80) / 39), on = Math.abs(i - hi) < 2; c.globalAlpha = (on ? .8 : .18) * k; c.beginPath(); c.moveTo(x0 - 6, y); c.lineTo(x0 - 6 + (i % 5 === 0 ? 10 : 5), y); c.moveTo(x1 + 6, y); c.lineTo(x1 + 6 - (i % 5 === 0 ? 10 : 5), y); c.stroke(); }
+    const sy = y0 + ((t * 70) % (y1 - y0)); c.globalAlpha = .14 * k; c.lineWidth = 1.5; c.beginPath(); c.moveTo(x0, sy); c.lineTo(x1, sy); c.stroke();
     c.globalAlpha = 1;
   },
   grid(c, W, H, cx, t, a1, a2, light) {
@@ -3939,11 +3650,13 @@ function applyUI() {
   const R = document.documentElement;
   let theme = LS.get("ui_theme", LS.get("jarvis_theme", "dark"));
   if (theme === "auto") theme = matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
-  R.dataset.theme = theme;
+  const hudSkin = cfg("ui_skin") !== "default";
+  if (hudSkin) theme = "dark";
+  R.dataset.theme = theme; R.classList.toggle("hud", hudSkin);
   /* cor de destaque: da lista ou própria */
   let acc, acc2;
   if (cfg("ui_acc") === "custom") { acc = /^#[0-9a-f]{6}$/i.test(cfg("ui_accc")) ? cfg("ui_accc") : "#3b82f6"; acc2 = hueShift(acc, 40); }
-  else { const pal = PAL[cfg("ui_acc")] || PAL.blue; acc = pal[0]; acc2 = pal[1]; }
+  else { const pal = PAL[(hudSkin && cfg("ui_acc") === "blue") ? "hud" : cfg("ui_acc")] || PAL.blue; acc = pal[0]; acc2 = pal[1]; }
   R.style.setProperty("--acc", acc); R.style.setProperty("--acc2", acc2);
   /* cor do avatar: auto segue o destaque */
   const light = theme === "light", avc = cfg("ui_avc");
@@ -3959,9 +3672,6 @@ function applyUI() {
   ["aurora", "solid", "grid", "dots"].forEach(k => R.classList.toggle("bg-" + k, cfg("ui_bg") === k));
   ["round", "sharp", "glass"].forEach(k => R.classList.toggle("bub-" + k, cfg("ui_bub") === k));
   R.classList.toggle("no-orb", cfg("ui_orb") === "0");
-  R.classList.remove("theme-gemini", "theme-jarvis");
-  if (cfg("ui_theme") === "gemini") R.classList.add("theme-gemini");
-  if (cfg("ui_theme") === "jarvis") R.classList.add("theme-jarvis");
   R.classList.toggle("no-motion", cfg("ui_motion") === "0");
   R.classList.toggle("no-quick", cfg("ui_quick") === "0");
   R.classList.toggle("no-acts", cfg("ui_acts") === "0");
@@ -4083,6 +3793,8 @@ function bindSettings() {
   $("uAcc").innerHTML = Object.keys(PAL).map(k => '<button type="button" data-v="' + k + '" aria-label="' + k + '" style="background:linear-gradient(135deg,' + PAL[k][0] + "," + PAL[k][1] + ')"></button>').join("") +
     '<button type="button" data-v="custom" aria-label="cor própria" style="background:conic-gradient(#ef4444,#f59e0b,#10b981,#3b82f6,#a855f7,#ef4444)"></button>';
   bind.seg("uTheme", "ui_theme", LS.get("jarvis_theme", "dark"), applyUI);
+  bind.seg("uSkin", "ui_skin", "hud", applyUI);
+  bind.text("uGoal", "hud_goal", "10000", () => HudPanel.render()); bind.text("uLow", "hud_low", "5", () => HudPanel.render());
   bind.seg("uAcc", "ui_acc", "blue", applyUI);
   $("uAccC").value = /^#[0-9a-f]{6}$/i.test(cfg("ui_accc")) ? cfg("ui_accc") : "#3b82f6";
   $("uAccC").oninput = () => { LS.set("ui_accc", $("uAccC").value); LS.set("ui_acc", "custom"); $("uAcc").querySelectorAll("button").forEach(b => b.classList.toggle("on", b.dataset.v === "custom")); applyUI(); };
@@ -4139,10 +3851,6 @@ function bindSettings() {
   bind.toggle("uEnter", "enter_send", "1"); bind.toggle("uActs", "ui_acts", "1", applyUI); bind.toggle("uQuick", "ui_quick", "1", applyUI);
 
   /* google */
-  bind.select("uAiProvider", "ai_provider", "gemini");
-  bind.text("uGemKeys", "gem_keys", "");
-  bind.text("uGptKeys", "gpt_keys", "");
-  bind.toggle("uMediaGen", "media_gen", "1");
   [["gUrl", "g_url"], ["gPass", "g_pass"], ["gSheet", "g_sheet"]].forEach(([id, key]) => {
     $(id).value = cfg(key);
     $(id).addEventListener("input", e => { LS.set(key, e.target.value.trim()); if (id !== "gSheet") { LS.set("g_ok", "0"); LS.del("g_tr"); googleStatus("Toque em Conectar para testar"); } });
@@ -4174,10 +3882,7 @@ function bindEvents() {
   document.addEventListener("pointerdown", unlockAudio, { passive: true });
   document.querySelectorAll(".tab").forEach(t => t.addEventListener("click", () => showView(t.dataset.v)));
   $("provChip").onclick = () => showView("vSettings");
-  $("modeChip").onclick = () => showView("vExplore");
-  $("magicBtn").onclick = () => MagicPortal.open();
-  $("magicClose").onclick = () => MagicPortal.close();
-  window.addEventListener("keydown", e => { if (e.key === "Escape") MagicPortal.close(); });
+  $("modeChip").onclick = () => showView("vHud");
   $("plus").onclick = () => { newChat(); $("txt").focus(); };
 
   $("hMenu").onclick = () => setSide(true);
@@ -4205,228 +3910,6 @@ function bindEvents() {
   $("graph").addEventListener("click", e => { const g = e.target.closest ? e.target.closest(".node") : null; if (g) openEditor(g.getAttribute("data-id")); });
 }
 
-/* ==========================================================================
-   HUB MULTI-FUNÇÕES (EXPLORAR)
-   ========================================================================== */
-const HUB_ENGINES = {
-  'prompt-studio': {
-    name: 'Prompt Studio',
-    badge: 'Gerador IA',
-    placeholder: 'Ex: Cyberpunk samurai running across neon rain rooftops, cinematic lighting, 8k...'
-  },
-  'viral-lab': {
-    name: 'Viral Lab',
-    badge: 'Growth & Roteiros',
-    placeholder: 'Ex: Como escalar um negócio de SaaS B2B do zero aos 10k MRR usando IA...'
-  },
-  'api-architect': {
-    name: 'API Architect',
-    badge: 'Backend & Schema',
-    placeholder: 'Ex: Criar payload de webhook para stripe subscription.created com validação Zod...'
-  },
-  'reality-check': {
-    name: 'Reality Check',
-    badge: 'Validação & MVP',
-    placeholder: 'Ex: Aplicativo de delivery exclusivo para comida caseira com entrega via drone...'
-  }
-};
-
-let currentHubEngine = 'prompt-studio';
-
-function initHubExplorar() {
-  const engineBtns = document.querySelectorAll('.hub-engine-btn');
-  const inputEl = $('hubInput');
-  const labelEl = $('hubInputLabel');
-  const badgeEl = $('hubEngineBadge');
-  const execBtn = $('hubExecBtn');
-  const outputEl = $('hubOutput');
-  const copyBtn = $('hubCopyBtn');
-  const clearHistoryBtn = $('hubClearHistoryBtn');
-  const historyListEl = $('hubHistoryList');
-  const historyCountEl = $('hubHistoryCount');
-
-  let history = [];
-  try {
-    const saved = localStorage.getItem('jarvis_hub_history');
-    if (saved) history = JSON.parse(saved);
-  } catch(e) {}
-
-  const renderHistory = () => {
-    if (!historyListEl) return;
-    historyCountEl.textContent = history.length;
-    if (history.length === 0) {
-      historyListEl.innerHTML = '<div style="font-size: 12.5px; color: var(--dim); font-style: italic;">Nenhuma execução recente gravada.</div>';
-      return;
-    }
-    historyListEl.innerHTML = history.map(item => {
-      const eng = HUB_ENGINES[item.engine] || {};
-      return `<div class="hub-hist-item" data-id="${item.id}" style="padding: 10px 12px; border-radius: 10px; background: rgba(0,0,0,0.3); border: 1px solid var(--line); cursor: pointer; display: flex; justify-content: space-between; align-items: center;">
-        <div style="min-width: 0; flex: 1;">
-          <div style="font-size: 10.5px; color: var(--acc); font-family: var(--mono); text-transform: uppercase;">${eng.name || item.engine} · ${item.time}</div>
-          <div style="font-size: 12.5px; color: var(--txt); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-family: var(--mono);">${item.input}</div>
-        </div>
-        <span style="font-size: 12px; color: var(--dim); margin-left: 8px;">➔</span>
-      </div>`;
-    }).join('');
-
-    historyListEl.querySelectorAll('.hub-hist-item').forEach(el => {
-      el.onclick = () => {
-        const item = history.find(h => h.id === el.dataset.id);
-        if (!item) return;
-        currentHubEngine = item.engine;
-        engineBtns.forEach(b => {
-          const active = b.dataset.engine === currentHubEngine;
-          b.classList.toggle('on', active);
-          b.style.borderColor = active ? 'var(--acc)' : 'var(--line)';
-        });
-        const cfg = HUB_ENGINES[currentHubEngine];
-        inputEl.value = item.input;
-        labelEl.textContent = cfg.name + ' Input';
-        badgeEl.textContent = cfg.name;
-        inputEl.placeholder = cfg.placeholder;
-        outputEl.textContent = item.output;
-        copyBtn.classList.remove('hidden');
-      };
-    });
-  };
-
-  engineBtns.forEach(btn => {
-    btn.onclick = () => {
-      engineBtns.forEach(b => {
-        b.classList.remove('on');
-        b.style.borderColor = 'var(--line)';
-      });
-      btn.classList.add('on');
-      btn.style.borderColor = 'var(--acc)';
-      currentHubEngine = btn.dataset.engine;
-      const cfg = HUB_ENGINES[currentHubEngine];
-      labelEl.textContent = cfg.name + ' Input';
-      badgeEl.textContent = cfg.name;
-      inputEl.placeholder = cfg.placeholder;
-    };
-  });
-
-  execBtn.onclick = async () => {
-    const text = inputEl.value.trim();
-    if (!text || execBtn.disabled) return;
-    execBtn.disabled = true;
-    execBtn.textContent = 'Processando...';
-    outputEl.innerHTML = '<span style="color: var(--acc); animation: bl 1s infinite;">⚡ Executando engine e estruturando resposta...</span>';
-    copyBtn.classList.add('hidden');
-
-    await new Promise(r => setTimeout(r, 1200));
-
-    let res = '';
-    if (currentHubEngine === 'prompt-studio') {
-      res = `### 🎨 Prompts Gerados (Midjourney v6 / Flux.1)
-
-#### 1. Cinematic Photorealistic
-\`\`\`text
-${text}, cinematic lighting, photorealistic, 8k resolution, volumetric rays, unreal engine 5 render, highly detailed, shot on 35mm lens --ar 16:9 --v 6.0
-\`\`\`
-
-#### 2. Dark Cyberpunk Aesthetic
-\`\`\`text
-${text}, dark cyberpunk mood, neon reflections, rain-slicked asphalt, high contrast, moody color grading --ar 21:9 --style raw
-\`\`\`
-
-| Parâmetro | Valor Recomendado | Finalidade |
-| :--- | :--- | :--- |
-| --ar | 16:9 / 21:9 | Proporção cinematográfica |
-| --v | 6.0 | Versão do motor gerador |`;
-    } else if (currentHubEngine === 'viral-lab') {
-      res = `### 📈 Análise Viral & Roteiro de Alto Impacto
-
-#### 🪝 O Gancho (0 - 3s)
-> "Ninguém te contou isso sobre ${text}, mas os líderes de mercado estão escondendo este único detalhe."
-
-#### ⚡ Desenvolvimento & Retenção (3 - 30s)
-1. **O Problema Oculto**: Expor a dor principal em relação a ${text}.
-2. **A Quebra de Padrão**: Apresentar dados contraintuitivos ou estudo de caso real.
-3. **A Revelação**: Framework passo a passo.
-
-| Métrica Alvo | Meta | Fator Chave |
-| :--- | :--- | :--- |
-| **Retention Rate** | > 45% | Gancho forte + Ritmo ágil |`;
-    } else if (currentHubEngine === 'api-architect') {
-      res = `### ⚙️ Arquitetura de Integração & Schema
-
-#### 📦 Payload JSON (Webhook / API)
-\`\`\`json
-{
-  "event": "hub.engine.executed",
-  "engine": "${currentHubEngine}",
-  "timestamp": "${new Date().toISOString()}",
-  "payload": {
-    "query": "${text.replace(/"/g, '\\"')}",
-    "status": "success",
-    "secure_hash": "sha256_e3b0c442"
-  }
-}
-\`\`\`
-
-#### 💻 Script Node.js / TypeScript
-\`\`\`typescript
-import axios from 'axios';
-async function executeHub() {
-  const res = await axios.post('https://api.jarvis.local/v1/engine', {
-    engine: '${currentHubEngine}',
-    query: '${text.replace(/"/g, '\\"')}'
-  });
-  return res.data;
-}
-\`\`\``;
-    } else {
-      res = `### 🛡️ Reality Check & MVP Stress-Test
-
-#### Análise Crítica para: "${text}"
-
-1. **Gargalos Críticos**:
-   - Custo de aquisição (CAC) vs. LTV nos primeiros 6 meses.
-   - Dependência de APIs sem fallback automatizado.
-
-| Dimensão | Risco | Mitigação Recomendada |
-| :--- | :--- | :--- |
-| **Financeiro** | Alto | Validar pré-venda antes de codificar |
-| **Técnico** | Médio | Arquitetura Serverless enxuta |
-
-> **VEREDITO:** **APROVADO COM RESSERVAS** — Reduza o escopo inicial em 50%.`;
-    }
-
-    outputEl.textContent = res;
-    execBtn.disabled = false;
-    execBtn.textContent = 'Executar Engine';
-    copyBtn.classList.remove('hidden');
-
-    const newItem = {
-      id: Date.now().toString(36),
-      engine: currentHubEngine,
-      input: text,
-      output: res,
-      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-    };
-    history = [newItem, ...history].slice(0, 10);
-    try {
-      localStorage.setItem('jarvis_hub_history', JSON.stringify(history));
-    } catch(e) {}
-    renderHistory();
-  };
-
-  copyBtn.onclick = async () => {
-    const ok = await copyText(outputEl.textContent);
-    copyBtn.textContent = ok ? 'Copiado ✓' : 'Erro';
-    setTimeout(() => { copyBtn.textContent = 'Copiar Output'; }, 1600);
-  };
-
-  clearHistoryBtn.onclick = () => {
-    history = [];
-    localStorage.removeItem('jarvis_hub_history');
-    renderHistory();
-  };
-
-  renderHistory();
-}
-
 function startAnimationLoop() {
   let last = performance.now(), lastDraw = 0;
   const visible = id => !$(id).classList.contains("hidden");
@@ -4443,6 +3926,7 @@ function startAnimationLoop() {
     else if (visible("vChat") && visible("hero")) drawAvatar(heroOrb, t, dt);
     else if (visible("vSettings") && prevOrb.cv.clientWidth) { previewTick(now); drawAvatar(prevOrb, t, dt); }
     if (visible("vMemory")) tickPulses();
+    if (visible("vHud")) HudPanel.tick(now);
   })(performance.now());
 }
 
@@ -4452,13 +3936,199 @@ function init() {
   $("edA").innerHTML = Object.keys(AREA).map(k => '<option value="' + k + '">' + AREA[k].label + "</option>").join("");
   applyUI(); bindSettings(); bindEvents();
   renderModes(); renderQuick(); renderSide(); renderHistory(); renderBrain();
-  initHubExplorar();
   updateHome(); updateStats(); autoGrow(); showView("vChat");
   startAnimationLoop(); Sales.start(); Wake.sync();
   /* vigia da chamada: se o microfone parar sozinho, volta a ouvir */
   setInterval(() => { if (Call.on && !Call.busy && !App.sending && !Call.recActive && Date.now() - Call.lastAct > 3500) Call.listen(); }, 2000);
   setTimeout(() => { $("splash").classList.add("fade"); setTimeout(() => $("splash").classList.add("hidden"), 750); }, 1700);
 }
+/* ==========================================================================
+   PAINEL HUD: reator central, medidores, gráficos e dados reais da loja e do Google
+   ========================================================================== */
+const hexA = (h, a) => { const p = [1, 3, 5].map(i => parseInt(String(h).slice(i, i + 2), 16)); return "rgba(" + p.join(",") + "," + a + ")"; };
+
+/* Reator estilo HUD: lâminas em leque, anéis segmentados, régua, teia central e luz pulsando */
+function hudReactor(c, W, H, cx, cy, R, t, amp, c1, c2, light, tags) {
+  c.save(); c.lineJoin = "round";
+  const k = light ? .85 : 1, glow = (col, b) => { if (!light) { c.shadowColor = col; c.shadowBlur = b; } else c.shadowBlur = 0; };
+  const TAU = Math.PI * 2, rot = t * .22;
+  /* lâminas */
+  const nb = 9;
+  for (let i = 0; i < nb; i++) {
+    const a0 = t * .035 + i * TAU / nb + .05, a1 = a0 + TAU / nb - .12, ri = R * 1.14, ro = R * (i % 3 === 0 ? 1.85 : i % 3 === 1 ? 1.58 : 1.7);
+    c.beginPath(); c.arc(cx, cy, ri, a0, a1); c.lineTo(cx + Math.cos(a1) * ro, cy + Math.sin(a1) * ro); c.arc(cx, cy, ro, a1, a0, true); c.closePath();
+    c.shadowBlur = 0; c.globalAlpha = .07 * k; c.fillStyle = c1; c.fill();
+    c.globalAlpha = .55 * k; c.strokeStyle = c1; c.lineWidth = 1.2; c.stroke();
+  }
+  /* anel grosso segmentado */
+  glow(c1, 16); c.strokeStyle = c1; c.lineWidth = R * .11; c.lineCap = "butt"; c.globalAlpha = (.82 + .12 * amp) * k;
+  for (let i = 0; i < 12; i++) { const a = rot + i * TAU / 12; c.beginPath(); c.arc(cx, cy, R * 1.03, a, a + .45); c.stroke(); }
+  c.shadowBlur = 0;
+  /* anel fino com régua */
+  c.lineWidth = 1; c.globalAlpha = .5 * k; c.beginPath(); c.arc(cx, cy, R * .9, 0, TAU); c.stroke();
+  c.lineWidth = 1.2; c.strokeStyle = c2; c.globalAlpha = .6 * k;
+  for (let i = 0; i < 72; i++) { const a = -rot * .5 + i * TAU / 72, r2 = R * (i % 6 === 0 ? .99 : .94); c.beginPath(); c.moveTo(cx + Math.cos(a) * R * .9, cy + Math.sin(a) * R * .9); c.lineTo(cx + Math.cos(a) * r2 * (i % 6 === 0 ? 1 : .985), cy + Math.sin(a) * r2 * (i % 6 === 0 ? 1 : .985)); c.stroke(); }
+  /* anel tracejado interno */
+  c.setLineDash([R * .05, R * .035]); c.lineDashOffset = -t * 14; c.strokeStyle = c1; c.lineWidth = 3; c.globalAlpha = .75 * k;
+  c.beginPath(); c.arc(cx, cy, R * .74, 0, TAU); c.stroke(); c.setLineDash([]);
+  /* teia central */
+  c.strokeStyle = c1; c.lineWidth = .8;
+  [.5, .38, .27].forEach((f, i) => { c.globalAlpha = (.55 - i * .1) * k; c.beginPath(); c.arc(cx, cy, R * f, 0, TAU); c.stroke(); });
+  c.globalAlpha = .38 * k;
+  for (let i = 0; i < 48; i++) { const a = t * .06 + i * TAU / 48; c.beginPath(); c.moveTo(cx + Math.cos(a) * R * .15, cy + Math.sin(a) * R * .15); c.lineTo(cx + Math.cos(a) * R * (i % 2 ? .38 : .5), cy + Math.sin(a) * R * (i % 2 ? .38 : .5)); c.stroke(); }
+  /* luz central */
+  const pr = R * .2 * (1 + .12 * amp + .04 * Math.sin(t * 3)), g = c.createRadialGradient(cx, cy, 0, cx, cy, pr);
+  g.addColorStop(0, "rgba(255,255,255,.95)"); g.addColorStop(.4, hexA(c1, .75)); g.addColorStop(1, hexA(c1, 0));
+  c.globalAlpha = 1; c.fillStyle = g; c.beginPath(); c.arc(cx, cy, pr, 0, TAU); c.fill();
+  /* satélites */
+  glow("#ffffff", 8); c.fillStyle = light ? c1 : "#ffffff";
+  for (let i = 0; i < 3; i++) { const a = t * .9 + i * 2.1; c.globalAlpha = .9; c.beginPath(); c.arc(cx + Math.cos(a) * R * 1.24, cy + Math.sin(a) * R * 1.24, Math.max(2, R * .022), 0, TAU); c.fill(); }
+  c.shadowBlur = 0;
+  /* etiquetas técnicas */
+  if (tags) {
+    c.font = "600 " + Math.max(9, R * .1) + "px ui-monospace,Menlo,Consolas,monospace"; c.fillStyle = c1; c.globalAlpha = .85 * k;
+    tags.forEach(([tx, f1, f2, al]) => { c.textAlign = al || "left"; c.fillText(tx, cx + f1 * R, cy + f2 * R); });
+  }
+  c.restore(); c.globalAlpha = 1;
+}
+
+/* ----- dados do painel (loja e Google); sem conexão, mostra demonstração identificada ----- */
+const HudData = {
+  at: 0, busy: false, d: {},
+  async refresh(force) {
+    if (this.busy || (!force && Date.now() - this.at < 90000)) return;
+    this.busy = true; this.at = Date.now();
+    try { await Promise.all([this.sales(), this.stock(), this.agenda(), this.mail()]); }
+    finally { this.busy = false; HudPanel.render(); }
+  },
+  async sales() {
+    this.d.sales = null;
+    try {
+      const sc = LS.json("b44_sales", null); if (!sc || !b44On()) return;
+      const app = b44App(sc.app), ent = b44Entity(app, sc.entity);
+      const names = (((LS.json("b44_schema", {})[app.name] || {}).entities || {})[ent] || []).map(f => f.split(":")[0]);
+      const sumF = names.find(f => /total|valor|amount|price|preco/i.test(f)), prodF = names.find(f => /produto|product|item|titulo|title/i.test(f));
+      const m0 = new Date(); m0.setDate(1); m0.setHours(0, 0, 0, 0);
+      const w0 = new Date(); w0.setDate(w0.getDate() - 6); w0.setHours(0, 0, 0, 0);
+      const from = w0 < m0 ? w0 : m0;
+      const { items } = await b44All(app, ent, { q: { created_date: { "$gte": from.toISOString() } }, fields: ["created_date", sumF, prodF].filter(Boolean).join(",") }, 5000);
+      const num = v => { const n = typeof v === "number" ? v : parseFloat(String(v).replace(",", ".")); return isNaN(n) ? 0 : n; };
+      const days = []; for (let i = 6; i >= 0; i--) { const d = new Date(); d.setDate(d.getDate() - i); d.setHours(0, 0, 0, 0); days.push({ k: d.toDateString(), lab: d.toLocaleDateString("pt-BR", { weekday: "short" }).replace(".", "").slice(0, 3).toUpperCase(), v: 0 }); }
+      let month = 0, week = 0; const prods = {};
+      items.forEach(r => {
+        const dt = new Date(r.created_date), val = sumF ? num(r[sumF]) : 1;
+        if (dt >= m0) { month += val; if (prodF && r[prodF]) { const p = String(r[prodF]); prods[p] = (prods[p] || 0) + val; } }
+        const d = days.find(x => x.k === new Date(dt.getFullYear(), dt.getMonth(), dt.getDate()).toDateString()); if (d) { d.v += val; week += val; }
+      });
+      this.d.sales = { days, month, week, count: !sumF, top: Object.entries(prods).sort((a, b) => b[1] - a[1]).slice(0, 4) };
+    } catch (e) { console.warn("painel vendas:", e); }
+  },
+  async stock() {
+    this.d.stock = null;
+    try {
+      if (!b44On()) return;
+      const sc = LS.json("b44_schema", {}); let found = null;
+      Object.keys(sc).forEach(an => Object.keys(sc[an].entities || {}).forEach(en => {
+        if (found || !/produt|product/i.test(en)) return;
+        const fs = sc[an].entities[en].map(x => x.split(":")[0]), f = fs.find(x => /stock|estoque|qtd|quant/i.test(x));
+        if (f) found = { app: an, ent: en, f, n: fs.find(x => /^(name|nome|title|titulo)$/i.test(x)) };
+      }));
+      if (!found) return;
+      const app = b44App(found.app), r = await b44List(app, found.ent, { limit: 5, sort: found.f, fields: [found.n, found.f].filter(Boolean).join(",") });
+      this.d.stock = (r.items || []).map(x => ({ n: (found.n && x[found.n]) || "Produto", v: Number(x[found.f]) || 0 }));
+    } catch (e) { console.warn("painel estoque:", e); }
+  },
+  async agenda() {
+    this.d.agenda = null;
+    try {
+      if (!gOn()) return;
+      const a = new Date(), b = new Date(); b.setHours(23, 59, 59, 0);
+      const txt = await gs({ a: "cal_list", from: a.toISOString(), to: b.toISOString(), max: 4 });
+      this.d.agenda = String(txt).split("\n").filter(l => / \| /.test(l)).map(l => { const p = l.split(" | "), st = (p[1] || "").split(" → ")[0]; return { t: new Date(st), n: p[2] || "Compromisso" }; });
+    } catch (e) { console.warn("painel agenda:", e); }
+  },
+  async mail() {
+    this.d.mail = null;
+    try {
+      if (!gOn()) return;
+      const txt = await gs({ a: "mail_list", q: "is:unread in:inbox", max: 3 });
+      this.d.mail = String(txt).split("\n").filter(l => /Assunto:/.test(l)).map(l => { const de = (/De: ([^|]*)/.exec(l) || [, ""])[1].replace(/<.*>/, "").trim(), as = (/Assunto: ([^|]*)/.exec(l) || [, ""])[1].trim(); return { de, as }; });
+    } catch (e) { console.warn("painel e-mails:", e); }
+  }
+};
+
+const HudPanel = {
+  sec: -1, lastDraw: 0, lastG: 0, bat: null, batTried: false,
+  open() { this.render(); HudData.refresh(true); },
+  bars(vals, labs) {
+    const W = 300, H = 92, n = vals.length, step = (W - 8) / n, bw = step - 12, mx = Math.max.apply(null, vals.concat([1]));
+    let g = "";
+    vals.forEach((v, i) => { const h = Math.max(2, (H - 24) * v / mx), x = 4 + i * step + 6, y = H - 14 - h; g += '<rect x="' + x + '" y="' + y + '" width="' + bw + '" height="' + h + '" rx="2" fill="url(#hbg)"/><text x="' + (x + bw / 2) + '" y="' + (H - 3) + '" text-anchor="middle">' + labs[i] + "</text>"; });
+    return '<svg viewBox="0 0 ' + W + " " + H + '" class="hsvg"><defs><linearGradient id="hbg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--acc)"/><stop offset="1" stop-color="var(--acc2)" stop-opacity=".45"/></linearGradient></defs>' + g + "</svg>";
+  },
+  gauge(label, pct, bad) {
+    const p = pct === null ? 0 : Math.max(0, Math.min(100, pct));
+    return '<div class="gg"><svg viewBox="0 0 56 56"><circle class="gbg" cx="28" cy="28" r="20"/><circle class="gfg' + (bad ? " bad" : "") + '" cx="28" cy="28" r="20" stroke-dasharray="' + (p * 1.2566) + ' 125.66" transform="rotate(-90 28 28)"/><text x="28" y="32">' + (pct === null ? "--" : Math.round(p) + "%") + "</text></svg><span>" + label + "</span></div>";
+  },
+  money(v) { const n = Number(v) || 0, d = n >= 1000 ? 0 : 2; return n.toLocaleString("pt-BR", { style: "currency", currency: "BRL", minimumFractionDigits: d, maximumFractionDigits: d }); },
+  render() {
+    const D = HudData.d, goal = Math.max(1, parseFloat(String(cfg("hud_goal")).replace(",", ".")) || 10000), low = parseFloat(cfg("hud_low")) || 5;
+    /* vendas */
+    let days, month, week, count = false, top, demo = !D.sales;
+    if (D.sales) ({ days, month, week, count, top } = D.sales);
+    else { days = [12, 18, 9, 22, 15, 28, 19].map((v, i) => ({ lab: ["SEG", "TER", "QUA", "QUI", "SEX", "SÁB", "DOM"][i], v: v * 100 })); month = goal * .62; week = days.reduce((s, x) => s + x.v, 0); top = [["Camiseta Preta", 3800], ["Calça Jeans", 2700], ["Bermuda", 2100], ["Boné", 1400]]; }
+    const fmt = v => count ? Math.round(v) + " pedidos" : this.money(v);
+    $("demoSales").textContent = demo ? "DEMO" : "";
+    $("hudBars").innerHTML = this.bars(days.map(x => x.v), days.map(x => x.lab));
+    $("hudTot").textContent = fmt(week); $("hudTotS").textContent = "NA SEMANA · HOJE " + fmt(days[days.length - 1].v);
+    /* meta */
+    const pct = count ? 0 : Math.min(100, month / goal * 100);
+    $("hudGoal").innerHTML = '<div class="goalbox"><svg viewBox="0 0 100 100"><circle class="gbg" cx="50" cy="50" r="40"/><circle class="gfg" cx="50" cy="50" r="40" stroke-dasharray="' + (pct * 2.5133) + ' 251.33" transform="rotate(-90 50 50)"/><text x="50" y="57">' + Math.round(pct) + '%</text></svg><small>' + (count ? "defina a meta em Ajustes → Loja" : this.money(month) + " DE " + this.money(goal)) + "</small></div>";
+    /* mais vendidos (pizza) */
+    const cols = ["var(--acc)", "var(--acc2)", "#a78bfa", "#34d399"], tot = top.reduce((s, x) => s + x[1], 0) || 1; let acc = 0, sl = "";
+    top.forEach((x, i) => { const p = x[1] / tot * 100; sl += '<circle r="15.9155" cx="21" cy="21" fill="none" stroke="' + cols[i] + '" stroke-width="7" stroke-dasharray="' + p + " " + (100 - p) + '" stroke-dashoffset="' + (25 - acc) + '"/>'; acc += p; });
+    $("hudPie").innerHTML = top.length ? '<div class="pie"><svg viewBox="0 0 42 42">' + sl + '</svg><ul>' + top.map((x, i) => '<li><i style="background:' + cols[i] + '"></i><span>' + esc(x[0]) + "</span><b>" + Math.round(x[1] / tot * 100) + "%</b></li>").join("") + "</ul></div>" : '<div class="hempty">Sem vendas no mês.</div>';
+    /* estoque */
+    let st = D.stock, sdemo = !st;
+    if (!st) st = [["Camiseta Branca G", 2], ["Calça Jeans 42", 3], ["Boné Preto", 4], ["Camiseta Preta M", 6], ["Bermuda 38", 8]].map(x => ({ n: x[0], v: x[1] }));
+    $("demoStock").textContent = sdemo ? "DEMO" : "";
+    const mx = Math.max.apply(null, st.map(x => x.v).concat([low * 2]));
+    $("hudStock").innerHTML = st.map(x => '<div class="hrow"><span class="hn">' + esc(x.n) + '</span><span class="hb"><i class="' + (x.v <= low ? "low" : "") + '" style="width:' + Math.max(4, x.v / mx * 100) + '%"></i></span><span class="hv">' + x.v + "</span></div>").join("");
+    /* agenda e e-mails */
+    $("hudAgenda").innerHTML = !gOn() ? '<div class="hempty">Conecte o Google em Ajustes → Google.</div>' : D.agenda === null ? '<div class="hempty">Carregando…</div>' : D.agenda.length ? D.agenda.map(x => '<div class="hrow"><span class="ht">' + (isNaN(x.t) ? "--:--" : x.t.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })) + '</span><span class="hn">' + esc(x.n) + "</span></div>").join("") : '<div class="hempty">Nada na agenda para hoje, senhor.</div>';
+    $("hudMail").innerHTML = !gOn() ? '<div class="hempty">Conecte o Google em Ajustes → Google.</div>' : D.mail === null ? '<div class="hempty">Carregando…</div>' : D.mail.length ? D.mail.map(x => '<div class="hrow"><span class="hn"><b>' + esc(x.de) + "</b> · " + esc(x.as) + "</span></div>").join("") : '<div class="hempty">Nenhum e-mail novo.</div>';
+    this.gauges();
+  },
+  gauges() {
+    const online = typeof navigator === "undefined" || navigator.onLine !== false;
+    const bat = this.bat ? this.bat.level * 100 : null;
+    $("hudGauges").innerHTML = this.gauge("BATERIA", bat, bat !== null && bat < 20) + this.gauge("REDE", online ? 100 : 0, !online) + this.gauge("LOJA", b44On() ? 100 : 0, false) + this.gauge("GOOGLE", gOn() ? 100 : 0, false) + this.gauge("IA", cfg("gemini_key").trim() ? 100 : 0, !cfg("gemini_key").trim());
+    $("hudSub").textContent = online ? "SISTEMAS ONLINE" : "SEM CONEXÃO";
+  },
+  drawCore(now) {
+    const cv = $("hudCore"), W = cv.clientWidth, H = cv.clientHeight; if (!W || !H) return;
+    const dpr = window.devicePixelRatio || 1;
+    if (cv.width !== Math.round(W * dpr)) { cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr); }
+    const c = cv.getContext("2d"); c.setTransform(dpr, 0, 0, dpr, 0, 0); c.clearRect(0, 0, W, H);
+    const t = now / 1000, light = isLightTheme(), R = Math.min(W, H) * .26;
+    const amp = Math.min(1, (Call.orb ? Call.orb.energy : 0) + (Face.tl ? Face.p.mo : 0) * .8);
+    const c1 = AV.c1, c2 = AV.c2;
+    hudReactor(c, W, H, W / 2, H / 2, R, t, amp, c1, c2, light, [["99%", -1.75, -1.55, "left"], ["75%", 1.75, 1.0, "right"], ["JARVIS", 0, 2.25, "center"]]);
+  },
+  tick(now) {
+    const sec = Math.floor(now / 1000);
+    if (sec !== this.sec) {
+      this.sec = sec; const d = new Date();
+      $("hudT").textContent = d.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" });
+      $("hudD").textContent = d.toLocaleDateString("pt-BR", { weekday: "short", day: "numeric", month: "short" }).replace(/\./g, "");
+      if (!this.batTried) { this.batTried = true; try { if (navigator.getBattery) navigator.getBattery().then(b => { this.bat = b; this.gauges(); }).catch(() => {}); } catch (e) {} }
+      if (sec % 5 === 0) this.gauges();
+      HudData.refresh(false);
+    }
+    if (now - this.lastDraw >= 30) { this.lastDraw = now; this.drawCore(now); }
+  }
+};
+
 init();
 </script>
 </body>
