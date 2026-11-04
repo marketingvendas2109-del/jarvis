@@ -334,6 +334,20 @@ html[data-theme=light] #call.mini{background:rgba(255,255,255,.92)}
 #call.mini #callOrb{width:150px!important;height:150px!important;margin:0!important}
 #call.mini .miniX{display:grid;place-items:center;position:absolute;top:6px;right:8px;width:26px;height:26px;border-radius:50%;background:var(--glass2);font-size:16px;line-height:1;z-index:2}
 
+/* Menu de Ajustes organizado */
+.snav{display:flex;flex-direction:column;gap:12px;margin:14px 0 2px;overflow:visible}
+.snav-group{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.snav-group:has(button:only-child){grid-template-columns:1fr}
+.snav-title{grid-column:1/-1;font:600 10.5px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin:2px 2px -2px}
+.snav button{display:flex;align-items:center;gap:8px;padding:12px 14px;border-radius:14px;background:var(--glass);border:1px solid var(--line);font-size:14px;font-weight:600;color:var(--txt);text-align:left}
+.snav button .snav-ico{font-size:16px;line-height:1}
+.snav button.on{background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;border-color:transparent;box-shadow:0 6px 20px color-mix(in srgb,var(--acc) 30%,transparent)}
+.snav button.on .snav-ico{filter:brightness(1.1)}
+
+/* Animação de escrita */
+.type-cursor{display:inline-block;width:2px;height:1em;margin-left:2px;vertical-align:-.15em;background:var(--acc);animation:blinkCursor .7s steps(2,start) infinite}
+@keyframes blinkCursor{50%{opacity:0}}
+
 /* ============ 13. PREFERÊNCIAS VISUAIS ============ */
 html.no-orb #heroOrb{display:none}
 html.no-quick #quick{display:none!important}
@@ -486,9 +500,24 @@ html.hud .m.u .bub{border-radius:10px 10px 3px 10px}
         <div><b id="pName" style="font-size:18px"></b><div class="pst"><span id="pC"></span><span id="pM"></span><span id="pN"></span></div></div>
       </div>
       <div class="snav" id="snav">
-        <button type="button" data-c="look">Aparência</button><button type="button" data-c="avatar">Avatar</button><button type="button" data-c="jarvis">Jarvis</button>
-        <button type="button" data-c="voz">Voz</button><button type="button" data-c="chat">Chat</button>
-        <button type="button" data-c="loja">Loja</button><button type="button" data-c="google">Google</button><button type="button" data-c="dados">Dados</button>
+        <div class="snav-group"><div class="snav-title">Personalização</div>
+          <button type="button" data-c="look"><span class="snav-ico">🎨</span>Aparência</button>
+          <button type="button" data-c="avatar"><span class="snav-ico">🤖</span>Avatar</button>
+        </div>
+        <div class="snav-group"><div class="snav-title">Jarvis</div>
+          <button type="button" data-c="jarvis"><span class="snav-ico">🧠</span>Inteligência</button>
+          <button type="button" data-c="voz"><span class="snav-ico">🎙️</span>Voz</button>
+        </div>
+        <div class="snav-group"><div class="snav-title">Conversa</div>
+          <button type="button" data-c="chat"><span class="snav-ico">💬</span>Chat e avisos</button>
+        </div>
+        <div class="snav-group"><div class="snav-title">Integrações</div>
+          <button type="button" data-c="loja"><span class="snav-ico">👕</span>Loja ZENON</button>
+          <button type="button" data-c="google"><span class="snav-ico">🔗</span>Google</button>
+        </div>
+        <div class="snav-group"><div class="snav-title">Sistema</div>
+          <button type="button" data-c="dados"><span class="snav-ico">🗄️</span>Dados</button>
+        </div>
       </div>
 
       <!-- Aparência -->
@@ -1343,8 +1372,8 @@ function googlePrompt() {
    o.audio = a última mensagem do usuário é um áudio (o modelo ouve e responde de uma vez só). */
 async function converse(turns, o) {
   o = o || {};
-  const fast = Call.on || cfg("speak_replies") === "1";
-  const len = cfg("voice_len"), maxTokens = Call.on ? ({ short: 220, long: 800 }[len] || 420) : 600;
+  const fast = true; /* respostas e raciocínio mais rápidos */
+  const len = cfg("voice_len"), maxTokens = Call.on ? ({ short: 220, long: 800 }[len] || 420) : 420; /* limite menor = resposta mais rápida */
   const temp = Call.on ? Math.min(1.3, cfgNum("ai_temp") + .2) : undefined;     /* na conversa por voz fica um pouco mais criativo */
   const ouvi = /\[\[OUVI:[\s\S]*?\]\]/;
   let raw = await callAI(turns, buildSystem(o), { fast, maxTokens, temp }), rounds = 0;
@@ -1619,29 +1648,56 @@ function pushMsg(role, text, opts) {
   d.className = "m " + (user ? "u" : "a") + (opts.error ? " err" : "");
   let attHtml = "";
   if (a) attHtml = a.kind === "img" && a.thumb ? '<img class="attm" src="' + a.thumb + '" alt="">' : '<div class="attf">' + ico("file") + esc(a.name) + "</div>";
-  d.innerHTML = (user ? "" : '<div class="av"></div>') + '<div class="bub">' + attHtml + (user ? esc(text).replace(/\n/g, "<br>") : md(text)) + "</div>";
-  if (!user && !opts.error) {
-    const bar = document.createElement("div");
-    bar.className = "act";
-    bar.innerHTML = '<button type="button" title="Copiar">' + ico("copy") + '</button><button type="button" title="Ouvir">' + ico("spk") + "</button>";
-    bar.children[0].onclick = async () => { if (await copyText(text)) bar.children[0].innerHTML = ico("ok"); };
-    bar.children[1].onclick = () => Speech.speak(text);
-    d.querySelector(".bub").appendChild(bar);
-  }
-  if (!user && !opts.error && opts.search) {
-    const sr = opts.search, box = document.createElement("div"); box.className = "srcs";
-    let h = "";
-    if (sr.queries && sr.queries.length) h += '<div class="sq">🔎 Pesquisou: ' + sr.queries.slice(0, 3).map(esc).join(" · ") + "</div>";
-    if (sr.sources && sr.sources.length) h += '<div class="sl">' + sr.sources.map(x => '<a href="' + esc(x.u) + '" target="_blank" rel="noopener noreferrer">' + esc(x.t) + "</a>").join("") + "</div>";
-    box.innerHTML = h;
-    if (sr.html) { const f = document.createElement("iframe"); f.setAttribute("sandbox", "allow-popups allow-popups-to-escape-sandbox"); f.setAttribute("srcdoc", sr.html); f.className = "sug"; box.appendChild(f); }
-    if (h || sr.html) d.querySelector(".bub").appendChild(box);
-  }
+  const bub = document.createElement("div");
+  bub.className = "bub";
+  d.innerHTML = (user ? "" : '<div class="av"></div>');
+  d.appendChild(bub);
+  bub.innerHTML = attHtml + (user ? esc(text).replace(/\n/g, "<br>") : md(text));
+
+  const addExtras = () => {
+    if (!user && !opts.error) {
+      const bar = document.createElement("div");
+      bar.className = "act";
+      bar.innerHTML = '<button type="button" title="Copiar">' + ico("copy") + '</button><button type="button" title="Ouvir">' + ico("spk") + "</button>";
+      bar.children[0].onclick = async () => { if (await copyText(text)) bar.children[0].innerHTML = ico("ok"); };
+      bar.children[1].onclick = () => Speech.speak(text);
+      bub.appendChild(bar);
+    }
+    if (!user && !opts.error && opts.search) {
+      const sr = opts.search, box = document.createElement("div"); box.className = "srcs";
+      let h = "";
+      if (sr.queries && sr.queries.length) h += '<div class="sq">🔎 Pesquisou: ' + sr.queries.slice(0, 3).map(esc).join(" · ") + "</div>";
+      if (sr.sources && sr.sources.length) h += '<div class="sl">' + sr.sources.map(x => '<a href="' + esc(x.u) + '" target="_blank" rel="noopener noreferrer">' + esc(x.t) + "</a>").join("") + "</div>";
+      box.innerHTML = h;
+      if (sr.html) { const f = document.createElement("iframe"); f.setAttribute("sandbox", "allow-popups allow-popups-to-escape-sandbox"); f.setAttribute("srcdoc", sr.html); f.className = "sug"; box.appendChild(f); }
+      if (h || sr.html) bub.appendChild(box);
+    }
+  };
+
   $("msgs").appendChild(d);
   $("msgs").classList.remove("hidden");
   $("hero").classList.add("hidden");
   $("quick").classList.add("hidden");
   scrollEnd();
+
+  if (!user && !opts.error && opts.type && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    const full = String(text || "");
+    let i = 0;
+    const step = Math.max(2, Math.ceil(full.length / 180));
+    const timer = setInterval(() => {
+      i = Math.min(full.length, i + step);
+      bub.innerHTML = attHtml + md(full.slice(0, i)) + '<span class="type-cursor"></span>';
+      scrollEnd();
+      if (i >= full.length) {
+        clearInterval(timer);
+        bub.innerHTML = attHtml + md(full);
+        addExtras();
+        scrollEnd();
+      }
+    }, 12);
+  } else {
+    addExtras();
+  }
   return d;
 }
 
@@ -1694,7 +1750,7 @@ async function sendMessage(text) {
     const found = takeSearch(), saved = found ? { queries: found.queries, sources: found.sources } : undefined;
     Chats.log.push(Object.assign({ role: "assistant", content: reply }, saved ? { search: saved } : {}));
     Chats.persist();
-    pushMsg("assistant", reply, { search: found || undefined });
+    pushMsg("assistant", reply, { search: found || undefined, type: true });
     Notif.fire("Jarvis respondeu", reply);
     if (!Call.on && cfg("speak_replies") === "1") Speech.speak(reply);
   } catch (e) {
@@ -1733,7 +1789,7 @@ async function sendVoiceMessage(b64) {
     const found = takeSearch(), saved = found ? { queries: found.queries, sources: found.sources } : undefined;
     Chats.log.push(Object.assign({ role: "assistant", content: reply }, saved ? { search: saved } : {}));
     Chats.persist();
-    pushMsg("assistant", reply, { search: found || undefined });
+    pushMsg("assistant", reply, { search: found || undefined, type: true });
     Notif.fire("Jarvis respondeu", reply);
     if (CONFIG.makeTrigger.test(heard)) sendToMake("Comando Jarvis", heard);
     return { text: reply, heard };
