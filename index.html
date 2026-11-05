@@ -417,48 +417,17 @@ html.hud .snav button,html.hud .chip,html.hud .ic{border-color:var(--line)}
 html.hud .snav button.on{box-shadow:0 0 14px rgba(47,212,255,.4)}
 html.hud .m.u .bub{border-radius:10px 10px 3px 10px}
 
-/* Perguntas de escolha */
-.quiz-q{margin:10px 0}
-.quiz-t{font-size:13.5px;font-weight:600;margin-bottom:6px}
-.quiz-opts{display:flex;flex-wrap:wrap;gap:6px}
-.quiz-opt{padding:8px 12px;border-radius:999px;background:var(--glass);border:1px solid var(--line);font-size:12.5px;color:var(--txt)}
-.quiz-opt.on{background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;border-color:transparent}
-.quiz-go{margin-top:10px;padding:10px 16px;border-radius:12px;background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;font-weight:600;border:0}
-
-.type-cursor{display:inline-block;width:2px;height:1em;margin-left:2px;vertical-align:-.15em;background:var(--acc);animation:blinkCursor .7s steps(2,start) infinite}
-@keyframes blinkCursor{50%{opacity:0}}
-.protocols{display:flex;gap:8px;overflow-x:auto;padding:8px 0 4px;scrollbar-width:none}
-.protocols::-webkit-scrollbar{display:none}
-.proto{flex:none;display:flex;align-items:center;gap:6px;padding:9px 13px;border-radius:999px;background:var(--glass);border:1px solid var(--line);font-size:13px;color:var(--txt)}
-.proto:active{transform:scale(.95);background:var(--glass2)}
-.nl{display:flex;gap:9px;padding:8px 0;border-bottom:1px solid var(--line);font-size:13.5px;line-height:1.4}
-.nl:last-child{border-bottom:0}
-.nl-i{flex:none;width:24px;height:24px;border-radius:8px;background:var(--glass2);display:grid;place-items:center;font-size:13px}
-
-#vSettings{max-width:760px;margin:0 auto}
-.set-head{padding:10px 2px 0}
-.set-head .pg{font-size:26px;font-weight:700;letter-spacing:-.02em;margin:0 0 4px}
-.set-sub{font-size:13.5px;color:var(--dim);margin:0 2px 14px}
-#setSearch{width:100%;padding:12px 14px;border-radius:12px;border:1px solid var(--line);background:var(--glass);font-size:15px;color:var(--txt);outline:none;margin-bottom:4px}
-#setSearch:focus{border-color:var(--acc)}
-#snav{display:flex;gap:6px;overflow-x:auto;padding:10px 2px 12px;margin:0 -2px 4px;position:sticky;top:0;z-index:6;scrollbar-width:none;background:linear-gradient(to bottom,var(--bg) 78%,transparent)}
-html[data-theme=light] #snav{background:linear-gradient(to bottom,#fff 78%,transparent)}
-#snav::-webkit-scrollbar{display:none}
-#snav button{white-space:nowrap;padding:9px 15px;border-radius:999px;background:transparent;border:1px solid transparent;color:var(--dim);font-size:13.5px;font-weight:550}
-#snav button:hover{color:var(--txt);background:var(--glass)}
-#snav button.on{background:var(--glass2);color:var(--txt);border-color:var(--line)}
-#vSettings .cat{animation:fi .22s both}
-#vSettings .grp{margin-top:24px}
-#vSettings .gt{font-size:11.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--dim);margin:0 4px 8px}
-#vSettings .gl{border:1px solid var(--line);border-radius:16px;background:var(--cardbg);overflow:hidden}
-#vSettings .li{padding:15px 16px;gap:14px}
-#vSettings .li b{font-size:14.5px;font-weight:600}
-#vSettings .li small{font-size:12.5px;color:var(--dim);line-height:1.45}
-#vSettings .seg{background:var(--glass);border-radius:10px;padding:3px;gap:2px}
-#vSettings .seg button{border-radius:8px;font-size:13px;color:var(--dim);padding:8px 10px}
-#vSettings .seg button.on{background:var(--glass2);color:var(--txt)}
-#vSettings .li input[type=text],#vSettings .li input[type=password],#vSettings .li textarea{border-radius:10px;background:var(--glass);border:1px solid var(--line)}
-
+#call.visual-call{display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:auto auto minmax(180px,1fr) auto auto;gap:8px;padding:calc(12px + env(safe-area-inset-top,0px)) 14px calc(15px + env(safe-area-inset-bottom,0px));overflow:hidden}
+#call.visual-call .ctop{grid-row:1;width:100%}#call.visual-call #callClock{grid-row:2}#call.visual-call #callOrb{position:absolute;top:65px;right:12px;width:74px!important;height:74px!important;margin:0;opacity:.75;pointer-events:none}
+#call.visual-call #callInfo,#call.visual-call #callQuick{display:none}#call.visual-call #cLevel{position:absolute;top:65px;left:20px;width:110px}#call.visual-call #cStatus{position:absolute;top:78px;left:20px;font-size:10px}
+#call.visual-call .ctxt{grid-row:4;margin:0 auto;max-height:15vh;width:100%;padding:5px 4px}#call.visual-call #cAi{font-size:14px;line-height:1.5}#call.visual-call #cYou{display:block;font-size:12px;color:var(--dim)}
+#call.visual-call .cctl{grid-row:5;margin:6px auto;gap:24px}#call.visual-call .cb2.big{width:64px;height:64px}
+#visualStage{grid-row:3;position:relative;z-index:2;overflow-y:auto;min-height:0;border:1px solid var(--line);border-radius:18px;padding:16px;background:rgba(3,10,24,.82);color:#edf5ff;scrollbar-width:thin}
+#visualStage h2{font:600 19px var(--sans);margin:0 0 7px}#visualStage .vs-sub{font:12px var(--mono);color:#8ba8cc;margin-bottom:14px}
+.vs-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}.vs-card{padding:13px;border:1px solid #375a7f;border-radius:12px;background:#112239;font-size:13px;line-height:1.5;opacity:.45;transition:opacity .4s,border-color .4s,transform .4s}.vs-card.active{opacity:1;border-color:#53d9ff;transform:translateY(-2px)}.vs-card h3{font-size:14px;margin-bottom:5px;color:#9ceaff}
+.vs-svg{width:100%;display:block;max-height:340px}.vs-legend{font-size:11px;color:#9bb7d3;margin:10px 0}.vs-toolbar{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}.vs-toolbar button{padding:7px 10px;border:1px solid #375a7f;border-radius:8px;font-size:12px;color:#d7efff}
+#call.mini #visualStage{display:none}#call.visual-call.mini{display:flex}
+@media(min-width:850px){#call.visual-call{padding-left:max(24px,calc((100vw - 1200px)/2));padding-right:max(24px,calc((100vw - 1200px)/2))}.vs-grid{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}}
 </style>
 </head>
 <body>
@@ -482,7 +451,6 @@ html[data-theme=light] #snav{background:linear-gradient(to bottom,#fff 78%,trans
         <button class="modeChip" id="modeChip" type="button"></button>
       </div>
       <div id="quick"></div>
-      <div id="protocols" class="protocols"></div>
       <div id="msgs"></div>
     </section>
 
@@ -517,8 +485,6 @@ html[data-theme=light] #snav{background:linear-gradient(to bottom,#fff 78%,trans
       </div>
       <div id="graph"></div>
       <div class="legend" id="legend"></div>
-      <div class="sec">DIÁRIO NEURAL</div>
-      <div class="gl" style="padding:12px 14px"><div class="val" id="neuralStats"></div><div id="neuralLog" style="margin-top:8px"></div></div>
       <div class="sec">SUAS NOTAS</div>
       <div id="notesList"></div>
       <div class="legend ok">✓ contexto injetado em todas as conversas do Jarvis</div>
@@ -531,20 +497,10 @@ html[data-theme=light] #snav{background:linear-gradient(to bottom,#fff 78%,trans
         <div class="pav" id="pAv">J</div>
         <div><b id="pName" style="font-size:18px"></b><div class="pst"><span id="pC"></span><span id="pM"></span><span id="pN"></span></div></div>
       </div>
-      <div class="set-head">
-        <div class="pg">Ajustes</div>
-        <div class="set-sub">Personalize o Jarvis, a aparência, a voz e as integrações.</div>
-        <input id="setSearch" type="search" placeholder="Buscar nas configurações" autocomplete="off">
-      </div>
       <div class="snav" id="snav">
-        <button type="button" data-c="look">Aparência</button>
-        <button type="button" data-c="avatar">Avatar</button>
-        <button type="button" data-c="jarvis">Inteligência</button>
-        <button type="button" data-c="voz">Voz</button>
-        <button type="button" data-c="chat">Conversa</button>
-        <button type="button" data-c="loja">Loja</button>
-        <button type="button" data-c="google">Google</button>
-        <button type="button" data-c="dados">Dados</button>
+        <button type="button" data-c="look">Aparência</button><button type="button" data-c="avatar">Avatar</button><button type="button" data-c="jarvis">Jarvis</button>
+        <button type="button" data-c="voz">Voz</button><button type="button" data-c="chat">Chat</button>
+        <button type="button" data-c="loja">Loja</button><button type="button" data-c="google">Google</button><button type="button" data-c="dados">Dados</button>
       </div>
 
       <!-- Aparência -->
@@ -578,7 +534,7 @@ html[data-theme=light] #snav{background:linear-gradient(to bottom,#fff 78%,trans
             <div class="seg" id="avState"><button type="button" data-v="idle">Parado</button><button type="button" data-v="listening">Ouvindo</button><button type="button" data-v="thinking">Pensando</button><button type="button" data-v="speaking">Falando</button></div></div>
         </div></div>
         <div class="grp"><div class="gt">Estilo do Jarvis</div><div class="gl">
-          <div class="li col"><b>Visual</b><div class="seg" id="uAvatar"><button type="button" data-v="nucleus">Núcleo Vivo</button><button type="button" data-v="face">Rosto</button><button type="button" data-v="orb">Esfera</button><button type="button" data-v="reactor">Reator</button><button type="button" data-v="robo">Robô</button></div>
+          <div class="li col"><b>Visual</b><div class="seg" id="uAvatar"><button type="button" data-v="face">Rosto</button><button type="button" data-v="orb">Esfera</button><button type="button" data-v="reactor">Reator</button><button type="button" data-v="robo">Robô</button></div>
             <small>Aparece na tela inicial e na chamada de voz.</small></div>
           <div class="li col"><b>Cor do avatar</b><div class="swa" id="uAvc"></div><small>Automático: o rosto usa as cores originais e os outros seguem a cor de destaque.</small></div>
           <div class="li col"><div class="spread"><b>Brilho</b><span class="val" id="uGlowV"></span></div><input type="range" id="uGlow" min="40" max="160" step="5" data-suf="%"></div>
@@ -621,10 +577,6 @@ html[data-theme=light] #snav{background:linear-gradient(to bottom,#fff 78%,trans
             <select id="uModel"><option value="">Automático</option><option value="gemini-3.5-flash">Gemini 3.5 Flash</option><option value="gemini-3-flash-preview">Gemini 3 Flash</option><option value="gemini-3.5-flash-lite">Lite (mais rápido)</option></select></div>
           <label class="li"><span><b>Pesquisar na internet</b><small>Notícias, clima, preços e tudo em tempo real. Grátis até 5.000 pesquisas por mês</small></span><input type="checkbox" id="uWeb"></label>
           <div class="li"><span><b>Testar conexão</b><small id="testOut">Verifica se a chave funciona</small></span><button class="go" id="testAI" type="button">Testar</button></div>
-        </div></div>
-        <div class="grp"><div class="gt">Modo avançado</div><div class="gl">
-          <label class="li"><span><b>Modo FRIDAY</b><small>Respostas táticas, diretas e focadas em execução</small></span><input type="checkbox" id="uFriday"></label>
-          <div class="li col"><label for="uMission"><b>Missão ativa do Jarvis</b></label><input id="uMission" type="text" autocomplete="off" placeholder="Ex.: faturar R$ 10 mil este mês com a ZENON"><small>O Jarvis considerará esta missão em todas as respostas.</small></div>
         </div></div>
         <div class="grp"><div class="gt">Memória</div><div class="gl">
           <label class="li"><span><b>Memória viva</b><small>O Jarvis salva fatos novos no Second Brain sozinho</small></span><input type="checkbox" id="uMem"></label>
@@ -1069,30 +1021,6 @@ function md(t) {
 /* ==========================================================================
    3. SECOND BRAIN (dados)
    ========================================================================== */
-const Neural = {
-  log: [], traits: {}, decisions: [],
-  load() { this.log = LS.json("neural_log", []) || []; this.traits = LS.json("neural_traits", {}) || {}; this.decisions = LS.json("neural_decisions", []) || []; },
-  save() { LS.set("neural_log", JSON.stringify(this.log.slice(-300))); LS.set("neural_traits", JSON.stringify(this.traits)); LS.set("neural_decisions", JSON.stringify(this.decisions.slice(-100))); },
-  add(type, text) { this.log.push({ t: Date.now(), type, text: String(text).slice(0, 400) }); this.save(); renderNeural(); },
-  today() { const d = new Date().setHours(0,0,0,0); return this.log.filter(x => x.t >= d); },
-  learn(text) {
-    const t = String(text).toLowerCase();
-    const map = { criativo:["criar","ideia","campanha","post","reels","design"], estrategico:["meta","venda","lucro","preço","plano","análise"], executor:["fazer","fazer hoje","tarefa","lembrete","organizar"], curioso:["por que","como","explique","o que é"] };
-    Object.keys(map).forEach(k => { if (map[k].some(w => t.includes(w))) this.traits[k] = (this.traits[k] || 0) + 1; });
-    this.save();
-  },
-  decide(topic, choice) { this.decisions.push({ t: Date.now(), topic: String(topic).slice(0,160), choice: String(choice).slice(0,300) }); this.save(); this.add("decision", "Decisão registrada: " + topic); }
-};
-function renderNeural() {
-  const box = $("neuralLog"); if (!box) return;
-  const items = Neural.log.slice(-30).reverse();
-  const icons = { user:"🧑", ai:"🤖", save:"💾", mission:"🎯", system:"⚙️", decision:"🧭" };
-  box.innerHTML = items.length ? items.map(x => { const d = new Date(x.t);
-    return '<div class="nl"><span class="nl-i">' + (icons[x.type] || "•") + '</span><div><b>' + d.toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"}) + '</b> ' + esc(x.text) + '</div></div>'; }).join("")
-    : '<div class="hempty">O Diário Neural registará conversas, decisões, missões e memórias importantes.</div>';
-  const s = $("neuralStats"); if (s) s.textContent = Neural.today().length + " eventos hoje · " + Brain.notes.length + " memórias · " + (LS.get("mission","")||"sem missão ativa");
-}
-
 const Brain = {
   notes: [], rel: [],
   load() {
@@ -1396,14 +1324,6 @@ function buildSystem(o) {
     "Você é " + CONFIG.name + ", o assistente pessoal do usuário (" + ME.name + "). Personalidade: " + ME.persona + '. Trate o usuário por "' + ME.address + '".',
     "Responda sempre em português do Brasil. Responda de forma clara e objetiva, bem organizada em Markdown: títulos curtos (## ) quando houver várias partes, listas e passos numerados, **negrito** só no essencial, TABELAS (| coluna | coluna |) sempre que comparar itens ou mostrar dados como produtos, vendas, preços e horários, e blocos de código para código. Respostas curtas continuam curtas, sem enfeite; use poucos emojis.",
     mode.extra,
-    "MODO JARVIS 2.0: pense como uma extensão da mente do usuário. Para decisões, planos, compras, estratégias ou ideias importantes, use o CONSELHO DO EU FUTURO: analise a decisão sob a perspectiva de 7 dias, 6 meses e 5 anos. Depois dê um veredito claro.",
-    "ADVOCATUS DIABOLI: quando o usuário pedir uma análise honesta, crítica ou 'seja brutal', aponte falhas reais, riscos e alternativas melhores. Não elogie automaticamente; seja respeitoso, direto e útil.",
-    "MEMÓRIA SITUACIONAL: use o Second Brain e o Diário Neural para reconstruir contexto, conectar decisões passadas e explicar por que algo faz sentido. Não invente memórias.",
-    "SINTONIA: adapte o tom ao estado aparente do usuário. Se ele estiver disperso, proponha foco; se estiver criativo, explore possibilidades; se estiver cansado, simplifique.",
-    "SILÊNCIO INTELIGENTE: seja conciso. Não repita informações óbvias nem encha a resposta com avisos desnecessários.",
-    cfg("friday") === "1" ? "MODO FRIDAY ATIVO: seja tático, direto e orientado a execução. Priorize decisões, números, riscos e próximos passos." : "",
-    (LS.get("mission","")||"").trim() ? "MISSÃO ATIVA DO USUÁRIO: " + LS.get("mission","").trim() + ". Conecte as respostas a esta missão sempre que fizer sentido." : "",
-    "PROTOCOLOS: para briefing, análise, missão ou decisão, responda em camadas: conclusão direta; dados essenciais; risco ou oportunidade; próximo passo prático.",
     "Agora é " + new Date().toLocaleString("pt-BR", { dateStyle: "full", timeStyle: "short" }) + ".",
     "SECOND BRAIN DO USUÁRIO (o que você sabe sobre a vida dele; use para personalizar toda resposta):\n" + Brain.asPrompt(),
     live
@@ -1435,8 +1355,8 @@ function googlePrompt() {
    o.audio = a última mensagem do usuário é um áudio (o modelo ouve e responde de uma vez só). */
 async function converse(turns, o) {
   o = o || {};
-  const fast = true;
-  const len = cfg("voice_len"), maxTokens = Call.on ? ({ short: 220, long: 800 }[len] || 420) : 420;
+  const fast = Call.on || cfg("speak_replies") === "1";
+  const len = cfg("voice_len"), maxTokens = Call.on ? ({ short: 220, long: 800 }[len] || 420) : 600;
   const temp = Call.on ? Math.min(1.3, cfgNum("ai_temp") + .2) : undefined;     /* na conversa por voz fica um pouco mais criativo */
   const ouvi = /\[\[OUVI:[\s\S]*?\]\]/;
   let raw = await callAI(turns, buildSystem(o), { fast, maxTokens, temp }), rounds = 0;
@@ -1711,36 +1631,29 @@ function pushMsg(role, text, opts) {
   d.className = "m " + (user ? "u" : "a") + (opts.error ? " err" : "");
   let attHtml = "";
   if (a) attHtml = a.kind === "img" && a.thumb ? '<img class="attm" src="' + a.thumb + '" alt="">' : '<div class="attf">' + ico("file") + esc(a.name) + "</div>";
-  const bub = document.createElement("div"); bub.className = "bub";
-  d.innerHTML = (user ? "" : '<div class="av"></div>'); d.appendChild(bub);
-  bub.innerHTML = attHtml + (user ? esc(text).replace(/\n/g, "<br>") : md(text));
-  const addExtras = () => {
-    if (!user && !opts.error) {
-      const bar = document.createElement("div"); bar.className = "act";
-      bar.innerHTML = '<button type="button" title="Copiar">' + ico("copy") + '</button><button type="button" title="Ouvir">' + ico("spk") + "</button>";
-      bar.children[0].onclick = async () => { if (await copyText(text)) bar.children[0].innerHTML = ico("ok"); };
-      bar.children[1].onclick = () => Speech.speak(text);
-      bub.appendChild(bar);
-    }
-    if (!user && !opts.error && opts.search) {
-      const sr = opts.search, box = document.createElement("div"); box.className = "srcs"; let h = "";
-      if (sr.queries && sr.queries.length) h += '<div class="sq">🔎 Pesquisou: ' + sr.queries.slice(0, 3).map(esc).join(" · ") + "</div>";
-      if (sr.sources && sr.sources.length) h += '<div class="sl">' + sr.sources.map(x => '<a href="' + esc(x.u) + '" target="_blank" rel="noopener noreferrer">' + esc(x.t) + "</a>").join("") + "</div>";
-      box.innerHTML = h;
-      if (sr.html) { const f = document.createElement("iframe"); f.setAttribute("sandbox", "allow-popups allow-popups-to-escape-sandbox"); f.setAttribute("srcdoc", sr.html); f.className = "sug"; box.appendChild(f); }
-      if (h || sr.html) bub.appendChild(box);
-    }
-  };
-  $("msgs").appendChild(d); $("msgs").classList.remove("hidden"); $("hero").classList.add("hidden"); $("quick").classList.add("hidden"); scrollEnd();
-  if (!user && !opts.error && opts.type && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
-    const full = String(text || ""); let i = 0;
-    const step = Math.max(2, Math.ceil(full.length / 180));
-    const timer = setInterval(() => {
-      i = Math.min(full.length, i + step);
-      bub.innerHTML = attHtml + md(full.slice(0, i)) + '<span class="type-cursor"></span>'; scrollEnd();
-      if (i >= full.length) { clearInterval(timer); bub.innerHTML = attHtml + md(full); addExtras(); scrollEnd(); }
-    }, 12);
-  } else addExtras();
+  d.innerHTML = (user ? "" : '<div class="av"></div>') + '<div class="bub">' + attHtml + (user ? esc(text).replace(/\n/g, "<br>") : md(text)) + "</div>";
+  if (!user && !opts.error) {
+    const bar = document.createElement("div");
+    bar.className = "act";
+    bar.innerHTML = '<button type="button" title="Copiar">' + ico("copy") + '</button><button type="button" title="Ouvir">' + ico("spk") + "</button>";
+    bar.children[0].onclick = async () => { if (await copyText(text)) bar.children[0].innerHTML = ico("ok"); };
+    bar.children[1].onclick = () => Speech.speak(text);
+    d.querySelector(".bub").appendChild(bar);
+  }
+  if (!user && !opts.error && opts.search) {
+    const sr = opts.search, box = document.createElement("div"); box.className = "srcs";
+    let h = "";
+    if (sr.queries && sr.queries.length) h += '<div class="sq">🔎 Pesquisou: ' + sr.queries.slice(0, 3).map(esc).join(" · ") + "</div>";
+    if (sr.sources && sr.sources.length) h += '<div class="sl">' + sr.sources.map(x => '<a href="' + esc(x.u) + '" target="_blank" rel="noopener noreferrer">' + esc(x.t) + "</a>").join("") + "</div>";
+    box.innerHTML = h;
+    if (sr.html) { const f = document.createElement("iframe"); f.setAttribute("sandbox", "allow-popups allow-popups-to-escape-sandbox"); f.setAttribute("srcdoc", sr.html); f.className = "sug"; box.appendChild(f); }
+    if (h || sr.html) d.querySelector(".bub").appendChild(box);
+  }
+  $("msgs").appendChild(d);
+  $("msgs").classList.remove("hidden");
+  $("hero").classList.add("hidden");
+  $("quick").classList.add("hidden");
+  scrollEnd();
   return d;
 }
 
@@ -1774,66 +1687,15 @@ function buildTurns(att) {
 }
 
 /* Envia uma mensagem e devolve a resposta (ou null se falhou / ignorou) */
-/* ----- PERGUNTAS DE ESCOLHA (estilo ChatGPT) ----- */
-let activeQuiz = null;
-function renderQuiz(q) {
-  const old = $("quizRow"); if (old) old.remove();
-  if (!q || !q.questions || !q.questions.length) return;
-  activeQuiz = q;
-  const d = document.createElement("div");
-  d.id = "quizRow"; d.className = "m a";
-  d.innerHTML = '<div class="av"></div><div class="bub"><b>Antes de responder, preciso alinhar alguns pontos:</b><div id="quizBody"></div></div>';
-  $("msgs").appendChild(d); scrollEnd();
-  const body = d.querySelector("#quizBody");
-  q.questions.forEach((item, qi) => {
-    const box = document.createElement("div"); box.className = "quiz-q";
-    box.innerHTML = '<div class="quiz-t">' + esc(item.question) + '</div>';
-    const opts = document.createElement("div"); opts.className = "quiz-opts";
-    item.options.forEach(op => {
-      const b = document.createElement("button"); b.type = "button"; b.className = "quiz-opt"; b.textContent = op;
-      b.onclick = () => {
-        [...opts.children].forEach(x => x.classList.remove("on"));
-        b.classList.add("on"); item.answer = op;
-        const done = q.questions.every(x => x.answer);
-        if (done) {
-          const btn = document.createElement("button"); btn.type = "button"; btn.className = "quiz-go";
-          btn.textContent = "Gerar resposta com essas escolhas";
-          btn.onclick = () => {
-            const answers = q.questions.map(x => x.question + ": " + x.answer).join("\n");
-            activeQuiz = null; d.remove();
-            Neural.decide("Preferências para: " + q.original, answers); sendMessage(q.original + "\n\n[PREFERÊNCIAS ESCOLHIDAS]\n" + answers);
-          };
-          body.appendChild(btn); scrollEnd();
-        }
-      };
-      opts.appendChild(b);
-    });
-    box.appendChild(opts); body.appendChild(box);
-  });
-}
-
 async function sendMessage(text) {
   text = (text || "").trim();
   if (!text || App.sending) return null;
-  if (!activeQuiz && /\b(prompt|prompt pronto|crie um prompt|faça um prompt|escreva um texto|crie um texto|faça um texto|crie uma legenda|faça uma legenda|crie um anúncio|faça um anúncio|crie um roteiro|faça um roteiro|crie uma campanha|faça uma campanha|crie um e-mail|faça um e-mail|crie um plano|faça um plano)\b/i.test(text)) {
-    renderQuiz({
-      original: text,
-      questions: [
-        { question: "Qual é o objetivo principal?", options: ["Vender mais", "Educar o público", "Chamar atenção", "Construir autoridade", "Resolver um problema"], answer: "" },
-        { question: "Qual tom você prefere?", options: ["Profissional", "Criativo", "Direto", "Emocional", "Tecnológico", "Divertido"], answer: "" },
-        { question: "Qual tamanho deseja?", options: ["Curto", "Médio", "Longo e detalhado"], answer: "" },
-        { question: "Para qual público?", options: ["Clientes da ZENON", "Público jovem", "Empreendedores", "Público geral", "Eu mesmo"], answer: "" },
-        { question: "Quer exemplos e variações?", options: ["Sim, 3 variações", "Sim, 5 variações", "Não, apenas uma versão final"], answer: "" }
-      ]
-    });
-    return null;
-  }
   const att = App.att; App.att = null; renderAttachment();
   App.sending = true;
   const entry = { role: "user", content: text };
   if (att) entry.att = { name: att.name, kind: att.kind, thumb: att.kind === "img" ? att.thumb : undefined };
   Chats.log.push(entry);
-  pushMsg("user", text, { att: entry.att }); Neural.add("user","Você: "+text); Neural.learn(text);
+  pushMsg("user", text, { att: entry.att });
   Chats.persist(); setThinking(true);
   let reply = null;
   try {
@@ -1843,10 +1705,8 @@ async function sendMessage(text) {
     reply = Brain.applySaves(raw) || "…";
     const found = takeSearch(), saved = found ? { queries: found.queries, sources: found.sources } : undefined;
     Chats.log.push(Object.assign({ role: "assistant", content: reply }, saved ? { search: saved } : {}));
-    Neural.add("ai","Jarvis: "+reply.slice(0,180));
-    if (/\[\[SAVE:/.test(raw)) Neural.add("save","Nova memória registrada no Second Brain.");
     Chats.persist();
-    pushMsg("assistant", reply, { search: found || undefined, type: true });
+    pushMsg("assistant", reply, { search: found || undefined });
     Notif.fire("Jarvis respondeu", reply);
     if (!Call.on && cfg("speak_replies") === "1") Speech.speak(reply);
   } catch (e) {
@@ -1885,7 +1745,7 @@ async function sendVoiceMessage(b64) {
     const found = takeSearch(), saved = found ? { queries: found.queries, sources: found.sources } : undefined;
     Chats.log.push(Object.assign({ role: "assistant", content: reply }, saved ? { search: saved } : {}));
     Chats.persist();
-    pushMsg("assistant", reply, { search: found || undefined, type: true });
+    pushMsg("assistant", reply, { search: found || undefined });
     Notif.fire("Jarvis respondeu", reply);
     if (CONFIG.makeTrigger.test(heard)) sendToMake("Comando Jarvis", heard);
     return { text: reply, heard };
@@ -3142,57 +3002,7 @@ function drawRobot(o, now, dt) {
   c.restore(); c.globalAlpha = 1;
 }
 
-function drawNucleus(o, now, dt) {
-  const dim = prepCanvas(o); if (!dim) return;
-  const { w, h, dpr } = dim, c = o.ctx, st = o.state, t = now / 1000;
-  c.setTransform(dpr, 0, 0, dpr, 0, 0); c.clearRect(0, 0, w, h);
-  const cx = w / 2, cy = h / 2, s = Math.min(w, h), light = document.documentElement.dataset.theme === "light";
-  const a1 = AV.c1, a2 = AV.c2, E = EMOTIONS[Face.emoName || "neutro"] || EMOTIONS.neutro;
-  let mouth = 0;
-  if (Face.tl) { const p = Face.tl.getP(t); mouth = Math.max(0, Math.min(1, p)); }
-  else if (st === "speaking") mouth = .25 + .25 * Math.abs(Math.sin(t * 7));
-  const open = st === "listening" ? 1.15 : st === "thinking" ? .8 : 1, glow = AV.glow || 1;
-  const halo = c.createRadialGradient(cx, cy, s * .08, cx, cy, s * .48);
-  halo.addColorStop(0, a1 + "55"); halo.addColorStop(.55, a2 + "22"); halo.addColorStop(1, "transparent");
-  c.fillStyle = halo; c.beginPath(); c.arc(cx, cy, s * .48, 0, 6.2832); c.fill();
-  for (let k = 0; k < 3; k++) {
-    c.save(); c.translate(cx, cy); c.rotate((k % 2 ? -1 : 1) * t * (.25 + k * .18));
-    c.strokeStyle = k ? a2 : a1; c.globalAlpha = .35 + .2 * Math.sin(t * 2 + k); c.lineWidth = 2;
-    c.setLineDash([s * .05, s * .07]); c.beginPath(); c.arc(0, 0, s * (.30 + k * .055), 0, 6.2832); c.stroke(); c.restore();
-  }
-  c.setLineDash([]);
-  const grad = c.createLinearGradient(cx - s * .25, cy - s * .3, cx + s * .25, cy + s * .3);
-  grad.addColorStop(0, light ? "#e8edff" : "#101a33"); grad.addColorStop(1, light ? "#c9d6ff" : "#060b1c");
-  c.fillStyle = grad; c.beginPath();
-  c.moveTo(cx - s * .21, cy + s * .10); c.quadraticCurveTo(cx - s * .24, cy - s * .22, cx, cy - s * .27);
-  c.quadraticCurveTo(cx + s * .24, cy - s * .22, cx + s * .21, cy + s * .10);
-  c.quadraticCurveTo(cx + s * .16, cy + s * .26, cx, cy + s * .27);
-  c.quadraticCurveTo(cx - s * .16, cy + s * .26, cx - s * .21, cy + s * .10); c.closePath(); c.fill();
-  c.strokeStyle = a1; c.globalAlpha = .8; c.lineWidth = 2; c.stroke(); c.globalAlpha = 1;
-  c.fillStyle = light ? "rgba(10,20,50,.9)" : "rgba(2,8,24,.92)"; c.beginPath();
-  c.moveTo(cx - s * .17, cy - s * .07); c.quadraticCurveTo(cx, cy - s * .13, cx + s * .17, cy - s * .07);
-  c.quadraticCurveTo(cx + s * .13, cy + s * .05, cx, cy + s * .06);
-  c.quadraticCurveTo(cx - s * .13, cy + s * .05, cx - s * .17, cy - s * .07); c.closePath(); c.fill();
-  const blink = Math.sin(t * .8) > .985 ? .12 : 1, ey = cy - s * .015, ex = s * .075;
-  [-1, 1].forEach(sd => { c.save(); c.shadowColor = a1; c.shadowBlur = 18 * glow; c.fillStyle = "#bff3ff";
-    c.beginPath(); c.ellipse(cx + sd * ex, ey, s * .035, s * .016 * open * blink, sd * .08, 0, 6.2832); c.fill(); c.restore(); });
-  const my = cy + s * .13, mw = s * (.055 + .035 * mouth), mh = s * (.008 + .035 * mouth);
-  c.save(); c.shadowColor = a2; c.shadowBlur = 16 * glow; c.fillStyle = a2;
-  c.beginPath(); c.ellipse(cx, my, mw, Math.max(s * .006, mh), 0, 0, 6.2832); c.fill(); c.restore();
-  c.strokeStyle = a1; c.globalAlpha = .75; c.lineWidth = 2; c.beginPath();
-  c.moveTo(cx - s * .09, my + s * .035 - E.smile * s * .01);
-  c.quadraticCurveTo(cx, my + s * .05 + E.smile * s * .02, cx + s * .09, my + s * .035 - E.smile * s * .01);
-  c.stroke(); c.globalAlpha = 1;
-  const n = st === "thinking" ? 16 : st === "speaking" ? 22 : 8;
-  for (let i = 0; i < n; i++) {
-    const ang = t * (st === "thinking" ? 2.2 : .8) + i * .55, rr = s * (.24 + .05 * Math.sin(t * 3 + i));
-    c.globalAlpha = .25 + .35 * Math.abs(Math.sin(t * 2 + i)); c.fillStyle = i % 2 ? a1 : a2;
-    c.beginPath(); c.arc(cx + Math.cos(ang) * rr, cy + Math.sin(ang) * rr * .8, 1.6 + Math.sin(t * 4 + i) * .8, 0, 6.2832); c.fill();
-  }
-  c.globalAlpha = 1;
-}
-
-const AVATARS = { nucleus: drawNucleus, face: drawFace, orb: drawOrb, reactor: drawReactor, robo: drawRobot };
+const AVATARS = { face: drawFace, orb: drawOrb, reactor: drawReactor, robo: drawRobot };
 const drawAvatar = (o, now, dt) => (AVATARS[avatarMode] || drawFace)(o, now, dt);
 
 /* ==========================================================================
@@ -3248,7 +3058,6 @@ let graphEdges = [], graphPulses = [], editingId = null;
 const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 function renderBrain() {
-  renderNeural();
   const W = 1000, H = 640, cx = 500, cy = 320, rx = 370, ry = 230, notes = Brain.notes, n = notes.length;
   const byId = {}; notes.forEach(x => byId[x.id] = x);
   const rels = Brain.rel.filter(r => byId[r[0]] && byId[r[1]] && r[0] !== r[1]), deg = {};
@@ -4008,7 +3817,7 @@ function bindSettings() {
   /* avatar */
   $("uAvc").innerHTML = '<button type="button" data-v="auto" aria-label="automático" style="background:conic-gradient(#3b82f6,#a855f7,#ec4899,#3b82f6)"></button>' +
     Object.keys(AV_COLORS).map(k => '<button type="button" data-v="' + k + '" aria-label="' + k + '" style="background:linear-gradient(135deg,' + AV_COLORS[k][0] + "," + AV_COLORS[k][1] + ')"></button>').join("");
-  bind.seg("uAvatar", "ui_avatar", "nucleus", applyUI); bind.seg("uAvc", "ui_avc", "auto", applyUI);
+  bind.seg("uAvatar", "ui_avatar", "face", applyUI); bind.seg("uAvc", "ui_avc", "auto", applyUI);
   bind.range("uGlow", "ui_glow", "100", applyUI); bind.seg("uFq", "face_q", "mid", applyUI); bind.range("uMove", "face_move", "100", applyUI);
   bind.toggle("uOrb", "ui_orb", "1", applyUI);
   document.querySelectorAll("#avState button").forEach(b => b.onclick = () => {
@@ -4023,7 +3832,7 @@ function bindSettings() {
   bind.range("uTemp", "ai_temp", "0.8");
   $("uExtra").value = cfg("ai_extra"); $("uExtra").addEventListener("input", e => LS.set("ai_extra", e.target.value));
   bind.text("gemKey", "gemini_key", ""); bind.select("uModel", "ai_model", "");
-  bind.toggle("uFriday", "friday", "0", applyUI); bind.text("uMission", "mission", "", applyUI); bind.toggle("uMem", "mem_live", "1"); bind.toggle("uWeb", "web_search", "1");
+  bind.toggle("uMem", "mem_live", "1"); bind.toggle("uWeb", "web_search", "1");
   $("testAI").onclick = async () => {
     const o = $("testOut"); o.className = ""; o.textContent = "Testando...";
     try { const t = await callAI([{ role: "user", content: "teste" }], "Responda apenas: ok"); o.className = "ok"; o.textContent = "✓ Conectado! Resposta: " + t.slice(0, 40); }
@@ -4134,7 +3943,7 @@ function startAnimationLoop() {
 }
 
 function init() {
-  Brain.load(); Neural.load(); Chats.load();
+  Brain.load(); Chats.load();
   document.querySelectorAll("[data-ico]").forEach(el => { el.innerHTML = ico(el.dataset.ico, el.dataset.sw); });
   $("edA").innerHTML = Object.keys(AREA).map(k => '<option value="' + k + '">' + AREA[k].label + "</option>").join("");
   applyUI(); bindSettings(); bindEvents();
@@ -4332,34 +4141,63 @@ const HudPanel = {
   }
 };
 
-(function(){
-  const P = [
-    ["🎯","Briefing","Faça um briefing executivo do meu dia e da ZENON: prioridades, riscos, oportunidades e próximos passos. Use o Conselho do Eu Futuro."],
-    ["🧭","Decisão difícil","Vou descrever uma decisão. Seja meu Advogado do Diabo, aponte falhas e use o Conselho do Eu Futuro antes de recomendar."],
-    ["📈","Missão ZENON","Crie um plano tático de 7 dias para aumentar as vendas da ZENON, com ações diárias, conteúdo e métricas."],
-    ["📦","Radar de estoque","Analise meu estoque e aponte produtos críticos, oportunidades de reposição e riscos de esgotamento."],
-    ["🧠","Revisão de memória","Revise o que você sabe sobre mim e a ZENON, reconstrua o contexto e aponte lacunas importantes."],
-    ["⚡","Modo FRIDAY","Ative o modo FRIDAY: seja direto, tático e focado em execução."],
-    ["🎨","Campanha","Crie uma campanha completa para um produto da ZENON: ângulo, oferta, legenda, roteiro de Reels e métricas."]
-  ];
-  const box=$("protocols"); if(!box) return;
-  box.innerHTML=P.map((p,i)=>'<button class="proto" type="button" data-i="'+i+'"><span>'+p[0]+'</span>'+p[1]+'</button>').join("");
-  box.querySelectorAll(".proto").forEach(b=>b.onclick=()=>{ const p=P[+b.dataset.i]; Neural.add("mission","Protocolo ativado: "+p[1]); sendMessage(p[2]); });
-})();
-
-(function(){
-  const inp=$("setSearch"); if(!inp) return;
-  inp.addEventListener("input",()=>{
-    const q=inp.value.trim().toLowerCase();
-    document.querySelectorAll("#vSettings .cat:not(.hidden) .li").forEach(li=>li.style.display=(!q||li.textContent.toLowerCase().includes(q))?"":"none");
-    document.querySelectorAll("#vSettings .cat:not(.hidden) .grp").forEach(g=>{
-      const any=[...g.querySelectorAll(".li")].some(li=>li.style.display!=="none");
-      g.style.display=(!q||any)?"":"none";
-    });
-  });
-})();
-
 init();
+</script>
+
+<script>
+(function(){
+ const by=id=>document.getElementById(id);
+ const stage=document.createElement('section');stage.id='visualStage';stage.setAttribute('aria-label','Apresentação visual da conversa');
+ by('callOrb').after(stage);
+ let latest=null,history=[],timer=null,pinned=false,enabled=true;
+ const instruction=`
+CHAMADA VISUAL: Você conversa por voz e dirige uma apresentação visual. Responda normalmente em português. Quando o assunto se beneficiar de uma explicação, comparação, diagrama ou dados, TERMINE com um bloco [[VISUAL]]JSON[[/VISUAL]]. Esse bloco é controle, não fala. JSON: {"title":"título curto","subtitle":"contexto","kind":"diagram|cards|steps|chart","cards":[{"title":"nome","text":"explicação curta"}],"nodes":[{"id":"a","label":"rótulo"}],"edges":[{"from":"a","to":"b","label":"relação"}],"bars":[{"label":"nome","value":10}],"unit":"unidade","note":"limites ou fonte"}. Use apenas os campos necessários. No máximo 6 cards, 8 nodes e 8 bars. Em chart use somente valores fornecidos pelo usuário ou presentes em resultados de ferramentas, nunca invente estatísticas; sem dados, escolha diagram ou cards. Não gere HTML ou SVG. Para 'aumenta', 'mostra só' e 'compara', atualize a composição conforme o contexto da conversa. Não afirme que exibiu fotos reais, modelos 3D, vídeo ou simulação física. São diagramas conceituais e cartões. Evite criar apresentação para saudações ou frases curtas sem assunto. Não inclua marcadores VISUAL fora do bloco.`;
+ const system=buildSystem;
+ buildSystem=function(o){return system(o)+(Call.on&&enabled?instruction:'');};
+ const original=converse;
+ converse=async function(turns,o){
+  let raw=await original(turns,o);
+  if(!Call.on||!enabled)return raw;
+  const match=/\[\[VISUAL\]\]([\s\S]*?)\[\[\/VISUAL\]\]/.exec(raw);
+  if(match){try{const model=JSON.parse(match[1].trim().replace(/^```json\s*/,'').replace(/```$/,''));render(model);}catch(e){console.warn('Visual inválido',e);}raw=raw.replace(match[0],'').trim();}
+  else{const spoken=raw.replace(/\[\[OUVI:[\s\S]*?\]\]/g,'').trim();if(spoken.length>100)render({title:'Conversa em andamento',subtitle:'Resumo textual da resposta',kind:'cards',cards:[{title:'Jarvis',text:spoken.slice(0,1000)}]});}
+  raw=raw.replace(/\[\[VISUAL\]\][\s\S]*$/,'').trim();return raw;
+ };
+ function node(tag,attrs={},txt){const n=document.createElementNS('http://www.w3.org/2000/svg',tag);Object.entries(attrs).forEach(([k,v])=>n.setAttribute(k,String(v)));if(txt!=null)n.textContent=String(txt);return n;}
+ function render(data,remember=true){
+  if(pinned)return;
+  if(!data||typeof data!=='object')return;
+  latest=data;if(remember){history.push(data);history=history.slice(-12);}clearInterval(timer);
+  stage.replaceChildren();const title=document.createElement('h2');title.textContent=String(data.title||'Bancada visual').slice(0,120);stage.appendChild(title);
+  const sub=document.createElement('div');sub.className='vs-sub';sub.textContent=String(data.subtitle||'Ilustração conceitual · gerada por IA').slice(0,240);stage.appendChild(sub);
+  const toolbar=document.createElement('div');toolbar.className='vs-toolbar';
+  const add=(label,fn)=>{const b=document.createElement('button');b.type='button';b.textContent=label;b.onclick=fn;toolbar.appendChild(b);};
+  add('Anterior',()=>{if(history.length>1){history.pop();render(history[history.length-1],false);}});
+  add('Fixar painel',e=>{pinned=!pinned;toolbar.querySelectorAll('button')[1].textContent=pinned?'Desafixar painel':'Fixar painel';});
+  add('Ampliar',()=>{const full=stage.classList.toggle('expanded');stage.style.fontSize=full?'18px':'';stage.querySelectorAll('.vs-card').forEach(c=>c.style.fontSize=full?'17px':'');});
+  stage.appendChild(toolbar);
+  if(data.kind==='diagram'&&Array.isArray(data.nodes)){
+   const ns=data.nodes.slice(0,8),svg=node('svg',{viewBox:'0 0 640 '+Math.max(240,Math.ceil(ns.length/2)*100),class:'vs-svg',role:'img','aria-label':data.title||'Diagrama'}),positions=new Map();
+   ns.forEach((n,i)=>positions.set(String(n.id),{x:30+(i%2)*315,y:20+Math.floor(i/2)*100}));
+   (Array.isArray(data.edges)?data.edges:[]).slice(0,12).forEach(e=>{const a=positions.get(String(e.from)),b=positions.get(String(e.to));if(!a||!b)return;svg.appendChild(node('line',{x1:a.x+135,y1:a.y+30,x2:b.x+135,y2:b.y+30,stroke:'#4d9ac7','stroke-width':2}));if(e.label)svg.appendChild(node('text',{x:(a.x+b.x)/2+135,y:(a.y+b.y)/2+20,fill:'#93b6d5','font-size':10,'text-anchor':'middle'},String(e.label).slice(0,25)));});
+   ns.forEach(n=>{const p=positions.get(String(n.id));svg.appendChild(node('rect',{x:p.x,y:p.y,width:270,height:60,rx:12,fill:'#132e46',stroke:'#5edcff'}));const label=String(n.label||n.id).slice(0,64);const lines=label.match(/.{1,28}(?:\s|$)|.{1,28}/g)||[label];lines.slice(0,2).forEach((l,i)=>svg.appendChild(node('text',{x:p.x+135,y:p.y+25+i*17,fill:'#d9f7ff','font-size':13,'text-anchor':'middle'},l)));});stage.appendChild(svg);
+  }
+  if(data.kind==='chart'&&Array.isArray(data.bars)){
+   const bars=data.bars.slice(0,8).filter(b=>Number.isFinite(Number(b.value))),max=Math.max(1,...bars.map(b=>Math.abs(Number(b.value)))) ,svg=node('svg',{viewBox:'0 0 640 '+(bars.length*49+30),class:'vs-svg',role:'img','aria-label':data.title||'Gráfico'});
+   bars.forEach((b,i)=>{const y=20+i*49;svg.appendChild(node('text',{x:0,y:y+16,fill:'#b7ddf4','font-size':12},String(b.label).slice(0,20)));svg.appendChild(node('rect',{x:150,y,width:Math.abs(Number(b.value))/max*340,height:25,rx:5,fill:Number(b.value)<0?'#e27e83':'#42bbdf'}));svg.appendChild(node('text',{x:510,y:y+17,fill:'#e3f5ff','font-size':12},String(b.value)+' '+String(data.unit||'')));});stage.appendChild(svg);
+  }
+  const grid=document.createElement('div');grid.className='vs-grid';
+  (Array.isArray(data.cards)?data.cards:[]).slice(0,6).forEach((c,i)=>{const article=document.createElement('article');article.className='vs-card';const h=document.createElement('h3');h.textContent=(data.kind==='steps'?(i+1)+'. ':'')+String(c.title||'');const p=document.createElement('p');p.textContent=String(c.text||'').slice(0,1000);article.append(h,p);grid.appendChild(article);});stage.appendChild(grid);
+  const note=document.createElement('p');note.className='vs-legend';note.textContent=String(data.note||'Ilustração explicativa, não simulação física validada.').slice(0,600);stage.appendChild(note);
+  const cards=[...grid.children];if(cards[0])cards[0].classList.add('active');
+  let index=0;timer=setInterval(()=>{if(!Call.on){clearInterval(timer);return;}if(Call.state!=='speaking')return;index++;if(index<cards.length)cards[index].classList.add('active');else clearInterval(timer);},3500);
+ }
+ const originalStart=Call.start;
+ // Keep the original voice pipeline; visual layout follows whether call is open.
+ new MutationObserver(()=>{if(!by('call').classList.contains('hidden'))by('call').classList.toggle('visual-call',enabled);else clearInterval(timer);}).observe(by('call'),{attributes:true,attributeFilter:['class']});
+ const toggle=document.createElement('button');toggle.type='button';toggle.className='qchip';toggle.textContent='Tela visual: ligada';toggle.onclick=()=>{enabled=!enabled;by('call').classList.toggle('visual-call',enabled);stage.hidden=!enabled;toggle.textContent='Tela visual: '+(enabled?'ligada':'desligada');};by('call').querySelector('.ctop').appendChild(toggle);
+ render({title:'Chamada visual pronta',subtitle:'Fale pelo microfone do Jarvis',kind:'cards',cards:[{title:'Explique com um desenho',text:'Peça um assunto, uma comparação ou um passo a passo. A resposta pode abrir diagramas e cartões nesta tela.'},{title:'Comande por voz',text:'Diga “compara”, “mostra só esta parte” ou “explica melhor”. O Jarvis gera uma nova composição.'}],note:'Requer chave Gemini configurada. Painéis são gerados com a resposta; os destaques têm temporização ilustrativa, não sincronização exata palavra a palavra.'});
+})();
 </script>
 </body>
 </html>
