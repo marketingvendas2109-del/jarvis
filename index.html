@@ -417,17 +417,16 @@ html.hud .snav button,html.hud .chip,html.hud .ic{border-color:var(--line)}
 html.hud .snav button.on{box-shadow:0 0 14px rgba(47,212,255,.4)}
 html.hud .m.u .bub{border-radius:10px 10px 3px 10px}
 
-#call.visual-call{display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:auto auto minmax(180px,1fr) auto auto;gap:8px;padding:calc(12px + env(safe-area-inset-top,0px)) 14px calc(15px + env(safe-area-inset-bottom,0px));overflow:hidden}
-#call.visual-call .ctop{grid-row:1;width:100%}#call.visual-call #callClock{grid-row:2}#call.visual-call #callOrb{position:absolute;top:65px;right:12px;width:74px!important;height:74px!important;margin:0;opacity:.75;pointer-events:none}
-#call.visual-call #callInfo,#call.visual-call #callQuick{display:none}#call.visual-call #cLevel{position:absolute;top:65px;left:20px;width:110px}#call.visual-call #cStatus{position:absolute;top:78px;left:20px;font-size:10px}
-#call.visual-call .ctxt{grid-row:4;margin:0 auto;max-height:15vh;width:100%;padding:5px 4px}#call.visual-call #cAi{font-size:14px;line-height:1.5}#call.visual-call #cYou{display:block;font-size:12px;color:var(--dim)}
-#call.visual-call .cctl{grid-row:5;margin:6px auto;gap:24px}#call.visual-call .cb2.big{width:64px;height:64px}
-#visualStage{grid-row:3;position:relative;z-index:2;overflow-y:auto;min-height:0;border:1px solid var(--line);border-radius:18px;padding:16px;background:rgba(3,10,24,.82);color:#edf5ff;scrollbar-width:thin}
-#visualStage h2{font:600 19px var(--sans);margin:0 0 7px}#visualStage .vs-sub{font:12px var(--mono);color:#8ba8cc;margin-bottom:14px}
-.vs-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}.vs-card{padding:13px;border:1px solid #375a7f;border-radius:12px;background:#112239;font-size:13px;line-height:1.5;opacity:.45;transition:opacity .4s,border-color .4s,transform .4s}.vs-card.active{opacity:1;border-color:#53d9ff;transform:translateY(-2px)}.vs-card h3{font-size:14px;margin-bottom:5px;color:#9ceaff}
-.vs-svg{width:100%;display:block;max-height:340px}.vs-legend{font-size:11px;color:#9bb7d3;margin:10px 0}.vs-toolbar{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}.vs-toolbar button{padding:7px 10px;border:1px solid #375a7f;border-radius:8px;font-size:12px;color:#d7efff}
-#call.mini #visualStage{display:none}#call.visual-call.mini{display:flex}
-@media(min-width:850px){#call.visual-call{padding-left:max(24px,calc((100vw - 1200px)/2));padding-right:max(24px,calc((100vw - 1200px)/2))}.vs-grid{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}}
+#vSettings .prof{box-shadow:none;border-radius:14px}#vSettings .gl{border-radius:14px;box-shadow:none;background:var(--cardbg)}#vSettings .grp{margin-top:24px}#vSettings .gt{font:600 11px var(--sans);letter-spacing:.06em}#vSettings .li{padding:16px}#vSettings .li b{font-size:14px}#vSettings .snav{position:sticky;top:0;background:var(--bg);z-index:10;padding:10px 0}#snav button{background:transparent;border:0;border-radius:9px}#snav button.on{background:var(--glass2);color:var(--txt);box-shadow:none}
+#jSearch{width:100%;padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--glass);margin:15px 0;color:var(--txt)}
+.j-row{padding:12px;border-bottom:1px solid var(--line);font-size:13px;white-space:pre-wrap;overflow-wrap:anywhere}.j-panel{max-height:250px;overflow:auto}.j-details{padding:13px;border:1px solid var(--line);border-radius:13px;margin:15px 0}.j-details summary{cursor:pointer;font-size:14px}
+.j-form{border:1px solid var(--line);padding:16px;border-radius:18px;margin:12px 0}.j-form fieldset{border:0;border-bottom:1px solid var(--line);padding:15px 0;min-width:0}.j-form legend{font-weight:600;font-size:16px}.j-option{display:flex;align-items:flex-start;gap:12px;padding:12px 0;font-size:15px}.j-option input{width:21px;height:21px;flex:none;accent-color:var(--acc);appearance:auto}.j-form input[type=text]{width:100%;padding:10px;border-radius:9px;background:var(--glass);border:1px solid var(--line);color:var(--txt)}
+.j-button{padding:10px 13px;background:var(--glass2);border:1px solid var(--line);border-radius:10px;color:var(--txt);margin:4px}
+#jDown{position:absolute;bottom:175px;left:calc(50% - 22px);z-index:40;width:44px;height:44px;border:1px solid var(--line);border-radius:50%;background:var(--sbg);font-size:25px}
+.bub .tw{max-width:100%;overflow-x:auto;overscroll-behavior-x:contain}.bub table{width:100%;table-layout:auto;font-size:.85em}.bub td,.bub th{min-width:85px;white-space:normal;overflow-wrap:anywhere;padding:9px}.j-cursor{display:inline-block;width:2px;height:1em;background:var(--acc);animation:jblink .7s infinite}@keyframes jblink{50%{opacity:0}}
+#jLab{position:fixed;inset:0;z-index:110;background:var(--bg);overflow:auto;padding:24px 16px;color:var(--txt)}.j-shell{max-width:1000px;margin:auto}.j-lab-grid{display:grid;grid-template-columns:220px 1fr;gap:18px}.j-box{padding:16px;border:1px solid var(--line);border-radius:15px;min-width:0}#jLab textarea,#jLab input,#jLab select{width:100%;padding:11px;background:var(--glass);border:1px solid var(--line);border-radius:9px;color:var(--txt);margin:8px 0}#jLab textarea{min-height:180px}#jLab iframe{width:100%;height:380px;background:white;border:0}#jLab video,#jLab img{max-width:100%;max-height:300px}#jLab pre{white-space:pre-wrap;overflow-wrap:anywhere}
+#jScene{position:absolute;inset:0;width:100%;height:100%;touch-action:none;z-index:1}#call.j-scene #callOrb,#call.j-scene #callBg,#call.j-scene #callInfo,#call.j-scene #callQuick{display:none!important}#call.j-scene .ctop,#call.j-scene #cStatus,#call.j-scene #callClock{position:relative;z-index:5}#call.j-scene .ctxt{position:absolute;bottom:120px;left:16px;right:16px;width:auto;max-height:65px;margin:0;z-index:5;background:#041321cc;border-radius:10px;padding:8px}#call.j-scene #cAi{font-size:13px}#call.j-scene .cctl{position:absolute;bottom:25px;z-index:5}#jSceneTools{position:absolute;bottom:200px;left:10px;right:10px;z-index:5;display:flex;flex-wrap:wrap;justify-content:center}#jSceneTools button{font-size:11px;background:#06172ddd}#call.mini #jScene,#call.mini #jSceneTools{display:none}#call.j-scene.mini #callOrb{display:block!important}
+@media(max-width:700px){.j-lab-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -534,7 +533,7 @@ html.hud .m.u .bub{border-radius:10px 10px 3px 10px}
             <div class="seg" id="avState"><button type="button" data-v="idle">Parado</button><button type="button" data-v="listening">Ouvindo</button><button type="button" data-v="thinking">Pensando</button><button type="button" data-v="speaking">Falando</button></div></div>
         </div></div>
         <div class="grp"><div class="gt">Estilo do Jarvis</div><div class="gl">
-          <div class="li col"><b>Visual</b><div class="seg" id="uAvatar"><button type="button" data-v="face">Rosto</button><button type="button" data-v="orb">Esfera</button><button type="button" data-v="reactor">Reator</button><button type="button" data-v="robo">Robô</button></div>
+          <div class="li col"><b>Visual</b><div class="seg" id="uAvatar"><button type="button" data-v="face">Avatar expressivo</button><button type="button" data-v="orb">Esfera</button><button type="button" data-v="reactor">Reator</button><button type="button" data-v="robo">Robô</button></div>
             <small>Aparece na tela inicial e na chamada de voz.</small></div>
           <div class="li col"><b>Cor do avatar</b><div class="swa" id="uAvc"></div><small>Automático: o rosto usa as cores originais e os outros seguem a cor de destaque.</small></div>
           <div class="li col"><div class="spread"><b>Brilho</b><span class="val" id="uGlowV"></span></div><input type="range" id="uGlow" min="40" max="160" step="5" data-suf="%"></div>
@@ -1254,7 +1253,7 @@ async function callAI(turns, system, opts) {
   const wantSearch = opts.search !== false && cfg("web_search") !== "0";
   const build = (tv, s) => {
     const p = JSON.parse(JSON.stringify(basePayload));
-    if (opts.fast) p.generationConfig.maxOutputTokens = opts.maxTokens || 600;
+    if (opts.fast && Call.on) p.generationConfig.maxOutputTokens = opts.maxTokens || 600;
     if (tv) p.generationConfig.thinkingConfig = tv;
     if (s) p.tools = [{ google_search: {} }];
     return p;
@@ -1355,7 +1354,7 @@ function googlePrompt() {
    o.audio = a última mensagem do usuário é um áudio (o modelo ouve e responde de uma vez só). */
 async function converse(turns, o) {
   o = o || {};
-  const fast = Call.on || cfg("speak_replies") === "1";
+  const fast = true;
   const len = cfg("voice_len"), maxTokens = Call.on ? ({ short: 220, long: 800 }[len] || 420) : 600;
   const temp = Call.on ? Math.min(1.3, cfgNum("ai_temp") + .2) : undefined;     /* na conversa por voz fica um pouco mais criativo */
   const ouvi = /\[\[OUVI:[\s\S]*?\]\]/;
@@ -1622,7 +1621,7 @@ function toast(msg, ms) {
   el.textContent = msg; el.classList.remove("hidden");
   clearTimeout(toastTimer); toastTimer = setTimeout(() => el.classList.add("hidden"), ms || 8000);
 }
-const scrollEnd = () => { $("main").scrollTop = $("main").scrollHeight; };
+const scrollEnd = () => { if(window.jFollow!==false) $("main").scrollTop = $("main").scrollHeight; };
 
 function pushMsg(role, text, opts) {
   opts = opts || {};
@@ -3002,7 +3001,7 @@ function drawRobot(o, now, dt) {
   c.restore(); c.globalAlpha = 1;
 }
 
-const AVATARS = { face: drawFace, orb: drawOrb, reactor: drawReactor, robo: drawRobot };
+const AVATARS = { face: drawRobot, orb: drawOrb, reactor: drawReactor, robo: drawRobot };
 const drawAvatar = (o, now, dt) => (AVATARS[avatarMode] || drawFace)(o, now, dt);
 
 /* ==========================================================================
@@ -4146,57 +4145,73 @@ init();
 
 <script>
 (function(){
- const by=id=>document.getElementById(id);
- const stage=document.createElement('section');stage.id='visualStage';stage.setAttribute('aria-label','Apresentação visual da conversa');
- by('callOrb').after(stage);
- let latest=null,history=[],timer=null,pinned=false,enabled=true;
- const instruction=`
-CHAMADA VISUAL: Você conversa por voz e dirige uma apresentação visual. Responda normalmente em português. Quando o assunto se beneficiar de uma explicação, comparação, diagrama ou dados, TERMINE com um bloco [[VISUAL]]JSON[[/VISUAL]]. Esse bloco é controle, não fala. JSON: {"title":"título curto","subtitle":"contexto","kind":"diagram|cards|steps|chart","cards":[{"title":"nome","text":"explicação curta"}],"nodes":[{"id":"a","label":"rótulo"}],"edges":[{"from":"a","to":"b","label":"relação"}],"bars":[{"label":"nome","value":10}],"unit":"unidade","note":"limites ou fonte"}. Use apenas os campos necessários. No máximo 6 cards, 8 nodes e 8 bars. Em chart use somente valores fornecidos pelo usuário ou presentes em resultados de ferramentas, nunca invente estatísticas; sem dados, escolha diagram ou cards. Não gere HTML ou SVG. Para 'aumenta', 'mostra só' e 'compara', atualize a composição conforme o contexto da conversa. Não afirme que exibiu fotos reais, modelos 3D, vídeo ou simulação física. São diagramas conceituais e cartões. Evite criar apresentação para saudações ou frases curtas sem assunto. Não inclua marcadores VISUAL fora do bloco.`;
- const system=buildSystem;
- buildSystem=function(o){return system(o)+(Call.on&&enabled?instruction:'');};
- const original=converse;
- converse=async function(turns,o){
-  let raw=await original(turns,o);
-  if(!Call.on||!enabled)return raw;
-  const match=/\[\[VISUAL\]\]([\s\S]*?)\[\[\/VISUAL\]\]/.exec(raw);
-  if(match){try{const model=JSON.parse(match[1].trim().replace(/^```json\s*/,'').replace(/```$/,''));render(model);}catch(e){console.warn('Visual inválido',e);}raw=raw.replace(match[0],'').trim();}
-  else{const spoken=raw.replace(/\[\[OUVI:[\s\S]*?\]\]/g,'').trim();if(spoken.length>100)render({title:'Conversa em andamento',subtitle:'Resumo textual da resposta',kind:'cards',cards:[{title:'Jarvis',text:spoken.slice(0,1000)}]});}
-  raw=raw.replace(/\[\[VISUAL\]\][\s\S]*$/,'').trim();return raw;
- };
- function node(tag,attrs={},txt){const n=document.createElementNS('http://www.w3.org/2000/svg',tag);Object.entries(attrs).forEach(([k,v])=>n.setAttribute(k,String(v)));if(txt!=null)n.textContent=String(txt);return n;}
- function render(data,remember=true){
-  if(pinned)return;
-  if(!data||typeof data!=='object')return;
-  latest=data;if(remember){history.push(data);history=history.slice(-12);}clearInterval(timer);
-  stage.replaceChildren();const title=document.createElement('h2');title.textContent=String(data.title||'Bancada visual').slice(0,120);stage.appendChild(title);
-  const sub=document.createElement('div');sub.className='vs-sub';sub.textContent=String(data.subtitle||'Ilustração conceitual · gerada por IA').slice(0,240);stage.appendChild(sub);
-  const toolbar=document.createElement('div');toolbar.className='vs-toolbar';
-  const add=(label,fn)=>{const b=document.createElement('button');b.type='button';b.textContent=label;b.onclick=fn;toolbar.appendChild(b);};
-  add('Anterior',()=>{if(history.length>1){history.pop();render(history[history.length-1],false);}});
-  add('Fixar painel',e=>{pinned=!pinned;toolbar.querySelectorAll('button')[1].textContent=pinned?'Desafixar painel':'Fixar painel';});
-  add('Ampliar',()=>{const full=stage.classList.toggle('expanded');stage.style.fontSize=full?'18px':'';stage.querySelectorAll('.vs-card').forEach(c=>c.style.fontSize=full?'17px':'');});
-  stage.appendChild(toolbar);
-  if(data.kind==='diagram'&&Array.isArray(data.nodes)){
-   const ns=data.nodes.slice(0,8),svg=node('svg',{viewBox:'0 0 640 '+Math.max(240,Math.ceil(ns.length/2)*100),class:'vs-svg',role:'img','aria-label':data.title||'Diagrama'}),positions=new Map();
-   ns.forEach((n,i)=>positions.set(String(n.id),{x:30+(i%2)*315,y:20+Math.floor(i/2)*100}));
-   (Array.isArray(data.edges)?data.edges:[]).slice(0,12).forEach(e=>{const a=positions.get(String(e.from)),b=positions.get(String(e.to));if(!a||!b)return;svg.appendChild(node('line',{x1:a.x+135,y1:a.y+30,x2:b.x+135,y2:b.y+30,stroke:'#4d9ac7','stroke-width':2}));if(e.label)svg.appendChild(node('text',{x:(a.x+b.x)/2+135,y:(a.y+b.y)/2+20,fill:'#93b6d5','font-size':10,'text-anchor':'middle'},String(e.label).slice(0,25)));});
-   ns.forEach(n=>{const p=positions.get(String(n.id));svg.appendChild(node('rect',{x:p.x,y:p.y,width:270,height:60,rx:12,fill:'#132e46',stroke:'#5edcff'}));const label=String(n.label||n.id).slice(0,64);const lines=label.match(/.{1,28}(?:\s|$)|.{1,28}/g)||[label];lines.slice(0,2).forEach((l,i)=>svg.appendChild(node('text',{x:p.x+135,y:p.y+25+i*17,fill:'#d9f7ff','font-size':13,'text-anchor':'middle'},l)));});stage.appendChild(svg);
-  }
-  if(data.kind==='chart'&&Array.isArray(data.bars)){
-   const bars=data.bars.slice(0,8).filter(b=>Number.isFinite(Number(b.value))),max=Math.max(1,...bars.map(b=>Math.abs(Number(b.value)))) ,svg=node('svg',{viewBox:'0 0 640 '+(bars.length*49+30),class:'vs-svg',role:'img','aria-label':data.title||'Gráfico'});
-   bars.forEach((b,i)=>{const y=20+i*49;svg.appendChild(node('text',{x:0,y:y+16,fill:'#b7ddf4','font-size':12},String(b.label).slice(0,20)));svg.appendChild(node('rect',{x:150,y,width:Math.abs(Number(b.value))/max*340,height:25,rx:5,fill:Number(b.value)<0?'#e27e83':'#42bbdf'}));svg.appendChild(node('text',{x:510,y:y+17,fill:'#e3f5ff','font-size':12},String(b.value)+' '+String(data.unit||'')));});stage.appendChild(svg);
-  }
-  const grid=document.createElement('div');grid.className='vs-grid';
-  (Array.isArray(data.cards)?data.cards:[]).slice(0,6).forEach((c,i)=>{const article=document.createElement('article');article.className='vs-card';const h=document.createElement('h3');h.textContent=(data.kind==='steps'?(i+1)+'. ':'')+String(c.title||'');const p=document.createElement('p');p.textContent=String(c.text||'').slice(0,1000);article.append(h,p);grid.appendChild(article);});stage.appendChild(grid);
-  const note=document.createElement('p');note.className='vs-legend';note.textContent=String(data.note||'Ilustração explicativa, não simulação física validada.').slice(0,600);stage.appendChild(note);
-  const cards=[...grid.children];if(cards[0])cards[0].classList.add('active');
-  let index=0;timer=setInterval(()=>{if(!Call.on){clearInterval(timer);return;}if(Call.state!=='speaking')return;index++;if(index<cards.length)cards[index].classList.add('active');else clearInterval(timer);},3500);
- }
- const originalStart=Call.start;
- // Keep the original voice pipeline; visual layout follows whether call is open.
- new MutationObserver(()=>{if(!by('call').classList.contains('hidden'))by('call').classList.toggle('visual-call',enabled);else clearInterval(timer);}).observe(by('call'),{attributes:true,attributeFilter:['class']});
- const toggle=document.createElement('button');toggle.type='button';toggle.className='qchip';toggle.textContent='Tela visual: ligada';toggle.onclick=()=>{enabled=!enabled;by('call').classList.toggle('visual-call',enabled);stage.hidden=!enabled;toggle.textContent='Tela visual: '+(enabled?'ligada':'desligada');};by('call').querySelector('.ctop').appendChild(toggle);
- render({title:'Chamada visual pronta',subtitle:'Fale pelo microfone do Jarvis',kind:'cards',cards:[{title:'Explique com um desenho',text:'Peça um assunto, uma comparação ou um passo a passo. A resposta pode abrir diagramas e cartões nesta tela.'},{title:'Comande por voz',text:'Diga “compara”, “mostra só esta parte” ou “explica melhor”. O Jarvis gera uma nova composição.'}],note:'Requer chave Gemini configurada. Painéis são gerados com a resposta; os destaques têm temporização ilustrativa, não sincronização exata palavra a palavra.'});
+'use strict';const $=id=>document.getElementById(id),KEY='jarvis_unified_v1';let state={events:[],decisions:[],projects:[],mission:'',friday:false};try{Object.assign(state,JSON.parse(localStorage.getItem(KEY)||'{}'));}catch(e){}
+const safe=t=>String(t||'');function save(){try{localStorage.setItem(KEY,JSON.stringify(state));}catch(e){console.warn(e);}}
+function event(type,text){state.events.push({t:Date.now(),type,text:safe(text).slice(0,280)});state.events=state.events.slice(-120);save();renderEvents();}
+function button(text,fn,parent){const b=document.createElement('button');b.type='button';b.className='j-button';b.textContent=text;b.onclick=fn;if(parent)parent.appendChild(b);return b;}
+// Settings: preserve existing controls; extend rather than replace.
+const search=document.createElement('input');search.id='jSearch';search.type='search';search.placeholder='Buscar em todos os ajustes';$('snav').before(search);
+search.oninput=()=>{const q=search.value.trim().toLocaleLowerCase();document.querySelectorAll('#vSettings .cat').forEach(cat=>{if(q)cat.classList.remove('hidden');cat.querySelectorAll('.grp').forEach(g=>{const rows=[...g.querySelectorAll('.li')];rows.forEach(r=>r.hidden=!!q&&!r.textContent.toLocaleLowerCase().includes(q));g.hidden=!!q&&rows.length>0&&rows.every(r=>r.hidden);});});if(!q)showSettingsTab(LS.get('s_cat','look'));};
+document.querySelectorAll('#snav button').forEach(b=>b.addEventListener('click',()=>{search.value='';document.querySelectorAll('#vSettings .grp,#vSettings .li').forEach(x=>x.hidden=false);}));
+const extra=document.createElement('div');extra.className='grp';extra.innerHTML='<div class="gt">Direção e personalidade</div><div class="gl"><label class="li"><span><b>Modo FRIDAY</b><small>Tom direto, tático e objetivo</small></span><input id="jFriday" type="checkbox"></label><div class="li col"><b>Missão ativa</b><input id="jMission" type="text" placeholder="Seu objetivo atual"></div></div>';
+document.querySelector('#vSettings .cat[data-c="jarvis"]').appendChild(extra);$('jFriday').checked=state.friday;$('jFriday').onchange=e=>{state.friday=e.target.checked;save();};$('jMission').value=state.mission;$('jMission').oninput=e=>{state.mission=e.target.value;save();};
+// Compact journal; existing neural_log is retained and displayed if present.
+let legacy=[];try{legacy=JSON.parse(localStorage.getItem('neural_log')||'[]');}catch(e){}
+const archive=document.createElement('details');archive.className='j-details';archive.innerHTML='<summary id="jArchiveTitle">Diário Neural</summary><div class="j-panel" id="jEvents"></div>';$('notesList').before(archive);
+function renderEvents(){const items=legacy.concat(state.events).slice(-120);$('jArchiveTitle').textContent='Diário Neural · '+items.length+' registros';$('jEvents').replaceChildren();items.slice(-30).reverse().forEach(e=>{const d=document.createElement('div');d.className='j-row';d.textContent=new Date(e.t).toLocaleString('pt-BR')+' · '+safe(e.text);$('jEvents').appendChild(d);});}renderEvents();
+// Follow only when reading the bottom, never force while scrolling up.
+window.jFollow=true;const down=button('↓',()=>{window.jFollow=true;$('main').scrollTop=$('main').scrollHeight;down.hidden=true;},$('app'));down.id='jDown';down.hidden=true;
+$('main').addEventListener('scroll',()=>{window.jFollow=$('main').scrollHeight-$('main').scrollTop-$('main').clientHeight<65;down.hidden=window.jFollow;},{passive:true});
+new MutationObserver(()=>{if(window.jFollow)$('main').scrollTop=$('main').scrollHeight;else if(!$('vChat').classList.contains('hidden'))down.hidden=false;}).observe($('msgs'),{childList:true,subtree:true,characterData:true});
+// Writing reveal without rebuilding tables on each frame.
+const push=pushMsg;pushMsg=function(role,text,opts){const d=push(role,text,opts);if(role!=='assistant'||(opts&&opts.error)||Call.on||!App.sending||matchMedia('(prefers-reduced-motion: reduce)').matches)return d;
+const bubble=d.querySelector('.bub'),walker=document.createTreeWalker(bubble,NodeFilter.SHOW_TEXT),nodes=[];let n;while(n=walker.nextNode()){if(!n.parentElement.closest('.act,.srcs,button'))nodes.push({n,t:n.textContent});}const total=nodes.reduce((a,x)=>a+x.t.length,0);if(!total)return d;nodes.forEach(x=>x.n.textContent='');let shown=0,last=performance.now();function tick(now){if(!d.isConnected)return;shown=Math.min(total,shown+(now-last)*Math.max(0.25,total/1500));last=now;let left=Math.floor(shown);nodes.forEach(x=>{x.n.textContent=x.t.slice(0,Math.max(0,left));left-=x.t.length;});if(shown<total)requestAnimationFrame(tick);}requestAnimationFrame(tick);return d;};
+// Real memory context is passed to the model, not just logged.
+const sys=buildSystem;buildSystem=function(o){return sys(o)+'\nMISSÃO: '+state.mission+'\n'+(state.friday?'FRIDAY: seja direto e tático.':'')+'\nPara decisões relevantes, compare consequências de curto, médio e longo prazo, sem prever o futuro com certeza. Critique quando solicitado, sem concordância automática. Diferencie fatos, hipóteses e lembranças. Não diagnostique emoções. Não repita conselhos.\nREGISTROS RECENTES (podem conter hipóteses da IA; não tratar como fatos confirmados):\n'+state.events.slice(-8).map(e=>e.type+': '+e.text).join('\n')+'\nDECISÕES DO USUÁRIO:\n'+state.decisions.slice(-4).map(d=>d.text).join('\n');};
+// Contextual radio/checkbox form. Bypass flag prevents form loops.
+const send=sendMessage;let questionnaireBusy=false;
+sendMessage=async function(t){t=safe(t).trim();if(!t||questionnaireBusy||App.sending)return null;if(!Call.on&&!App.att&&/crie|criar|prompt|faça|elabore|monte|desenvolva/i.test(t)){questionnaireBusy=true;setThinking(true);let schema;try{const raw=await callAI([{role:'user',content:t}],'Retorne somente JSON {"questions":[{"question":"pergunta específica ao pedido","multiple":false,"options":["opção","opção","opção"]}]}. Faça 2 a 4 perguntas necessárias, de acordo com o assunto, com 3 a 6 opções. Não pergunte o que já foi informado. Sem HTML.',{fast:true,search:false,maxTokens:1800});schema=JSON.parse(raw.slice(raw.indexOf('{'),raw.lastIndexOf('}')+1));if(!Array.isArray(schema.questions)||!schema.questions.length)throw Error('invalid');}catch(e){schema={questions:[{question:'Como deseja receber o resultado?',options:['Pronto para usar','Com explicação das escolhas','Várias alternativas']},{question:'Qual profundidade prefere?',options:['Direto','Intermediário','Detalhado']}]};}finally{questionnaireBusy=false;setThinking(false);}form(schema,t);return null;}event('usuário',t);return send(t);};
+function form(schema,original){const row=document.createElement('div');row.className='m a';const f=document.createElement('form');f.className='j-form';row.appendChild(f);const qs=schema.questions.slice(0,5),fields=[];
+qs.forEach((q,i)=>{const field=document.createElement('fieldset'),legend=document.createElement('legend');legend.textContent=(i+1)+'. '+safe(q.question);field.appendChild(legend);const choices=Array.isArray(q.options)?q.options.slice(0,6):['Continuar'];choices.concat(['Outro']).forEach(v=>{const label=document.createElement('label');label.className='j-option';const input=document.createElement('input');input.type=q.multiple?'checkbox':'radio';input.name='q'+i;input.value=safe(v);label.append(input,document.createTextNode(safe(v)));field.appendChild(label);});const custom=document.createElement('input');custom.type='text';custom.placeholder='Se marcou Outro, escreva aqui';field.appendChild(custom);f.appendChild(field);fields.push(field);});
+const go=document.createElement('button');go.type='submit';go.className='j-button';go.textContent='Continuar e gerar';f.appendChild(go);
+async function finish(answers){go.disabled=true;state.decisions.push({t:Date.now(),text:original+' · '+answers});state.decisions=state.decisions.slice(-50);save();event('decisão',answers);row.remove();await send(original+'\nPREFERÊNCIAS: '+answers+'\nEntregue o resultado final.');}
+f.onsubmit=e=>{e.preventDefault();const answers=[];for(let i=0;i<fields.length;i++){const checked=[...fields[i].querySelectorAll(':checked')];if(!checked.length){fields[i].scrollIntoView({block:'center'});return;}const vals=checked.map(x=>x.value==='Outro'?fields[i].querySelector('input[type=text]').value.trim():x.value);if(vals.some(x=>!x))return;answers.push(qs[i].question+': '+vals.join(', '));}finish(answers.join('\n'));};button('Pular perguntas',()=>finish('Usuário optou por não detalhar.'),f);$('msgs').appendChild(row);$('hero').classList.add('hidden');$('quick').classList.add('hidden');scrollEnd();}
+// Animated stage: continuous procedural scene, not an arbitrary image generator.
+const scene=document.createElement('canvas');scene.id='jScene';$('call').appendChild(scene);const ctx=scene.getContext('2d'),tools=document.createElement('div');tools.id='jSceneTools';$('call').appendChild(tools);
+let mode='reactor',explode=0,spread=0,zoom=1,angle=0,pitch=.55,paused=false,build=0,last=0,time=0,drag=false,px=0,py=0;
+button('Reator',()=>{mode='reactor';build=0;},tools);button('Sistema solar',()=>{mode='solar';build=0;},tools);button('Separar / juntar',()=>explode=1-explode,tools);button('Pausar',()=>paused=!paused,tools);button('−',()=>zoom=Math.max(.5,zoom-.2),tools);button('+',()=>zoom=Math.min(2.5,zoom+.2),tools);button('Redesenhar',()=>build=0,tools);
+scene.onpointerdown=e=>{drag=true;px=e.clientX;py=e.clientY;scene.setPointerCapture(e.pointerId);};scene.onpointermove=e=>{if(!drag)return;angle+=(e.clientX-px)*.008;pitch=Math.max(-1.1,Math.min(1.1,pitch+(e.clientY-py)*.006));px=e.clientX;py=e.clientY;};scene.onpointerup=scene.onpointercancel=()=>drag=false;
+let R=100,CX=0,CY=0;function point(x,y,z){const xx=x*Math.cos(angle)+z*Math.sin(angle),zz=-x*Math.sin(angle)+z*Math.cos(angle),yy=y*Math.cos(pitch)-zz*Math.sin(pitch),depth=y*Math.sin(pitch)+zz*Math.cos(pitch),k=4/(4-depth);return[CX+xx*R*k,CY+yy*R*k,k];}
+function ring(r,y,color,phase=0,portion=1,x=0,z=0){ctx.beginPath();for(let i=0;i<=100*portion;i++){const a=i/100*6.283+phase,p=point(x+Math.cos(a)*r,y,z+Math.sin(a)*r);if(i)ctx.lineTo(p[0],p[1]);else ctx.moveTo(p[0],p[1]);}ctx.strokeStyle=color;ctx.lineWidth=1.7;ctx.stroke();}
+function orb(x,y,z,r,color){const p=point(x,y,z),radius=r*R*p[2],g=ctx.createRadialGradient(p[0]-radius*.3,p[1]-radius*.3,0,p[0],p[1],radius);g.addColorStop(0,'#fff');g.addColorStop(.3,color);g.addColorStop(1,'#092037');ctx.fillStyle=g;ctx.shadowColor=color;ctx.shadowBlur=18;ctx.beginPath();ctx.arc(p[0],p[1],radius,0,6.283);ctx.fill();ctx.shadowBlur=0;return p;}
+function frame(now){requestAnimationFrame(frame);if($('call').classList.contains('hidden')||$('call').classList.contains('mini')){last=now;return;}$('call').classList.add('j-scene');const dt=Math.min(.04,(now-(last||now))/1000);last=now;if(!paused&&!drag){time+=dt;angle+=dt*.12;}build=Math.min(1,build+dt*.35);spread+=(explode-spread)*dt*4;const w=scene.clientWidth,h=scene.clientHeight,dpr=Math.min(devicePixelRatio||1,2);if(scene.width!==Math.round(w*dpr)||scene.height!==Math.round(h*dpr)){scene.width=Math.round(w*dpr);scene.height=Math.round(h*dpr);}ctx.setTransform(dpr,0,0,dpr,0,0);ctx.fillStyle='#020b18';ctx.fillRect(0,0,w,h);CX=w/2;CY=h*.43;R=Math.min(w*.3,h*.22)*zoom;
+ctx.fillStyle='#8bdeee';ctx.font='14px monospace';ctx.fillText(mode==='reactor'?'ARC · REATOR CONCEITUAL':'SISTEMA SOLAR · ILUSTRATIVO',18,145);
+if(mode==='reactor'){orb(0,0,0,.2,'#4cdeff');for(let j=0;j<5;j++){const progress=Math.max(0,Math.min(1,build*4-j*.4)),y=(j-2)*.28*(1+spread*2),r=.75+Math.sin(j)*.2;ring(r,y,'#54cfe5',time*(j%2?-.2:.2),progress);ring(r*.9,y+.05,'#22617f',0,progress);for(let k=0;k<24*progress;k++){const a=k/24*6.283+time*.1,p=point(Math.cos(a)*r,y,Math.sin(a)*r);ctx.fillStyle='#a7f2ff';ctx.fillRect(p[0],p[1],3,3);}}for(let i=0;i<50;i++){const a=i*.7+time*.3,p=point(Math.cos(a)*1.15,Math.sin(i+time)*.35,Math.sin(a)*1.15);ctx.fillStyle='#347f9a';ctx.fillRect(p[0],p[1],1.5,1.5);}}
+else{orb(0,0,0,.18,'#ffb83d');['#888','#dfb373','#49b9ee','#ec7351','#caaa81','#dfc294','#7ed1dc','#4776e9'].forEach((color,i)=>{const r=.34+i*.14,pct=Math.max(0,Math.min(1,build*3-i*.15));ring(r,0,'#1e3f57',0,pct);if(!pct)return;const a=time*.8/(i+1)+i,p=orb(Math.cos(a)*r,0,Math.sin(a)*r,i===4?.075:.025+i*.003,color);ctx.font='9px monospace';ctx.fillStyle='#8eb2c8';ctx.fillText(['Mercúrio','Vênus','Terra','Marte','Júpiter','Saturno','Urano','Netuno'][i],p[0]+6,p[1]-7);});}ctx.fillStyle='#5c8198';ctx.font='10px monospace';ctx.fillText('Ilustração procedural · sem simulação física',18,h-248);}
+requestAnimationFrame(frame);
+function commands(t){t=safe(t).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();if(/sistema solar|planetas/.test(t)){mode='solar';build=0;}if(/reator/.test(t)){mode='reactor';build=0;}if(/separa|desmonta/.test(t))explode=1;if(/junta|reune/.test(t))explode=0;if(/aproxima|aumenta/.test(t))zoom=Math.min(2.5,zoom+.3);if(/afasta|diminui/.test(t))zoom=Math.max(.5,zoom-.3);if(/pausa|para de girar/.test(t))paused=true;else if(/gira|retoma/.test(t))paused=false;}
+const turn=Call.turn;Call.turn=async function(t){commands(t);return turn.call(this,t);};const voice=sendVoiceMessage;sendVoiceMessage=async function(b){const r=await voice(b);if(r&&r.heard)commands(r.heard);return r;};
+const priorSystem=buildSystem;buildSystem=function(o){return priorSystem(o)+(Call.on?'\nA tela contém duas cenas procedurais animadas: reator conceitual e sistema solar fora de escala. Comandos separar/juntar, aproximar/afastar, girar/pausar funcionam. Não alegue criar outros desenhos, fotos ou simulações.':'');};
+// Laboratory with persistent versions, isolated preview, camera inspection.
+const lab=document.createElement('section');lab.id='jLab';lab.hidden=true;lab.innerHTML='<div class="j-shell"><h2>Laboratório Stark</h2><div id="jLabTop"></div><p id="jLabStatus" class="val">Projetos locais · testes manuais · sem equipamento conectado</p><div class="j-lab-grid"><aside id="jProjects" class="j-box"></aside><main id="jWork" class="j-box"></main></div></div>';document.body.appendChild(lab);let selected=null,working=false,camera=null;
+function stop(){if(camera){camera.getTracks().forEach(t=>t.stop());camera=null;}}
+button('Laboratório',()=>{lab.hidden=false;renderLab();},$('hero'));button('Laboratório',()=>{lab.hidden=false;renderLab();},extra);
+button('Voltar',()=>{stop();lab.hidden=true;},$('jLabTop'));button('Novo projeto',()=>{const title=prompt('Nome do projeto');if(!title)return;const p={id:Date.now().toString(36),title,brief:'',plan:'',code:'',notes:'',versions:[]};state.projects.push(p);selected=p.id;save();renderLab();},$('jLabTop'));
+function download(name,content){const u=URL.createObjectURL(new Blob([content],{type:'text/plain;charset=utf-8'})),a=document.createElement('a');a.href=u;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(u),1500);}
+button('Backup completo',()=>download('jarvis_backup.json',JSON.stringify(state,null,2)),$('jLabTop'));
+const imp=document.createElement('input');imp.type='file';imp.accept='.json';imp.hidden=true;lab.appendChild(imp);button('Importar backup',()=>imp.click(),$('jLabTop'));imp.onchange=async()=>{try{const f=imp.files[0];if(!f||f.size>8000000)throw Error('Arquivo inválido');const data=JSON.parse(await f.text());if(!Array.isArray(data.projects)||data.projects.some(p=>typeof p.title!=='string'||!Array.isArray(p.versions)))throw Error('Formato inválido');if(!confirm('Importar projetos como cópias sem apagar os atuais?'))return;data.projects.forEach(p=>state.projects.push({...p,id:Math.random().toString(36).slice(2)}));save();renderLab();}catch(e){$('jLabStatus').textContent=e.message;}};
+function renderLab(){stop();$('jProjects').replaceChildren();state.projects.forEach(p=>button(p.title,()=>{selected=p.id;renderLab();},$('jProjects')));const w=$('jWork');w.replaceChildren();const p=state.projects.find(p=>p.id===selected);if(!p){w.textContent='Crie ou escolha um projeto.';return;}
+const h=document.createElement('h3');h.textContent=p.title;w.appendChild(h);
+function area(title,key){const l=document.createElement('label');l.textContent=title;const t=document.createElement('textarea');t.value=p[key]||'';t.oninput=()=>{p[key]=t.value;save();};w.append(l,t);return t;}
+area('Missão e restrições','brief');button('Gerar plano e componentes',()=>generate(p,'plan','Crie alternativas, componentes, etapas e testes. Não invente preços. Priorize baixa tensão.'),w);area('Plano','plan');button('Gerar código',()=>generate(p,'code','Gere código completo do projeto, sem cercas Markdown. Se não for código web indique linguagem em comentário.'),w);const editor=area('Código','code');
+button('Salvar versão',()=>{p.versions.push({t:Date.now(),brief:p.brief,plan:p.plan,code:p.code});p.versions=p.versions.slice(-20);save();renderLab();},w);
+button('Prévia HTML',()=>{if(!/<(?:html|!doctype|div|body)/i.test(editor.value)){alert('Prévia apenas para HTML.');return;}const f=document.createElement('iframe');f.title='Prévia isolada';f.setAttribute('sandbox','allow-scripts');f.srcdoc='<meta http-equiv="Content-Security-Policy" content="default-src \'none\'; script-src \'unsafe-inline\'; style-src \'unsafe-inline\'; img-src data:; connect-src \'none\'">'+editor.value;w.appendChild(f);},w);button('Baixar código',()=>download(p.title+'.txt',p.code),w);
+area('Testes e resultados reais — registro manual','notes');button('Revisar riscos',()=>generate(p,'review','Revise falhas e proponha testes. Não alegue executar os testes.'),w);if(p.review){const pre=document.createElement('pre');pre.textContent=p.review;w.appendChild(pre);}
+const file=document.createElement('input');file.type='file';file.accept='image/*';file.onchange=()=>{const f=file.files[0];if(!f||f.size>6000000)return;const r=new FileReader();r.onload=()=>photo(r.result);r.readAsDataURL(f);};w.appendChild(file);
+function photo(data){const img=document.createElement('img');img.src=data;img.alt='Foto escolhida';w.appendChild(img);button('Enviar esta foto ao Gemini',()=>generate(p,'review','Inspecione a imagem em relação ao projeto. Declare incertezas e não certifique segurança elétrica.',data),w);}
+button('Abrir câmera',async()=>{try{camera=await navigator.mediaDevices.getUserMedia({video:{facingMode:'environment'},audio:false});const v=document.createElement('video');v.autoplay=true;v.muted=true;v.playsInline=true;v.srcObject=camera;w.appendChild(v);button('Capturar e desligar',()=>{if(!v.videoWidth)return;const c=document.createElement('canvas');c.width=Math.min(v.videoWidth,1200);c.height=v.videoHeight*c.width/v.videoWidth;c.getContext('2d').drawImage(v,0,0,c.width,c.height);photo(c.toDataURL('image/jpeg',.8));stop();v.remove();},w);}catch(e){$('jLabStatus').textContent='Câmera não disponível: '+e.message;}},w);
+p.versions.slice().reverse().forEach(v=>button('Restaurar '+new Date(v.t).toLocaleString('pt-BR'),()=>{if(!confirm('Restaurar plano e código?'))return;p.versions.push({t:Date.now(),brief:p.brief,plan:p.plan,code:p.code});Object.assign(p,{brief:v.brief,plan:v.plan,code:v.code});save();renderLab();},w));}
+async function generate(p,key,task,image){if(working)return;working=true;$('jLabStatus').textContent='Gerando…';try{const text=task+'\nPROJETO '+p.title+'\n'+p.brief+'\n'+p.plan+'\n'+p.code.slice(0,16000)+'\nTestes: '+p.notes;let turn={role:'user',content:text};if(image){const m=/^data:([^;]+);base64,(.+)$/.exec(image);turn={role:'user',parts:[{text},{inlineData:{mimeType:m[1],data:m[2]}}]};}p.versions.push({t:Date.now(),brief:p.brief,plan:p.plan,code:p.code});p.versions=p.versions.slice(-20);p[key]=await callAI([turn],'Jarvis: responda em português, sem fingir execução, preços verificados ou simulação física.',{search:false,fast:false});save();renderLab();$('jLabStatus').textContent='Gerado. Precisa de revisão e testes reais.';}catch(e){$('jLabStatus').textContent='Erro: '+e.message;}finally{working=false;}}
 })();
 </script>
 </body>
