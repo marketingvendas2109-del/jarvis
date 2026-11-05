@@ -334,20 +334,6 @@ html[data-theme=light] #call.mini{background:rgba(255,255,255,.92)}
 #call.mini #callOrb{width:150px!important;height:150px!important;margin:0!important}
 #call.mini .miniX{display:grid;place-items:center;position:absolute;top:6px;right:8px;width:26px;height:26px;border-radius:50%;background:var(--glass2);font-size:16px;line-height:1;z-index:2}
 
-/* Menu de Ajustes organizado */
-.snav{display:flex;flex-direction:column;gap:12px;margin:14px 0 2px;overflow:visible}
-.snav-group{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.snav-group:has(button:only-child){grid-template-columns:1fr}
-.snav-title{grid-column:1/-1;font:600 10.5px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin:2px 2px -2px}
-.snav button{display:flex;align-items:center;gap:8px;padding:12px 14px;border-radius:14px;background:var(--glass);border:1px solid var(--line);font-size:14px;font-weight:600;color:var(--txt);text-align:left}
-.snav button .snav-ico{font-size:16px;line-height:1}
-.snav button.on{background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;border-color:transparent;box-shadow:0 6px 20px color-mix(in srgb,var(--acc) 30%,transparent)}
-.snav button.on .snav-ico{filter:brightness(1.1)}
-
-/* Animação de escrita */
-.type-cursor{display:inline-block;width:2px;height:1em;margin-left:2px;vertical-align:-.15em;background:var(--acc);animation:blinkCursor .7s steps(2,start) infinite}
-@keyframes blinkCursor{50%{opacity:0}}
-
 /* ============ 13. PREFERÊNCIAS VISUAIS ============ */
 html.no-orb #heroOrb{display:none}
 html.no-quick #quick{display:none!important}
@@ -430,6 +416,49 @@ html.hud .tab{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-t
 html.hud .snav button,html.hud .chip,html.hud .ic{border-color:var(--line)}
 html.hud .snav button.on{box-shadow:0 0 14px rgba(47,212,255,.4)}
 html.hud .m.u .bub{border-radius:10px 10px 3px 10px}
+
+/* Perguntas de escolha */
+.quiz-q{margin:10px 0}
+.quiz-t{font-size:13.5px;font-weight:600;margin-bottom:6px}
+.quiz-opts{display:flex;flex-wrap:wrap;gap:6px}
+.quiz-opt{padding:8px 12px;border-radius:999px;background:var(--glass);border:1px solid var(--line);font-size:12.5px;color:var(--txt)}
+.quiz-opt.on{background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;border-color:transparent}
+.quiz-go{margin-top:10px;padding:10px 16px;border-radius:12px;background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;font-weight:600;border:0}
+
+.type-cursor{display:inline-block;width:2px;height:1em;margin-left:2px;vertical-align:-.15em;background:var(--acc);animation:blinkCursor .7s steps(2,start) infinite}
+@keyframes blinkCursor{50%{opacity:0}}
+.protocols{display:flex;gap:8px;overflow-x:auto;padding:8px 0 4px;scrollbar-width:none}
+.protocols::-webkit-scrollbar{display:none}
+.proto{flex:none;display:flex;align-items:center;gap:6px;padding:9px 13px;border-radius:999px;background:var(--glass);border:1px solid var(--line);font-size:13px;color:var(--txt)}
+.proto:active{transform:scale(.95);background:var(--glass2)}
+.nl{display:flex;gap:9px;padding:8px 0;border-bottom:1px solid var(--line);font-size:13.5px;line-height:1.4}
+.nl:last-child{border-bottom:0}
+.nl-i{flex:none;width:24px;height:24px;border-radius:8px;background:var(--glass2);display:grid;place-items:center;font-size:13px}
+
+#vSettings{max-width:760px;margin:0 auto}
+.set-head{padding:10px 2px 0}
+.set-head .pg{font-size:26px;font-weight:700;letter-spacing:-.02em;margin:0 0 4px}
+.set-sub{font-size:13.5px;color:var(--dim);margin:0 2px 14px}
+#setSearch{width:100%;padding:12px 14px;border-radius:12px;border:1px solid var(--line);background:var(--glass);font-size:15px;color:var(--txt);outline:none;margin-bottom:4px}
+#setSearch:focus{border-color:var(--acc)}
+#snav{display:flex;gap:6px;overflow-x:auto;padding:10px 2px 12px;margin:0 -2px 4px;position:sticky;top:0;z-index:6;scrollbar-width:none;background:linear-gradient(to bottom,var(--bg) 78%,transparent)}
+html[data-theme=light] #snav{background:linear-gradient(to bottom,#fff 78%,transparent)}
+#snav::-webkit-scrollbar{display:none}
+#snav button{white-space:nowrap;padding:9px 15px;border-radius:999px;background:transparent;border:1px solid transparent;color:var(--dim);font-size:13.5px;font-weight:550}
+#snav button:hover{color:var(--txt);background:var(--glass)}
+#snav button.on{background:var(--glass2);color:var(--txt);border-color:var(--line)}
+#vSettings .cat{animation:fi .22s both}
+#vSettings .grp{margin-top:24px}
+#vSettings .gt{font-size:11.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--dim);margin:0 4px 8px}
+#vSettings .gl{border:1px solid var(--line);border-radius:16px;background:var(--cardbg);overflow:hidden}
+#vSettings .li{padding:15px 16px;gap:14px}
+#vSettings .li b{font-size:14.5px;font-weight:600}
+#vSettings .li small{font-size:12.5px;color:var(--dim);line-height:1.45}
+#vSettings .seg{background:var(--glass);border-radius:10px;padding:3px;gap:2px}
+#vSettings .seg button{border-radius:8px;font-size:13px;color:var(--dim);padding:8px 10px}
+#vSettings .seg button.on{background:var(--glass2);color:var(--txt)}
+#vSettings .li input[type=text],#vSettings .li input[type=password],#vSettings .li textarea{border-radius:10px;background:var(--glass);border:1px solid var(--line)}
+
 </style>
 </head>
 <body>
@@ -453,6 +482,7 @@ html.hud .m.u .bub{border-radius:10px 10px 3px 10px}
         <button class="modeChip" id="modeChip" type="button"></button>
       </div>
       <div id="quick"></div>
+      <div id="protocols" class="protocols"></div>
       <div id="msgs"></div>
     </section>
 
@@ -487,6 +517,8 @@ html.hud .m.u .bub{border-radius:10px 10px 3px 10px}
       </div>
       <div id="graph"></div>
       <div class="legend" id="legend"></div>
+      <div class="sec">DIÁRIO NEURAL</div>
+      <div class="gl" style="padding:12px 14px"><div class="val" id="neuralStats"></div><div id="neuralLog" style="margin-top:8px"></div></div>
       <div class="sec">SUAS NOTAS</div>
       <div id="notesList"></div>
       <div class="legend ok">✓ contexto injetado em todas as conversas do Jarvis</div>
@@ -499,25 +531,20 @@ html.hud .m.u .bub{border-radius:10px 10px 3px 10px}
         <div class="pav" id="pAv">J</div>
         <div><b id="pName" style="font-size:18px"></b><div class="pst"><span id="pC"></span><span id="pM"></span><span id="pN"></span></div></div>
       </div>
+      <div class="set-head">
+        <div class="pg">Ajustes</div>
+        <div class="set-sub">Personalize o Jarvis, a aparência, a voz e as integrações.</div>
+        <input id="setSearch" type="search" placeholder="Buscar nas configurações" autocomplete="off">
+      </div>
       <div class="snav" id="snav">
-        <div class="snav-group"><div class="snav-title">Personalização</div>
-          <button type="button" data-c="look"><span class="snav-ico">🎨</span>Aparência</button>
-          <button type="button" data-c="avatar"><span class="snav-ico">🤖</span>Avatar</button>
-        </div>
-        <div class="snav-group"><div class="snav-title">Jarvis</div>
-          <button type="button" data-c="jarvis"><span class="snav-ico">🧠</span>Inteligência</button>
-          <button type="button" data-c="voz"><span class="snav-ico">🎙️</span>Voz</button>
-        </div>
-        <div class="snav-group"><div class="snav-title">Conversa</div>
-          <button type="button" data-c="chat"><span class="snav-ico">💬</span>Chat e avisos</button>
-        </div>
-        <div class="snav-group"><div class="snav-title">Integrações</div>
-          <button type="button" data-c="loja"><span class="snav-ico">👕</span>Loja ZENON</button>
-          <button type="button" data-c="google"><span class="snav-ico">🔗</span>Google</button>
-        </div>
-        <div class="snav-group"><div class="snav-title">Sistema</div>
-          <button type="button" data-c="dados"><span class="snav-ico">🗄️</span>Dados</button>
-        </div>
+        <button type="button" data-c="look">Aparência</button>
+        <button type="button" data-c="avatar">Avatar</button>
+        <button type="button" data-c="jarvis">Inteligência</button>
+        <button type="button" data-c="voz">Voz</button>
+        <button type="button" data-c="chat">Conversa</button>
+        <button type="button" data-c="loja">Loja</button>
+        <button type="button" data-c="google">Google</button>
+        <button type="button" data-c="dados">Dados</button>
       </div>
 
       <!-- Aparência -->
@@ -551,7 +578,7 @@ html.hud .m.u .bub{border-radius:10px 10px 3px 10px}
             <div class="seg" id="avState"><button type="button" data-v="idle">Parado</button><button type="button" data-v="listening">Ouvindo</button><button type="button" data-v="thinking">Pensando</button><button type="button" data-v="speaking">Falando</button></div></div>
         </div></div>
         <div class="grp"><div class="gt">Estilo do Jarvis</div><div class="gl">
-          <div class="li col"><b>Visual</b><div class="seg" id="uAvatar"><button type="button" data-v="face">Rosto</button><button type="button" data-v="orb">Esfera</button><button type="button" data-v="reactor">Reator</button><button type="button" data-v="robo">Robô</button></div>
+          <div class="li col"><b>Visual</b><div class="seg" id="uAvatar"><button type="button" data-v="nucleus">Núcleo Vivo</button><button type="button" data-v="face">Rosto</button><button type="button" data-v="orb">Esfera</button><button type="button" data-v="reactor">Reator</button><button type="button" data-v="robo">Robô</button></div>
             <small>Aparece na tela inicial e na chamada de voz.</small></div>
           <div class="li col"><b>Cor do avatar</b><div class="swa" id="uAvc"></div><small>Automático: o rosto usa as cores originais e os outros seguem a cor de destaque.</small></div>
           <div class="li col"><div class="spread"><b>Brilho</b><span class="val" id="uGlowV"></span></div><input type="range" id="uGlow" min="40" max="160" step="5" data-suf="%"></div>
@@ -594,6 +621,10 @@ html.hud .m.u .bub{border-radius:10px 10px 3px 10px}
             <select id="uModel"><option value="">Automático</option><option value="gemini-3.5-flash">Gemini 3.5 Flash</option><option value="gemini-3-flash-preview">Gemini 3 Flash</option><option value="gemini-3.5-flash-lite">Lite (mais rápido)</option></select></div>
           <label class="li"><span><b>Pesquisar na internet</b><small>Notícias, clima, preços e tudo em tempo real. Grátis até 5.000 pesquisas por mês</small></span><input type="checkbox" id="uWeb"></label>
           <div class="li"><span><b>Testar conexão</b><small id="testOut">Verifica se a chave funciona</small></span><button class="go" id="testAI" type="button">Testar</button></div>
+        </div></div>
+        <div class="grp"><div class="gt">Modo avançado</div><div class="gl">
+          <label class="li"><span><b>Modo FRIDAY</b><small>Respostas táticas, diretas e focadas em execução</small></span><input type="checkbox" id="uFriday"></label>
+          <div class="li col"><label for="uMission"><b>Missão ativa do Jarvis</b></label><input id="uMission" type="text" autocomplete="off" placeholder="Ex.: faturar R$ 10 mil este mês com a ZENON"><small>O Jarvis considerará esta missão em todas as respostas.</small></div>
         </div></div>
         <div class="grp"><div class="gt">Memória</div><div class="gl">
           <label class="li"><span><b>Memória viva</b><small>O Jarvis salva fatos novos no Second Brain sozinho</small></span><input type="checkbox" id="uMem"></label>
@@ -1038,6 +1069,30 @@ function md(t) {
 /* ==========================================================================
    3. SECOND BRAIN (dados)
    ========================================================================== */
+const Neural = {
+  log: [], traits: {}, decisions: [],
+  load() { this.log = LS.json("neural_log", []) || []; this.traits = LS.json("neural_traits", {}) || {}; this.decisions = LS.json("neural_decisions", []) || []; },
+  save() { LS.set("neural_log", JSON.stringify(this.log.slice(-300))); LS.set("neural_traits", JSON.stringify(this.traits)); LS.set("neural_decisions", JSON.stringify(this.decisions.slice(-100))); },
+  add(type, text) { this.log.push({ t: Date.now(), type, text: String(text).slice(0, 400) }); this.save(); renderNeural(); },
+  today() { const d = new Date().setHours(0,0,0,0); return this.log.filter(x => x.t >= d); },
+  learn(text) {
+    const t = String(text).toLowerCase();
+    const map = { criativo:["criar","ideia","campanha","post","reels","design"], estrategico:["meta","venda","lucro","preço","plano","análise"], executor:["fazer","fazer hoje","tarefa","lembrete","organizar"], curioso:["por que","como","explique","o que é"] };
+    Object.keys(map).forEach(k => { if (map[k].some(w => t.includes(w))) this.traits[k] = (this.traits[k] || 0) + 1; });
+    this.save();
+  },
+  decide(topic, choice) { this.decisions.push({ t: Date.now(), topic: String(topic).slice(0,160), choice: String(choice).slice(0,300) }); this.save(); this.add("decision", "Decisão registrada: " + topic); }
+};
+function renderNeural() {
+  const box = $("neuralLog"); if (!box) return;
+  const items = Neural.log.slice(-30).reverse();
+  const icons = { user:"🧑", ai:"🤖", save:"💾", mission:"🎯", system:"⚙️", decision:"🧭" };
+  box.innerHTML = items.length ? items.map(x => { const d = new Date(x.t);
+    return '<div class="nl"><span class="nl-i">' + (icons[x.type] || "•") + '</span><div><b>' + d.toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"}) + '</b> ' + esc(x.text) + '</div></div>'; }).join("")
+    : '<div class="hempty">O Diário Neural registará conversas, decisões, missões e memórias importantes.</div>';
+  const s = $("neuralStats"); if (s) s.textContent = Neural.today().length + " eventos hoje · " + Brain.notes.length + " memórias · " + (LS.get("mission","")||"sem missão ativa");
+}
+
 const Brain = {
   notes: [], rel: [],
   load() {
@@ -1341,6 +1396,14 @@ function buildSystem(o) {
     "Você é " + CONFIG.name + ", o assistente pessoal do usuário (" + ME.name + "). Personalidade: " + ME.persona + '. Trate o usuário por "' + ME.address + '".',
     "Responda sempre em português do Brasil. Responda de forma clara e objetiva, bem organizada em Markdown: títulos curtos (## ) quando houver várias partes, listas e passos numerados, **negrito** só no essencial, TABELAS (| coluna | coluna |) sempre que comparar itens ou mostrar dados como produtos, vendas, preços e horários, e blocos de código para código. Respostas curtas continuam curtas, sem enfeite; use poucos emojis.",
     mode.extra,
+    "MODO JARVIS 2.0: pense como uma extensão da mente do usuário. Para decisões, planos, compras, estratégias ou ideias importantes, use o CONSELHO DO EU FUTURO: analise a decisão sob a perspectiva de 7 dias, 6 meses e 5 anos. Depois dê um veredito claro.",
+    "ADVOCATUS DIABOLI: quando o usuário pedir uma análise honesta, crítica ou 'seja brutal', aponte falhas reais, riscos e alternativas melhores. Não elogie automaticamente; seja respeitoso, direto e útil.",
+    "MEMÓRIA SITUACIONAL: use o Second Brain e o Diário Neural para reconstruir contexto, conectar decisões passadas e explicar por que algo faz sentido. Não invente memórias.",
+    "SINTONIA: adapte o tom ao estado aparente do usuário. Se ele estiver disperso, proponha foco; se estiver criativo, explore possibilidades; se estiver cansado, simplifique.",
+    "SILÊNCIO INTELIGENTE: seja conciso. Não repita informações óbvias nem encha a resposta com avisos desnecessários.",
+    cfg("friday") === "1" ? "MODO FRIDAY ATIVO: seja tático, direto e orientado a execução. Priorize decisões, números, riscos e próximos passos." : "",
+    (LS.get("mission","")||"").trim() ? "MISSÃO ATIVA DO USUÁRIO: " + LS.get("mission","").trim() + ". Conecte as respostas a esta missão sempre que fizer sentido." : "",
+    "PROTOCOLOS: para briefing, análise, missão ou decisão, responda em camadas: conclusão direta; dados essenciais; risco ou oportunidade; próximo passo prático.",
     "Agora é " + new Date().toLocaleString("pt-BR", { dateStyle: "full", timeStyle: "short" }) + ".",
     "SECOND BRAIN DO USUÁRIO (o que você sabe sobre a vida dele; use para personalizar toda resposta):\n" + Brain.asPrompt(),
     live
@@ -1372,8 +1435,8 @@ function googlePrompt() {
    o.audio = a última mensagem do usuário é um áudio (o modelo ouve e responde de uma vez só). */
 async function converse(turns, o) {
   o = o || {};
-  const fast = true; /* respostas e raciocínio mais rápidos */
-  const len = cfg("voice_len"), maxTokens = Call.on ? ({ short: 220, long: 800 }[len] || 420) : 420; /* limite menor = resposta mais rápida */
+  const fast = true;
+  const len = cfg("voice_len"), maxTokens = Call.on ? ({ short: 220, long: 800 }[len] || 420) : 420;
   const temp = Call.on ? Math.min(1.3, cfgNum("ai_temp") + .2) : undefined;     /* na conversa por voz fica um pouco mais criativo */
   const ouvi = /\[\[OUVI:[\s\S]*?\]\]/;
   let raw = await callAI(turns, buildSystem(o), { fast, maxTokens, temp }), rounds = 0;
@@ -1648,24 +1711,19 @@ function pushMsg(role, text, opts) {
   d.className = "m " + (user ? "u" : "a") + (opts.error ? " err" : "");
   let attHtml = "";
   if (a) attHtml = a.kind === "img" && a.thumb ? '<img class="attm" src="' + a.thumb + '" alt="">' : '<div class="attf">' + ico("file") + esc(a.name) + "</div>";
-  const bub = document.createElement("div");
-  bub.className = "bub";
-  d.innerHTML = (user ? "" : '<div class="av"></div>');
-  d.appendChild(bub);
+  const bub = document.createElement("div"); bub.className = "bub";
+  d.innerHTML = (user ? "" : '<div class="av"></div>'); d.appendChild(bub);
   bub.innerHTML = attHtml + (user ? esc(text).replace(/\n/g, "<br>") : md(text));
-
   const addExtras = () => {
     if (!user && !opts.error) {
-      const bar = document.createElement("div");
-      bar.className = "act";
+      const bar = document.createElement("div"); bar.className = "act";
       bar.innerHTML = '<button type="button" title="Copiar">' + ico("copy") + '</button><button type="button" title="Ouvir">' + ico("spk") + "</button>";
       bar.children[0].onclick = async () => { if (await copyText(text)) bar.children[0].innerHTML = ico("ok"); };
       bar.children[1].onclick = () => Speech.speak(text);
       bub.appendChild(bar);
     }
     if (!user && !opts.error && opts.search) {
-      const sr = opts.search, box = document.createElement("div"); box.className = "srcs";
-      let h = "";
+      const sr = opts.search, box = document.createElement("div"); box.className = "srcs"; let h = "";
       if (sr.queries && sr.queries.length) h += '<div class="sq">🔎 Pesquisou: ' + sr.queries.slice(0, 3).map(esc).join(" · ") + "</div>";
       if (sr.sources && sr.sources.length) h += '<div class="sl">' + sr.sources.map(x => '<a href="' + esc(x.u) + '" target="_blank" rel="noopener noreferrer">' + esc(x.t) + "</a>").join("") + "</div>";
       box.innerHTML = h;
@@ -1673,31 +1731,16 @@ function pushMsg(role, text, opts) {
       if (h || sr.html) bub.appendChild(box);
     }
   };
-
-  $("msgs").appendChild(d);
-  $("msgs").classList.remove("hidden");
-  $("hero").classList.add("hidden");
-  $("quick").classList.add("hidden");
-  scrollEnd();
-
+  $("msgs").appendChild(d); $("msgs").classList.remove("hidden"); $("hero").classList.add("hidden"); $("quick").classList.add("hidden"); scrollEnd();
   if (!user && !opts.error && opts.type && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
-    const full = String(text || "");
-    let i = 0;
+    const full = String(text || ""); let i = 0;
     const step = Math.max(2, Math.ceil(full.length / 180));
     const timer = setInterval(() => {
       i = Math.min(full.length, i + step);
-      bub.innerHTML = attHtml + md(full.slice(0, i)) + '<span class="type-cursor"></span>';
-      scrollEnd();
-      if (i >= full.length) {
-        clearInterval(timer);
-        bub.innerHTML = attHtml + md(full);
-        addExtras();
-        scrollEnd();
-      }
+      bub.innerHTML = attHtml + md(full.slice(0, i)) + '<span class="type-cursor"></span>'; scrollEnd();
+      if (i >= full.length) { clearInterval(timer); bub.innerHTML = attHtml + md(full); addExtras(); scrollEnd(); }
     }, 12);
-  } else {
-    addExtras();
-  }
+  } else addExtras();
   return d;
 }
 
@@ -1731,15 +1774,66 @@ function buildTurns(att) {
 }
 
 /* Envia uma mensagem e devolve a resposta (ou null se falhou / ignorou) */
+/* ----- PERGUNTAS DE ESCOLHA (estilo ChatGPT) ----- */
+let activeQuiz = null;
+function renderQuiz(q) {
+  const old = $("quizRow"); if (old) old.remove();
+  if (!q || !q.questions || !q.questions.length) return;
+  activeQuiz = q;
+  const d = document.createElement("div");
+  d.id = "quizRow"; d.className = "m a";
+  d.innerHTML = '<div class="av"></div><div class="bub"><b>Antes de responder, preciso alinhar alguns pontos:</b><div id="quizBody"></div></div>';
+  $("msgs").appendChild(d); scrollEnd();
+  const body = d.querySelector("#quizBody");
+  q.questions.forEach((item, qi) => {
+    const box = document.createElement("div"); box.className = "quiz-q";
+    box.innerHTML = '<div class="quiz-t">' + esc(item.question) + '</div>';
+    const opts = document.createElement("div"); opts.className = "quiz-opts";
+    item.options.forEach(op => {
+      const b = document.createElement("button"); b.type = "button"; b.className = "quiz-opt"; b.textContent = op;
+      b.onclick = () => {
+        [...opts.children].forEach(x => x.classList.remove("on"));
+        b.classList.add("on"); item.answer = op;
+        const done = q.questions.every(x => x.answer);
+        if (done) {
+          const btn = document.createElement("button"); btn.type = "button"; btn.className = "quiz-go";
+          btn.textContent = "Gerar resposta com essas escolhas";
+          btn.onclick = () => {
+            const answers = q.questions.map(x => x.question + ": " + x.answer).join("\n");
+            activeQuiz = null; d.remove();
+            Neural.decide("Preferências para: " + q.original, answers); sendMessage(q.original + "\n\n[PREFERÊNCIAS ESCOLHIDAS]\n" + answers);
+          };
+          body.appendChild(btn); scrollEnd();
+        }
+      };
+      opts.appendChild(b);
+    });
+    box.appendChild(opts); body.appendChild(box);
+  });
+}
+
 async function sendMessage(text) {
   text = (text || "").trim();
   if (!text || App.sending) return null;
+  if (!activeQuiz && /\b(prompt|prompt pronto|crie um prompt|faça um prompt|escreva um texto|crie um texto|faça um texto|crie uma legenda|faça uma legenda|crie um anúncio|faça um anúncio|crie um roteiro|faça um roteiro|crie uma campanha|faça uma campanha|crie um e-mail|faça um e-mail|crie um plano|faça um plano)\b/i.test(text)) {
+    renderQuiz({
+      original: text,
+      questions: [
+        { question: "Qual é o objetivo principal?", options: ["Vender mais", "Educar o público", "Chamar atenção", "Construir autoridade", "Resolver um problema"], answer: "" },
+        { question: "Qual tom você prefere?", options: ["Profissional", "Criativo", "Direto", "Emocional", "Tecnológico", "Divertido"], answer: "" },
+        { question: "Qual tamanho deseja?", options: ["Curto", "Médio", "Longo e detalhado"], answer: "" },
+        { question: "Para qual público?", options: ["Clientes da ZENON", "Público jovem", "Empreendedores", "Público geral", "Eu mesmo"], answer: "" },
+        { question: "Quer exemplos e variações?", options: ["Sim, 3 variações", "Sim, 5 variações", "Não, apenas uma versão final"], answer: "" }
+      ]
+    });
+    return null;
+  }
   const att = App.att; App.att = null; renderAttachment();
   App.sending = true;
   const entry = { role: "user", content: text };
   if (att) entry.att = { name: att.name, kind: att.kind, thumb: att.kind === "img" ? att.thumb : undefined };
   Chats.log.push(entry);
-  pushMsg("user", text, { att: entry.att });
+  pushMsg("user", text, { att: entry.att }); Neural.add("user","Você: "+text); Neural.learn(text);
   Chats.persist(); setThinking(true);
   let reply = null;
   try {
@@ -1749,6 +1843,8 @@ async function sendMessage(text) {
     reply = Brain.applySaves(raw) || "…";
     const found = takeSearch(), saved = found ? { queries: found.queries, sources: found.sources } : undefined;
     Chats.log.push(Object.assign({ role: "assistant", content: reply }, saved ? { search: saved } : {}));
+    Neural.add("ai","Jarvis: "+reply.slice(0,180));
+    if (/\[\[SAVE:/.test(raw)) Neural.add("save","Nova memória registrada no Second Brain.");
     Chats.persist();
     pushMsg("assistant", reply, { search: found || undefined, type: true });
     Notif.fire("Jarvis respondeu", reply);
@@ -3046,7 +3142,57 @@ function drawRobot(o, now, dt) {
   c.restore(); c.globalAlpha = 1;
 }
 
-const AVATARS = { face: drawFace, orb: drawOrb, reactor: drawReactor, robo: drawRobot };
+function drawNucleus(o, now, dt) {
+  const dim = prepCanvas(o); if (!dim) return;
+  const { w, h, dpr } = dim, c = o.ctx, st = o.state, t = now / 1000;
+  c.setTransform(dpr, 0, 0, dpr, 0, 0); c.clearRect(0, 0, w, h);
+  const cx = w / 2, cy = h / 2, s = Math.min(w, h), light = document.documentElement.dataset.theme === "light";
+  const a1 = AV.c1, a2 = AV.c2, E = EMOTIONS[Face.emoName || "neutro"] || EMOTIONS.neutro;
+  let mouth = 0;
+  if (Face.tl) { const p = Face.tl.getP(t); mouth = Math.max(0, Math.min(1, p)); }
+  else if (st === "speaking") mouth = .25 + .25 * Math.abs(Math.sin(t * 7));
+  const open = st === "listening" ? 1.15 : st === "thinking" ? .8 : 1, glow = AV.glow || 1;
+  const halo = c.createRadialGradient(cx, cy, s * .08, cx, cy, s * .48);
+  halo.addColorStop(0, a1 + "55"); halo.addColorStop(.55, a2 + "22"); halo.addColorStop(1, "transparent");
+  c.fillStyle = halo; c.beginPath(); c.arc(cx, cy, s * .48, 0, 6.2832); c.fill();
+  for (let k = 0; k < 3; k++) {
+    c.save(); c.translate(cx, cy); c.rotate((k % 2 ? -1 : 1) * t * (.25 + k * .18));
+    c.strokeStyle = k ? a2 : a1; c.globalAlpha = .35 + .2 * Math.sin(t * 2 + k); c.lineWidth = 2;
+    c.setLineDash([s * .05, s * .07]); c.beginPath(); c.arc(0, 0, s * (.30 + k * .055), 0, 6.2832); c.stroke(); c.restore();
+  }
+  c.setLineDash([]);
+  const grad = c.createLinearGradient(cx - s * .25, cy - s * .3, cx + s * .25, cy + s * .3);
+  grad.addColorStop(0, light ? "#e8edff" : "#101a33"); grad.addColorStop(1, light ? "#c9d6ff" : "#060b1c");
+  c.fillStyle = grad; c.beginPath();
+  c.moveTo(cx - s * .21, cy + s * .10); c.quadraticCurveTo(cx - s * .24, cy - s * .22, cx, cy - s * .27);
+  c.quadraticCurveTo(cx + s * .24, cy - s * .22, cx + s * .21, cy + s * .10);
+  c.quadraticCurveTo(cx + s * .16, cy + s * .26, cx, cy + s * .27);
+  c.quadraticCurveTo(cx - s * .16, cy + s * .26, cx - s * .21, cy + s * .10); c.closePath(); c.fill();
+  c.strokeStyle = a1; c.globalAlpha = .8; c.lineWidth = 2; c.stroke(); c.globalAlpha = 1;
+  c.fillStyle = light ? "rgba(10,20,50,.9)" : "rgba(2,8,24,.92)"; c.beginPath();
+  c.moveTo(cx - s * .17, cy - s * .07); c.quadraticCurveTo(cx, cy - s * .13, cx + s * .17, cy - s * .07);
+  c.quadraticCurveTo(cx + s * .13, cy + s * .05, cx, cy + s * .06);
+  c.quadraticCurveTo(cx - s * .13, cy + s * .05, cx - s * .17, cy - s * .07); c.closePath(); c.fill();
+  const blink = Math.sin(t * .8) > .985 ? .12 : 1, ey = cy - s * .015, ex = s * .075;
+  [-1, 1].forEach(sd => { c.save(); c.shadowColor = a1; c.shadowBlur = 18 * glow; c.fillStyle = "#bff3ff";
+    c.beginPath(); c.ellipse(cx + sd * ex, ey, s * .035, s * .016 * open * blink, sd * .08, 0, 6.2832); c.fill(); c.restore(); });
+  const my = cy + s * .13, mw = s * (.055 + .035 * mouth), mh = s * (.008 + .035 * mouth);
+  c.save(); c.shadowColor = a2; c.shadowBlur = 16 * glow; c.fillStyle = a2;
+  c.beginPath(); c.ellipse(cx, my, mw, Math.max(s * .006, mh), 0, 0, 6.2832); c.fill(); c.restore();
+  c.strokeStyle = a1; c.globalAlpha = .75; c.lineWidth = 2; c.beginPath();
+  c.moveTo(cx - s * .09, my + s * .035 - E.smile * s * .01);
+  c.quadraticCurveTo(cx, my + s * .05 + E.smile * s * .02, cx + s * .09, my + s * .035 - E.smile * s * .01);
+  c.stroke(); c.globalAlpha = 1;
+  const n = st === "thinking" ? 16 : st === "speaking" ? 22 : 8;
+  for (let i = 0; i < n; i++) {
+    const ang = t * (st === "thinking" ? 2.2 : .8) + i * .55, rr = s * (.24 + .05 * Math.sin(t * 3 + i));
+    c.globalAlpha = .25 + .35 * Math.abs(Math.sin(t * 2 + i)); c.fillStyle = i % 2 ? a1 : a2;
+    c.beginPath(); c.arc(cx + Math.cos(ang) * rr, cy + Math.sin(ang) * rr * .8, 1.6 + Math.sin(t * 4 + i) * .8, 0, 6.2832); c.fill();
+  }
+  c.globalAlpha = 1;
+}
+
+const AVATARS = { nucleus: drawNucleus, face: drawFace, orb: drawOrb, reactor: drawReactor, robo: drawRobot };
 const drawAvatar = (o, now, dt) => (AVATARS[avatarMode] || drawFace)(o, now, dt);
 
 /* ==========================================================================
@@ -3102,6 +3248,7 @@ let graphEdges = [], graphPulses = [], editingId = null;
 const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 function renderBrain() {
+  renderNeural();
   const W = 1000, H = 640, cx = 500, cy = 320, rx = 370, ry = 230, notes = Brain.notes, n = notes.length;
   const byId = {}; notes.forEach(x => byId[x.id] = x);
   const rels = Brain.rel.filter(r => byId[r[0]] && byId[r[1]] && r[0] !== r[1]), deg = {};
@@ -3861,7 +4008,7 @@ function bindSettings() {
   /* avatar */
   $("uAvc").innerHTML = '<button type="button" data-v="auto" aria-label="automático" style="background:conic-gradient(#3b82f6,#a855f7,#ec4899,#3b82f6)"></button>' +
     Object.keys(AV_COLORS).map(k => '<button type="button" data-v="' + k + '" aria-label="' + k + '" style="background:linear-gradient(135deg,' + AV_COLORS[k][0] + "," + AV_COLORS[k][1] + ')"></button>').join("");
-  bind.seg("uAvatar", "ui_avatar", "face", applyUI); bind.seg("uAvc", "ui_avc", "auto", applyUI);
+  bind.seg("uAvatar", "ui_avatar", "nucleus", applyUI); bind.seg("uAvc", "ui_avc", "auto", applyUI);
   bind.range("uGlow", "ui_glow", "100", applyUI); bind.seg("uFq", "face_q", "mid", applyUI); bind.range("uMove", "face_move", "100", applyUI);
   bind.toggle("uOrb", "ui_orb", "1", applyUI);
   document.querySelectorAll("#avState button").forEach(b => b.onclick = () => {
@@ -3876,7 +4023,7 @@ function bindSettings() {
   bind.range("uTemp", "ai_temp", "0.8");
   $("uExtra").value = cfg("ai_extra"); $("uExtra").addEventListener("input", e => LS.set("ai_extra", e.target.value));
   bind.text("gemKey", "gemini_key", ""); bind.select("uModel", "ai_model", "");
-  bind.toggle("uMem", "mem_live", "1"); bind.toggle("uWeb", "web_search", "1");
+  bind.toggle("uFriday", "friday", "0", applyUI); bind.text("uMission", "mission", "", applyUI); bind.toggle("uMem", "mem_live", "1"); bind.toggle("uWeb", "web_search", "1");
   $("testAI").onclick = async () => {
     const o = $("testOut"); o.className = ""; o.textContent = "Testando...";
     try { const t = await callAI([{ role: "user", content: "teste" }], "Responda apenas: ok"); o.className = "ok"; o.textContent = "✓ Conectado! Resposta: " + t.slice(0, 40); }
@@ -3987,7 +4134,7 @@ function startAnimationLoop() {
 }
 
 function init() {
-  Brain.load(); Chats.load();
+  Brain.load(); Neural.load(); Chats.load();
   document.querySelectorAll("[data-ico]").forEach(el => { el.innerHTML = ico(el.dataset.ico, el.dataset.sw); });
   $("edA").innerHTML = Object.keys(AREA).map(k => '<option value="' + k + '">' + AREA[k].label + "</option>").join("");
   applyUI(); bindSettings(); bindEvents();
@@ -4184,6 +4331,33 @@ const HudPanel = {
     if (now - this.lastDraw >= 30) { this.lastDraw = now; this.drawCore(now); }
   }
 };
+
+(function(){
+  const P = [
+    ["🎯","Briefing","Faça um briefing executivo do meu dia e da ZENON: prioridades, riscos, oportunidades e próximos passos. Use o Conselho do Eu Futuro."],
+    ["🧭","Decisão difícil","Vou descrever uma decisão. Seja meu Advogado do Diabo, aponte falhas e use o Conselho do Eu Futuro antes de recomendar."],
+    ["📈","Missão ZENON","Crie um plano tático de 7 dias para aumentar as vendas da ZENON, com ações diárias, conteúdo e métricas."],
+    ["📦","Radar de estoque","Analise meu estoque e aponte produtos críticos, oportunidades de reposição e riscos de esgotamento."],
+    ["🧠","Revisão de memória","Revise o que você sabe sobre mim e a ZENON, reconstrua o contexto e aponte lacunas importantes."],
+    ["⚡","Modo FRIDAY","Ative o modo FRIDAY: seja direto, tático e focado em execução."],
+    ["🎨","Campanha","Crie uma campanha completa para um produto da ZENON: ângulo, oferta, legenda, roteiro de Reels e métricas."]
+  ];
+  const box=$("protocols"); if(!box) return;
+  box.innerHTML=P.map((p,i)=>'<button class="proto" type="button" data-i="'+i+'"><span>'+p[0]+'</span>'+p[1]+'</button>').join("");
+  box.querySelectorAll(".proto").forEach(b=>b.onclick=()=>{ const p=P[+b.dataset.i]; Neural.add("mission","Protocolo ativado: "+p[1]); sendMessage(p[2]); });
+})();
+
+(function(){
+  const inp=$("setSearch"); if(!inp) return;
+  inp.addEventListener("input",()=>{
+    const q=inp.value.trim().toLowerCase();
+    document.querySelectorAll("#vSettings .cat:not(.hidden) .li").forEach(li=>li.style.display=(!q||li.textContent.toLowerCase().includes(q))?"":"none");
+    document.querySelectorAll("#vSettings .cat:not(.hidden) .grp").forEach(g=>{
+      const any=[...g.querySelectorAll(".li")].some(li=>li.style.display!=="none");
+      g.style.display=(!q||any)?"":"none";
+    });
+  });
+})();
 
 init();
 </script>
