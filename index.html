@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#04050c">
-<title>Jarvis — GEMINI corrigido</title>
+<title>Jarvis — GEMINI Luz Contínua</title>
 <style>
 /* ============ 1. TOKENS ============ */
 :root{
@@ -417,32 +417,37 @@ html.hud .snav button,html.hud .chip,html.hud .ic{border-color:var(--line)}
 html.hud .snav button.on{box-shadow:0 0 14px rgba(47,212,255,.4)}
 html.hud .m.u .bub{border-radius:10px 10px 3px 10px}
 
-/* GEMINI — revisão identificável e seletor corrigido */
-#uTheme{display:flex!important}#uTheme [data-v=auto]{display:none!important}
-#uTheme:after{content:'GEMINI · revisão 2';display:block;align-self:center;font-size:10px;color:var(--dim);padding:4px}
+/* GEMINI: aurora contínua, iluminação local, avatares originais */
+#uTheme:after{content:'GEMINI · luz contínua';align-self:center;font-size:10px;color:var(--dim);padding:4px}
 #msgs{width:100%;max-width:780px;margin-inline:auto;box-sizing:border-box}
 #msgs .m.a{width:100%;max-width:100%;margin-inline:auto;justify-content:center;gap:0}
 #msgs .m.a>.av{display:none}#msgs .m.a>.bub{width:100%;max-width:100%;box-sizing:border-box;text-align:left}
 #msgs .m.a :is(form,input,select,textarea,[role=radio],[role=checkbox],[role=radiogroup]){display:none!important}
 .jarvis-writing{white-space:pre-wrap;overflow-wrap:anywhere}
-@property --beam-angle{syntax:'<angle>';initial-value:0deg;inherits:false}
-html.gemini{--bg:#000;--acc:#4285F4;--acc2:#9B51E0;--glass:rgba(20,20,30,.48);--glass2:rgba(40,40,60,.45)}
-html.gemini body{background:#000!important}html.gemini #app{background:transparent!important;isolation:isolate;position:relative;z-index:1}
+html.gemini{--bg:#000;--acc:#4285F4;--acc2:#9B51E0;--glass:rgba(14,16,30,.6);--glass2:rgba(30,35,58,.55)}
+html.gemini body{background:#000!important}html.gemini #app{background:transparent!important;position:relative;isolation:isolate;z-index:1}
 #gemini-fx{display:none;position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;background:#000}
-html.gemini #gemini-fx{display:block}html.gemini #call{background:rgba(0,0,0,.25)!important}html.gemini #callBg{opacity:0}
-.gemini-fog{position:absolute;width:85vmax;height:85vmax;left:8%;top:15%;border-radius:43% 57% 63% 37%;filter:blur(65px);opacity:0;will-change:transform,opacity;transition:opacity .6s cubic-bezier(.4,0,.2,1);mix-blend-mode:screen;background:radial-gradient(ellipse,#4285F470 20%,#9B51E060 50%,#2D9CDB30 80%,transparent 100%);animation:gemini-drift 17s ease-in-out infinite alternate}
-.gemini-fog.two{left:-35%;top:-20%;animation-duration:23s;animation-delay:-8s;background:radial-gradient(ellipse,#2D9CDB80 20%,#9B51E070 50%,transparent 80%)}
-html[data-gstate=thinking] .gemini-fog{opacity:.65}html[data-gstate=speaking] .gemini-fog{opacity:.28;animation-duration:27s}
-#gemini-flash{position:absolute;inset:-50%;opacity:0;background:linear-gradient(110deg,transparent 42%,#F2C94C80 50%,transparent 58%);transform:translateX(-70%)}
-#gemini-flash.fire{animation:gemini-flash .8s cubic-bezier(.4,0,.2,1)}
-html.gemini body:after{content:'';position:fixed;inset:0;z-index:10000;pointer-events:none;border:1.5px solid transparent;border-radius:18px;background:conic-gradient(from var(--beam-angle),transparent 0deg,#4285F400 240deg,#4285F4 285deg,#9B51E0 310deg,#2D9CDB 330deg,transparent 355deg) border-box;mask:linear-gradient(#fff 0 0) padding-box,linear-gradient(#fff 0 0);mask-composite:exclude;-webkit-mask:linear-gradient(#fff 0 0) padding-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;animation:gemini-beam 6s linear infinite}
-@keyframes gemini-beam{to{--beam-angle:360deg}}@keyframes gemini-drift{0%{transform:translate3d(-12%,-8%,0) rotate(-20deg) scale(.8)}50%{transform:translate3d(12%,8%,0) rotate(40deg) scale(1.1)}100%{transform:translate3d(-5%,20%,0) rotate(100deg) scale(.95)}}
-@keyframes gemini-flash{0%{opacity:0;transform:translateX(-70%)}30%{opacity:.6}100%{opacity:0;transform:translateX(70%)}}
-@media(prefers-reduced-motion:reduce){.gemini-fog,html.gemini body:after{animation:none!important}}
+html.gemini #gemini-fx{display:block}
+.gemini-fog{position:absolute;width:90vmax;height:90vmax;left:-15%;top:-20%;border-radius:43% 57% 63% 37%;filter:blur(60px);opacity:.42;will-change:transform;mix-blend-mode:screen;background:radial-gradient(ellipse,#4285F480 20%,#9B51E070 50%,#2D9CDB40 80%,transparent 100%);animation:gemini-drift 25s ease-in-out infinite alternate}
+.gemini-fog.two{left:30%;top:25%;opacity:.32;animation-duration:33s;animation-delay:-12s;background:radial-gradient(ellipse,#2D9CDB80 20%,#9B51E070 50%,transparent 80%)}
+@keyframes gemini-drift{0%{transform:translate3d(-10%,-5%,0) rotate(-15deg) scale(.85)}50%{transform:translate3d(8%,6%,0) rotate(35deg) scale(1.05)}100%{transform:translate3d(-4%,15%,0) rotate(75deg) scale(.95)}}
+/* Chaque bulle: halo fixe, respiration lente uniquement sur le dégradé. */
+html.gemini #msgs .m{position:relative;isolation:isolate;padding-block:7px;overflow:visible}
+html.gemini #msgs .bub{position:relative;isolation:isolate;border-radius:19px;padding:14px 16px;border:1px solid transparent;background:linear-gradient(rgba(8,12,25,.9),rgba(8,12,25,.9)) padding-box,linear-gradient(125deg,#4285F480,#9B51E060,#2D9CDB70) border-box;box-shadow:0 0 14px #4285F416,0 0 30px #9B51E00c;transition:box-shadow .45s cubic-bezier(.4,0,.2,1)}
+html.gemini #msgs .bub:before{content:'';position:absolute;inset:-9px;z-index:-1;pointer-events:none;border-radius:25px;filter:blur(18px);opacity:.24;background:linear-gradient(115deg,#4285F4,#9B51E0,#2D9CDB);background-size:200% 200%;animation:gemini-message 13s ease-in-out infinite alternate}
+html.gemini #msgs .m.u .bub{background:linear-gradient(rgba(12,27,56,.94),rgba(15,20,48,.94)) padding-box,linear-gradient(125deg,#2D9CDB90,#4285F480,#9B51E060) border-box;box-shadow:0 0 16px #2D9CDB1c}
+html.gemini #msgs .m.u .bub:before{background:linear-gradient(110deg,#2D9CDB,#4285F4,#9B51E0);animation-delay:-6s;opacity:.2}
+@keyframes gemini-message{from{background-position:0% 30%;opacity:.18}to{background-position:100% 70%;opacity:.3}}
+html.gemini #composer .pill{position:relative;isolation:isolate;overflow:visible;border:1.5px solid transparent;background:linear-gradient(rgba(7,12,25,.96),rgba(7,12,25,.96)) padding-box,linear-gradient(110deg,#4285F4,#9B51E0,#2D9CDB) border-box;box-shadow:0 0 14px #4285F425,0 0 28px #9B51E018;transition:box-shadow .45s cubic-bezier(.4,0,.2,1)}
+html.gemini #composer .pill:before{content:'';position:absolute;inset:-5px;border-radius:inherit;z-index:-1;background:linear-gradient(110deg,#4285F450,#9B51E040,#2D9CDB50);filter:blur(14px);pointer-events:none}
+html.gemini #composer .pill:focus-within{box-shadow:0 0 18px #4285F445,0 0 32px #9B51E030}
+html.gemini #composer textarea{background:transparent}
+@media(prefers-reduced-motion:reduce){.gemini-fog,html.gemini #msgs .bub:before{animation:none!important}}
+html.no-motion .gemini-fog,html.no-motion #msgs .bub:before{animation:none!important}
 </style>
 </head>
 <body>
-<div id="gemini-fx" aria-hidden="true"><div class="gemini-fog"></div><div class="gemini-fog two"></div><div id="gemini-flash"></div></div>
+<div id="gemini-fx" aria-hidden="true"><div class="gemini-fog"></div><div class="gemini-fog two"></div></div>
 
 <div id="splash"><div class="nm">JARVIS</div><div class="ln"></div><div class="sy">SINCRONIZANDO DADOS...</div></div>
 
@@ -1353,7 +1358,7 @@ function buildSystem(o) {
     }[cfg("voice_len")] || "") : "",
     o.audio ? "O usuário falou por ÁUDIO. COMECE a resposta SEMPRE com uma linha [[OUVI:o que ele disse, palavra por palavra]] e, logo depois, responda normalmente (essa linha é só de controle; nunca a explique nem a mencione). Se o áudio não tiver fala compreensível, responda apenas [[OUVI:]]." : ""
   ];
-  parts.push("Não crie enquetes, questionários, formulários ou perguntas de múltipla escolha, inclusive para prompts. Entregue diretamente o resultado. Só pergunte em texto livre quando indispensável. Preserve confirmações de segurança.");
+  parts.push("Não crie enquetes, questionários, formulários ou alternativas para marcar, inclusive para prompts. Entregue diretamente o resultado. Pergunte em texto livre só quando indispensável. Preserve confirmações de segurança.");
   return parts.filter(Boolean).join("\n\n");
 }
 
@@ -1668,6 +1673,30 @@ function pushMsg(role, text, opts) {
   $("quick").classList.add("hidden");
   scrollEnd();
   return d;
+}
+
+
+function animateReply(row,text){
+ if(!row||Call.on||document.hidden||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+ const b=row.querySelector('.bub');if(!b)return;
+ const frag=document.createDocumentFragment();while(b.firstChild)frag.appendChild(b.firstChild);
+ const d=document.createElement('div');d.className='jarvis-writing';const node=document.createTextNode('');d.appendChild(node);b.appendChild(d);
+ const skip=document.createElement('button');skip.type='button';skip.textContent='Mostrar resposta inteira';b.appendChild(skip);let i=0,timer,done=false;const chars=Array.from(text);
+ const visible=()=>{if(document.hidden)finish();};
+ const finish=()=>{if(done)return;done=true;clearTimeout(timer);document.removeEventListener('visibilitychange',visible);b.replaceChildren(frag);};
+ skip.onclick=finish;document.addEventListener('visibilitychange',visible);
+ const tick=()=>{if(!row.isConnected||document.hidden){finish();return;}const m=$('main'),follow=m.scrollHeight-m.scrollTop-m.clientHeight<110;node.appendData(chars.slice(i,i+2).join(''));i+=2;if(follow)m.scrollTop=m.scrollHeight;if(i>=chars.length){finish();if(follow)m.scrollTop=m.scrollHeight;return;}timer=setTimeout(tick,45);};tick();
+}
+function enforceGeminiThemeSelector(){
+ const group=$('uTheme');if(!group)return;
+ const old=group.querySelector('[data-v="auto"]');if(old){old.dataset.v='gemini';old.textContent='GEMINI';}
+ group.querySelectorAll('button').forEach(b=>{b.onclick=()=>{LS.set('ui_theme',b.dataset.v);applyUI();group.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));};});
+ group.querySelectorAll('button').forEach(b=>b.classList.toggle('on',b.dataset.v===LS.get('ui_theme','dark')));
+}
+function removeAnswerForms(){
+ const area=$('msgs');if(!area)return;
+ const clean=()=>area.querySelectorAll('.m.a form,.m.a input,.m.a select,.m.a textarea,.m.a [role="radio"],.m.a [role="checkbox"],.m.a [role="radiogroup"]').forEach(x=>x.remove());
+ clean();new MutationObserver(clean).observe(area,{childList:true,subtree:true});
 }
 
 function renderHistory() {
@@ -3016,46 +3045,7 @@ function drawRobot(o, now, dt) {
 }
 
 const AVATARS = { face: drawFace, orb: drawOrb, reactor: drawReactor, robo: drawRobot };
-
-let geminiLastState='idle',geminiLastTime=0,geminiLevel=0;
-function updateGemini(now){
- const R=document.documentElement;if(!R.classList.contains('gemini'))return;
- const state=Speech.tok?'speaking':App.sending?'thinking':Call.on?Call.state:'idle';
- if(state!==geminiLastState){if((geminiLastState==='thinking'||geminiLastState==='speaking')&&state==='idle'){const f=$('gemini-flash');f.classList.remove('fire');void f.offsetWidth;f.classList.add('fire');}geminiLastState=state;R.dataset.gstate=state;}
- const dt=Math.min(.05,(now-geminiLastTime)/1000||.016);geminiLastTime=now;
- const target=state==='listening'?Math.min(1,Call.lv||0):state==='speaking'?Math.min(1,Face.p.mo||0):0;
- geminiLevel+=(target-geminiLevel)*(1-Math.exp(-dt*9));
-}
-function drawGemini(o,now,dt){
- const cv=o.cv,w=cv.clientWidth,h=cv.clientHeight;if(!w||!h)return;const dpr=Math.min(2,devicePixelRatio||1),W=Math.round(w*dpr),H=Math.round(h*dpr);
- if(cv.width!==W||cv.height!==H){cv.width=W;cv.height=H;}const c=o.ctx;c.setTransform(dpr,0,0,dpr,0,0);c.clearRect(0,0,w,h);
- const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches||document.documentElement.classList.contains('no-motion');
- const t=reduced?0:now/1000,st=geminiLastState,r=Math.min(w,h)*.24,x=w/2,y=h/2,amp=geminiLevel;
- c.save();c.translate(x,y);c.globalCompositeOperation='lighter';
- const glow=c.createRadialGradient(0,0,r*.2,0,0,r*2);glow.addColorStop(0,'#4285F4');glow.addColorStop(.5,'#9B51E080');glow.addColorStop(1,'#2D9CDB00');c.fillStyle=glow;c.globalAlpha=st==='idle'?.1:st==='thinking'?.8:.5;c.fillRect(-w/2,-h/2,w,h);c.globalAlpha=1;
- if(st==='listening')for(let j=0;j<4;j++){const p=(t*.6+j/4)%1,rr=r*(1+p*(.8+amp));c.beginPath();c.arc(0,0,rr,0,Math.PI*2);c.strokeStyle='#2D9CDB';c.globalAlpha=(1-p)*amp*.6;c.lineWidth=1+amp*3;c.shadowColor='#4285F4';c.shadowBlur=20;c.stroke();}c.shadowBlur=0;c.globalAlpha=st==='idle'?.48:.9;
- const g=c.createLinearGradient(-r,-r,r,r);g.addColorStop(.2,'#4285F4');g.addColorStop(.5,'#9B51E0');g.addColorStop(.8,'#2D9CDB');c.fillStyle=g;c.beginPath();
- for(let i=0;i<=96;i++){const a=i/96*Math.PI*2,wobble=.065*Math.sin(a*3+t*1.1)+.045*Math.cos(a*5-t*.8)+(st==='speaking'?amp*.15*Math.sin(a*4+t*5):0),rr=r*(1+wobble);if(!i)c.moveTo(Math.cos(a)*rr,Math.sin(a)*rr);else c.lineTo(Math.cos(a)*rr,Math.sin(a)*rr);}c.closePath();c.fill();
- for(let i=0;i<48;i++){const seed=i*2.39996,speed=st==='thinking'?1.1:.25,p=(t*(st==='speaking'?.2:.025)+i/48)%1,rr=r*(1.22+(st==='speaking'?p*2:p*.5)),a=seed+t*speed*(.4+i%7/9);c.globalAlpha=(st==='idle'?.12:.7)*(st==='speaking'?1-p:1);c.fillStyle=['#4285F4','#9B51E0','#2D9CDB','#F2C94C'][i%4];c.beginPath();c.arc(Math.cos(a)*rr,Math.sin(a)*rr*.9,.7+(i%3)*.4,0,Math.PI*2);c.fill();}c.restore();
-}
-function animateReply(row,text){
- if(!row||Call.on||document.hidden)return;const b=row.querySelector('.bub');if(!b)return;
- const frag=document.createDocumentFragment();while(b.firstChild)frag.appendChild(b.firstChild);
- const d=document.createElement('div');d.className='jarvis-writing';const node=document.createTextNode('');d.appendChild(node);b.appendChild(d);
- const skip=document.createElement('button');skip.type='button';skip.textContent='Mostrar resposta inteira';b.appendChild(skip);let i=0,timer,done=false;const chars=Array.from(text);
- const finish=()=>{if(done)return;done=true;clearTimeout(timer);b.replaceChildren(frag);};skip.onclick=finish;
- const tick=()=>{if(!row.isConnected||document.hidden){finish();return;}const m=$('main'),follow=m.scrollHeight-m.scrollTop-m.clientHeight<110;node.appendData(chars.slice(i,i+2).join(''));i+=2;if(follow)m.scrollTop=m.scrollHeight;if(i>=chars.length){finish();return;}timer=setTimeout(tick,45);};tick();
-}
-function enforceGeminiThemeSelector(){
- const group=$('uTheme');if(!group)return;
- const old=group.querySelector('[data-v="auto"]');
- if(old){old.dataset.v='gemini';old.textContent='GEMINI';}
- if(!group.querySelector('[data-v="gemini"]')){const b=document.createElement('button');b.type='button';b.dataset.v='gemini';b.textContent='GEMINI';group.appendChild(b);}
- group.querySelectorAll('button').forEach(b=>{b.onclick=()=>{LS.set('ui_theme',b.dataset.v);applyUI();group.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));};});
- const current=LS.get('ui_theme','dark');group.querySelectorAll('button').forEach(b=>b.classList.toggle('on',b.dataset.v===current));
-}
-
-const drawAvatar = (o, now, dt) => document.documentElement.classList.contains("gemini") ? drawGemini(o, now, dt) : (AVATARS[avatarMode] || drawFace)(o, now, dt);
+const drawAvatar = (o, now, dt) => (AVATARS[avatarMode] || drawFace)(o, now, dt);
 
 /* ==========================================================================
    10. ESFERA DE PARTÍCULAS (tela inicial e chamada)
@@ -3713,7 +3703,7 @@ function micUI(on) { $("voiceBtn").classList.toggle("live", on); }
 function applyUI() {
   const R = document.documentElement;
   let theme = LS.get("ui_theme", LS.get("jarvis_theme", "dark"));
-  if(theme === "auto") {theme="gemini";LS.set("ui_theme","gemini");}
+  if(theme === "auto"){theme="gemini";LS.set("ui_theme","gemini");}
   const gemini = theme === "gemini"; R.classList.toggle("gemini",gemini); if(gemini)theme="dark";
   const hudSkin = !gemini && cfg("ui_skin") !== "default";
   if (hudSkin) theme = "dark";
@@ -3980,10 +3970,9 @@ function startAnimationLoop() {
   const visible = id => !$(id).classList.contains("hidden");
   (function frame(now) {
     requestAnimationFrame(frame);
-    if(!document.hidden) updateGemini(now);
     if (!$("call").classList.contains("hidden")) { const bar = $("cLevelBar"); if (bar) bar.style.width = Math.round(Math.min(1, Call.lv) * 100) + "%"; $("cLevel").classList.toggle("off", cfg("stt_mode") !== "gemini"); }
     if (document.hidden) { last = now; return; }
-    if (!document.documentElement.classList.contains("gemini") && avatarMode === "face" && now - lastDraw < 30) return;      /* rosto a ~30 quadros por segundo: deixa o celular mais livre */
+    if (avatarMode === "face" && now - lastDraw < 30) return;      /* rosto a ~30 quadros por segundo: deixa o celular mais livre */
     lastDraw = now;
     const still = document.documentElement.classList.contains("no-motion");
     const dt = still ? 0 : Math.min(.05, (now - last) / 1000); last = now;
@@ -4000,7 +3989,7 @@ function init() {
   Brain.load(); Chats.load();
   document.querySelectorAll("[data-ico]").forEach(el => { el.innerHTML = ico(el.dataset.ico, el.dataset.sw); });
   $("edA").innerHTML = Object.keys(AREA).map(k => '<option value="' + k + '">' + AREA[k].label + "</option>").join("");
-  applyUI(); bindSettings(); enforceGeminiThemeSelector(); bindEvents();
+  applyUI(); bindSettings(); enforceGeminiThemeSelector(); removeAnswerForms(); bindEvents();
   renderModes(); renderQuick(); renderSide(); renderHistory(); renderBrain();
   updateHome(); updateStats(); autoGrow(); showView("vChat");
   startAnimationLoop(); Sales.start(); Wake.sync();
