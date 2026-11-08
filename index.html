@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#04050c">
-<title>JARVIS — Second Brain 3D e Gemini Claro</title>
+<title>JARVIS — Respostas Interativas</title>
 <style>
 /* ============ 1. TOKENS ============ */
 :root{
@@ -419,7 +419,7 @@ html.hud .m.u .bub{border-radius:10px 10px 3px 10px}
 
 .hdr{position:relative;min-height:62px;box-sizing:border-box;display:grid!important;grid-template-columns:1fr auto 1fr;align-items:center}
 .hdr #hMenu{justify-self:start}.hdr .ttl{grid-column:2;grid-row:1;text-align:center!important;letter-spacing:.18em!important;margin:0!important;font-size:18px!important}.hdr .ttl:after{content:none!important}.hdr #provChip{grid-column:3;grid-row:1;justify-self:end;min-width:0;padding:7px 9px}
-#uTheme:after{content:'GEMINI · escuro e claro';align-self:center;font-size:10px;color:var(--dim);padding:4px}
+#uTheme:after{content:'GEMINI · respostas interativas';align-self:center;font-size:10px;color:var(--dim);padding:4px}
 #msgs{width:100%;max-width:780px;margin-inline:auto;box-sizing:border-box}#msgs .m{position:relative;isolation:isolate;padding:8px 0}
 #msgs .m.a{width:100%;max-width:100%;margin-inline:auto;justify-content:center;gap:0}#msgs .m.a>.av{display:none}#msgs .m.a>.bub{width:100%;max-width:100%;box-sizing:border-box;text-align:left}
 #msgs .m .bub{border:0!important;outline:0!important;background:transparent!important;box-shadow:none!important;border-radius:0!important;padding:8px 4px!important;color:var(--txt)!important}
@@ -450,35 +450,6 @@ html.gemini #composer .pill:focus-within{box-shadow:0 0 20px #4285F445}html.gemi
 html.motion-paused .gemini-fog,html.motion-paused #jarvis-edge i{animation-play-state:paused!important}
 @media(prefers-reduced-motion:reduce){.gemini-fog,#jarvis-edge i,.view.jarvis-enter{animation:none!important}button,.side{transition:none!important}}
 html.no-motion .gemini-fog,html.no-motion #jarvis-edge i,html.no-motion .view.jarvis-enter{animation:none!important}
-
-/* Holograma maior e contraste adaptado ao tema. */
-#brainHoloStage{margin:12px 0;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#030d1c;color:#d8f8ff}
-#brainHolo{width:100%;height:clamp(290px,49vh,440px);display:block;touch-action:none}
-.bh-tools{display:flex;gap:8px;flex-wrap:wrap;padding:10px}.bh-button{padding:9px 12px;min-height:38px;border:1px solid #78b8e260;border-radius:10px;background:#133452;color:#ecf9ff;font:inherit;font-size:12px;cursor:pointer}.bh-button:focus-visible{outline:2px solid #67e8f9;outline-offset:3px}
-#brainHoloStage>small{display:block;padding:9px 12px;color:#bbd7ec;font-size:11px;line-height:1.5}
-html[data-theme=light] #brainHoloStage{background:#f2f7ff;color:#152b4c;border-color:#3f6f9b70}
-html[data-theme=light] .bh-button{color:#183f78;background:#fff;border-color:#315f9770;box-shadow:0 1px 4px #21487714}
-html[data-theme=light] #brainHoloStage>small{color:#354f70}
-html[data-theme=light] #legend i{border:1px solid #24395770}html[data-theme=light] #graph .ncircle{stroke:#244265;stroke-width:1.4;filter:none}
-/* Gemini claro: fundo, texto, formulários, mensagens e chamada. */
-html.gemini.gemini-light{--bg:#f8fbff;--txt:#16253f;--dim:#3c506e;--glass:rgba(255,255,255,.8);--glass2:rgba(236,242,253,.96);--line:rgba(39,74,134,.32);--sbg:rgba(246,249,255,.97);--cardbg:rgba(255,255,255,.9);--hl:#fff;--ok:#087a52;--bad:#b91c1c;color-scheme:light}
-html.gemini.gemini-light body{background:#f8fbff!important}
-html.gemini.gemini-light #gemini-fx{background:#f8fbff}
-html.gemini.gemini-light .gemini-fog{opacity:.2;background:radial-gradient(ellipse,#4285F445 10%,#9B51E038 35%,#2D9CDB20 58%,transparent 72%)}
-html.gemini.gemini-light .gemini-fog.two{opacity:.18}
-html.gemini.gemini-light #composer .pill{background:linear-gradient(#ffffffed,#ffffffed) padding-box,linear-gradient(110deg,#2459b8,#7137ad,#167ea7) border-box;box-shadow:0 2px 15px #2459b81c}
-html.gemini.gemini-light #composer textarea{color:#16253f;caret-color:#2459b8}
-html.gemini.gemini-light input::placeholder,html.gemini.gemini-light textarea::placeholder{color:#526887;opacity:1}
-html.gemini.gemini-light #msgs .m:before{opacity:.2}
-html.gemini.gemini-light .rr-next .rr-button{color:#2459b8;border-color:#2459b870}
-html.gemini.gemini-light .rr-positive{color:#087a37!important}html.gemini.gemini-light .rr-negative{color:#b42336!important}
-html.gemini.gemini-light .rr-chart{background:#ffffffbd}html.gemini.gemini-light .rr-chart-legend{color:#354f70}
-html.gemini.gemini-light #jarvis-edge i{background:linear-gradient(90deg,transparent,#2459b8,#7137ad,#167ea7,transparent)}
-@media(prefers-reduced-motion:reduce){#brainHoloStage{animation:none!important;transition:none!important}}
-
-
-html.gemini.gemini-light .rr-chart svg text{fill:#354f70}
-html.gemini.gemini-light #msgs .m.a.err .bub{color:#b42336!important}
 </style>
 </head>
 <body>
@@ -561,7 +532,7 @@ html.gemini.gemini-light #msgs .m.a.err .bub{color:#b42336!important}
           <div class="li col"><b>Visual</b><div class="seg" id="uSkin"><button type="button" data-v="hud">HUD Stark</button><button type="button" data-v="default">Padrão</button></div><small>HUD Stark: azul tecnológico com painéis de gráficos, como a central do Jarvis. É sempre escuro.</small></div>
         </div></div>
         <div class="grp"><div class="gt">Tema e cores</div><div class="gl">
-          <div class="li col"><b>Tema</b><div class="seg" id="uTheme"><button type="button" data-v="dark">Escuro</button><button type="button" data-v="light">Claro</button><button type="button" data-v="gemini">GEMINI</button><button type="button" data-v="gemini-light">Gemini claro</button></div></div>
+          <div class="li col"><b>Tema</b><div class="seg" id="uTheme"><button type="button" data-v="dark">Escuro</button><button type="button" data-v="light">Claro</button><button type="button" data-v="gemini">GEMINI</button></div></div>
           <div class="li col"><b>Cor de destaque</b><div class="swa" id="uAcc"></div>
             <div class="rowc"><input type="color" id="uAccC" aria-label="Escolher cor própria"><small>Cor própria: toque no quadrado e escolha qualquer cor</small></div></div>
         </div></div>
@@ -953,7 +924,7 @@ function hueShift(hex, deg) {
 
 const LS = {
   get(k, d) { try { const v = localStorage.getItem(k); return v === null ? d : v; } catch (e) { return d; } },
-  set(k, v) { try { localStorage.setItem(k, v); } catch (e) { if (!this.warned) { this.warned=true;try { toast("Armazenamento do navegador cheio: alterações podem não ser salvas. Apague conversas antigas em Ajustes → Dados."); } catch (_) {} } } },
+  set(k, v) { try { localStorage.setItem(k, v); } catch (e) { if (!this.warned) { this.warned = true; try { toast("⚠️ Armazenamento do navegador cheio: alterações podem não ser salvas. Apague conversas antigas em Ajustes → Dados."); } catch (_) {} } } },
   del(k) { try { localStorage.removeItem(k); } catch (e) {} },
   json(k, d) { try { const v = JSON.parse(localStorage.getItem(k)); return v === null || v === undefined ? d : v; } catch (e) { return d; } }
 };
@@ -1195,12 +1166,12 @@ GOOGLE_ACTIONS.mail_send = async a => {
   return gs(a);
 };
 
-const askGoogle=(msg,fn)=>async a=>confirm(msg(a))?fn(a):"O usuário NÃO autorizou. Nada foi alterado.";
-GOOGLE_ACTIONS.cal_delete=askGoogle(a=>"O Jarvis quer APAGAR um evento da agenda (id "+a.id+").\n\nPermitir?",gs);
-GOOGLE_ACTIONS.sheet_update=askGoogle(a=>"O Jarvis quer ALTERAR a planilha em "+a.range+":\n"+JSON.stringify(a.values).slice(0,300)+"\n\nPermitir?",gs);
-GOOGLE_ACTIONS.sheet_append=askGoogle(a=>"O Jarvis quer ADICIONAR linhas na planilha ("+a.range+"):\n"+JSON.stringify(a.values).slice(0,300)+"\n\nPermitir?",gs);
-const calCreateRaw=GOOGLE_ACTIONS.cal_create;
-GOOGLE_ACTIONS.cal_create=async a=>(a.attendees&&a.attendees.length&&!confirm('O Jarvis quer criar o evento "'+a.title+'" e ENVIAR CONVITES para: '+a.attendees.join(', ')+'.\n\nPermitir?'))?"O usuário NÃO autorizou. Nada foi criado.":calCreateRaw(a);
+const askGoogle = (msg, fn) => async a => confirm(msg(a)) ? fn(a) : "O usuário NÃO autorizou. Nada foi alterado.";
+GOOGLE_ACTIONS.cal_delete = askGoogle(a => "O Jarvis quer APAGAR um evento da agenda (id " + a.id + ").\n\nPermitir?", gs);
+GOOGLE_ACTIONS.sheet_update = askGoogle(a => "O Jarvis quer ALTERAR a planilha em " + a.range + ":\n" + JSON.stringify(a.values).slice(0, 300) + "\n\nPermitir?", gs);
+GOOGLE_ACTIONS.sheet_append = askGoogle(a => "O Jarvis quer ADICIONAR linhas na planilha (" + a.range + "):\n" + JSON.stringify(a.values).slice(0, 300) + "\n\nPermitir?", gs);
+const calCreateRaw = GOOGLE_ACTIONS.cal_create;
+GOOGLE_ACTIONS.cal_create = async a => (a.attendees && a.attendees.length && !confirm('O Jarvis quer criar o evento "' + a.title + '" e ENVIAR CONVITES para: ' + a.attendees.join(", ") + ".\n\nPermitir?")) ? "O usuário NÃO autorizou. Nada foi criado." : calCreateRaw(a);
 
 /* Procura blocos [[G:{json}]] no texto (com chaves balanceadas) */
 function scanActions(text) {
@@ -1908,18 +1879,44 @@ function buildTurns(att) {
 
 /* Envia uma mensagem e devolve a resposta (ou null se falhou / ignorou) */
 async function sendMessage(text, opts) {
-  text=(text||"").trim();if(!text||App.sending)return null;opts=opts||{};
-  const att=App.att;App.att=null;renderAttachment();App.sending=true;
-  const chat=Chats.cur,entry={role:"user",content:text};
-  if(opts.show)entry.show=String(opts.show).slice(0,200);
-  if(att)entry.att={name:att.name,kind:att.kind,thumb:att.kind==="img"?att.thumb:undefined};
-  chat.log.push(entry);pushMsg("user",entry.show||text,{att:entry.att});Chats.persist(chat);setThinking(true);
-  let reply,found;
-  try{lastSearch=null;const raw=await converse(buildTurns(att));reply=Brain.applySaves(raw)||"…";found=takeSearch();}
-  catch(e){setThinking(false);const i=chat.log.indexOf(entry);if(i>=0)chat.log.splice(i,1);Chats.persist(chat);App.lastError=aiErr(e);if(Chats.id===chat.id)pushMsg("assistant",App.lastError,{error:true});App.sending=false;return null;}
-  setThinking(false);const saved=found?{queries:found.queries,sources:found.sources}:undefined;
-  chat.log.push(Object.assign({role:"assistant",content:reply},saved?{search:saved}:{}));Chats.persist(chat);App.sending=false;
-  try{if(Chats.id===chat.id)animateReply(pushMsg("assistant",reply,{search:found||undefined}),reply);Notif.fire("Jarvis respondeu",reply);if(!Call.on&&cfg("speak_replies")==="1")Speech.speak(reply);}catch(e){console.error("pós-resposta:",e);}return reply;
+  text = (text || "").trim();
+  if (!text || App.sending) return null;
+  opts = opts || {};
+  const att = App.att; App.att = null; renderAttachment();
+  App.sending = true;
+  const chat = Chats.cur;
+  const entry = { role: "user", content: text };
+  if (opts.show) entry.show = String(opts.show).slice(0, 200);
+  if (att) entry.att = { name: att.name, kind: att.kind, thumb: att.kind === "img" ? att.thumb : undefined };
+  chat.log.push(entry);
+  pushMsg("user", entry.show || text, { att: entry.att });
+  Chats.persist(chat); setThinking(true);
+  let reply, found;
+  try {
+    lastSearch = null;
+    const raw = await converse(buildTurns(att));
+    reply = Brain.applySaves(raw) || "…";
+    found = takeSearch();
+  } catch (e) {
+    setThinking(false);
+    const i = chat.log.indexOf(entry); if (i >= 0) chat.log.splice(i, 1);
+    Chats.persist(chat);
+    App.lastError = aiErr(e);
+    if (Chats.id === chat.id) pushMsg("assistant", App.lastError, { error: true });
+    App.sending = false;
+    return null;
+  }
+  setThinking(false);
+  const saved = found ? { queries: found.queries, sources: found.sources } : undefined;
+  chat.log.push(Object.assign({ role: "assistant", content: reply }, saved ? { search: saved } : {}));
+  Chats.persist(chat);
+  App.sending = false;
+  try {
+    if (Chats.id === chat.id) animateReply(pushMsg("assistant", reply, { search: found || undefined }), reply);
+    Notif.fire("Jarvis respondeu", reply);
+    if (!Call.on && cfg("speak_replies") === "1") Speech.speak(reply);
+  } catch (e) { console.error("pós-resposta:", e); }
+  return reply;
 }
 
 /* Mensagem por voz: o áudio vai direto para o Gemini, que ouve e responde em um pedido só (sem etapa de transcrição) */
@@ -2373,7 +2370,7 @@ function saleText(rec) {
   return t + ".";
 }
 async function announceSale(rec) {
-  for(let n=0;App.sending&&n<120;n++)await new Promise(r=>setTimeout(r,500));
+  for (let n = 0; App.sending && n < 120; n++) await new Promise(r => setTimeout(r, 500));
   const base = saleText(rec), ask = cfg("b44_ask") !== "0" ? " Quer que eu dê baixa no estoque?" : "";
   const text = base + ask;
   const meta = JSON.stringify(Object.keys(rec).filter(k => !/^(created_by|created_by_id|is_sample|updated_date)$/.test(k) && rec[k] !== null && rec[k] !== "")
@@ -3870,10 +3867,7 @@ function applyUI() {
   const R = document.documentElement;
   let theme = LS.get("ui_theme", LS.get("jarvis_theme", "dark"));
   if(theme === "auto"){theme="gemini";LS.set("ui_theme","gemini");}
-  const geminiLight=theme==='gemini-light';
-  const gemini=theme==='gemini'||geminiLight;
-  R.classList.toggle('gemini',gemini);R.classList.toggle('gemini-light',geminiLight);
-  if(gemini)theme=geminiLight?'light':'dark';
+  const gemini = theme === "gemini"; R.classList.toggle("gemini",gemini); if(gemini)theme="dark";
   const hudSkin = !gemini && cfg("ui_skin") !== "default";
   if (hudSkin) theme = "dark";
   R.dataset.theme = theme; R.classList.toggle("hud", hudSkin);
@@ -3881,7 +3875,6 @@ function applyUI() {
   let acc, acc2;
   if (cfg("ui_acc") === "custom") { acc = /^#[0-9a-f]{6}$/i.test(cfg("ui_accc")) ? cfg("ui_accc") : "#3b82f6"; acc2 = hueShift(acc, 40); }
   else { const pal = PAL[(hudSkin && cfg("ui_acc") === "blue") ? "hud" : cfg("ui_acc")] || PAL.blue; acc = pal[0]; acc2 = pal[1]; }
-  if(geminiLight){acc='#2459b8';acc2='#7137ad';}
   R.style.setProperty("--acc", acc); R.style.setProperty("--acc2", acc2);
   /* cor do avatar: auto segue o destaque */
   const light = theme === "light", avc = cfg("ui_avc");
@@ -4150,14 +4143,14 @@ function startAnimationLoop() {
     if (visible("call")) { drawAvatar(Call.orb, t, dt); CallHud.tick(now); if (!$("call").classList.contains("mini")) CallHud.drawBg(now); }
     else if (visible("vChat") && visible("hero")) drawAvatar(heroOrb, t, dt);
     else if (visible("vSettings") && prevOrb.cv.clientWidth) { previewTick(now); drawAvatar(prevOrb, t, dt); }
-    if (visible("vMemory")) {if(BrainHologram.installed&&BrainHologram.view==='3d')BrainHologram.tick(now);else if(!still&&!reduceMotion)tickPulses();}
+    if (visible("vMemory")) tickPulses();
     if (visible("vHud")) HudPanel.tick(now);
   })(performance.now());
 }
 
 function init() {
-  try{initApp();}catch(e){console.error("Falha ao iniciar:",e);}
-  setTimeout(()=>{$("splash").classList.add("fade");setTimeout(()=>$("splash").classList.add("hidden"),750);},1700);
+  try { initApp(); } catch (e) { console.error("Falha ao iniciar:", e); }
+  setTimeout(() => { $("splash").classList.add("fade"); setTimeout(() => $("splash").classList.add("hidden"), 750); }, 1700);
 }
 function initApp() {
   Brain.load(); Chats.load();
@@ -4357,44 +4350,7 @@ const HudPanel = {
   }
 };
 
-
-/* Somente o holograma foi mantido das novas extensões. */
-const BrainHologram={
- installed:false,view:'3d',yaw:0,pitch:.15,zoom:1,last:0,lastDrag:0,focus:null,pointers:new Map(),projected:[],
- button(text,fn){const b=document.createElement('button');b.type='button';b.className='bh-button';b.textContent=text;b.onclick=fn;return b;},
- quiet(){return matchMedia('(prefers-reduced-motion: reduce)').matches||document.documentElement.classList.contains('no-motion');},
- light(){return document.documentElement.dataset.theme==='light';},
- install(){if(this.installed)return;this.installed=true;this.view=LS.get('brain_view','3d')==='2d'?'2d':'3d';
-  const panel=document.createElement('div');panel.id='brainHoloStage';const bar=document.createElement('div');bar.className='bh-tools';this.toggle=this.button('Vista plana',()=>{this.view=this.view==='3d'?'2d':'3d';LS.set('brain_view',this.view);renderBrain();});bar.append(this.toggle,this.button('Centralizar',()=>this.reset()));
-  this.canvas=document.createElement('canvas');this.canvas.id='brainHolo';this.canvas.tabIndex=0;this.canvas.setAttribute('role','img');this.canvas.setAttribute('aria-label','Second Brain 3D: arraste para girar, use dois dedos para zoom e toque numa nota para editar. Lista acessível abaixo.');
-  const help=document.createElement('small');help.textContent='Arraste para girar · pinça para zoom · toque na nota para editar · toque duplo no fundo para centralizar.';panel.append(bar,this.canvas,help);$('graph').before(panel);this.ctx=this.canvas.getContext('2d');
-  const original=renderBrain;renderBrain=()=>{if(this.view==='2d'){this.canvas.classList.add('hidden');$('graph').classList.remove('hidden');this.toggle.textContent='Holograma 3D';original();}else{this.canvas.classList.remove('hidden');$('graph').classList.add('hidden');this.toggle.textContent='Vista plana';this.rebuild();renderNotes();const areas=[...new Set(Brain.notes.map(n=>n.area))];$('bCount').textContent=Brain.notes.length+' notas · '+areas.length+' áreas';$('legend').innerHTML=areas.map(a=>'<span><i style="background:'+((AREA[a]||AREA.meta).color)+'"></i>'+esc((AREA[a]||AREA.meta).label)+'</span>').join('');this.draw(performance.now());}};
-  const edit=openEditor;openEditor=id=>{if(id){this.focus=id;this.rebuild();this.draw(performance.now());}return edit(id);};this.input();renderBrain();
- },
- rebuild(){const valid=new Set(Brain.notes.map(n=>n.id)),degrees=new Map();this.edges=Brain.rel.filter(r=>Array.isArray(r)&&valid.has(r[0])&&valid.has(r[1])&&r[0]!==r[1]);this.edges.forEach(([a,b])=>{degrees.set(a,(degrees.get(a)||0)+1);degrees.set(b,(degrees.get(b)||0)+1);});const n=Brain.notes.length;this.points=Brain.notes.map((note,i)=>{const y=1-2*(i+.5)/Math.max(1,n),r=Math.sqrt(Math.max(0,1-y*y)),a=i*2.3999632297;return {id:note.id,note,x:r*Math.cos(a),y,z:r*Math.sin(a),degree:degrees.get(note.id)||0,color:(AREA[note.area]||AREA.meta).color};});this.neighbors=new Set(this.edges.filter(r=>r.includes(this.focus)).flat());},
- reset(){this.yaw=0;this.pitch=.15;this.zoom=1;this.focus=null;this.neighbors=new Set();this.draw(performance.now());},
- input(){const cv=this.canvas;
-  cv.addEventListener('pointerdown',e=>{cv.setPointerCapture(e.pointerId);this.pointers.set(e.pointerId,{x:e.clientX,y:e.clientY,sx:e.clientX,sy:e.clientY,time:performance.now(),moved:false});if(this.pointers.size===2){const a=[...this.pointers.values()];this.pinchStart=Math.hypot(a[0].x-a[1].x,a[0].y-a[1].y);this.zoomStart=this.zoom;a.forEach(p=>p.moved=true);}});
-  cv.addEventListener('pointermove',e=>{const p=this.pointers.get(e.pointerId);if(!p)return;const dx=e.clientX-p.x,dy=e.clientY-p.y;p.x=e.clientX;p.y=e.clientY;if(Math.hypot(p.x-p.sx,p.y-p.sy)>6)p.moved=true;if(this.pointers.size===2){const a=[...this.pointers.values()],d=Math.hypot(a[0].x-a[1].x,a[0].y-a[1].y);if(this.pinchStart>5)this.zoom=Math.max(.55,Math.min(1.9,this.zoomStart*d/this.pinchStart));}else{this.yaw+=dx*.008;this.pitch=Math.max(-1.35,Math.min(1.35,this.pitch+dy*.008));}this.lastDrag=performance.now();this.draw(performance.now());});
-  const up=e=>{const p=this.pointers.get(e.pointerId);this.pointers.delete(e.pointerId);this.lastDrag=performance.now();if(!p||e.type==='pointercancel'||p.moved||performance.now()-p.time>450)return;const box=cv.getBoundingClientRect(),x=e.clientX-box.left,y=e.clientY-box.top,hits=this.projected.filter(n=>Math.hypot(x-n.sx,y-n.sy)<Math.max(17,n.radius+7)).sort((a,b)=>b.depth-a.depth);if(hits[0])openEditor(hits[0].id);else{const now=performance.now();if(now-(this.lastBlank||0)<350)this.reset();this.lastBlank=now;}};
-  cv.addEventListener('pointerup',up);cv.addEventListener('pointercancel',up);
-  cv.addEventListener('keydown',e=>{if(!['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','+','-','Home'].includes(e.key))return;e.preventDefault();if(e.key==='Home')this.reset();else if(e.key==='+')this.zoom=Math.min(1.9,this.zoom+.1);else if(e.key==='-')this.zoom=Math.max(.55,this.zoom-.1);else{this.yaw+=e.key==='ArrowLeft'?-.1:e.key==='ArrowRight'?.1:0;this.pitch+=e.key==='ArrowUp'?-.1:e.key==='ArrowDown'?.1:0;}this.draw(performance.now());});
- },
- tick(now){if(!this.installed||this.view!=='3d'||document.hidden||$('vMemory').classList.contains('hidden')||now-this.last<1000/30)return;const dt=Math.min(.08,(now-this.last)/1000||0);this.last=now;if(!this.quiet()&&!this.pointers.size&&now-this.lastDrag>1600)this.yaw+=dt*.09;this.draw(now);},
- draw(now){if(!this.ctx||!this.canvas.clientWidth)return;const cv=this.canvas,w=cv.clientWidth,h=cv.clientHeight,dpr=Math.min(2,devicePixelRatio||1);if(cv.width!==Math.round(w*dpr)||cv.height!==Math.round(h*dpr)){cv.width=Math.round(w*dpr);cv.height=Math.round(h*dpr);}const c=this.ctx,light=this.light(),quiet=this.quiet(),t=quiet?0:now/1000;c.setTransform(dpr,0,0,dpr,0,0);c.clearRect(0,0,w,h);c.fillStyle=light?'#f2f7ff':'#030d1c';c.fillRect(0,0,w,h);
-  const cx=w/2,cy=h/2,R=Math.min(w,h)*.31*this.zoom;c.lineWidth=1;c.strokeStyle=light?'#335f8b20':'#67d6ff1d';for(let x=0;x<w;x+=30){c.beginPath();c.moveTo(x,0);c.lineTo(x,h);c.stroke();}for(let y=0;y<h;y+=30){c.beginPath();c.moveTo(0,y);c.lineTo(w,y);c.stroke();}c.strokeStyle=light?'#35639745':'#67d6ff38';for(const f of [.6,1,1.4]){c.beginPath();c.ellipse(cx,cy,R*f,R*.24*f,0,0,Math.PI*2);c.stroke();}
-  const ay=Math.cos(this.yaw),by=Math.sin(this.yaw),ap=Math.cos(this.pitch),bp=Math.sin(this.pitch);this.projected=(this.points||[]).map(p=>{const x=p.x*ay+p.z*by,z=-p.x*by+p.z*ay,y=p.y*ap-z*bp,depth=p.y*bp+z*ap,scale=3/(3-depth*.65);return {...p,sx:cx+x*R*scale,sy:cy+y*R*scale,depth,radius:Math.max(4.5,(5+Math.min(7,Math.sqrt(p.degree)*1.35))*scale)};});
-  const byId=new Map(this.projected.map(p=>[p.id,p]));c.globalCompositeOperation=light?'source-over':'lighter';
-  (this.edges||[]).forEach(([a,b],i)=>{const A=byId.get(a),B=byId.get(b);if(!A||!B)return;const active=this.focus&&(a===this.focus||b===this.focus);c.strokeStyle=light?(active?'#174ea6d9':'#3c679578'):(active?'#a5f3fcdf':'#67cfff65');c.lineWidth=active?1.8:1;c.beginPath();c.moveTo(A.sx,A.sy);c.lineTo(B.sx,B.sy);c.stroke();if(!quiet&&i%Math.max(1,Math.ceil(this.edges.length/60))===0){const p=(t*.2+i*.137)%1;c.fillStyle=light?'#1958ac':'#d5fbff';c.beginPath();c.arc(A.sx+(B.sx-A.sx)*p,A.sy+(B.sy-A.sy)*p,1.8,0,Math.PI*2);c.fill();}});
-  c.globalCompositeOperation='source-over';const glow=c.createRadialGradient(cx,cy,0,cx,cy,48);glow.addColorStop(0,light?'#3887e34a':'#67e8f980');glow.addColorStop(1,light?'#3887e300':'#4285f400');c.fillStyle=glow;c.fillRect(cx-48,cy-48,96,96);c.font='27px system-ui';c.textAlign='center';c.fillText('🧠',cx,cy+9);
-  this.projected.sort((a,b)=>a.depth-b.depth).forEach(p=>{const faded=this.focus&&!this.neighbors.has(p.id)&&p.id!==this.focus;c.globalAlpha=faded?.64:1;c.fillStyle=p.color;c.globalAlpha*=.14;c.beginPath();c.arc(p.sx,p.sy,p.radius+4,0,Math.PI*2);c.fill();c.globalAlpha=faded?.64:1;c.beginPath();c.arc(p.sx,p.sy,p.radius,0,Math.PI*2);c.fill();c.lineWidth=light?1.6:1.2;c.strokeStyle=light?'#20395d':'#def8ff';c.stroke();if(p.id===this.focus){c.lineWidth=2;c.strokeStyle=light?'#153e86':'#fff';c.beginPath();c.arc(p.sx,p.sy,p.radius+6,0,Math.PI*2);c.stroke();}});c.globalAlpha=1;
-  const focused=byId.get(this.focus);if(focused){c.font='600 12px system-ui';c.textAlign='left';const text=focused.note.title.slice(0,32),width=c.measureText(text).width+14,x=Math.max(6,Math.min(w-width-6,focused.sx+15)),y=Math.max(22,Math.min(h-15,focused.sy-10));c.fillStyle=light?'#ffffffed':'#071b32ed';c.fillRect(x-5,y-16,width,24);c.fillStyle=light?'#152b4c':'#e5f9ff';c.fillText(text,x+2,y);}
- }
-};
-
-if(!RESET_KEYS.includes('brain_view'))RESET_KEYS.push('brain_view');
 init();
-try{BrainHologram.install();}catch(e){console.error('Holograma:',e);try{toast('Não consegui iniciar o holograma. A vista plana continua disponível.');}catch(_){}}
 </script>
 </body>
 </html>
