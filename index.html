@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#04050c">
-<title>JARVIS — Confiabilidade, Second Brain 3D e Gemini Claro</title>
+<title>JARVIS — Second Brain 3D e Gemini Claro</title>
 <style>
 /* ============ 1. TOKENS ============ */
 :root{
@@ -419,7 +419,7 @@ html.hud .m.u .bub{border-radius:10px 10px 3px 10px}
 
 .hdr{position:relative;min-height:62px;box-sizing:border-box;display:grid!important;grid-template-columns:1fr auto 1fr;align-items:center}
 .hdr #hMenu{justify-self:start}.hdr .ttl{grid-column:2;grid-row:1;text-align:center!important;letter-spacing:.18em!important;margin:0!important;font-size:18px!important}.hdr .ttl:after{content:none!important}.hdr #provChip{grid-column:3;grid-row:1;justify-self:end;min-width:0;padding:7px 9px}
-#uTheme:after{content:'GEMINI · confiabilidade';align-self:center;font-size:10px;color:var(--dim);padding:4px}
+#uTheme:after{content:'GEMINI · escuro e claro';align-self:center;font-size:10px;color:var(--dim);padding:4px}
 #msgs{width:100%;max-width:780px;margin-inline:auto;box-sizing:border-box}#msgs .m{position:relative;isolation:isolate;padding:8px 0}
 #msgs .m.a{width:100%;max-width:100%;margin-inline:auto;justify-content:center;gap:0}#msgs .m.a>.av{display:none}#msgs .m.a>.bub{width:100%;max-width:100%;box-sizing:border-box;text-align:left}
 #msgs .m .bub{border:0!important;outline:0!important;background:transparent!important;box-shadow:none!important;border-radius:0!important;padding:8px 4px!important;color:var(--txt)!important}
@@ -451,21 +451,34 @@ html.motion-paused .gemini-fog,html.motion-paused #jarvis-edge i{animation-play-
 @media(prefers-reduced-motion:reduce){.gemini-fog,#jarvis-edge i,.view.jarvis-enter{animation:none!important}button,.side{transition:none!important}}
 html.no-motion .gemini-fog,html.no-motion #jarvis-edge i,html.no-motion .view.jarvis-enter{animation:none!important}
 
-/* Gemini claro e Second Brain de alto contraste. */
+/* Holograma maior e contraste adaptado ao tema. */
+#brainHoloStage{margin:12px 0;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#030d1c;color:#d8f8ff}
+#brainHolo{width:100%;height:clamp(290px,49vh,440px);display:block;touch-action:none}
+.bh-tools{display:flex;gap:8px;flex-wrap:wrap;padding:10px}.bh-button{padding:9px 12px;min-height:38px;border:1px solid #78b8e260;border-radius:10px;background:#133452;color:#ecf9ff;font:inherit;font-size:12px;cursor:pointer}.bh-button:focus-visible{outline:2px solid #67e8f9;outline-offset:3px}
+#brainHoloStage>small{display:block;padding:9px 12px;color:#bbd7ec;font-size:11px;line-height:1.5}
+html[data-theme=light] #brainHoloStage{background:#f2f7ff;color:#152b4c;border-color:#3f6f9b70}
+html[data-theme=light] .bh-button{color:#183f78;background:#fff;border-color:#315f9770;box-shadow:0 1px 4px #21487714}
+html[data-theme=light] #brainHoloStage>small{color:#354f70}
+html[data-theme=light] #legend i{border:1px solid #24395770}html[data-theme=light] #graph .ncircle{stroke:#244265;stroke-width:1.4;filter:none}
+/* Gemini claro: fundo, texto, formulários, mensagens e chamada. */
 html.gemini.gemini-light{--bg:#f8fbff;--txt:#16253f;--dim:#3c506e;--glass:rgba(255,255,255,.8);--glass2:rgba(236,242,253,.96);--line:rgba(39,74,134,.32);--sbg:rgba(246,249,255,.97);--cardbg:rgba(255,255,255,.9);--hl:#fff;--ok:#087a52;--bad:#b91c1c;color-scheme:light}
-html.gemini.gemini-light body{background:#f8fbff!important}html.gemini.gemini-light #gemini-fx{background:#f8fbff}html.gemini.gemini-light .gemini-fog{opacity:.2}html.gemini.gemini-light .gemini-fog.two{opacity:.18}
-html.gemini.gemini-light #composer .pill{background:linear-gradient(#ffffffed,#ffffffed) padding-box,linear-gradient(110deg,#2459b8,#7137ad,#167ea7) border-box;box-shadow:0 2px 15px #2459b81c}html.gemini.gemini-light #composer textarea{color:#16253f;caret-color:#2459b8}
-html.gemini.gemini-light input::placeholder,html.gemini.gemini-light textarea::placeholder{color:#526887;opacity:1}html.gemini.gemini-light #msgs .m:before{opacity:.2}html.gemini.gemini-light .rr-next .rr-button{color:#2459b8;border-color:#2459b870}html.gemini.gemini-light .rr-positive{color:#087a37!important}html.gemini.gemini-light .rr-negative{color:#b42336!important}html.gemini.gemini-light .rr-chart{background:#ffffffbd}html.gemini.gemini-light .rr-chart svg text{fill:#354f70}html.gemini.gemini-light #msgs .m.a.err .bub{color:#b42336!important}
-#brainHoloStage{margin:12px 0;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#030d1c;color:#d8f8ff}#brainHolo{width:100%;height:clamp(290px,49vh,440px);display:block;touch-action:none}#brainHoloStage>small{display:block;padding:9px 12px;color:#bbd7ec;font-size:11px;line-height:1.5}
-html[data-theme=light] #brainHoloStage{background:#f2f7ff;color:#152b4c;border-color:#3f6f9b70}html[data-theme=light] #brainHoloStage>small{color:#354f70}html[data-theme=light] #legend i{border:1px solid #24395770}html[data-theme=light] #graph .ncircle{stroke:#244265;stroke-width:1.4;filter:none}
-.jr-tools{display:flex;gap:8px;flex-wrap:wrap;padding:10px}.jr-button{padding:8px 11px;min-height:36px;border:1px solid var(--line);border-radius:10px;background:var(--glass2);color:var(--txt);font:inherit;font-size:12px;cursor:pointer}.jr-button:disabled{opacity:.5;cursor:wait}.jr-button:focus-visible{outline:2px solid var(--acc);outline-offset:3px}
-#brainHoloStage .jr-button{background:#133452;color:#ecf9ff;border-color:#78b8e260}html[data-theme=light] #brainHoloStage .jr-button{color:#183f78;background:#fff;border-color:#315f9770}
-.jr-live{padding:5px 16px;color:var(--dim);font-size:11px;min-height:25px;flex:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.jr-details{margin:10px 0;border-top:1px solid var(--line);padding-top:5px}.jr-details>summary{cursor:pointer;color:var(--acc);padding:8px 0;font-size:13px}.jr-details p,.jr-help{font-size:12px;color:var(--dim);line-height:1.5;margin:8px 0}.jr-memory-row{display:flex;gap:8px;align-items:center;justify-content:space-between;margin:8px 0;font-size:12px}.jr-memory-row label{display:flex;gap:8px;align-items:center;flex:1}.jr-memory-row input{width:18px;height:18px;accent-color:var(--acc);flex:none}.jr-memory-row .jr-button{min-height:30px;padding:5px 9px}
-.jr-error{margin-top:8px;padding:10px;border-left:3px solid var(--bad);background:color-mix(in srgb,var(--bad) 7%,transparent);border-radius:8px}.jr-error p{font-size:13px}.jr-error small{display:block;font-size:11px;color:var(--dim);margin-top:6px;line-height:1.5}
-.jr-daily{display:grid;gap:10px;margin:12px 0}.jr-card{padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--glass)}.jr-card strong{display:block;font-size:13px;margin-bottom:7px}.jr-card div{font-size:13px;line-height:1.5}.jr-card small,.jr-test small{display:block;margin-top:7px;font-size:10px;color:var(--dim)}.jr-diagnostic{padding:12px}.jr-test{padding:10px 0;border-bottom:1px solid var(--line);font-size:12px;line-height:1.5}.jr-test[data-result=ok]{color:var(--ok)}.jr-test[data-result=bad]{color:var(--bad)}.jr-test[data-result=skip]{color:var(--dim)}
-@media(prefers-reduced-motion:reduce){.jr-details,#brainHoloStage{animation:none!important;transition:none!important}}
+html.gemini.gemini-light body{background:#f8fbff!important}
+html.gemini.gemini-light #gemini-fx{background:#f8fbff}
+html.gemini.gemini-light .gemini-fog{opacity:.2;background:radial-gradient(ellipse,#4285F445 10%,#9B51E038 35%,#2D9CDB20 58%,transparent 72%)}
+html.gemini.gemini-light .gemini-fog.two{opacity:.18}
+html.gemini.gemini-light #composer .pill{background:linear-gradient(#ffffffed,#ffffffed) padding-box,linear-gradient(110deg,#2459b8,#7137ad,#167ea7) border-box;box-shadow:0 2px 15px #2459b81c}
+html.gemini.gemini-light #composer textarea{color:#16253f;caret-color:#2459b8}
+html.gemini.gemini-light input::placeholder,html.gemini.gemini-light textarea::placeholder{color:#526887;opacity:1}
+html.gemini.gemini-light #msgs .m:before{opacity:.2}
+html.gemini.gemini-light .rr-next .rr-button{color:#2459b8;border-color:#2459b870}
+html.gemini.gemini-light .rr-positive{color:#087a37!important}html.gemini.gemini-light .rr-negative{color:#b42336!important}
+html.gemini.gemini-light .rr-chart{background:#ffffffbd}html.gemini.gemini-light .rr-chart-legend{color:#354f70}
+html.gemini.gemini-light #jarvis-edge i{background:linear-gradient(90deg,transparent,#2459b8,#7137ad,#167ea7,transparent)}
+@media(prefers-reduced-motion:reduce){#brainHoloStage{animation:none!important;transition:none!important}}
 
+
+html.gemini.gemini-light .rr-chart svg text{fill:#354f70}
+html.gemini.gemini-light #msgs .m.a.err .bub{color:#b42336!important}
 </style>
 </head>
 <body>
@@ -940,7 +953,7 @@ function hueShift(hex, deg) {
 
 const LS = {
   get(k, d) { try { const v = localStorage.getItem(k); return v === null ? d : v; } catch (e) { return d; } },
-  set(k, v) { try { localStorage.setItem(k, v); } catch (e) { if (!this.warned) { this.warned=true;try { toast("Armazenamento cheio: alterações podem não ser salvas. Libere espaço em Ajustes → Dados."); } catch (_) {} } } },
+  set(k, v) { try { localStorage.setItem(k, v); } catch (e) { if (!this.warned) { this.warned=true;try { toast("Armazenamento do navegador cheio: alterações podem não ser salvas. Apague conversas antigas em Ajustes → Dados."); } catch (_) {} } } },
   del(k) { try { localStorage.removeItem(k); } catch (e) {} },
   json(k, d) { try { const v = JSON.parse(localStorage.getItem(k)); return v === null || v === undefined ? d : v; } catch (e) { return d; } }
 };
@@ -1212,19 +1225,17 @@ function scanActions(text) {
   return { acts, clean: out.trim() };
 }
 
-async function runActions(acts){
- const out=[];
- for(const a of acts){let result,status='Retorno recebido',job=Reliability.active;
-  try{if(!GOOGLE_ACTIONS[a.a])throw new Error('ação desconhecida: '+a.a);
-   if(job){if(Reliability.writeAction(a.a)){job.mayWrite=true;Reliability.phase('Validando alteração solicitada…');}else Reliability.phase(/^b44/.test(a.a)?'Consultando a loja…':/^cal/.test(a.a)?'Consultando a agenda…':/^sheet/.test(a.a)?'Consultando a planilha…':'Consultando e-mails…');}
-   result=await GOOGLE_ACTIONS[a.a](a);
-   if(/não autorizou|não foi autorizado/i.test(String(result)))status='Não autorizado';else if(/^ERRO:/i.test(String(result)))status='Falhou';
-  }catch(e){result='ERRO: '+(e.message||e);status='Falhou';}
-  if(job)job.report.push({action:a.a,label:Reliability.actionLabel(a.a),status,at:Date.now()});
-  out.push('['+a.a+'] '+String(result).slice(0,/^b44/.test(a.a)?12000:5000));
- }
- if(Reliability.active)Reliability.phase('Preparando resposta com os resultados recebidos…');
- return out.join('\n\n');
+async function runActions(acts) {
+  const out = [];
+  for (const a of acts) {
+    let r;
+    try {
+      if (!GOOGLE_ACTIONS[a.a]) throw new Error("ação desconhecida: " + a.a);
+      r = await GOOGLE_ACTIONS[a.a](a);
+    } catch (e) { r = "ERRO: " + (e.message || e); }
+    out.push("[" + a.a + "] " + String(r).slice(0, /^b44/.test(a.a) ? 12000 : 5000));
+  }
+  return out.join("\n\n");
 }
 
 function sendToMake(title, details) {
@@ -1263,7 +1274,6 @@ function normalizeTurns(turns, system) {
 let lastSearch = null;
 const takeSearch = () => { const x = lastSearch; lastSearch = null; return x; };
 function mergeSearch(gm) {
-  if(gm&&gm.webSearchQueries?.length&&Reliability.active)Reliability.phase("Pesquisa concluída; fontes recebidas.");
   if (!gm) return;
   const cur = lastSearch || { queries: [], sources: [], html: "" };
   (gm.webSearchQueries || []).forEach(q => { if (!cur.queries.includes(q)) cur.queries.push(q); });
@@ -1294,7 +1304,6 @@ function rememberThink(model, tv) {
 }
 
 async function callAI(turns, system, opts) {
-  if(Reliability.active)Reliability.phase("Preparando resposta no Gemini…");
   opts = opts || {};
   const key = cfg("gemini_key").trim();
   if (!key) throw Object.assign(new Error("sem chave"), { code: "nokey" });
@@ -1870,7 +1879,7 @@ function setupReplyInterface(){
 
 function renderHistory() {
   $("msgs").innerHTML = "";
-  Chats.log.forEach(m => pushMsg(m.role, m.show || m.content, { att:m.att, search:m.search, reliability:m.reliability, entry:m }));
+  Chats.log.forEach(m => pushMsg(m.role, m.show || m.content, { att: m.att, search: m.search }));
 }
 
 function setThinking(on) {
@@ -1884,7 +1893,7 @@ function setThinking(on) {
 
 /* Monta o histórico enviado ao Gemini (últimas mensagens + anexo atual) */
 function buildTurns(att) {
-  let recent = Chats.log.filter(m=>!m.failed).slice(-CONFIG.historyLimit);
+  let recent = Chats.log.slice(-CONFIG.historyLimit);
   /* o histórico precisa começar com uma fala do usuário; em vez de descartar os avisos do Jarvis (ex.: venda nova), mantém todos */
   if (recent.length && recent[0].role !== "user") recent.unshift({ role: "user", content: "(início da conversa)" });
   return recent.map((m, i) => {
@@ -1897,17 +1906,59 @@ function buildTurns(att) {
   });
 }
 
-/* Envia uma mensagem; recuperação explícita sem descartar o pedido. */
-async function sendMessage(text,opts){
- text=(text||'').trim();if(!text||App.sending)return null;
- if(Reliability.diagnosticBusy||Reliability.manualTestBusy){toast('Aguarde o teste terminar.');return null;}
- try{return await Reliability.perform(Reliability.create(text,opts||{}));}catch(e){App.sending=false;Reliability.active=null;console.error(e);toast('Não consegui preparar o pedido. O texto foi devolvido ao campo de mensagem.');$('txt').value=text;autoGrow();return null;}
+/* Envia uma mensagem e devolve a resposta (ou null se falhou / ignorou) */
+async function sendMessage(text, opts) {
+  text=(text||"").trim();if(!text||App.sending)return null;opts=opts||{};
+  const att=App.att;App.att=null;renderAttachment();App.sending=true;
+  const chat=Chats.cur,entry={role:"user",content:text};
+  if(opts.show)entry.show=String(opts.show).slice(0,200);
+  if(att)entry.att={name:att.name,kind:att.kind,thumb:att.kind==="img"?att.thumb:undefined};
+  chat.log.push(entry);pushMsg("user",entry.show||text,{att:entry.att});Chats.persist(chat);setThinking(true);
+  let reply,found;
+  try{lastSearch=null;const raw=await converse(buildTurns(att));reply=Brain.applySaves(raw)||"…";found=takeSearch();}
+  catch(e){setThinking(false);const i=chat.log.indexOf(entry);if(i>=0)chat.log.splice(i,1);Chats.persist(chat);App.lastError=aiErr(e);if(Chats.id===chat.id)pushMsg("assistant",App.lastError,{error:true});App.sending=false;return null;}
+  setThinking(false);const saved=found?{queries:found.queries,sources:found.sources}:undefined;
+  chat.log.push(Object.assign({role:"assistant",content:reply},saved?{search:saved}:{}));Chats.persist(chat);App.sending=false;
+  try{if(Chats.id===chat.id)animateReply(pushMsg("assistant",reply,{search:found||undefined}),reply);Notif.fire("Jarvis respondeu",reply);if(!Call.on&&cfg("speak_replies")==="1")Speech.speak(reply);}catch(e){console.error("pós-resposta:",e);}return reply;
 }
 
 /* Mensagem por voz: o áudio vai direto para o Gemini, que ouve e responde em um pedido só (sem etapa de transcrição) */
-async function sendVoiceMessage(b64){
- if(App.sending||Reliability.diagnosticBusy||Reliability.manualTestBusy)return null;
- try{return await Reliability.perform(Reliability.create('Mensagem de voz',{},b64));}catch(e){App.sending=false;Reliability.active=null;console.error(e);toast('Não consegui preparar o áudio. Tente gravar novamente.');return null;}
+async function sendVoiceMessage(b64) {
+  if (App.sending) return null;
+  App.sending = true;
+  const entry = { role: "user", content: "🎤 …" };
+  Chats.log.push(entry);
+  const el = pushMsg("user", entry.content);
+  Chats.persist(); setThinking(true);
+  const undo = () => { const i = Chats.log.indexOf(entry); if (i >= 0) Chats.log.splice(i, 1); if (el && el.remove) el.remove(); Chats.persist(); };
+  try {
+    const turns = buildTurns(null);
+    turns[turns.length - 1] = { role: "user", parts: [{ inlineData: { mimeType: "audio/wav", data: b64 } }, { text: "(mensagem por voz: o conteúdo está no áudio)" }] };
+    lastSearch = null;
+    const raw = await converse(turns, { audio: true });
+    setThinking(false);
+    const m = /\[\[OUVI:([\s\S]*?)\]\]/.exec(raw);
+    let heard = m ? m[1].trim() : "";
+    const body = raw.replace(/\[\[OUVI:[\s\S]*?\]\]/g, "").trim();
+    if (m && !heard) { undo(); return null; }                 /* não havia fala compreensível */
+    if (!heard) heard = "🎤 (mensagem de voz)";
+    entry.content = heard;
+    const bub = el && el.querySelector ? el.querySelector(".bub") : null;
+    if (bub) bub.innerHTML = esc(heard).replace(/\n/g, "<br>");
+    const reply = Brain.applySaves(body) || "…";
+    const found = takeSearch(), saved = found ? { queries: found.queries, sources: found.sources } : undefined;
+    Chats.log.push(Object.assign({ role: "assistant", content: reply }, saved ? { search: saved } : {}));
+    Chats.persist();
+    animateReply(pushMsg("assistant", reply, { search: found || undefined }), reply);
+    Notif.fire("Jarvis respondeu", reply);
+    if (CONFIG.makeTrigger.test(heard)) sendToMake("Comando Jarvis", heard);
+    return { text: reply, heard };
+  } catch (e) {
+    setThinking(false); undo();
+    App.lastError = aiErr(e);
+    pushMsg("assistant", App.lastError, { error: true });
+    return null;
+  } finally { App.sending = false; }
 }
 
 /* ---------- campo de texto ---------- */
@@ -1960,7 +2011,7 @@ async function handleFile(f) {
       App.att = { name, kind: "text", text: (await f.text()).slice(0, 60000) };
     } else throw new Error("Tipo de arquivo não suportado. Use foto, PDF ou texto (txt, csv, json, código).");
     renderAttachment();
-  } catch (err) { pushMsg("assistant", (err && err.message) ? String(err.message) : "Não consegui abrir este arquivo. Se for HEIC, tente JPG ou PNG.", { error: true }); }
+  } catch (err) { pushMsg("assistant", (err && err.message) ? String(err.message) : "Não consegui abrir este arquivo (talvez um formato que o navegador não lê, como HEIC). Tente enviar como JPG ou PNG.", { error: true }); }
 }
 
 /* ==========================================================================
@@ -2302,8 +2353,8 @@ const pickField = (rec, words) => {
   for (const k of Object.keys(rec)) if (words.some(w => norm(k).includes(w))) { const v = rec[k]; if (v !== null && v !== "" && typeof v !== "object") return v; }
   return null;
 };
-const numBR=v=>{if(typeof v==="number")return Number.isFinite(v)?v:0;const n=RichReply.number(v);return n===null?0:n;};
-const reais=v=>{const n=typeof v==="number"?v:RichReply.number(v);return n===null||!Number.isFinite(n)?String(v):"R$ "+n.toFixed(2).replace(".",",");};
+const numBR = v => { if (typeof v === "number") return Number.isFinite(v) ? v : 0; const n = RichReply.number(v); return n === null ? 0 : n; };
+const reais = v => { const n = typeof v === "number" ? v : RichReply.number(v); return n === null || !Number.isFinite(n) ? String(v) : "R$ " + n.toFixed(2).replace(".", ","); };
 function saleText(rec) {
   const cliente = pickField(rec, ["cliente", "customer", "buyer", "comprador", "nome_cliente"]);
   const produto = pickField(rec, ["produto", "product", "item", "titulo", "title"]);
@@ -3455,7 +3506,7 @@ const playBlob = (bl, text) => new Promise((res, rej) => {
   player.muted = false; player.volume = 1; player.src = u;
   player.onended = () => { URL.revokeObjectURL(u); Face.endSpeech(); res(); };
   player.onerror = () => { URL.revokeObjectURL(u); Face.endSpeech(); rej(new Error("o navegador não conseguiu tocar o áudio")); };
-  player.play().then(() => Face.speakWith(text || "", () => (isFinite(player.duration) && player.duration > 0 ? Math.min(1, player.currentTime / player.duration) : 0))).catch(e => { URL.revokeObjectURL(u); Face.endSpeech(); rej(e); });
+  player.play().then(() => Face.speakWith(text || "", () => (isFinite(player.duration) && player.duration > 0 ? Math.min(1, player.currentTime / player.duration) : 0))).catch(rej);
 });
 function voiceStatus(msg, ok) {
   const o = $("voiceOut"); o.style.color = ok ? "var(--ok)" : "#ffb4a8"; o.textContent = msg;
@@ -3819,8 +3870,10 @@ function applyUI() {
   const R = document.documentElement;
   let theme = LS.get("ui_theme", LS.get("jarvis_theme", "dark"));
   if(theme === "auto"){theme="gemini";LS.set("ui_theme","gemini");}
-  const geminiLight=theme==='gemini-light',gemini=theme==='gemini'||geminiLight;
-  R.classList.toggle('gemini',gemini);R.classList.toggle('gemini-light',geminiLight);if(gemini)theme=geminiLight?'light':'dark';
+  const geminiLight=theme==='gemini-light';
+  const gemini=theme==='gemini'||geminiLight;
+  R.classList.toggle('gemini',gemini);R.classList.toggle('gemini-light',geminiLight);
+  if(gemini)theme=geminiLight?'light':'dark';
   const hudSkin = !gemini && cfg("ui_skin") !== "default";
   if (hudSkin) theme = "dark";
   R.dataset.theme = theme; R.classList.toggle("hud", hudSkin);
@@ -3829,7 +3882,7 @@ function applyUI() {
   if (cfg("ui_acc") === "custom") { acc = /^#[0-9a-f]{6}$/i.test(cfg("ui_accc")) ? cfg("ui_accc") : "#3b82f6"; acc2 = hueShift(acc, 40); }
   else { const pal = PAL[(hudSkin && cfg("ui_acc") === "blue") ? "hud" : cfg("ui_acc")] || PAL.blue; acc = pal[0]; acc2 = pal[1]; }
   if(geminiLight){acc='#2459b8';acc2='#7137ad';}
-  R.style.setProperty("--acc",acc);R.style.setProperty("--acc2",acc2);
+  R.style.setProperty("--acc", acc); R.style.setProperty("--acc2", acc2);
   /* cor do avatar: auto segue o destaque */
   const light = theme === "light", avc = cfg("ui_avc");
   AV.pair = (light && AV_COLORS_LIGHT[avc]) || AV_COLORS[avc] || null;
@@ -4103,8 +4156,8 @@ function startAnimationLoop() {
 }
 
 function init() {
- try{initApp();}catch(e){console.error("Falha ao iniciar:",e);}
- setTimeout(()=>{$("splash").classList.add("fade");setTimeout(()=>$("splash").classList.add("hidden"),750);},1700);
+  try{initApp();}catch(e){console.error("Falha ao iniciar:",e);}
+  setTimeout(()=>{$("splash").classList.add("fade");setTimeout(()=>$("splash").classList.add("hidden"),750);},1700);
 }
 function initApp() {
   Brain.load(); Chats.load();
@@ -4305,89 +4358,43 @@ const HudPanel = {
 };
 
 
-const BrainHologram={installed:false,view:'3d',yaw:0,pitch:.15,zoom:1,last:0,lastDrag:0,focus:null,pointers:new Map(),projected:[],
- button(t,fn){const b=document.createElement('button');b.type='button';b.className='jr-button';b.textContent=t;b.onclick=fn;return b;},
+/* Somente o holograma foi mantido das novas extensões. */
+const BrainHologram={
+ installed:false,view:'3d',yaw:0,pitch:.15,zoom:1,last:0,lastDrag:0,focus:null,pointers:new Map(),projected:[],
+ button(text,fn){const b=document.createElement('button');b.type='button';b.className='bh-button';b.textContent=text;b.onclick=fn;return b;},
  quiet(){return matchMedia('(prefers-reduced-motion: reduce)').matches||document.documentElement.classList.contains('no-motion');},
- rebuild(){const ids=new Set(Brain.notes.map(n=>n.id)),deg=new Map();this.edges=Brain.rel.filter(r=>Array.isArray(r)&&ids.has(r[0])&&ids.has(r[1])&&r[0]!==r[1]);this.edges.forEach(([a,b])=>{deg.set(a,(deg.get(a)||0)+1);deg.set(b,(deg.get(b)||0)+1);});this.points=Brain.notes.map((note,i)=>{const y=1-2*(i+.5)/Math.max(1,Brain.notes.length),r=Math.sqrt(1-y*y),a=i*2.399963;return {id:note.id,note,x:r*Math.cos(a),y,z:r*Math.sin(a),degree:deg.get(note.id)||0,color:(AREA[note.area]||AREA.meta).color};});this.neighbors=new Set(this.edges.filter(r=>r.includes(this.focus)).flat());},
+ light(){return document.documentElement.dataset.theme==='light';},
+ install(){if(this.installed)return;this.installed=true;this.view=LS.get('brain_view','3d')==='2d'?'2d':'3d';
+  const panel=document.createElement('div');panel.id='brainHoloStage';const bar=document.createElement('div');bar.className='bh-tools';this.toggle=this.button('Vista plana',()=>{this.view=this.view==='3d'?'2d':'3d';LS.set('brain_view',this.view);renderBrain();});bar.append(this.toggle,this.button('Centralizar',()=>this.reset()));
+  this.canvas=document.createElement('canvas');this.canvas.id='brainHolo';this.canvas.tabIndex=0;this.canvas.setAttribute('role','img');this.canvas.setAttribute('aria-label','Second Brain 3D: arraste para girar, use dois dedos para zoom e toque numa nota para editar. Lista acessível abaixo.');
+  const help=document.createElement('small');help.textContent='Arraste para girar · pinça para zoom · toque na nota para editar · toque duplo no fundo para centralizar.';panel.append(bar,this.canvas,help);$('graph').before(panel);this.ctx=this.canvas.getContext('2d');
+  const original=renderBrain;renderBrain=()=>{if(this.view==='2d'){this.canvas.classList.add('hidden');$('graph').classList.remove('hidden');this.toggle.textContent='Holograma 3D';original();}else{this.canvas.classList.remove('hidden');$('graph').classList.add('hidden');this.toggle.textContent='Vista plana';this.rebuild();renderNotes();const areas=[...new Set(Brain.notes.map(n=>n.area))];$('bCount').textContent=Brain.notes.length+' notas · '+areas.length+' áreas';$('legend').innerHTML=areas.map(a=>'<span><i style="background:'+((AREA[a]||AREA.meta).color)+'"></i>'+esc((AREA[a]||AREA.meta).label)+'</span>').join('');this.draw(performance.now());}};
+  const edit=openEditor;openEditor=id=>{if(id){this.focus=id;this.rebuild();this.draw(performance.now());}return edit(id);};this.input();renderBrain();
+ },
+ rebuild(){const valid=new Set(Brain.notes.map(n=>n.id)),degrees=new Map();this.edges=Brain.rel.filter(r=>Array.isArray(r)&&valid.has(r[0])&&valid.has(r[1])&&r[0]!==r[1]);this.edges.forEach(([a,b])=>{degrees.set(a,(degrees.get(a)||0)+1);degrees.set(b,(degrees.get(b)||0)+1);});const n=Brain.notes.length;this.points=Brain.notes.map((note,i)=>{const y=1-2*(i+.5)/Math.max(1,n),r=Math.sqrt(Math.max(0,1-y*y)),a=i*2.3999632297;return {id:note.id,note,x:r*Math.cos(a),y,z:r*Math.sin(a),degree:degrees.get(note.id)||0,color:(AREA[note.area]||AREA.meta).color};});this.neighbors=new Set(this.edges.filter(r=>r.includes(this.focus)).flat());},
  reset(){this.yaw=0;this.pitch=.15;this.zoom=1;this.focus=null;this.neighbors=new Set();this.draw(performance.now());},
- install(){this.installed=true;this.view=LS.get('brain_view','3d')==='2d'?'2d':'3d';const stage=document.createElement('div');stage.id='brainHoloStage';const tools=document.createElement('div');tools.className='jr-tools';this.toggle=this.button('Vista plana',()=>{this.view=this.view==='3d'?'2d':'3d';LS.set('brain_view',this.view);renderBrain();});tools.append(this.toggle,this.button('Centralizar',()=>this.reset()));this.cv=document.createElement('canvas');this.cv.id='brainHolo';this.cv.tabIndex=0;this.cv.setAttribute('role','img');this.cv.setAttribute('aria-label','Second Brain 3D. Arraste para girar, pinça para zoom, toque numa nota para editar. Lista de notas acessível abaixo.');const help=document.createElement('small');help.textContent='Arraste para girar · pinça para zoom · toque na nota para editar · toque duplo no fundo para centralizar.';stage.append(tools,this.cv,help);$('graph').before(stage);this.c=this.cv.getContext('2d');const flat=renderBrain;renderBrain=()=>{this.cv.classList.toggle('hidden',this.view==='2d');$('graph').classList.toggle('hidden',this.view==='3d');this.toggle.textContent=this.view==='2d'?'Holograma 3D':'Vista plana';if(this.view==='2d')flat();else{this.rebuild();renderNotes();const areas=[...new Set(Brain.notes.map(n=>n.area))];$('bCount').textContent=Brain.notes.length+' notas · '+areas.length+' áreas';$('legend').innerHTML=areas.map(a=>'<span><i style="background:'+(AREA[a]||AREA.meta).color+'"></i>'+esc((AREA[a]||AREA.meta).label)+'</span>').join('');this.draw(performance.now());}};const edit=openEditor;openEditor=id=>{if(id){this.focus=id;this.rebuild();this.draw(performance.now());}return edit(id);};this.input();renderBrain();},
- input(){const cv=this.cv;cv.addEventListener('pointerdown',e=>{cv.setPointerCapture(e.pointerId);this.pointers.set(e.pointerId,{x:e.clientX,y:e.clientY,sx:e.clientX,sy:e.clientY,time:performance.now(),moved:false});if(this.pointers.size===2){const a=[...this.pointers.values()];this.pinch=Math.hypot(a[0].x-a[1].x,a[0].y-a[1].y);this.zoom0=this.zoom;a.forEach(p=>p.moved=true);}});cv.addEventListener('pointermove',e=>{const p=this.pointers.get(e.pointerId);if(!p)return;const dx=e.clientX-p.x,dy=e.clientY-p.y;p.x=e.clientX;p.y=e.clientY;if(Math.hypot(p.x-p.sx,p.y-p.sy)>6)p.moved=true;if(this.pointers.size===2){const a=[...this.pointers.values()];if(this.pinch>5)this.zoom=Math.max(.55,Math.min(1.9,this.zoom0*Math.hypot(a[0].x-a[1].x,a[0].y-a[1].y)/this.pinch));}else{this.yaw+=dx*.008;this.pitch=Math.max(-1.35,Math.min(1.35,this.pitch+dy*.008));}this.lastDrag=performance.now();this.draw(performance.now());});const up=e=>{const p=this.pointers.get(e.pointerId);this.pointers.delete(e.pointerId);this.lastDrag=performance.now();if(!p||e.type==='pointercancel'||p.moved||performance.now()-p.time>450)return;const box=cv.getBoundingClientRect(),x=e.clientX-box.left,y=e.clientY-box.top,hits=this.projected.filter(p=>Math.hypot(x-p.sx,y-p.sy)<Math.max(17,p.radius+7)).sort((a,b)=>b.depth-a.depth);if(hits[0])openEditor(hits[0].id);else{const now=performance.now();if(now-(this.blankTap||0)<350)this.reset();this.blankTap=now;}};cv.addEventListener('pointerup',up);cv.addEventListener('pointercancel',up);cv.addEventListener('keydown',e=>{if(!['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','+','-','Home'].includes(e.key))return;e.preventDefault();if(e.key==='Home')this.reset();else if(e.key==='+')this.zoom=Math.min(1.9,this.zoom+.1);else if(e.key==='-')this.zoom=Math.max(.55,this.zoom-.1);else{this.yaw+=e.key==='ArrowLeft'?-.1:e.key==='ArrowRight'?.1:0;this.pitch+=e.key==='ArrowUp'?-.1:e.key==='ArrowDown'?.1:0;}this.draw(performance.now());});},
- tick(now){if(!this.installed||this.view!=='3d'||document.hidden||$('vMemory').classList.contains('hidden')||now-this.last<1000/30)return;const dt=Math.min(.08,(now-this.last)/1000);this.last=now;if(!this.quiet()&&!this.pointers.size&&now-this.lastDrag>1600)this.yaw+=dt*.09;this.draw(now);},
- draw(now){if(!this.c||!this.cv.clientWidth)return;const cv=this.cv,c=this.c,w=cv.clientWidth,h=cv.clientHeight,dpr=Math.min(2,devicePixelRatio||1),light=document.documentElement.dataset.theme==='light';if(cv.width!==Math.round(w*dpr)||cv.height!==Math.round(h*dpr)){cv.width=Math.round(w*dpr);cv.height=Math.round(h*dpr);}c.setTransform(dpr,0,0,dpr,0,0);c.fillStyle=light?'#f2f7ff':'#030d1c';c.fillRect(0,0,w,h);const cx=w/2,cy=h/2,R=Math.min(w,h)*.31*this.zoom;c.strokeStyle=light?'#335f8b20':'#67d6ff1d';c.lineWidth=1;for(let x=0;x<w;x+=30){c.beginPath();c.moveTo(x,0);c.lineTo(x,h);c.stroke();}for(let y=0;y<h;y+=30){c.beginPath();c.moveTo(0,y);c.lineTo(w,y);c.stroke();}for(const f of [.6,1,1.4]){c.beginPath();c.ellipse(cx,cy,R*f,R*.24*f,0,0,Math.PI*2);c.stroke();}const ay=Math.cos(this.yaw),by=Math.sin(this.yaw),ap=Math.cos(this.pitch),bp=Math.sin(this.pitch);this.projected=(this.points||[]).map(p=>{const x=p.x*ay+p.z*by,z=-p.x*by+p.z*ay,y=p.y*ap-z*bp,depth=p.y*bp+z*ap,scale=3/(3-depth*.65);return {...p,sx:cx+x*R*scale,sy:cy+y*R*scale,depth,radius:Math.max(4.5,(5+Math.min(7,Math.sqrt(p.degree)*1.35))*scale)};});const map=new Map(this.projected.map(p=>[p.id,p]));c.globalCompositeOperation=light?'source-over':'lighter';this.edges.forEach(([a,b],i)=>{const A=map.get(a),B=map.get(b);if(!A||!B)return;const selected=this.focus&&(a===this.focus||b===this.focus);c.strokeStyle=light?(selected?'#174ea6d9':'#3c679578'):(selected?'#a5f3fcdf':'#67cfff65');c.lineWidth=selected?1.8:1;c.beginPath();c.moveTo(A.sx,A.sy);c.lineTo(B.sx,B.sy);c.stroke();if(!this.quiet()&&i%Math.max(1,Math.ceil(this.edges.length/60))===0){const p=(now/5000+i*.137)%1;c.fillStyle=light?'#1958ac':'#d5fbff';c.beginPath();c.arc(A.sx+(B.sx-A.sx)*p,A.sy+(B.sy-A.sy)*p,1.8,0,Math.PI*2);c.fill();}});c.globalCompositeOperation='source-over';const glow=c.createRadialGradient(cx,cy,0,cx,cy,48);glow.addColorStop(0,light?'#3887e34a':'#67e8f980');glow.addColorStop(1,'#4285f400');c.fillStyle=glow;c.fillRect(cx-48,cy-48,96,96);c.font='27px system-ui';c.textAlign='center';c.fillText('🧠',cx,cy+9);this.projected.sort((a,b)=>a.depth-b.depth).forEach(p=>{c.globalAlpha=this.focus&&!this.neighbors.has(p.id)&&p.id!==this.focus?.64:1;c.fillStyle=p.color;c.beginPath();c.arc(p.sx,p.sy,p.radius,0,Math.PI*2);c.fill();c.strokeStyle=light?'#20395d':'#def8ff';c.lineWidth=light?1.6:1.2;c.stroke();if(p.id===this.focus){c.strokeStyle=light?'#153e86':'#fff';c.lineWidth=2;c.beginPath();c.arc(p.sx,p.sy,p.radius+6,0,Math.PI*2);c.stroke();}});c.globalAlpha=1;const focus=map.get(this.focus);if(focus){c.font='600 12px system-ui';c.textAlign='left';const text=focus.note.title.slice(0,32),width=c.measureText(text).width+14,x=Math.max(6,Math.min(w-width-6,focus.sx+15)),y=Math.max(22,Math.min(h-15,focus.sy-10));c.fillStyle=light?'#ffffffed':'#071b32ed';c.fillRect(x-5,y-16,width,24);c.fillStyle=light?'#152b4c':'#e5f9ff';c.fillText(text,x+2,y);}}
-};
-
-
-/* Reliability: context transparency, explicit retries and user-triggered checks. */
-const Reliability={
- active:null,jobs:new Map(),diagnosticBusy:false,summaryBusy:false,
- button(t,fn){const b=document.createElement('button');b.type='button';b.className='jr-button';b.textContent=t;b.onclick=fn;return b;},
- phase(text){if(this.status)this.status.textContent=text;},
- off(){const list=LS.json('jarvis_memory_off',[]);return new Set(Array.isArray(list)?list:[]);},
- enabled(){const off=this.off();return Brain.notes.filter(n=>!off.has(n.id));},
- setMemory(id,on){const off=this.off();on?off.delete(id):off.add(id);LS.set('jarvis_memory_off',JSON.stringify([...off]));toast(on?'Nota habilitada para próximos pedidos.':'Nota desativada para próximos pedidos. O histórico não é apagado.');},
- memoryPanel(parent,notes,all=false){
-  const details=document.createElement('details');details.className='jr-details';const sum=document.createElement('summary');sum.textContent=all?'Controlar memória do Jarvis':'Notas incluídas neste pedido ('+notes.length+')';details.appendChild(sum);let built=false;
-  details.addEventListener('toggle',()=>{if(!details.open){if(all){while(details.children.length>1)details.lastElementChild.remove();built=false;}return;}if(built)return;built=true;const help=document.createElement('p');help.className='jr-help';help.textContent='Estas notas entram nas instruções do pedido; isso não prova quais influenciaram a resposta. Desativar vale para próximos pedidos, não apaga o histórico da conversa.';details.appendChild(help);const source=all?Brain.notes:notes;if(!source.length){const empty=document.createElement('p');empty.textContent='Nenhuma nota incluída.';details.appendChild(empty);}
-   for(const note of source){const row=document.createElement('div');row.className='jr-memory-row';const label=document.createElement('label'),toggle=document.createElement('input');toggle.type='checkbox';toggle.checked=!this.off().has(note.id);const live=Brain.byId(note.id);toggle.disabled=!live;toggle.onchange=()=>this.setMemory(note.id,toggle.checked);label.append(toggle,document.createTextNode(note.title+(live?'':' (removida)')));row.appendChild(label);if(live)row.appendChild(this.button('Editar',()=>openEditor(note.id)));details.appendChild(row);}
-  });parent.appendChild(details);return details;
+ input(){const cv=this.canvas;
+  cv.addEventListener('pointerdown',e=>{cv.setPointerCapture(e.pointerId);this.pointers.set(e.pointerId,{x:e.clientX,y:e.clientY,sx:e.clientX,sy:e.clientY,time:performance.now(),moved:false});if(this.pointers.size===2){const a=[...this.pointers.values()];this.pinchStart=Math.hypot(a[0].x-a[1].x,a[0].y-a[1].y);this.zoomStart=this.zoom;a.forEach(p=>p.moved=true);}});
+  cv.addEventListener('pointermove',e=>{const p=this.pointers.get(e.pointerId);if(!p)return;const dx=e.clientX-p.x,dy=e.clientY-p.y;p.x=e.clientX;p.y=e.clientY;if(Math.hypot(p.x-p.sx,p.y-p.sy)>6)p.moved=true;if(this.pointers.size===2){const a=[...this.pointers.values()],d=Math.hypot(a[0].x-a[1].x,a[0].y-a[1].y);if(this.pinchStart>5)this.zoom=Math.max(.55,Math.min(1.9,this.zoomStart*d/this.pinchStart));}else{this.yaw+=dx*.008;this.pitch=Math.max(-1.35,Math.min(1.35,this.pitch+dy*.008));}this.lastDrag=performance.now();this.draw(performance.now());});
+  const up=e=>{const p=this.pointers.get(e.pointerId);this.pointers.delete(e.pointerId);this.lastDrag=performance.now();if(!p||e.type==='pointercancel'||p.moved||performance.now()-p.time>450)return;const box=cv.getBoundingClientRect(),x=e.clientX-box.left,y=e.clientY-box.top,hits=this.projected.filter(n=>Math.hypot(x-n.sx,y-n.sy)<Math.max(17,n.radius+7)).sort((a,b)=>b.depth-a.depth);if(hits[0])openEditor(hits[0].id);else{const now=performance.now();if(now-(this.lastBlank||0)<350)this.reset();this.lastBlank=now;}};
+  cv.addEventListener('pointerup',up);cv.addEventListener('pointercancel',up);
+  cv.addEventListener('keydown',e=>{if(!['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','+','-','Home'].includes(e.key))return;e.preventDefault();if(e.key==='Home')this.reset();else if(e.key==='+')this.zoom=Math.min(1.9,this.zoom+.1);else if(e.key==='-')this.zoom=Math.max(.55,this.zoom-.1);else{this.yaw+=e.key==='ArrowLeft'?-.1:e.key==='ArrowRight'?.1:0;this.pitch+=e.key==='ArrowUp'?-.1:e.key==='ArrowDown'?.1:0;}this.draw(performance.now());});
  },
- decorate(row,meta){if(!meta)return;const b=row.querySelector('.bub');if(!b)return;this.memoryPanel(b,Array.isArray(meta.notes)?meta.notes:[]);if(Array.isArray(meta.actions)&&meta.actions.length){const details=document.createElement('details');details.className='jr-details';const sum=document.createElement('summary');sum.textContent='Resultados das ações ('+meta.actions.length+')';details.appendChild(sum);meta.actions.forEach(a=>{const p=document.createElement('p');p.textContent=a.label+' — '+a.status+' · '+new Date(a.at).toLocaleTimeString('pt-BR');details.appendChild(p);});b.appendChild(details);}},
- failure(row,entry){const b=row.querySelector('.bub');if(!b)return;const box=document.createElement('div');box.className='jr-error';const text=document.createElement('p');text.textContent=entry.errorText||'Não foi possível concluir este pedido.';box.appendChild(text);const job=this.jobs.get(entry.requestId);
-  if(job&&job.turns&&!job.mayWrite){box.appendChild(this.button('Tentar novamente',()=>this.retry(job)));if(job.att||job.audio){const hint=document.createElement('small');hint.textContent='Anexo/áudio preservado apenas nesta sessão. Fechar a página perde essa cópia.';box.appendChild(hint);}}
-  else{const hint=document.createElement('small');hint.textContent=job?.mayWrite?'Uma alteração pode ter sido executada. Confira o resultado antes de repetir; o reenvio automático foi bloqueado.':'O pedido continua no histórico. Se havia anexo, selecione-o novamente para reenviar.';box.appendChild(hint);box.appendChild(this.button('Copiar pedido',async()=>toast(await copyText(entry.content)?'Pedido copiado.':'Não consegui copiar.')));}
-  b.appendChild(box);
- },
- meta(job){return {notes:job.memory.map(n=>({id:n.id,title:n.title})),actions:job.report.slice(0,20)};},
- trimJobs(){const jobs=[...this.jobs.values()].filter(j=>j.entry.failed);const media=jobs.filter(j=>j.att||j.audio);while(media.length>1){const old=media.shift();old.att=null;old.audio=null;old.turns=null;}while(jobs.length>4){const old=jobs.shift();old.att=null;old.audio=null;old.turns=null;this.jobs.delete(old.id);}},
- create(text,opts={},audio=null){const chat=Chats.cur,att=audio?null:App.att;if(!audio){App.att=null;renderAttachment();}const id=uid('req'),entry={role:'user',content:text,requestId:id};if(opts.show)entry.show=String(opts.show).slice(0,200);if(att)entry.att={name:att.name,kind:att.kind,thumb:att.kind==='img'?att.thumb:undefined};chat.log.push(entry);const job={id,chat,entry,text,opts,att,audio,memory:this.enabled().map(n=>({id:n.id,title:n.title,body:n.body,area:n.area})),report:[],mayWrite:false};job.turns=buildTurns(att);if(audio)job.turns[job.turns.length-1]={role:'user',parts:[{inlineData:{mimeType:'audio/wav',data:audio}},{text:'(mensagem por voz: o conteúdo está no áudio)'}]};this.jobs.set(id,job);pushMsg('user',entry.show||text,{att:entry.att,entry});Chats.persist(chat);return job;},
- async retry(job){if(App.sending||this.diagnosticBusy){toast('Aguarde o pedido ou teste atual.');return;}if(job.mayWrite){toast('Confira a alteração anterior antes de repetir.');return;}if(!Chats.list.includes(job.chat)||!job.turns){toast('Pedido indisponível. Reenvie o texto e o anexo.');return;}if(Chats.id!==job.chat.id)switchChat(job.chat.id);job.entry.failed=false;delete job.entry.errorText;renderHistory();return this.perform(job);},
- async perform(job){
-  App.sending=true;this.active=job;App.lastError='';this.phase('Preparando resposta…');setThinking(true);let reply,heard;
-  try{
-   lastSearch=null;const raw=await converse(job.turns,job.audio?{audio:true}:undefined);let body=raw;
-   if(job.audio){const m=/\[\[OUVI:([\s\S]*?)\]\]/.exec(raw);heard=m?m[1].trim():'Mensagem de voz';if(m&&!heard)throw Object.assign(new Error('Não identifiquei fala no áudio.'),{code:'nospeech'});body=raw.replace(/\[\[OUVI:[\s\S]*?\]\]/g,'').trim();job.entry.content=heard;job.entry.show=heard;}
-   reply=Brain.applySaves(body)||'…';const found=takeSearch(),meta=this.meta(job),message={role:'assistant',content:reply,reliability:meta};if(found)message.search={queries:found.queries,sources:found.sources};
-   const index=job.chat.log.indexOf(job.entry);job.chat.log.splice(index>=0?index+1:job.chat.log.length,0,message);job.entry.failed=false;delete job.entry.errorText;Chats.persist(job.chat);setThinking(false);this.phase('Resposta pronta.');
-   try{if(Chats.id===job.chat.id){if(job.chat.log.at(-1)===message){const userRow=Array.from($('msgs').querySelectorAll('.m.u')).find(row=>row.dataset.requestId===job.id);if(job.audio&&userRow)userRow.querySelector('.bub').textContent=heard;userRow?.querySelector('.jr-error')?.remove();const row=pushMsg('assistant',reply,{search:found||undefined,reliability:meta});animateReply(row,reply);}else renderHistory();}}catch(e){console.error('Exibição da resposta:',e);toast('A resposta foi recebida. Reabra a conversa para atualizar a tela.');}
-   try{Notif.fire('Jarvis respondeu',RichReply.split(reply).text);if(!Call.on&&cfg('speak_replies')==='1'&&!job.audio)Speech.speak(reply);}catch(e){console.error('Aviso:',e);}
-   this.jobs.delete(job.id);job.att=null;job.audio=null;job.turns=null;return heard?{text:reply,heard}:reply;
-  }catch(e){setThinking(false);const error=e.code==='nospeech'?e.message:aiErr(e);job.entry.failed=true;job.entry.errorText=error;App.lastError=error;Chats.persist(job.chat);this.trimJobs();this.phase('Não concluído — pedido preservado.');if(Chats.id===job.chat.id)renderHistory();return null;}
-  finally{App.sending=false;if(this.active===job)this.active=null;}
- },
- install(){
-  const bar=document.createElement('div');bar.className='jr-live';bar.setAttribute('role','status');bar.setAttribute('aria-live','polite');bar.textContent='Pronto para conversar.';$('main').before(bar);this.status=bar;
-  const originalPrompt=Brain.asPrompt;Brain.asPrompt=function(){const notes=Reliability.active?Reliability.active.memory:Reliability.enabled();const grouped={};notes.forEach(n=>(grouped[n.area]=grouped[n.area]||[]).push(n));return Object.keys(AREA).filter(k=>grouped[k]).map(k=>'['+AREA[k].label.toUpperCase()+']\n'+grouped[k].map(n=>'- '+n.title+': '+n.body).join('\n')).join('\n\n')||'(nenhuma nota habilitada)';};
-  const pushOriginal=pushMsg;pushMsg=function(role,text,opts){opts=opts||{};const row=pushOriginal(role,text,opts);if(role==='assistant'&&!opts.error)Reliability.decorate(row,opts.reliability);if(role==='user'&&opts.entry){if(opts.entry.requestId)row.dataset.requestId=opts.entry.requestId;if(opts.entry.failed)Reliability.failure(row,opts.entry);}return row;};
-  const memory=document.createElement('div');memory.id='jrMemoryControls';$('notesList').before(memory);this.memoryPanel(memory,[],true);
-  const rawConfirm=window.confirm.bind(window);window.confirm=function(message){const track=Reliability.active&&/Jarvis quer|Permitir\?|Enviar agora/i.test(String(message));if(track)Reliability.phase('Aguardando sua confirmação…');const allowed=rawConfirm(message);if(track)Reliability.phase(allowed?'Solicitação autorizada; aguardando retorno…':'Ação não autorizada.');return allowed;};
-  for(const id of ['testAI','gBtn','b44Go','gemTest','voiceTest']){const button=$(id),handler=button?.onclick;if(!handler)continue;button.onclick=async function(event){if(App.sending||Reliability.diagnosticBusy||Reliability.manualTestBusy){toast('Aguarde a tarefa atual.');return;}Reliability.manualTestBusy=true;try{return await handler.call(this,event);}finally{Reliability.manualTestBusy=false;}};}
-  this.summaryUI();this.diagnosticUI();renderHistory();
- },
- writeAction(name){return /^(cal_create|cal_delete|sheet_update|sheet_append|mail_send|mail_draft|b44_adjust|b44_update|b44_create)$/.test(name);},
- actionLabel(name){return /^b44/.test(name)?'Loja · '+name:/^cal/.test(name)?'Agenda · '+name:/^sheet/.test(name)?'Planilha · '+name:/^mail/.test(name)?'E-mail · '+name:name;},
- summaryUI(){const details=document.createElement('details');details.id='jrDaily';details.className='jr-details';const title=document.createElement('summary');title.textContent='ZENON · Resumo do dia';const box=document.createElement('div');box.className='jr-daily';this.dailyBox=box;const help=document.createElement('p');help.className='jr-help';help.textContent='Consultas somente ao tocar. Mostra o horário de cada resultado; não altera estoque, preços ou agenda.';this.dailyButton=this.button('Atualizar resumo',()=>this.refreshSummary());details.append(title,help,this.dailyButton,box);$('vHud').prepend(details);},
- summaryItem(title,state){const card=document.createElement('div');card.className='jr-card';const heading=document.createElement('strong');heading.textContent=title;const body=document.createElement('div');body.style.whiteSpace='pre-wrap';body.textContent=state.text;const stamp=document.createElement('small');stamp.textContent=state.at?'Consulta: '+new Date(state.at).toLocaleString('pt-BR'):'Não consultado';card.append(heading,body,stamp);return card;},
- async refreshSummary(){if(this.summaryBusy||App.sending||this.diagnosticBusy){toast('Aguarde a tarefa atual.');return;}this.summaryBusy=true;this.dailyButton.disabled=true;this.dailyBox.textContent='Consultando…';const data={};
-  const read=async(name,fn)=>{try{data[name]={...(await fn()),at:Date.now()};}catch(e){data[name]={ok:false,text:'Consulta falhou: '+(e.message||'erro de conexão'),at:Date.now()};}};
-  try{
-   await read('sales',async()=>{if(!b44On())return {ok:false,text:'Loja não configurada.'};const sc=LS.json('b44_sales',null);if(!sc)return {ok:false,text:'Escolha a tabela de vendas em Ajustes → Loja.'};const app=b44App(sc.app),ent=b44Entity(app,sc.entity);const names=(((LS.json('b44_schema',{})[app.name]||{}).entities||{})[ent]||[]).map(f=>f.split(':')[0]);const sum=names.find(f=>/^(total|valor_total|total_amount|grand_total|total_price|amount)$/i.test(f));const d=new Date();d.setHours(0,0,0,0);const r=await b44Stats(app,ent,{q:{created_date:{$gte:d.toISOString()}},sum});return {ok:true,count:r.registros,text:app.name+' · '+ent+'\nRegistros de vendas hoje: '+r.registros+(sum&&r.soma!==undefined?'\nSoma de '+sum+': '+reais(r.soma):'\nTotal em reais não calculado: campo de total não identificado.')+(r.aviso?'\n'+r.aviso:'')};});
-   await read('stock',async()=>{if(!b44On())return {ok:false,text:'Loja não configurada.'};const schema=LS.json('b44_schema',{});let selected;for(const app of b44Apps()){for(const [ent,fields]of Object.entries(schema[app.name]?.entities||{})){const names=fields.map(f=>f.split(':')[0]),stock=names.find(f=>/^(stock|estoque|stock_quantity|quantidade_estoque|inventory|quantity|qtd_estoque)$/i.test(f));if(stock&&/produt|product|estoque|inventory/i.test(ent)){selected={app,ent,stock,names};break;}}if(selected)break;}if(!selected)return {ok:false,text:'Não identifiquei uma tabela de produtos com campo de estoque. Detecte o esquema em Ajustes → Loja.'};const {app,ent,stock,names}=selected,threshold=cfgNum('hud_low'),limit=Number.isFinite(threshold)?threshold:5;const r=await b44List(app,ent,{q:{[stock]:{$lt:limit}},limit:20});const items=Array.isArray(r.items)?r.items:[];return {ok:true,count:items.length,text:app.name+' · '+ent+'\nEstoque abaixo de '+limit+':\n'+(items.length?items.map(item=>(item.name||item.nome||item.title||item.produto||item.id)+' — '+String(item[stock])).join('\n'):'Nenhum item retornado.')+(r.has_more?'\nHá mais resultados; exibindo até 20.':'')};});
-   await read('agenda',async()=>{if(!gOn())return {ok:false,text:'Google não conectado.'};const start=new Date();start.setHours(0,0,0,0);const end=new Date(start);end.setDate(end.getDate()+1);const result=await gs({a:'cal_list',from:start.toISOString(),to:end.toISOString()});return {ok:true,text:String(result).slice(0,2500)};});
-   this.dailyBox.replaceChildren(this.summaryItem('Vendas',data.sales),this.summaryItem('Estoque baixo',data.stock),this.summaryItem('Agenda de hoje',data.agenda));
-   const priorities=[];if(data.stock.ok&&data.stock.count>0)priorities.push('Revisar os itens de estoque baixo listados.');if(data.agenda.ok&&!/nenhum|sem eventos|sem compromissos|vazi[oa]|não há/i.test(data.agenda.text))priorities.push('Conferir os compromissos retornados pela agenda.');if(data.sales.ok&&data.sales.count===0)priorities.push('Planejar uma ação de divulgação da ZENON; isso é uma sugestão, não uma publicação automática.');for(const item of ['Verificar pedidos e pendências da ZENON.','Preparar uma ideia de promoção sem alterar preços.','Separar um horário para organizar a operação.'])if(priorities.length<3)priorities.push(item);this.dailyBox.appendChild(this.summaryItem('Três prioridades sugeridas (regras locais)',{text:priorities.slice(0,3).map((p,i)=>(i+1)+'. '+p).join('\n'),at:Date.now()}));
-  }finally{this.summaryBusy=false;this.dailyButton.disabled=false;}
- },
- diagnosticUI(){const group=document.createElement('div');group.className='grp';const title=document.createElement('div');title.className='gt';title.textContent='Teste geral do Jarvis';const box=document.createElement('div');box.className='gl jr-diagnostic';const help=document.createElement('p');help.className='jr-help';help.textContent='Teste manual: armazenamento, Gemini, geração de voz, Google e loja. Pode usar sua cota de APIs. Não altera dados externos.';this.diagButton=this.button('Executar teste geral',()=>this.diagnose());this.diagBox=document.createElement('div');box.append(help,this.diagButton,this.diagBox);group.append(title,box);document.querySelector('#vSettings .cat[data-c="dados"]').prepend(group);},
- async diagnose(){if(this.diagnosticBusy||this.manualTestBusy||App.sending||Call.on||this.summaryBusy){toast('Encerre a chamada e aguarde a tarefa atual.');return;}if(!confirm('Executar consultas de teste no Gemini, voz, Google e loja? Elas podem consumir cotas. Nenhum dado externo será alterado.'))return;this.diagnosticBusy=true;this.diagButton.disabled=true;this.diagBox.replaceChildren();
-  const tests=[['Armazenamento',async()=>{const k='jarvis_storage_probe',old=LS.get(k,null),value=String(Date.now());try{LS.set(k,value);if(LS.get(k,null)!==value)throw new Error('Armazenamento indisponível ou cheio. Libere espaço em Ajustes → Dados.');return 'Gravação e leitura verificadas.';}finally{old===null?LS.del(k):LS.set(k,old);}}],['Gemini',async()=>{const key=cfg('gemini_key').trim();if(!key)return {skip:true,text:'Sem chave. Configure Ajustes → Jarvis.'};const model=modelOrder(true)[0];const response=await fetchT('https://generativelanguage.googleapis.com/v1beta/models/'+encodeURIComponent(model)+':generateContent',{method:'POST',headers:{'Content-Type':'application/json','x-goog-api-key':key},body:JSON.stringify({contents:[{role:'user',parts:[{text:'Teste de conexão. Responda somente: ok'}]}]})},20000);const body=await response.json();if(!response.ok)throw new Error('HTTP '+response.status+'. Confira chave, modelo e limites.');if(!body.candidates?.[0]?.content?.parts?.some(p=>p.text&&!p.thought))throw new Error('O servidor respondeu sem texto. Confira modelo e limites.');return 'Resposta recebida de '+model+'.';}],['Voz',async()=>{if(!cfg('gemini_key').trim())return {skip:true,text:'Sem chave do Gemini.'};const result=await geminiSpeak('Teste de voz do Jarvis.');if(!result.bl?.size)throw new Error('Áudio vazio. Confira chave e limite de voz.');this.testVoiceBlob=result.bl;return {text:'Áudio gerado. Toque em Ouvir teste para verificar a reprodução.',audio:true};}],['Google',async()=>{if(!cfg('g_url').trim()||!cfg('g_pass').trim())return {skip:true,text:'Sem link/senha. Configure Ajustes → Google.'};await testGoogle();if(cfg('g_ok')!=='1')throw new Error($('gStat').textContent||'O script não confirmou a conexão.');return 'Conexão confirmada: '+$('gStat').textContent.slice(0,160);}],['Loja Base44',async()=>{if(!b44On())return {skip:true,text:'Sem token/apps. Configure Ajustes → Loja.'};const apps=b44Apps();for(const app of apps)await b44Request(app.id,'GET','/entity-schemas');return 'Leitura do esquema autorizada em '+apps.map(a=>a.name).join(', ')+'.';}]];
-  try{for(const [name,fn]of tests){const row=document.createElement('div');row.className='jr-test';row.textContent=name+': testando…';this.diagBox.appendChild(row);try{const out=await fn(),result=typeof out==='string'?{text:out}:out;row.dataset.result=result.skip?'skip':'ok';row.textContent=name+': '+result.text;if(result.audio)row.appendChild(this.button('Ouvir teste',async()=>{if(App.sending||Call.on){toast('Aguarde a conversa para ouvir o teste.');return;}try{await playBlob(this.testVoiceBlob,'Teste de voz do Jarvis.');toast('Reprodução concluída.');}catch(e){toast('O navegador bloqueou a reprodução ou houve falha no áudio.');}}));}catch(e){row.dataset.result='bad';row.textContent=name+': falhou — '+(e.message||'erro de conexão');}const stamp=document.createElement('small');stamp.textContent='Verificado: '+new Date().toLocaleString('pt-BR');row.appendChild(stamp);}}finally{this.diagnosticBusy=false;this.diagButton.disabled=false;}
+ tick(now){if(!this.installed||this.view!=='3d'||document.hidden||$('vMemory').classList.contains('hidden')||now-this.last<1000/30)return;const dt=Math.min(.08,(now-this.last)/1000||0);this.last=now;if(!this.quiet()&&!this.pointers.size&&now-this.lastDrag>1600)this.yaw+=dt*.09;this.draw(now);},
+ draw(now){if(!this.ctx||!this.canvas.clientWidth)return;const cv=this.canvas,w=cv.clientWidth,h=cv.clientHeight,dpr=Math.min(2,devicePixelRatio||1);if(cv.width!==Math.round(w*dpr)||cv.height!==Math.round(h*dpr)){cv.width=Math.round(w*dpr);cv.height=Math.round(h*dpr);}const c=this.ctx,light=this.light(),quiet=this.quiet(),t=quiet?0:now/1000;c.setTransform(dpr,0,0,dpr,0,0);c.clearRect(0,0,w,h);c.fillStyle=light?'#f2f7ff':'#030d1c';c.fillRect(0,0,w,h);
+  const cx=w/2,cy=h/2,R=Math.min(w,h)*.31*this.zoom;c.lineWidth=1;c.strokeStyle=light?'#335f8b20':'#67d6ff1d';for(let x=0;x<w;x+=30){c.beginPath();c.moveTo(x,0);c.lineTo(x,h);c.stroke();}for(let y=0;y<h;y+=30){c.beginPath();c.moveTo(0,y);c.lineTo(w,y);c.stroke();}c.strokeStyle=light?'#35639745':'#67d6ff38';for(const f of [.6,1,1.4]){c.beginPath();c.ellipse(cx,cy,R*f,R*.24*f,0,0,Math.PI*2);c.stroke();}
+  const ay=Math.cos(this.yaw),by=Math.sin(this.yaw),ap=Math.cos(this.pitch),bp=Math.sin(this.pitch);this.projected=(this.points||[]).map(p=>{const x=p.x*ay+p.z*by,z=-p.x*by+p.z*ay,y=p.y*ap-z*bp,depth=p.y*bp+z*ap,scale=3/(3-depth*.65);return {...p,sx:cx+x*R*scale,sy:cy+y*R*scale,depth,radius:Math.max(4.5,(5+Math.min(7,Math.sqrt(p.degree)*1.35))*scale)};});
+  const byId=new Map(this.projected.map(p=>[p.id,p]));c.globalCompositeOperation=light?'source-over':'lighter';
+  (this.edges||[]).forEach(([a,b],i)=>{const A=byId.get(a),B=byId.get(b);if(!A||!B)return;const active=this.focus&&(a===this.focus||b===this.focus);c.strokeStyle=light?(active?'#174ea6d9':'#3c679578'):(active?'#a5f3fcdf':'#67cfff65');c.lineWidth=active?1.8:1;c.beginPath();c.moveTo(A.sx,A.sy);c.lineTo(B.sx,B.sy);c.stroke();if(!quiet&&i%Math.max(1,Math.ceil(this.edges.length/60))===0){const p=(t*.2+i*.137)%1;c.fillStyle=light?'#1958ac':'#d5fbff';c.beginPath();c.arc(A.sx+(B.sx-A.sx)*p,A.sy+(B.sy-A.sy)*p,1.8,0,Math.PI*2);c.fill();}});
+  c.globalCompositeOperation='source-over';const glow=c.createRadialGradient(cx,cy,0,cx,cy,48);glow.addColorStop(0,light?'#3887e34a':'#67e8f980');glow.addColorStop(1,light?'#3887e300':'#4285f400');c.fillStyle=glow;c.fillRect(cx-48,cy-48,96,96);c.font='27px system-ui';c.textAlign='center';c.fillText('🧠',cx,cy+9);
+  this.projected.sort((a,b)=>a.depth-b.depth).forEach(p=>{const faded=this.focus&&!this.neighbors.has(p.id)&&p.id!==this.focus;c.globalAlpha=faded?.64:1;c.fillStyle=p.color;c.globalAlpha*=.14;c.beginPath();c.arc(p.sx,p.sy,p.radius+4,0,Math.PI*2);c.fill();c.globalAlpha=faded?.64:1;c.beginPath();c.arc(p.sx,p.sy,p.radius,0,Math.PI*2);c.fill();c.lineWidth=light?1.6:1.2;c.strokeStyle=light?'#20395d':'#def8ff';c.stroke();if(p.id===this.focus){c.lineWidth=2;c.strokeStyle=light?'#153e86':'#fff';c.beginPath();c.arc(p.sx,p.sy,p.radius+6,0,Math.PI*2);c.stroke();}});c.globalAlpha=1;
+  const focused=byId.get(this.focus);if(focused){c.font='600 12px system-ui';c.textAlign='left';const text=focused.note.title.slice(0,32),width=c.measureText(text).width+14,x=Math.max(6,Math.min(w-width-6,focused.sx+15)),y=Math.max(22,Math.min(h-15,focused.sy-10));c.fillStyle=light?'#ffffffed':'#071b32ed';c.fillRect(x-5,y-16,width,24);c.fillStyle=light?'#152b4c':'#e5f9ff';c.fillText(text,x+2,y);}
  }
 };
 
 if(!RESET_KEYS.includes('brain_view'))RESET_KEYS.push('brain_view');
 init();
-try{BrainHologram.install();}catch(e){console.error('Holograma:',e);}
-try{Reliability.install();}catch(e){console.error('Confiabilidade:',e);try{toast('Falha ao iniciar os controles de confiabilidade.');}catch(_){}}
+try{BrainHologram.install();}catch(e){console.error('Holograma:',e);try{toast('Não consegui iniciar o holograma. A vista plana continua disponível.');}catch(_){}}
 </script>
 </body>
 </html>
