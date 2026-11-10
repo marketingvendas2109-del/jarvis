@@ -584,6 +584,48 @@ html[data-theme=light] #splash .sp-core i,html[data-theme=light].fx #composer .p
 .jarvis-logo .logo-light{display:none}
 html[data-theme=light] .jarvis-logo .logo-dark{display:none}
 html[data-theme=light] .jarvis-logo .logo-light{display:block}
+  /* ===== VERSÃO PC: tela cheia, vertical e larga ===== */
+@media (min-width: 900px) {
+  /* app ocupa a tela toda; menu de conversas sempre aberto à esquerda */
+  #app { max-width: none; width: 100%; padding-left: 300px; border: 0 !important; }
+  .side { transform: none !important; width: 300px; z-index: 5; }
+  #scrim, #hMenu, #sClose { display: none !important; }
+
+  /* conteúdo centralizado, com largura confortável */
+  html.fx .hdr, .hdr { margin: 8px auto 0; width: min(920px, calc(100% - 32px)); }
+  #main { padding: 8px max(20px, calc((100% - 920px) / 2)) 20px; }
+  #composer { padding: 8px max(20px, calc((100% - 920px) / 2)) 10px; }
+  html.fx .tabs, .tabs { align-self: center; width: min(720px, calc(100% - 32px)); margin: 0 auto 10px; }
+  #msgs { max-width: 920px; }
+  .m .bub { max-width: 80%; }
+
+  /* tela inicial maior */
+  #heroOrb { width: min(34vh, 320px); height: min(34vh, 320px); }
+  #hero h1 { font-size: 34px; }
+  #quick { grid-template-columns: repeat(3, 1fr); }
+
+  /* painel HUD em 3 colunas */
+  .hudgrid { grid-template-columns: repeat(3, 1fr); }
+  .hudp.wide { grid-column: span 3; }
+  #hudCore { max-width: 560px; height: 380px; }
+
+  /* Second Brain e ajustes maiores */
+  #graph canvas { height: min(70vh, 620px); }
+  #vSettings .grp { max-width: 760px; margin-left: auto; margin-right: auto; }
+  .snav { justify-content: center; }
+
+  /* chamada de voz com orb maior */
+  #callOrb { width: min(60vh, 520px); height: min(60vh, 520px); }
+  #call.rich #callOrb { width: min(48vh, 440px); height: min(48vh, 440px); }
+  .ctxt, #callInfo, #callQuick { max-width: 760px; }
+}
+
+/* telas muito grandes */
+@media (min-width: 1500px) {
+  #main, #composer { padding-left: max(20px, calc((100% - 1040px) / 2)); padding-right: max(20px, calc((100% - 1040px) / 2)); }
+  #msgs, .hdr { max-width: 1040px; }
+  html.fx .hdr, .hdr { width: min(1040px, calc(100% - 32px)); }
+}
 </style>
 </head>
 <body>
