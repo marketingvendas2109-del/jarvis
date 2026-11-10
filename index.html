@@ -1997,6 +1997,7 @@ async function sendMessage(text) {
   Chats.persist(); setThinking(true);
   let reply = null;
   try {
+     if (IMG_RE.test(text)) { reply = await makeImageReply(text, att); return reply; }
     lastSearch = null;
     const raw = await converse(buildTurns(att));
     setThinking(false);
