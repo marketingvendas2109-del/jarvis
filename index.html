@@ -626,6 +626,10 @@ html[data-theme=light] .jarvis-logo .logo-light{display:block}
   #msgs, .hdr { max-width: 1040px; }
   html.fx .hdr, .hdr { width: min(1040px, calc(100% - 32px)); }
 }
+/* imagens criadas pelo Jarvis */
+.gimg{position:relative;margin:.7em 0 .3em;width:min(100%,440px)}
+.gimg img{display:block;width:100%;height:auto;border-radius:18px;border:1px solid var(--line);box-shadow:0 10px 34px rgba(0,0,0,.35)}
+.gimg button{position:absolute;right:10px;bottom:10px;padding:7px 12px;border-radius:999px;font-size:12.5px;color:#fff;background:rgba(8,12,28,.72);border:1px solid rgba(255,255,255,.25);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
 </style>
 </head>
 <body>
@@ -779,6 +783,12 @@ html[data-theme=light] .jarvis-logo .logo-light{display:block}
         </div></div>
         <div class="grp"><div class="gt">Memória</div><div class="gl">
           <label class="li"><span><b>Memória viva</b><small>O Jarvis salva fatos novos no Second Brain sozinho</small></span><input type="checkbox" id="uMem"></label>
+        </div></div>
+        <div class="grp"><div class="gt">Imagens</div><div class="gl">
+          <label class="li"><span><b>Criar imagens</b><small>Peça "crie uma imagem de..." e o Jarvis desenha. Anexe uma foto para ele editar</small></span><input type="checkbox" id="uImg"></label>
+          <div class="li"><span><b>Modelo de imagem</b><small>Automático tenta os melhores</small></span>
+            <select id="uImgModel"><option value="">Automático</option><option value="gemini-2.5-flash-image">Gemini 2.5 Flash Image</option><option value="gemini-3-pro-image-preview">Gemini 3 Pro Image (mais caprichado)</option><option value="gemini-3.1-flash-image-preview">Gemini 3.1 Flash Image</option></select></div>
+          <div class="li"><span><b>Testar criação</b><small id="imgOut">Cria uma imagem de teste</small></span><button class="go" id="imgTest" type="button">Testar</button></div>
         </div></div>
       </div>
 
@@ -988,7 +998,9 @@ const TOPICS = [
   ["💡", "Explicar um conceito", "Explique de forma simples: "],
   ["📊", "Analisar dados", "Analise estes dados e me dê os principais insights:\n"],
   ["👕", "Ideias para a ZENON", "Me dê 5 ideias de conteúdo para a marca ZENON esta semana."],
-  ["🗓️", "Planejar meu dia", "Me ajude a planejar meu dia de hoje. Minhas tarefas são: "]
+  ["🗓️", "Planejar meu dia", "Me ajude a planejar meu dia de hoje. Minhas tarefas são: "],
+  ["🎨", "Criar uma imagem", "Crie uma imagem de: "],
+  ["🖼️", "Logo da ZENON", "Crie uma logo moderna e minimalista para a marca ZENON, roupas masculinas."]
 ];
 
 const AREA = {
@@ -1065,7 +1077,7 @@ const DEFAULTS = {
   ui_skin: "hud", hud_goal: "10000", hud_low: "5",
   ui_acc: "blue", ui_accc: "#3b82f6", ui_avatar: "face", ui_avc: "auto", ui_glow: "100", ui_bg: "aurora", ui_font: "system", ui_bub: "round", face_q: "mid", face_move: "100", ui_fs: "16", ui_blur: "22", ui_orb: "1", ui_motion: "1", ui_quick: "1", ui_acts: "1",
   enter_send: "1", mem_live: "1", u_name: "", u_addr: "", u_pers: "mordomo", u_len: "normal",
-  ai_temp: "0.8", ai_model: "", ai_extra: "", gemini_key: "", jarvis_mode: "normal",
+  ai_temp: "0.8", ai_model: "", ai_extra: "", gemini_key: "", jarvis_mode: "normal", img_on: "1", img_model: "",
   speak_replies: "0", stt_mode: "gemini", stt_sil: "0.7", show_lat: "0", wake_on: "0", wake_mini: "1", call_design: "hud", call_clock: "1", call_info: "1", call_quick: "1", call_caps: "0", voice_len: "normal", web_search: "1",
   b44_token: "", b44_watch: "0", b44_every: "2", b44_speak: "1", b44_ask: "1", b44_confirm: "1", b44_tr: "direct",
   notify_on: "1", notify_sound: "1", notify_vib: "1", notify_title: "1", notify_sys: "0", notify_always: "0", stt_sens: "7",
@@ -1521,6 +1533,80 @@ function aiErr(e) {
   return pre + m + suf;
 }
 
+/* ==========================================================================
+   CRIAÇÃO DE IMAGENS (Gemini)
+   O Jarvis escreve [[IMG:descrição]] na resposta; o app gera a imagem e mostra no chat.
+   ========================================================================== */
+const IMG_MODELS = ["gemini-2.5-flash-image", "gemini-3-pro-image-preview", "gemini-3.1-flash-image-preview"];
+function imgErr(e) {
+  const s = e && e.status, c = e && e.code;
+  if (c === "nokey") return "falta a chave do Gemini (Ajustes → Jarvis)";
+  if (s === 429) return "o limite de criação de imagens foi atingido. O plano grátis do Gemini pode não incluir imagens; ative o faturamento no Google AI Studio";
+  if (s === 401 || s === 403) return "a chave foi recusada para criar imagens (erro " + s + ")";
+  if (s === 404) return "nenhum modelo de imagem foi encontrado para a sua chave (404)";
+  if (c === "empty") return "o Gemini não devolveu imagem (" + (e.message || "pedido bloqueado") + "); tente descrever de outro jeito";
+  if (c === "timeout") return "a criação da imagem demorou demais; tente de novo";
+  if (c === "net") return "sem conexão com o Gemini";
+  return "não consegui criar a imagem" + (s ? " (erro " + s + ")" : "");
+}
+async function genImage(prompt, ref) {
+  const key = cfg("gemini_key").trim();
+  if (!key) throw Object.assign(new Error("sem chave"), { code: "nokey" });
+  const list = IMG_MODELS.slice(), pref = cfg("img_model");
+  if (pref && list.includes(pref)) { list.splice(list.indexOf(pref), 1); list.unshift(pref); }
+  const parts = [{ text: prompt }];
+  if (ref && ref.data) parts.push({ inlineData: { mimeType: ref.mime || "image/jpeg", data: ref.data } });
+  let worst = null;
+  for (const model of list) {
+    try {
+      const r = await fetchT("https://generativelanguage.googleapis.com/v1beta/models/" + encodeURIComponent(model) + ":generateContent",
+        { method: "POST", headers: { "Content-Type": "application/json", "x-goog-api-key": key },
+          body: JSON.stringify({ contents: [{ role: "user", parts }], generationConfig: { responseModalities: ["TEXT", "IMAGE"] } }) }, 120000);
+      let d = {}; try { d = await r.json(); } catch (e) {}
+      if (!r.ok) throw Object.assign(new Error((d.error && d.error.message) || "HTTP " + r.status), { status: r.status });
+      const ps = (d.candidates && d.candidates[0] && d.candidates[0].content && d.candidates[0].content.parts) || [];
+      const p = ps.find(x => x.inlineData || x.inline_data), id = p && (p.inlineData || p.inline_data);
+      if (!id || !id.data) throw Object.assign(new Error((d.promptFeedback && d.promptFeedback.blockReason) || (d.candidates && d.candidates[0] && d.candidates[0].finishReason) || "sem imagem"), { code: "empty" });
+      return { mime: id.mimeType || id.mime_type || "image/png", data: id.data, model };
+    } catch (e) {
+      console.error("[Imagem] falha em " + model + ":", e);
+      if (!worst || worst.status === 404) worst = e;
+    }
+  }
+  throw worst || new Error("falha");
+}
+function imgPrompt() {
+  if (cfg("img_on") === "0") return "";
+  return 'CRIAÇÃO DE IMAGENS: você consegue criar imagens de verdade. Quando o usuário pedir para criar, gerar, desenhar, ilustrar ou fazer uma imagem, foto, logo, arte, wallpaper ou mockup (ou editar a imagem anexada), diga em uma frase curta o que vai criar e termine a resposta com uma linha [[IMG:descrição detalhada em inglês: assunto, estilo, cores, luz, composição]]. Para alterar a ÚLTIMA imagem que você criou use [[IMG:EDIT:o que mudar]]. No máximo 2 por resposta. Se o usuário quiser texto escrito dentro da imagem, ponha o texto exato entre aspas na descrição. Nunca diga que não consegue criar imagens e nunca use [[IMG:...]] se ele não pediu uma imagem.';
+}
+/* tira os [[IMG:...]] do texto, gera as imagens e devolve texto limpo + imagens */
+async function makeImages(text, ref) {
+  const tags = [], re = /\[\[IMG:([\s\S]+?)\]\]/g;
+  const clean = String(text).replace(re, (m, p) => { tags.push(p.trim()); return ""; }).trim();
+  const out = { text: clean, imgs: [], thumbs: [], prompts: [] };
+  if (!tags.length || cfg("img_on") === "0") { if (!out.text) out.text = "…"; return out; }
+  const errs = [], refImg = ref && ref.kind === "img" ? { mime: ref.mime, data: ref.data } : null;
+  setThinking(true);
+  try {
+    for (let i = 0; i < Math.min(2, tags.length); i++) {
+      let pr = tags[i]; const edit = /^EDIT:/i.test(pr); pr = pr.replace(/^EDIT:\s*/i, "");
+      Think.step(tags.length > 1 ? "Criando a imagem " + (i + 1) + "…" : "Criando a imagem…");
+      const base = refImg || (edit ? App.lastImg : null);
+      try {
+        const g = await genImage(edit && App.lastImg && !refImg ? "Edit this image: " + pr : pr, base);
+        const full = "data:" + g.mime + ";base64," + g.data;
+        let thumb = full;
+        try { thumb = scaleImage(await loadImage(full), 512, .6); } catch (e) {}
+        App.lastImg = { mime: g.mime, data: g.data };
+        out.imgs.push({ src: full, full }); out.thumbs.push(thumb); out.prompts.push(pr.slice(0, 160));
+      } catch (e) { errs.push(imgErr(e)); }
+    }
+  } finally { setThinking(false); }
+  if (!out.text) out.text = out.imgs.length ? "Aqui está, " + ME.address + "." : "";
+  if (errs.length) out.text = (out.text ? out.text + "\n\n" : "") + "⚠️ " + errs[0] + ".";
+  return out;
+}
+
 function RULES() {
   return [
     "HIERARQUIA (em conflito, siga esta ordem): 1) segurança e regras de ação abaixo; 2) pedido atual do usuário e instruções extras; 3) formato de voz e tamanho; 4) personalidade e estilo. A personalidade muda o tom, nunca a precisão nem as regras.",
@@ -1549,6 +1635,7 @@ function buildSystem(o) {
       : "NÃO use [[SAVE:...]] nesta conversa.",
     cfg("web_search") !== "0" && !o.noWeb ? "PESQUISA NA INTERNET: você pode pesquisar na web em tempo real. Use quando a pergunta depender de informação atual ou recente (notícias, clima, preços, cotações, resultados de jogos, horários, eventos, 'hoje', 'agora', 'último') ou de fatos de que você não tem certeza. Não pesquise em conversa comum, opiniões ou quando a resposta já estiver no Second Brain. Responda com base no que encontrou, sem inventar." : "",
     googlePrompt(),
+    imgPrompt(),
     b44Prompt(),
     len === "short" ? "TAMANHO: responda sempre de forma curta (no máximo 3 frases)." : len === "long" ? "TAMANHO: responda de forma detalhada e completa, com exemplos quando ajudar." : "",
     extra ? "INSTRUÇÕES EXTRAS DO USUÁRIO (siga sempre): " + extra : "",
@@ -1860,6 +1947,16 @@ function pushMsg(role, text, opts) {
   let attHtml = "";
   if (a) attHtml = a.kind === "img" && a.thumb ? '<img class="attm" src="' + a.thumb + '" alt="">' : '<div class="attf">' + ico("file") + esc(a.name) + "</div>";
   d.innerHTML = (user ? "" : '<div class="av"></div>') + '<div class="bub">' + attHtml + (user ? esc(text).replace(/\n/g, "<br>") : md(text)) + "</div>";
+  if (!user && opts.imgs && opts.imgs.length) {
+    const ib = d.querySelector(".bub");
+    opts.imgs.forEach(im => {
+      const w = document.createElement("div"); w.className = "gimg";
+      const i = document.createElement("img"); i.src = im.src; i.alt = "Imagem criada pelo Jarvis";
+      const b = document.createElement("button"); b.type = "button"; b.textContent = "⬇ Baixar";
+      b.onclick = () => { const a = document.createElement("a"); const u = im.full || im.src; a.href = u; a.download = "jarvis-" + Date.now() + (/jpeg/.test(u.slice(0, 20)) ? ".jpg" : ".png"); document.body.appendChild(a); a.click(); a.remove(); };
+      w.appendChild(i); w.appendChild(b); ib.appendChild(w);
+    });
+  }
   if (!user && !opts.error) {
     const bar = document.createElement("div");
     bar.className = "act";
@@ -1892,7 +1989,7 @@ function animateReply(row,text){
  const steps=[],W=document.createTreeWalker(b,NodeFilter.SHOW_TEXT|NodeFilter.SHOW_ELEMENT);let n,total=0;
  while(n=W.nextNode()){
   if(n.nodeType===1){if(n.tagName==='HR'&&!n.closest('.act,.srcs')){n.classList.add('tw-pend');steps.push({el:n});}continue;}
-  if(n.parentElement.closest('.act,.srcs,.dots')||!n.data.trim())continue;
+  if(n.parentElement.closest('.act,.srcs,.dots,.gimg')||!n.data.trim())continue;
   const s={n,full:n.data,chars:Array.from(n.data),pos:0};total+=s.chars.length;steps.push(s);n.data='';
   for(let e=n.parentElement;e&&e!==b;e=e.parentElement)e.classList.add('tw-pend');
  }
@@ -1937,7 +2034,7 @@ function removeAnswerForms(){
 
 function renderHistory() {
   $("msgs").innerHTML = "";
-  Chats.log.forEach(m => pushMsg(m.role, m.content, { att: m.att, search: m.search }));
+  Chats.log.forEach(m => pushMsg(m.role, m.content, { att: m.att, search: m.search, imgs: (m.imgs || []).map(x => ({ src: x })) }));
 }
 
 const SPARK = '<svg viewBox="0 0 24 24"><defs><linearGradient id="gsg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4285F4"/><stop offset="1" stop-color="#C58AF9"/></linearGradient></defs><path fill="url(#gsg)" d="M12 2c.6 5.4 4.6 9.4 10 10-5.4.6-9.4 4.6-10 10-.6-5.4-4.6-9.4-10-10 5.4-.6 9.4-4.6 10-10Z"/></svg>';
@@ -1980,7 +2077,7 @@ function buildTurns(att) {
       if (att.kind !== "text") parts.push({ inlineData: { mimeType: att.mime, data: att.data } });
       return { role: "user", parts };
     }
-    return { role: m.role, content: m.content + (m.att ? "\n[anexo enviado antes: " + m.att.name + "]" : "") + (m.meta ? "\n[dados da venda: " + m.meta + "]" : "") };
+    return { role: m.role, content: m.content + (m.att ? "\n[anexo enviado antes: " + m.att.name + "]" : "") + (m.meta ? "\n[dados da venda: " + m.meta + "]" : "") + (m.imgp ? "\n[imagem criada pelo Jarvis: " + m.imgp + "]" : "") };
   });
 }
 
@@ -2000,11 +2097,12 @@ async function sendMessage(text) {
     lastSearch = null;
     const raw = await converse(buildTurns(att));
     setThinking(false);
-    reply = Brain.applySaves(raw) || "…";
+    const im = await makeImages(Brain.applySaves(raw) || "…", att);
+    reply = im.text;
     const found = takeSearch(), saved = found ? { queries: found.queries, sources: found.sources } : undefined;
-    Chats.log.push(Object.assign({ role: "assistant", content: reply }, saved ? { search: saved } : {}));
+    Chats.log.push(Object.assign({ role: "assistant", content: reply }, saved ? { search: saved } : {}, im.thumbs.length ? { imgs: im.thumbs, imgp: im.prompts.join(" | ") } : {}));
     Chats.persist();
-    animateReply(pushMsg("assistant", reply, { search: found || undefined }), reply);
+    animateReply(pushMsg("assistant", reply, { search: found || undefined, imgs: im.imgs }), reply);
     Notif.fire("Jarvis respondeu", reply);
     if (!Call.on && cfg("speak_replies") === "1") Speech.speak(reply);
   } catch (e) {
@@ -2039,11 +2137,12 @@ async function sendVoiceMessage(b64) {
     entry.content = heard;
     const bub = el && el.querySelector ? el.querySelector(".bub") : null;
     if (bub) bub.innerHTML = esc(heard).replace(/\n/g, "<br>");
-    const reply = Brain.applySaves(body) || "…";
+    const im = await makeImages(Brain.applySaves(body) || "…", null);
+    const reply = im.text;
     const found = takeSearch(), saved = found ? { queries: found.queries, sources: found.sources } : undefined;
-    Chats.log.push(Object.assign({ role: "assistant", content: reply }, saved ? { search: saved } : {}));
+    Chats.log.push(Object.assign({ role: "assistant", content: reply }, saved ? { search: saved } : {}, im.thumbs.length ? { imgs: im.thumbs, imgp: im.prompts.join(" | ") } : {}));
     Chats.persist();
-    animateReply(pushMsg("assistant", reply, { search: found || undefined }), reply);
+    animateReply(pushMsg("assistant", reply, { search: found || undefined, imgs: im.imgs }), reply);
     Notif.fire("Jarvis respondeu", reply);
     if (CONFIG.makeTrigger.test(heard)) sendToMake("Comando Jarvis", heard);
     return { text: reply, heard };
@@ -4188,6 +4287,13 @@ function bindSettings() {
   $("uExtra").value = cfg("ai_extra"); $("uExtra").addEventListener("input", e => LS.set("ai_extra", e.target.value));
   bind.text("gemKey", "gemini_key", ""); bind.select("uModel", "ai_model", "");
   bind.toggle("uMem", "mem_live", "1"); bind.toggle("uWeb", "web_search", "1");
+  bind.toggle("uImg", "img_on", "1"); bind.select("uImgModel", "img_model", "");
+  $("imgTest").onclick = async () => {
+    const o = $("imgOut"); o.style.color = ""; o.textContent = "Criando imagem de teste...";
+    const t0 = Date.now();
+    try { const g = await genImage("A small glowing blue robot head icon, minimalist, dark background"); o.style.color = "var(--ok)"; o.textContent = "✓ Funcionou em " + ((Date.now() - t0) / 1000).toFixed(1) + " s · " + g.model; }
+    catch (e) { o.style.color = "var(--bad)"; o.textContent = "✗ " + imgErr(e); }
+  };
   $("testAI").onclick = async () => {
     const o = $("testOut"); o.className = ""; o.textContent = "Testando...";
     try { const t = await callAI([{ role: "user", content: "teste" }], "Responda apenas: ok"); o.className = "ok"; o.textContent = "✓ Conectado! Resposta: " + t.slice(0, 40); }
