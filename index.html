@@ -693,7 +693,8 @@ html.no-motion .v2ring.spin,html.no-motion .v2ring.spin:after,html.no-motion .v2
 
 /* ===== Jarvis v3: animações e novos componentes (só variáveis do tema) ===== */
 @keyframes v3in{from{opacity:0;transform:translateY(10px) scale(.985)}to{opacity:1;transform:none}}
-@keyframes v3caret{0%,45%{opacity:1}50%,100%{opacity:0}}
+@keyframes v3caret{0%,100%{opacity:1;transform:scaleY(1)}50%{opacity:.25;transform:scaleY(.82)}}
+@keyframes v3word{from{opacity:0;transform:translateY(6px);filter:blur(3px);color:var(--acc)}60%{color:var(--acc2)}to{opacity:1;transform:none;filter:none;color:inherit}}
 @keyframes v3pop{0%{transform:scale(.7);opacity:0}70%{transform:scale(1.08)}100%{transform:scale(1);opacity:1}}
 @keyframes v3shim{0%{background-position:-200% 0}100%{background-position:200% 0}}
 @keyframes v3slide{from{transform:translateX(24px);opacity:0}to{transform:none;opacity:1}}
@@ -701,7 +702,7 @@ html.no-motion .v2ring.spin,html.no-motion .v2ring.spin:after,html.no-motion .v2
 @keyframes v3pulse{0%,100%{box-shadow:0 0 0 0 color-mix(in srgb,var(--acc) 55%,transparent)}50%{box-shadow:0 0 0 7px transparent}}
 #msgs .m{animation:v3in .26s cubic-bezier(.2,.8,.2,1) both}
 #msgs .m.live .bub{min-height:24px}
-.v3caret{display:inline-block;width:8px;height:1.05em;margin-left:2px;vertical-align:-.15em;border-radius:2px;background:var(--acc);animation:v3caret 1s steps(1) infinite}
+.v3caret{display:inline-block;width:8px;height:1.05em;margin-left:3px;vertical-align:-.18em;border-radius:3px;background:linear-gradient(180deg,var(--acc),var(--acc2));box-shadow:0 0 12px var(--acc);animation:v3caret 1s ease-in-out infinite}
 .v3stat{display:block;margin-top:8px;font-size:12px;color:var(--dim);background:linear-gradient(90deg,var(--dim),var(--acc),var(--dim));background-size:200% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:v3shim 1.6s linear infinite}
 /* botão enviar vira "parar" */
 #sendBtn.v3stop:not(.hidden){animation:v3pulse 1.6s ease-out infinite}
@@ -794,6 +795,11 @@ html[data-theme=light] #cvPanel{background:#fff!important}
 #cvPanel .cv-tools .v2b{min-height:36px}
 
 #cvPanel .cv-read{flex:1;overflow:auto;padding:16px 18px;background:transparent;border:0;border-radius:0;max-width:none;box-shadow:none;color:var(--txt)}
+
+/* escrita ao vivo: cada palavra nova surge com um brilho e assenta */
+.v3w{display:inline-block;animation:v3word .55s cubic-bezier(.2,.7,.2,1) both;will-change:opacity,transform,filter}
+html.no-motion .v3w{animation:none!important}
+@media (prefers-reduced-motion:reduce){.v3w{animation:none!important}}
 
 /* ===== v4: Casa, integrações ===== */
 .v4casa{margin-top:10px;display:flex;flex-direction:column;gap:8px}
@@ -5836,6 +5842,32 @@ const V3 = {
     if (ctx.redo) L.push("REFAZER: o usuário pediu para refazer a resposta anterior (abaixo). Entregue uma versão claramente DIFERENTE e melhor (outra abordagem, não só outras palavras), no mesmo formato pedido. RESPOSTA ANTERIOR (rejeitada):\n" + String(ctx.redo).slice(0, 3000));
     return L.join("\n");
   },
+  /* animação da escrita: as palavras recém-chegadas surgem em cascata (com o tempo de vida certo a cada quadro) */
+  fadeNew(lv, births, now) {
+    const recent = births.filter(b => now - b.t < 520 && b.b > b.a);
+    if (!recent.length || document.documentElement.classList.contains("no-motion")) return;
+    const walker = document.createTreeWalker(lv, NodeFilter.SHOW_TEXT), nodes = []; let off = 0, n;
+    while ((n = walker.nextNode())) { if (n.parentElement && n.parentElement.closest("pre,code")) { off += n.data.length; continue; } nodes.push({ n, a: off, b: off + n.data.length }); off += n.data.length; }
+    for (let k = nodes.length - 1; k >= 0; k--) {
+      const { n, a, b } = nodes[k], hits = recent.filter(r => r.a < b && r.b > a); if (!hits.length) continue;
+      const frag = document.createDocumentFragment(); let cur = 0;
+      hits.forEach(r => {
+        const from = Math.max(0, r.a - a), to = Math.min(n.data.length, r.b - a);
+        if (from > cur) frag.appendChild(document.createTextNode(n.data.slice(cur, from)));
+        const age = now - r.t; let i = 0;
+        n.data.slice(from, to).split(/(\s+)/).forEach(tok => { if (!tok) return; if (/^\s+$/.test(tok)) frag.appendChild(document.createTextNode(tok)); else { const sp = document.createElement("span"); sp.className = "v3w"; sp.style.animationDelay = (i * 38 - age) + "ms"; sp.textContent = tok; frag.appendChild(sp); i++; } });
+        cur = to;
+      });
+      if (cur < n.data.length) frag.appendChild(document.createTextNode(n.data.slice(cur)));
+      n.parentNode.replaceChild(frag, n);
+    }
+  },
+  /* o cursor acompanha o fim do texto, dentro do último parágrafo ou item de lista */
+  caret(lv) {
+    lv.querySelectorAll(".v3caret").forEach(c => c.remove());
+    let el = lv; while (el.lastElementChild && !/^(PRE|TABLE|IMG|HR|DETAILS)$/.test(el.lastElementChild.tagName)) el = el.lastElementChild;
+    const c = document.createElement("span"); c.className = "v3caret"; el.appendChild(c);
+  },
   stop() { if (App.abort) App.abort.abort(); },
   decorate(d, opts, isUser) {
     const bub = d.querySelector(".bub"); if (!bub) return;
@@ -5928,12 +5960,12 @@ const V3 = {
 /* ---------- resposta ao vivo ---------- */
 const LiveMsg = {
   make() {
-    let row = null, pend = null, tm = 0, stat = null, had = false, lastDraw = 0;
+    let row = null, pend = null, tm = 0, stat = null, had = false, lastDraw = 0, total = 0; const births = [];
     const ensure = () => {
       if (row) return;
       const t = $("thinkRow"); if (t) t.remove(); Think.stop();
       row = document.createElement("div"); row.className = "m a live";
-      row.innerHTML = '<div class="av"></div><div class="bub"><div class="lv"></div><span class="v3caret"></span></div>';
+      row.innerHTML = '<div class="av"></div><div class="bub"><div class="lv"></div></div>';
       $("msgs").appendChild(row); $("msgs").classList.remove("hidden"); $("hero").classList.add("hidden"); $("quick").classList.add("hidden");
     };
     const draw = () => {
@@ -5941,13 +5973,17 @@ const LiveMsg = {
       const s = V3.liveSplit(pend); pend = null;
       if (!s.chat.trim() && !s.canvas) return;
       const stick = V3.stick(); ensure(); had = true;
-      row.querySelector(".lv").innerHTML = s.chat.trim() ? md(s.chat) : "";
+      const lv = row.querySelector(".lv"); lv.innerHTML = s.chat.trim() ? md(s.chat) : "";
+      const now = Date.now(), len = lv.textContent.length;
+      if (len > total) births.push({ a: total, b: len, t: now }); total = len;
+      while (births.length > 40) births.shift();
+      V3.fadeNew(lv, births, now); if (s.chat.trim()) V3.caret(lv);
       if (stick) scrollEnd();
     };
     return {
       update(raw) { pend = raw; Canvas.live(raw); if (!tm) tm = setTimeout(draw, Math.max(0, 70 - (Date.now() - lastDraw))); },
       active() { return !!row; }, had() { return had; },
-      status(t) { if (!row) return; if (!stat) { stat = document.createElement("span"); stat.className = "v3stat"; row.querySelector(".bub").appendChild(stat); const c = row.querySelector(".v3caret"); if (c) c.remove(); } stat.textContent = t; },
+      status(t) { if (!row) return; if (!stat) { stat = document.createElement("span"); stat.className = "v3stat"; row.querySelector(".bub").appendChild(stat); row.querySelectorAll(".v3caret").forEach(c => c.remove()); } stat.textContent = t; },
       dispose() { clearTimeout(tm); tm = 0; if (row) { row.remove(); row = null; } Canvas.liveEnd(); }
     };
   }
