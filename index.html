@@ -1503,7 +1503,7 @@ function md(t) {
       const head = cellsOf(ln), al = cellsOf(lines[i + 1]).map(c => /^:-+:$/.test(c) ? "center" : /^-+:$/.test(c) ? "right" : "left");
       i += 2; const rows = [];
       while (i < lines.length && lines[i].indexOf("|") >= 0 && !/^\s*$/.test(lines[i])) { rows.push(cellsOf(lines[i])); i++; }
-      out += '<div class="tbc"><div class="tbh"><span>Tabela · ' + rows.length + (rows.length === 1 ? " linha" : " linhas") + '</span><button class="tcp" type="button">Copiar tabela</button></div><div class="tw"><table><thead><tr>' + head.map((c, k) => '<th style="text-align:' + (al[k] || "left") + '">' + inline(c) + "</th>").join("") + "</tr></thead><tbody>" +
+      out += '<div class="tbc"><div class="tbh"><span>Tabela · ' + rows.length + (rows.length === 1 ? " linha" : " linhas") + '</span><span class="tbb"><button class="tcp" type="button">Copiar tabela</button><button class="tcp2" type="button">Baixar CSV</button></span></div><div class="tw"><table><thead><tr>' + head.map((c, k) => '<th style="text-align:' + (al[k] || "left") + '">' + inline(c) + "</th>").join("") + "</tr></thead><tbody>" +
         rows.map(r => "<tr>" + head.map((_, k) => '<td style="text-align:' + (al[k] === "left" && NUMCELL.test(r[k] || "") ? "right" : (al[k] || "left")) + '">' + inline(r[k] || "") + "</td>").join("") + "</tr>").join("") + "</tbody></table></div></div>";
       continue;
     }
@@ -4407,7 +4407,7 @@ const Call = {
       for (let i = 0; i < e.results.length; i++) { t += e.results[i][0].transcript; if (e.results[i].isFinal) fin = true; }
       t = t.trim(); if (!t) return;
       last = t; this.lastAct = Date.now(); this.pulse(t); clearTimeout(timer);
-      if (fin) fire(t); else timer = setTimeout(() => fire(last), 1300);
+      if (fin) fire(t); else timer = setTimeout(() => fire(last), ({ fast: 650, norm: 950, slow: 1600 })[LS.get("call_wait", "fast")] || 650);
     };
     r.onerror = e => {
       const c = e.error;
@@ -7174,19 +7174,75 @@ document.addEventListener('visibilitychange',()=>document.documentElement.classL
   }
   window.addEventListener("pointermove", e => { S.tx = (e.clientX / innerWidth) * 2 - 1; S.ty = -((e.clientY / innerHeight) * 2 - 1); }, { passive: true });
   const MORPH = { jawOpen: P => P.mo, mouthOpen: P => P.mo, viseme_aa: P => P.mo * .8, mouthSmileLeft: P => Math.max(0, P.smile), mouthSmileRight: P => Math.max(0, P.smile), mouthFrownLeft: P => Math.max(0, -P.smile), mouthFrownRight: P => Math.max(0, -P.smile), browInnerUp: P => Math.max(0, P.brow), browDownLeft: P => Math.max(0, P.furrow), browDownRight: P => Math.max(0, P.furrow), eyeBlinkLeft: P => cl(1 - P.eye, 0, 1), eyeBlinkRight: P => cl(1 - P.eye, 0, 1) };
+  const TAU = Math.PI * 2, sq = v => v * v;
+  /* ---------- o que ele desenha ---------- */
+  const circ = (x, y, r, n = 28) => Array.from({ length: n + 1 }, (_, i) => [x + Math.cos(i / n * TAU) * r, y + Math.sin(i / n * TAU) * r]);
+  const heart = Array.from({ length: 41 }, (_, i) => { const t = i / 40 * TAU; return [.5 + .03 * 16 * Math.pow(Math.sin(t), 3), .45 - .03 * (13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t))]; });
+  const star = Array.from({ length: 11 }, (_, i) => { const r = i % 2 ? .18 : .42, a = i / 10 * TAU - Math.PI / 2; return [.5 + Math.cos(a) * r, .52 + Math.sin(a) * r]; });
+  const DRAW = [
+    [/camis|roupa|blusa|moletom|polo/, "CAMISA", [[[.3, .15], [.42, .1], [.5, .2], [.58, .1], [.7, .15], [.9, .35], [.78, .45], [.7, .38], [.7, .9], [.3, .9], [.3, .38], [.22, .45], [.1, .35], [.3, .15]]]],
+    [/calca|bermuda|jeans|short/, "CALÇA", [[[.3, .1], [.7, .1], [.75, .95], [.55, .95], [.5, .4], [.45, .95], [.25, .95], [.3, .1]]]],
+    [/tenis|sapato|sandalia|chinelo/, "CALÇADO", [[[.1, .7], [.1, .5], [.4, .45], [.55, .6], [.9, .65], [.9, .8], [.1, .8], [.1, .7]]]],
+    [/bone|chapeu|pesca/, "BONÉ", [[[.2, .6], [.25, .4], [.5, .28], [.75, .4], [.8, .6], [.2, .6]], [[.8, .6], [.95, .65], [.8, .68]]]],
+    [/loja|produto|sacola|compra|pedido|estoque/, "LOJA", [[[.2, .3], [.8, .3], [.85, .9], [.15, .9], [.2, .3]], [[.35, .3], [.35, .2], [.4, .1], [.6, .1], [.65, .2], [.65, .3]]]],
+    [/dinheiro|preco|lucro|reais|venda|faturamento|valor/, "DINHEIRO", [circ(.5, .5, .4, 30), circ(.5, .5, .32, 30), [[.6, .36], [.46, .32], [.4, .42], [.5, .5], [.6, .58], [.54, .68], [.4, .64]], [[.5, .24], [.5, .76]]]],
+    [/grafico|crescimento|meta|resultado|aument/, "GRÁFICO", [[[.1, .1], [.1, .9], [.9, .9]], [[.15, .75], [.35, .55], [.5, .65], [.7, .35], [.88, .2]], [[.78, .2], [.88, .2], [.88, .3]]]],
+    [/calendario|agenda|reuniao|compromisso/, "AGENDA", [[[.1, .2], [.9, .2], [.9, .9], [.1, .9], [.1, .2]], [[.1, .4], [.9, .4]], [[.3, .1], [.3, .28]], [[.7, .1], [.7, .28]], [[.25, .55], [.35, .55]], [[.45, .55], [.55, .55]], [[.65, .55], [.75, .55]], [[.25, .72], [.35, .72]]]],
+    [/relogio|horas?\b|tempo|prazo/, "TEMPO", [circ(.5, .5, .4, 32), [[.5, .5], [.5, .22]], [[.5, .5], [.7, .58]]]],
+    [/coracao|amor|carinho|saude/, "CORAÇÃO", [heart]],
+    [/casa|endereco|entrega|frete/, "CASA", [[[.1, .5], [.5, .12], [.9, .5]], [[.2, .45], [.2, .9], [.8, .9], [.8, .45]], [[.43, .9], [.43, .65], [.57, .65], [.57, .9]]]],
+    [/ideia|dica|sugest|pensei/, "IDEIA", [circ(.5, .38, .25), [[.4, .62], [.4, .78], [.6, .78], [.6, .62]], [[.43, .86], [.57, .86]], [[.5, .04], [.5, .1]], [[.15, .2], [.2, .25]], [[.85, .2], [.8, .25]]]],
+    [/estrela|otimo|parabens|sucesso/, "ESTRELA", [star]],
+    [/celular|telefone|whatsapp|mensagem/, "CELULAR", [[[.3, .08], [.7, .08], [.7, .92], [.3, .92], [.3, .08]], [[.3, .22], [.7, .22]], [[.3, .78], [.7, .78]], [[.46, .85], [.54, .85]]]],
+    [/computador|site|sistema|codigo|planilha/, "TELA", [[[.08, .18], [.92, .18], [.92, .7], [.08, .7], [.08, .18]], [[.4, .7], [.35, .88], [.65, .88], [.6, .7]], [[.25, .35], [.5, .35]], [[.25, .5], [.7, .5]]]]
+  ];
+  const mathOf = tx => {
+    const t = tx.replace(/\bmais\b/g, "+").replace(/\bmenos\b/g, "−").replace(/\bvezes\b/g, "×").replace(/dividido por/g, "÷").replace(/(?:^|\s)(?:igual a|d[áa]|resulta em|total de)(?=\s*(?:R\$\s*)?\d)/g, " =").replace(/(\d)\s*[x*]\s*(?=\d)/g, "$1 × ");
+    const m = t.match(/(?:R\$\s*)?\d[\d.,]*(?:\s*[+−×÷=]\s*(?:R\$\s*)?\d[\d.,]*)+/g); return m ? m.sort((a, b) => b.length - a.length)[0].replace(/\s+/g, " ").trim() : null;
+  };
+  const Stark = { items: [], until: 0, say(text) {
+    const raw = String(text).toLowerCase(), n = raw.normalize("NFD").replace(/[\u0300-\u036f]/g, ""), found = [], mt = mathOf(raw);
+    if (mt) found.push({ i: Math.max(0, raw.indexOf(mt.slice(0, 3))), label: "CONTA", text: mt });
+    DRAW.forEach(([re, label, strokes]) => { const m = re.exec(n); if (m) found.push({ i: m.index, label, strokes }); });
+    found.sort((a, b) => a.i - b.i); const now = performance.now();
+    this.items = found.slice(0, 3).map((f, k) => Object.assign(f, { start: now + 700 + k * 3300, dur: f.text ? 2600 : 2200 }));
+    this.until = this.items.length ? now + 700 + (this.items.length - 1) * 3300 + 7500 : 0;
+  } };
+  try { const _sw = Face.speakWith; Face.speakWith = function (text, fn) { try { Stark.say(text); } catch (e) {} return _sw.call(this, text, fn); }; } catch (e) {}
+
+  const frame = (c, x, y, w, h, col, G) => { c.strokeStyle = rgbaHex(col, .35 * G); c.lineWidth = 1; c.strokeRect(x, y, w, h); c.strokeStyle = rgbaHex(col, .95 * G); c.lineWidth = 2; const k = Math.min(w, h) * .09; [[x, y, 1, 1], [x + w, y, -1, 1], [x, y + h, 1, -1], [x + w, y + h, -1, -1]].forEach(([px, py, a, b]) => { c.beginPath(); c.moveTo(px + a * k, py); c.lineTo(px, py); c.lineTo(px, py + b * k); c.stroke(); }); };
+  const board = (A, bx, by, bw, bh, it, now) => {
+    const { c, c1, G } = A, p = cl((now - it.start) / it.dur, 0, 1); c.globalCompositeOperation = "lighter";
+    c.fillStyle = rgbaHex(c1, .05 * G); c.fillRect(bx, by, bw, bh); frame(c, bx, by, bw, bh, c1, G);
+    c.fillStyle = rgbaHex(c1, .9 * G); c.font = "600 " + Math.max(9, bh * .07) + "px monospace"; c.textBaseline = "top"; c.fillText("◉ " + it.label, bx + bw * .05, by + bh * .05);
+    if (it.text) {
+      const fs = Math.min(bh * .3, bw * .86 / (it.text.length * .55)), tw = Math.max(1, it.text.length * fs * .55); c.font = fs + 'px "Segoe Print","Bradley Hand","Noteworthy",cursive,monospace'; c.textBaseline = "middle";
+      const tx = bx + (bw - c.measureText(it.text).width) / 2, ty = by + bh * .55, W2 = c.measureText(it.text).width;
+      c.save(); c.beginPath(); c.rect(tx - 4, by, W2 * p + 8, bh); c.clip(); c.shadowColor = c1; c.shadowBlur = 14; c.fillStyle = mixCol(c1, "#ffffff", .75); c.fillText(it.text, tx, ty); c.restore();
+      if (p > .95) { c.strokeStyle = rgbaHex(c1, .8 * G); c.lineWidth = 2; c.beginPath(); c.moveTo(tx, ty + fs * .6); c.lineTo(tx + W2, ty + fs * .6); c.stroke(); }
+      if (p < 1) glowDot(A, tx + W2 * p, ty, fs * .5);
+      return;
+    }
+    const S = Math.min(bw * .76, bh * .7), ox = bx + (bw - S) / 2, oy = by + bh * .2; let left = p * it.strokes.reduce((t, pl) => t + pl.reduce((a, q, i) => a + (i ? Math.hypot(q[0] - pl[i - 1][0], q[1] - pl[i - 1][1]) : 0), 0), 0), tip = null;
+    [[7, .14], [2, .95]].forEach(([lw, al]) => { c.strokeStyle = rgbaHex(c1, al * G); c.lineWidth = lw; c.lineCap = "round"; let rem = left; it.strokes.forEach(pl => { if (rem <= 0) return; c.beginPath(); c.moveTo(ox + pl[0][0] * S, oy + pl[0][1] * S); for (let i = 1; i < pl.length; i++) { const d = Math.hypot(pl[i][0] - pl[i - 1][0], pl[i][1] - pl[i - 1][1]); if (rem >= d) { c.lineTo(ox + pl[i][0] * S, oy + pl[i][1] * S); rem -= d; tip = [pl[i][0], pl[i][1]]; } else { const f = rem / d, qx = pl[i - 1][0] + (pl[i][0] - pl[i - 1][0]) * f, qy = pl[i - 1][1] + (pl[i][1] - pl[i - 1][1]) * f; c.lineTo(ox + qx * S, oy + qy * S); tip = [qx, qy]; rem = 0; break; } } c.stroke(); }); });
+    if (tip && p < 1) glowDot(A, ox + tip[0] * S, oy + tip[1] * S, S * .06);
+  };
+  const glowDot = (A, x, y, r) => { const g = A.c.createRadialGradient(x, y, 0, x, y, r * 2.2); g.addColorStop(0, "rgba(255,255,255,.95)"); g.addColorStop(.3, rgbaHex(A.c1, .8)); g.addColorStop(1, rgbaHex(A.c1, 0)); A.c.fillStyle = g; A.c.beginPath(); A.c.arc(x, y, r * 2.2, 0, TAU); A.c.fill(); };
   AVATARS.escultura = (o, now, dt) => {
     const dim = prepCanvas(o); if (!dim) return; const { w, h, dpr } = dim, st = o.state(), t = now / 1000, pn = performance.now(); Face.update(now, dt, st, o.energy);
     const P = Face.p, en = o.energy; o.energy *= Math.exp(-2.6 * dt); const c = o.ctx;
     c.setTransform(dpr, 0, 0, dpr, 0, 0); c.globalCompositeOperation = "source-over"; c.fillStyle = "#000"; c.fillRect(0, 0, w, h);
     if (!S.ready) { if (!S.booting) boot(); c.fillStyle = "rgba(255,255,255,.7)"; c.font = "600 11px monospace"; c.textAlign = "center"; c.fillText(S.msg, w / 2, h / 2); c.textAlign = "left"; return; }
     const amp = pn - S.extAt < 300 ? S.ext : st === "speaking" ? .3 + P.mo * .9 : st === "listening" ? .2 + en * .8 : st === "thinking" ? .45 + .2 * Math.sin(t * 9) : .1;
+    const act = Stark.items.filter(i => i.start <= pn).pop(), want = act && pn < Stark.until ? 1 : 0; o._v = (o._v || 0) + (want - (o._v || 0)) * (1 - Math.exp(-dt * 4)); const vis = o._v, wide = w > h * 1.1;
     const pw = Math.round(w * dpr), ph = Math.round(h * dpr); if (S.w !== pw || S.h !== ph) { S.r.setSize(pw, ph, false); S.w = pw; S.h = ph; S.cam.aspect = w / h; S.cam.updateProjectionMatrix(); }
     const asp = w / h; S.cam.position.set(0, .05, 6.4 / Math.min(1, asp * 1.15)); S.cam.lookAt(0, 0, 0);
     const k = 1 - Math.exp(-dt * 5); S.mx += (S.tx - S.mx) * k * .5; S.my += (S.ty - S.my) * k * .5;
-    const hd = S.head; hd.rotation.set(S.my * -.12 + Math.sin(t * .5) * .025 + (st === "speaking" ? Math.sin(t * 7) * .012 * amp : 0), CFG.headYaw + Math.sin(t * .35) * .12 + S.mx * .28, Math.sin(t * .27) * .02); hd.position.y = Math.sin(t * .8) * .02; hd.scale.setScalar(hd.userData.k * (1 + amp * .012));
+    const hd = S.head; hd.rotation.set(S.my * -.12 + Math.sin(t * .5) * .025 + (st === "speaking" ? Math.sin(t * 7) * .012 * amp : 0), CFG.headYaw + Math.sin(t * .35) * .12 + S.mx * .28, Math.sin(t * .27) * .02); hd.position.y = Math.sin(t * .8) * .02 + (wide ? 0 : vis * .55); hd.position.x = wide ? -vis * 1.1 : 0; hd.scale.setScalar(hd.userData.k * (1 + amp * .012) * (1 - .15 * vis));
     S.morphs.forEach(({ m }) => { const d = m.morphTargetDictionary; if (d) for (const n in MORPH) if (d[n] !== undefined) m.morphTargetInfluences[d[n]] += (MORPH[n](P) - m.morphTargetInfluences[d[n]]) * .4; });
-    if (S.hand) { const hn = S.hand, hp = CFG.handPos, fx = Math.min(1, asp * 1.3); hn.position.set(hp[0] * fx, hp[1] + Math.sin(t * 1.1) * .04, hp[2]); hn.rotation.set(CFG.handRot[0] + Math.sin(t * .9) * .05, CFG.handRot[1] + S.mx * .15, CFG.handRot[2] + Math.sin(t * .8) * .04); hn.scale.set(hn.userData.k * CFG.handFlip, hn.userData.k, hn.userData.k); S.bones.forEach(({ kind, b, r, k: i }) => { if (kind === "hand") b.rotation.x = r.x + .07 + .05 * Math.sin(t * 1.4 + i * .5); }); }
+    if (S.hand) { const hn = S.hand, hp = CFG.handPos, fx = Math.min(1, asp * 1.3); hn.position.set(hp[0] * fx - vis * (wide ? 1.7 : 0), hp[1] + Math.sin(t * 1.1) * .04, hp[2]); hn.rotation.set(CFG.handRot[0] + Math.sin(t * .9) * .05, CFG.handRot[1] + S.mx * .15, CFG.handRot[2] + Math.sin(t * .8) * .04); hn.scale.set(hn.userData.k * CFG.handFlip, hn.userData.k, hn.userData.k); S.bones.forEach(({ kind, b, r, k: i }) => { if (kind === "hand") b.rotation.x = r.x + .07 + .05 * Math.sin(t * 1.4 + i * .5); }); }
     S.wireMat.opacity = .42 + amp * .3; S.r.render(S.scene, S.cam); c.drawImage(S.r.domElement, 0, 0, w, h);
+    if (vis > .02 && act) { c.globalAlpha = cl(vis * 1.4, 0, 1); const [bx, by, bw, bh] = wide ? [w * .56, h * .14, w * .4, h * .62] : [w * .06, h * .62, w * .88, h * .34]; board({ c, c1: "#ffffff", G: 1 }, bx, by, bw, bh, act, pn); c.globalAlpha = 1; c.globalCompositeOperation = "source-over"; }
     if (!S.hand) { c.fillStyle = "rgba(255,255,255,.35)"; c.font = "10px monospace"; c.fillText("sem mão 3D: Ajustes › Avatar › Modelos 3D", 10, h - 10); }
   };
   window.Jarvis3D = { cfg: CFG, setVoice(v) { S.ext = cl(+v || 0, 0, 1); S.extAt = performance.now(); }, reload: kind => S.T ? load(kind) : null };
@@ -7207,6 +7263,87 @@ document.addEventListener('visibilitychange',()=>document.documentElement.classL
     rm("m3RmHead", "head"); rm("m3RmHand", "hand"); setInterval(say, 2000);
   }
   if (LS.get("v11_migrated", "") !== "1") { LS.set("ui_avatar", "escultura"); LS.set("v11_migrated", "1"); try { applyUI(); } catch (e) {} }
+})();
+
+/* ============ v12: ligação mais rápida, próximo passo, ações no texto, briefing, tabela em CSV ============ */
+(function () {
+  document.head.appendChild(Object.assign(document.createElement("style"), { textContent:
+    ".nxt{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 2px}.nxt button{padding:8px 14px;border-radius:999px;border:1px solid var(--line);background:var(--glass);color:var(--txt);font-size:13px}" +
+    ".nxtb{display:block;width:100%;margin:6px 0 10px;padding:12px;border-radius:14px;border:1px solid var(--line);background:var(--glass);color:var(--txt);font-weight:600;font-size:14px}" +
+    ".tbb{display:flex;gap:6px}.bub .tcp2{padding:4px 11px;min-height:28px;border-radius:999px;background:var(--glass);border:1px solid var(--line);font-size:11.5px;color:var(--txt);white-space:nowrap}" }));
+  const vs = $("vSettings"), jv = vs.querySelector('.cat[data-c="jarvis"]');
+  if (jv) {
+    const g = document.createElement("div"); g.className = "grp";
+    g.innerHTML = '<div class="gt">Chamada e atalhos</div><div class="gl">' +
+      '<div class="li col"><b>Resposta na ligação</b><div class="seg" id="uWait"><button type="button" data-v="fast">Rápida</button><button type="button" data-v="norm">Normal</button><button type="button" data-v="slow">Paciente</button></div><small>Quanto ele espera você parar de falar antes de responder.</small></div>' +
+      '<label class="li"><span><b>Me deixar interrompê-lo</b><small>Experimental: falar por cima corta a fala dele. Use fone, senão ele pode ouvir a si mesmo.</small></span><input type="checkbox" id="uBarge"></label>' +
+      '<label class="li"><span><b>Botões de próximo passo</b><small>Sugestões depois de cada resposta</small></span><input type="checkbox" id="uNext"></label>' +
+      '<label class="li"><span><b>Ações ao selecionar texto</b><small>Explicar, simplificar ou traduzir um trecho</small></span><input type="checkbox" id="uSel"></label>' +
+      '<label class="li"><span><b>Briefing do dia ao abrir</b><small>Uma vez por dia: agenda, vendas e prioridades</small></span><input type="checkbox" id="uBriefAuto"></label></div>';
+    jv.insertBefore(g, jv.firstChild);
+    bind.seg("uWait", "call_wait", "fast"); bind.toggle("uBarge", "call_barge", "0"); bind.toggle("uNext", "ui_next", "1"); bind.toggle("uSel", "ui_sel", "1"); bind.toggle("uBriefAuto", "brief_auto", "0");
+  }
+  /* ---------- botões de próximo passo ---------- */
+  const NEXT = [
+    ["Resumir", "Resuma sua última resposta em até 3 linhas.", t => t.length > 450],
+    ["Explicar mais simples", "Explique sua última resposta de um jeito mais simples, com palavras fáceis.", t => t.length > 200],
+    ["Fazer em tabela", "Refaça sua última resposta em formato de tabela.", t => /(^|\n)\s*([-*]|\d+\.)\s/.test(t) && !/\|---/.test(t)],
+    ["Mostrar a conta", "Mostre a conta da sua última resposta, passo a passo.", t => /\d\s*[+×÷*/x-]\s*\d|R\$/.test(t)],
+    ["Dar um exemplo", "Dê um exemplo prático do que você acabou de explicar.", t => t.length > 300],
+    ["Próximo passo", "Qual é o próximo passo que eu devo fazer agora? Seja direto.", t => t.length > 80]
+  ];
+  try {
+    const _dec = V2UI.decorate;
+    V2UI.decorate = function (d, text) {
+      _dec.apply(this, arguments);
+      try {
+        if (LS.get("ui_next", "1") === "0" || (Chats.cur && Chats.cur.priv)) return; const bar = d.querySelector(".act"); if (!bar) return;
+        document.querySelectorAll("#msgs .nxt").forEach(x => x.remove()); const pick = NEXT.filter(n => n[2](String(text))).slice(0, 3); if (!pick.length) return;
+        const w = document.createElement("div"); w.className = "nxt";
+        pick.forEach(([l, p]) => { const b = document.createElement("button"); b.type = "button"; b.textContent = l; b.onclick = () => { w.remove(); sendMessage(p); }; w.appendChild(b); });
+        bar.insertAdjacentElement("afterend", w);
+      } catch (e) {}
+    };
+  } catch (e) {}
+  /* ---------- selecionar texto e agir ---------- */
+  const pop = document.createElement("div"); pop.style.cssText = "position:fixed;z-index:9999;display:none;gap:6px;padding:6px;border-radius:14px;background:rgba(20,24,36,.96);border:1px solid rgba(255,255,255,.15);box-shadow:0 8px 30px rgba(0,0,0,.5)"; document.body.appendChild(pop);
+  let sel = "", tm;
+  [["Explicar", "Explique melhor este trecho:"], ["Simplificar", "Reescreva este trecho de forma bem mais simples:"], ["Traduzir", "Traduza este trecho para inglês:"]].forEach(([l, p]) => {
+    const b = document.createElement("button"); b.type = "button"; b.textContent = l; b.style.cssText = "padding:8px 13px;border-radius:10px;border:0;background:rgba(255,255,255,.1);color:#fff;font-size:13px";
+    b.onmousedown = b.ontouchstart = e => e.preventDefault(); b.onclick = () => { const t = sel; pop.style.display = "none"; try { getSelection().removeAllRanges(); } catch (e) {} sendMessage(p + "\n\n«" + t + "»"); }; pop.appendChild(b);
+  });
+  document.addEventListener("selectionchange", () => {
+    clearTimeout(tm); tm = setTimeout(() => {
+      const s = getSelection(), t = s && s.toString().trim(); if (LS.get("ui_sel", "1") === "0" || !t || t.length < 4 || !s.rangeCount) { pop.style.display = "none"; return; }
+      const n = s.anchorNode && (s.anchorNode.nodeType === 1 ? s.anchorNode : s.anchorNode.parentElement); if (!n || !n.closest || !n.closest("#msgs .bub")) { pop.style.display = "none"; return; }
+      sel = t.slice(0, 1500); const r = s.getRangeAt(0).getBoundingClientRect(); pop.style.display = "flex";
+      pop.style.left = Math.max(8, Math.min(innerWidth - pop.offsetWidth - 8, r.left)) + "px"; pop.style.top = Math.min(innerHeight - 60, r.bottom + 10) + "px";
+    }, 250);
+  });
+  /* ---------- briefing do dia ---------- */
+  const BRIEF = "Faça o meu briefing do dia, curto e direto, falando como o Jarvis: 1) compromissos de hoje na agenda; 2) vendas e pedidos da loja de ontem e de hoje; 3) alertas importantes (estoque baixo, pedidos parados, prazos); 4) as 3 coisas mais importantes para eu fazer hoje. Use os dados reais da agenda e da loja; se algo não estiver conectado, diga isso em uma frase.";
+  const tp = $("topics"); if (tp) { const b = document.createElement("button"); b.type = "button"; b.className = "nxtb"; b.textContent = "Briefing do dia"; b.onclick = () => sendMessage(BRIEF); tp.parentNode.insertBefore(b, tp); }
+  setTimeout(() => { try { const d = new Date().toDateString(); if (LS.get("brief_auto", "0") === "1" && LS.get("brief_day", "") !== d && !App.sending) { LS.set("brief_day", d); sendMessage(BRIEF); } } catch (e) {} }, 3500);
+  /* ---------- tabela em CSV (abre no Excel) ---------- */
+  $("msgs").addEventListener("click", e => {
+    const b = e.target && e.target.closest ? e.target.closest(".tcp2") : null; if (!b) return; const t = b.closest(".tbc").querySelector("table");
+    const csv = "\ufeff" + [...t.rows].map(r => [...r.cells].map(c => '"' + c.textContent.replace(/\s+/g, " ").trim().replace(/"/g, '""') + '"').join(";")).join("\r\n");
+    const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([csv], { type: "text/csv;charset=utf-8" })); a.download = "tabela-jarvis.csv"; document.body.appendChild(a); a.click(); a.remove();
+  });
+  /* ---------- interromper o Jarvis falando por cima (experimental) ---------- */
+  try {
+    const _ss = Call.setState; let br = null; const stopBr = () => { try { br && br.abort(); } catch (e) {} br = null; };
+    Call.setState = function (s) {
+      const r = _ss.apply(this, arguments);
+      try {
+        if (s === "speaking" && LS.get("call_barge", "0") === "1" && cfg("stt_mode") === "browser" && !br) {
+          const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+          if (SR) { br = new SR(); br.lang = "pt-BR"; br.continuous = true; br.interimResults = true; br.onresult = ev => { const t = Array.from(ev.results).map(x => x[0].transcript).join(" ").trim(); if (t.length >= 14 && Call.on) { stopBr(); Speech.stop(); } }; br.onend = () => { br = null; }; br.start(); }
+        } else if (s !== "speaking") stopBr();
+      } catch (e) {}
+      return r;
+    };
+  } catch (e) {}
 })();
 </script>
 </body>
