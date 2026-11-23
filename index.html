@@ -5,6 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#04050c">
+<link rel="preconnect" href="https://generativelanguage.googleapis.com" crossorigin>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Jarvis">
@@ -921,6 +922,19 @@ html.no-motion .v6sk,html.no-motion #v6rec.live .v6st:before{animation:none}
 
 .v6cf .v6b,.v6cf .v6b.main{white-space:nowrap;flex:0 0 auto}
 </style>
+<style id="v9">
+html[data-theme=light] #graph,html.fx[data-theme=light] #graph{background:radial-gradient(ellipse at 50% 38%,#122046 0,#070b1c 78%)!important;border:1px solid rgba(130,150,255,.3)!important;box-shadow:0 14px 44px rgba(30,50,150,.38),inset 0 1px 0 rgba(255,255,255,.12)!important}
+html[data-theme=light] #graph .ghint{color:rgba(205,215,255,.72)!important}
+#bLink{border:1px solid color-mix(in srgb,var(--acc) 55%,transparent);background:color-mix(in srgb,var(--acc) 14%,transparent);color:var(--acc);border-radius:999px;padding:6px 12px;font:600 12px var(--sans);cursor:pointer;margin-left:8px}
+#bLink[disabled]{opacity:.6;cursor:wait}
+</style>
+<style id="v9b">
+.v9mem{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:-4px 0 10px 44px;font-size:12px;color:var(--dim);animation:v9in .5s ease both}
+.v9mem button{display:inline-flex;align-items:center;gap:6px;border:1px solid color-mix(in srgb,var(--c) 55%,transparent);background:color-mix(in srgb,var(--c) 14%,transparent);color:var(--txt);border-radius:999px;padding:4px 10px;font:500 12px var(--sans);cursor:pointer}
+.v9mem button i{width:8px;height:8px;border-radius:50%;background:var(--c);box-shadow:0 0 10px var(--c);animation:v9p 1.6s ease-in-out infinite}
+@keyframes v9p{50%{opacity:.35;transform:scale(1.5)}}
+@keyframes v9in{from{opacity:0;transform:translateY(6px)}}
+</style>
 </head>
 <body>
 <div id="gemini-fx" aria-hidden="true"><i class="gb b1"></i><i class="gb b2"></i><i class="gb b3"></i><i class="gb b4"></i></div>
@@ -973,7 +987,7 @@ html.no-motion .v6sk,html.no-motion #v6rec.live .v6st:before{animation:none}
       <div class="bhero">
         <div class="pg">Second Brain</div>
         <div style="display:flex;gap:8px;align-items:center">
-          <span id="bCount"></span>
+          <span id="bCount"></span><button type="button" id="bLink">✨ Conectar ideias</button>
           <button class="ic" id="addBtn" type="button" aria-label="Nova nota" style="width:38px;height:38px" data-ico="plus" data-sw="2.2"></button>
         </div>
       </div>
@@ -1925,10 +1939,24 @@ async function callAI(turns, system, opts) {
       const allParts = (cand && cand.content && cand.content.parts) || [], exec = collectExec(allParts);
       const text = allParts.filter(p => typeof p.text === "string" && p.thought !== true).map(p => p.text).join("");
       if (!text.trim()) throw Object.assign(new Error((data.promptFeedback && data.promptFeedback.blockReason) || (cand && cand.finishReason) || "sem texto"), { code: "empty" });
+      let finalText = text;
+      try {
+        let fin = (cand && cand.finishReason) || "", more = fin === "MAX_TOKENS" || (!!data.partial && !data.aborted);
+        for (let k = 0; k < 3 && more && !data.aborted && !(opts.signal && opts.signal.aborted); k++) {
+          const p2 = JSON.parse(JSON.stringify(basePayload));
+          p2.contents = contents.concat([{ role: "model", parts: [{ text: finalText }] }, { role: "user", parts: [{ text: "Sua resposta foi cortada. Continue EXATAMENTE de onde parou, sem repetir nada e sem introdução, até terminar." }] }]);
+          const base0 = finalText, sub = Object.assign({}, opts, { onDelta: opts.onDelta ? (r => opts.onDelta(base0 + r)) : undefined, firstMs: 15000 });
+          const sr = await streamPost(model, p2, key, sub);
+          if (!sr.r.ok) break;
+          const c2 = sr.data.candidates && sr.data.candidates[0], t2 = ((c2 && c2.content && c2.content.parts) || []).filter(q => typeof q.text === "string" && q.thought !== true).map(q => q.text).join("");
+          if (!t2.trim()) break;
+          finalText += t2; fin = (c2 && c2.finishReason) || ""; more = fin === "MAX_TOKENS" || (!!sr.data.partial && !sr.data.aborted);
+        }
+      } catch (e) { if (e && e.code === "aborted") throw e; }
       mergeSearch(cand && cand.groundingMetadata);
       App.lastCall = { model, images: countImages(contents), usage: data.usageMetadata || null, exec, aborted: !!data.aborted, partial: !!data.partial, toolDropped: (cands[won] && cands[won][2]) ? (opts.code ? "code" : "url") : "" };
       LS.set("jarvis_model_ok", model);
-      return text;
+      return finalText;
     } catch (e) {
       lastError = e;
       console.error("[Gemini] falha em " + model + ":", e);
@@ -3882,8 +3910,10 @@ function tickPulses() {
   if (c.width !== W || c.height !== H) { c.width = W; c.height = H; }
   const x = c.getContext("2d"), now = performance.now(), still = document.documentElement.classList.contains("no-motion") || reduceMotion;
   x.setTransform(dpr, 0, 0, dpr, 0, 0); x.clearRect(0, 0, w, h);
+  if (!G3.stars) G3.stars = Array.from({ length: 120 }, () => ({ x: Math.random(), y: Math.random(), r: Math.random() * 1.3 + .3, p: Math.random() * 6.28 }));
+  for (const st of G3.stars) { const tw = still ? .6 : .35 + .45 * Math.sin(now / 900 + st.p); x.fillStyle = "rgba(190,205,255," + (tw * .75) + ")"; x.beginPath(); x.arc((((st.x + G3.yaw * .02 * st.r) % 1) + 1) % 1 * w, st.y * h, st.r, 0, 6.2832); x.fill(); }
   if (!G3.ptrs.size) { G3.yaw += G3.vy; G3.pitch = Math.max(-1.3, Math.min(1.3, G3.pitch + G3.vp)); G3.vp *= .93; G3.vy += ((still ? 0 : .0012) - G3.vy) * .03; }
-  const cw = Math.cos(G3.yaw), sw = Math.sin(G3.yaw), cp = Math.cos(G3.pitch), sp = Math.sin(G3.pitch), R = Math.min(w, h) * .38 * G3.zoom, F = 3.4, light = document.documentElement.dataset.theme === "light";
+  const cw = Math.cos(G3.yaw), sw = Math.sin(G3.yaw), cp = Math.cos(G3.pitch), sp = Math.sin(G3.pitch), R = Math.min(w, h) * .38 * G3.zoom, F = 3.4, light = false;
   const P = p => { const X = p.x * cw + p.z * sw, Z0 = -p.x * sw + p.z * cw, Y = p.y * cp - Z0 * sp, Z = p.y * sp + Z0 * cp, s = F / (F + Z); return { x: w / 2 + X * R * s, y: h / 2 + Y * R * s, z: Z, s }; };
   /* grade esférica sutil */
   x.strokeStyle = light ? "rgba(70,90,160,.13)" : "rgba(150,170,230,.11)"; x.lineWidth = 1;
@@ -5815,7 +5845,7 @@ async function sendMessage(text, opt) {
   const redo = !!opt.redo, att = opt.att !== undefined ? opt.att : App.att;
   if (opt.att === undefined) { App.att = null; renderAttachment(); }
   if (App.editIdx != null && !redo) { Chats.log.length = App.editIdx; App.editIdx = null; V3.editBar(false); renderHistory(); }
-  App.sending = true; const ctl = App.abort = new AbortController(); updateComposerButtons();
+  App.sending = true; App._t0 = Date.now(); const ctl = App.abort = new AbortController(); updateComposerButtons();
   let entry = null, userRow = null;
   if (!redo) {
     entry = { role: "user", content: text };
@@ -5838,7 +5868,7 @@ async function sendMessage(text, opt) {
     App.canvasForce = false;
     ctx.code = code; ctx.urls = urls; ctx.redo = redo ? (opt.prevReply || "") : ""; ctx.forceCanvas = !!opt.forceCanvas;
     live = LiveMsg.make();
-    const co = { ctx, signal: ctl.signal, onDelta: r => live.update(r), code, urls, att: !!att };
+    const co = { ctx, signal: ctl.signal, onDelta: r => { live.update(r); if (!ctx.priv) { try { V9.light(text + " " + r); } catch (e) {} } }, code, urls, att: !!att };
     if (code || urls.length) co.noWeb = true;
     const raw = await converse(turns, co);
     Diag.mark("api");
@@ -5869,6 +5899,7 @@ async function sendMessage(text, opt) {
     Chats.persist();
     const el = pushMsg("assistant", reply, { search: found || undefined, imgs: im.imgs, verify: vr && vr.report, extra, jobs: im.jobs, cue: CUE_RE.test(text) ? text : "", canvas: cards, exec: execs.length ? execs : undefined, casa: hm.acts });
     if (!streamed) animateReply(el, reply);
+    if (!ctx.priv && !aborted) { try { V9.chips(el, text + " " + reply); } catch (e) {} }
     Diag.end({ words: (reply.match(/\S+/g) || []).length, model: App.lastCall && App.lastCall.model, flags: [code ? "código" : "", urls.length ? "link" : "", (found && found.sources && found.sources.length) ? "busca" : "", (vr && vr.report && vr.report.revised) ? "revisão" : "", ctx.hasImage ? "imagem" : ""].filter(Boolean), ok: true });
     if (cards.length) Canvas.open(cards[cards.length - 1].id);
     Notif.fire("Jarvis respondeu", reply);
@@ -6036,7 +6067,7 @@ function collectExec(parts) {
 async function streamPost(model, payload, key, opts) {
   const ctl = new AbortController(), ext = opts.signal;
   if (ext) { if (ext.aborted) ctl.abort(); else ext.addEventListener("abort", () => ctl.abort(), { once: true }); }
-  let timer; const arm = ms => { clearTimeout(timer); timer = setTimeout(() => ctl.abort(), ms); }; arm(opts.firstMs || 30000);          /* sem nenhuma palavra em 30 s, desiste e usa o plano B */
+  let timer; const arm = ms => { clearTimeout(timer); timer = setTimeout(() => ctl.abort(), ms); }; arm(opts.firstMs || 14000);          /* sem nenhuma palavra em 30 s, desiste e usa o plano B */
   let r;
   try {
     r = Srv.aiOn()
@@ -6069,7 +6100,7 @@ async function streamPost(model, payload, key, opts) {
   try {
     if (r.body && r.body.getReader) {
       const rd = r.body.getReader(), dec = new TextDecoder();
-      for (;;) { const { done, value } = await rd.read(); if (done) break; arm(25000); buf += dec.decode(value, { stream: true }); let i; while ((i = buf.indexOf("\n")) >= 0) { eat(buf.slice(0, i)); buf = buf.slice(i + 1); } }
+      for (;;) { const { done, value } = await rd.read(); if (done) break; arm(18000); buf += dec.decode(value, { stream: true }); let i; while ((i = buf.indexOf("\n")) >= 0) { eat(buf.slice(0, i)); buf = buf.slice(i + 1); } }
       if (buf) eat(buf);
     } else (await r.text()).split("\n").forEach(eat);
   } catch (e) {
@@ -6293,7 +6324,8 @@ const LiveMsg = {
       if (txt.length < 8000) V3.fadeNew(lv, births, now); if (txt.trim()) V3.caret(lv);
       if (stick) scrollEnd();
     };
-    const tick = () => {
+    const tick = () => { try { tick0(); } catch (e) { console.warn("[escrita]", e); if (!dead) { if (finishing) { shown = 1e9; try { row && (row.querySelector(".lv").innerHTML = md(V3.liveSplit(pend).chat)); } catch (x) {} if (resolveDrain) { resolveDrain(); resolveDrain = null; } } else tm = setTimeout(tick, 80); } } };
+    const tick0 = () => {
       tm = 0; if (dead) return;
       const now = Date.now(), dt = last ? Math.min(250, now - last) : 40; last = now;
       const sp = V3.liveSplit(pend), toks = tokens(sp.chat), backlog = toks.length - Math.max(0, shown);
@@ -6311,7 +6343,7 @@ const LiveMsg = {
     return {
       update(raw) { pend = raw; Diag.mark("first"); Canvas.live(raw); if (!tm && !dead) tm = setTimeout(tick, 0); },
       /* espera a escrita alcançar o texto recebido (no máximo ~5 s depois que a resposta terminou) */
-      drain(signal) { return new Promise(res => { if (dead || !V3.liveSplit(pend).chat.trim()) return res(); const rem = tokens(V3.liveSplit(pend).chat).length - Math.max(0, shown); deadline = Date.now() + Math.min(WRITE_DRAIN[cfg("write_speed")] || 300, Math.max(500, rem / (WRITE_RATES[cfg("write_speed")] || 160) * 1000)); finishing = true; resolveDrain = res; if (signal) signal.addEventListener("abort", () => { if (resolveDrain) { resolveDrain(); resolveDrain = null; } }, { once: true }); clearTimeout(tm); tm = setTimeout(tick, 0); }); },
+      drain(signal) { return new Promise(res => { if (dead || !V3.liveSplit(pend).chat.trim()) return res(); const rem = tokens(V3.liveSplit(pend).chat).length - Math.max(0, shown); deadline = Date.now() + Math.min(WRITE_DRAIN[cfg("write_speed")] || 300, Math.max(500, rem / (WRITE_RATES[cfg("write_speed")] || 160) * 1000)); finishing = true; resolveDrain = res; setTimeout(() => { if (resolveDrain === res) { resolveDrain(); resolveDrain = null; } }, Math.max(1500, (deadline - Date.now()) + 1800)); if (signal) signal.addEventListener("abort", () => { if (resolveDrain) { resolveDrain(); resolveDrain = null; } }, { once: true }); clearTimeout(tm); tm = setTimeout(tick, 0); }); },
       active() { return !!row; }, had() { return had; },
       status(t) { if (!row) return; if (!stat) { stat = document.createElement("span"); stat.className = "v3stat"; row.querySelector(".bub").appendChild(stat); row.querySelectorAll(".v3caret").forEach(c => c.remove()); } stat.textContent = t; },
       dispose() { dead = true; clearTimeout(tm); tm = 0; if (resolveDrain) { resolveDrain(); resolveDrain = null; } if (row) { row.remove(); row = null; } Canvas.liveEnd(); }
@@ -6437,7 +6469,7 @@ const Canvas = {
 const Research = {
   async run(topic) {
     if (App.sending) return;
-    App.sending = true; const ctl = App.abort = new AbortController(); updateComposerButtons();
+    App.sending = true; App._t0 = Date.now(); const ctl = App.abort = new AbortController(); updateComposerButtons();
     const uEntry = { role: "user", content: "/pesquisa " + topic }; Chats.log.push(uEntry); pushMsg("user", uEntry.content); Chats.persist();
     const row = document.createElement("div"); row.className = "m a";
     row.innerHTML = '<div class="av"></div><div class="bub"><div>Vou pesquisar isso a fundo. Dá para acompanhar cada etapa:</div><div class="v3prog"></div></div>';
@@ -6936,7 +6968,7 @@ const Tri = {
   },
   async run(req) {
     if (App.sending) return toast("Espere o Jarvis terminar.", 2500);
-    App.sending = true; const ctl = App.abort = new AbortController(); updateComposerButtons();
+    App.sending = true; App._t0 = Date.now(); const ctl = App.abort = new AbortController(); updateComposerButtons();
     const entry = { role: "user", content: "3 caminhos: " + req }; Chats.log.push(entry); const userRow = pushMsg("user", entry.content); Chats.persist();
     const tri = { items: TRI_ANGLES.map(a => ({ label: a[0], hint: a[1], text: "", err: "" })), chosen: null };
     const ae = { role: "assistant", content: "Gerando 3 versões…", tri }; Chats.log.push(ae);
@@ -7454,6 +7486,62 @@ document.addEventListener('visibilitychange',()=>document.documentElement.classL
   try { const _b3 = buildSystem; buildSystem = function () { const p = LS.get("brain_profile", "").trim(); return _b3.apply(this, arguments) + (p ? "\nPERFIL FIXO DO USUÁRIO (sempre considere): " + p.slice(0, 1200) : ""); }; } catch (e) {}
   chips();
 })();
+(function () {
+  const btn = document.getElementById("bLink"); if (!btn) return;
+  btn.addEventListener("click", async () => {
+    if (btn.disabled) return;
+    const notes = Brain.notes.slice(0, 40);
+    if (notes.length < 3) { toast("Crie pelo menos 3 notas para eu achar ligações.", 3000); return; }
+    btn.disabled = true; const old = btn.textContent; btn.textContent = "Pensando…";
+    try {
+      const list = notes.map(n => n.id + " | " + n.title + " | " + String(n.body || "").slice(0, 140).replace(/\s+/g, " ")).join("\n");
+      const have = new Set(Brain.rel.map(r => [r[0], r[1]].sort().join("~")));
+      const raw = await callAI([{ role: "user", content: "Notas (id | título | texto):\n" + list + "\n\nEncontre até 6 ligações ÚTEIS e não óbvias entre notas que ainda não estão ligadas. Responda SÓ um JSON: [[\"idA\",\"idB\",\"motivo curto em português\"]]" }], "Você liga ideias. Responda apenas JSON válido, sem texto extra.", { fast: true, maxTokens: 900, search: false, temp: .4 });
+      let arr = []; try { arr = JSON.parse(String(raw).replace(/```json|```/g, "").trim().match(/\[[\s\S]*\]/)[0]); } catch (e) {}
+      const ids = new Set(notes.map(n => n.id)); let added = 0, why = "";
+      for (const t of (Array.isArray(arr) ? arr : [])) {
+        if (!Array.isArray(t) || !ids.has(t[0]) || !ids.has(t[1]) || t[0] === t[1] || have.has([t[0], t[1]].sort().join("~"))) continue;
+        Brain.rel.push([t[0], t[1]]); have.add([t[0], t[1]].sort().join("~")); added++; flashNode(t[0]); flashNode(t[1]);
+        if (!why) why = String(t[2] || "").slice(0, 120);
+      }
+      if (added) { Brain.save(); renderBrain(); toast("✨ " + added + " nova(s) ligação(ões)" + (why ? ": " + why : ""), 7000); }
+      else toast("Não achei ligações novas agora.", 3000);
+    } catch (e) { toast(typeof aiErr === "function" ? aiErr(e) : "Não consegui agora.", 5000); }
+    finally { btn.disabled = false; btn.textContent = old; }
+  });
+  setInterval(() => { try { if (App.sending && App._t0 && Date.now() - App._t0 > 180000 && App.abort) App.abort.abort(); } catch (e) {} }, 5000);
+  window.addEventListener("unhandledrejection", e => { console.warn("[promessa]", e.reason); });
+})();
+const V9 = {
+  seen: new Set(),
+  stop: new Set("para como mais pois isso esse essa este esta com sem uma uns umas dos das que nos nas por sobre entre ate ser foi tem meu minha seus suas quando onde sobre ainda".split(" ")),
+  match(text) {
+    const t = " " + norm(String(text || "")).replace(/[^a-z0-9 ]+/g, " ") + " ", words = new Set(t.split(" ").filter(Boolean)), out = [];
+    for (const n of Brain.notes || []) {
+      const title = norm(String(n.title || "")).replace(/[^a-z0-9 ]+/g, " ").trim(); if (title.length < 3) continue;
+      let sc = 0;
+      if (t.indexOf(" " + title + " ") >= 0) sc = 3;
+      else { const tk = title.split(" ").filter(w => w.length >= 4 && !V9.stop.has(w)); if (tk.length) { const hit = tk.filter(w => words.has(w)).length; if (hit && hit / tk.length >= .6) sc = 1 + hit / tk.length; } }
+      if (sc) out.push({ n, sc });
+    }
+    return out.sort((a, b) => b.sc - a.sc).slice(0, 4).map(x => x.n);
+  },
+  light(text) {
+    const now = performance.now(); if (V9.t && now - V9.t < 350) return; V9.t = now;
+    for (const n of V9.match(text)) if (!V9.seen.has(n.id)) { V9.seen.add(n.id); G3.flash[n.id] = now + 4500; }
+  },
+  chips(row, text) {
+    const list = V9.match(text); V9.seen.clear(); if (!list.length || !row || !row.insertAdjacentElement) return;
+    const box = document.createElement("div"); box.className = "v9mem"; box.append("🧠 Lembrei de:");
+    list.forEach(n => {
+      G3.flash[n.id] = performance.now() + 4500;
+      const b = document.createElement("button"); b.type = "button"; b.style.setProperty("--c", (AREA[n.area] || AREA.meta).color);
+      const i = document.createElement("i"); b.append(i, n.title); b.title = "Abrir nota"; b.onclick = () => openEditor(n.id); box.append(b);
+    });
+    row.insertAdjacentElement("afterend", box);
+    try { const m = $("msgs"); if (m && V3.stick) scrollEnd(); } catch (e) {}
+  }
+};
 </script>
 </body>
 </html>
