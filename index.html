@@ -921,7 +921,6 @@ html.no-motion .v6sk,html.no-motion #v6rec.live .v6st:before{animation:none}
 
 .v6cf .v6b,.v6cf .v6b.main{white-space:nowrap;flex:0 0 auto}
 </style>
-<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
 </head>
 <body>
 <div id="gemini-fx" aria-hidden="true"><i class="gb b1"></i><i class="gb b2"></i><i class="gb b3"></i><i class="gb b4"></i></div>
@@ -3314,16 +3313,16 @@ const FACE_THEMES = {
     ramps: [["#172554", "#1d4ed8", "#3b82f6", "#60a5fa", "#67e8f9", "#e0f2fe"],
             ["#4c1d95", "#7c3aed", "#a855f7", "#d946ef", "#f0abfc", "#fdf4ff"],
             ["#1e1b4b", "#4338ca", "#6d28d9", "#8b5cf6", "#a78bfa", "#ddd6fe"]],
-    roles: { sclera: "#9fd0ff", iris: "#22d3ee", irisIn: "#67e8f9", spec: "#ffffff", lidU: "#3b82f6", lidL: "#2563eb", lash: "#e0f2fe",
-             brow1: "#a78bfa", brow2: "#6d28d9", lip1: "#fdf4ff", lip2: "#f0abfc", teeth: "#e0f2fe", tongue: "#d946ef", mouthDark: "#4c1d95" }
+    roles: { sclera: "#e6f1ff", iris: "#38bdf8", irisIn: "#67e8f9", spec: "#ffffff", lidU: "#3b82f6", lidL: "#2563eb", lash: "#e0f2fe",
+             brow1: "#a78bfa", brow2: "#6d28d9", lip1: "#fdf4ff", lip2: "#f0abfc", teeth: "#e0f2fe", tongue: "#e879b9", mouthDark: "#7a2d6a" }
   },
   light: {
     alpha: [.45, .55, .66, .78, .9, 1],
     ramps: [["#dbeafe", "#bfdbfe", "#93c5fd", "#3b82f6", "#1d4ed8", "#1e3a8a"],
             ["#fbcfe8", "#f9a8d4", "#f472b6", "#ec4899", "#db2777", "#9d174d"],
-            ["#e9d5ff", "#d8b4fe", "#a78bfa", "#8b5cf6", "#6d28d9", "#4c1d95"]],
-    roles: { sclera: "#c7d9f5", iris: "#0369a1", irisIn: "#0ea5e9", spec: "#ffffff", lidU: "#93c5fd", lidL: "#bfdbfe", lash: "#1e3a8a",
-             brow1: "#5b21b6", brow2: "#7c3aed", lip1: "#be185d", lip2: "#ec4899", teeth: "#e2e8f0", tongue: "#f472b6", mouthDark: "#312e81" }
+            ["#f3e8ff", "#e9d5ff", "#d8b4fe", "#c4b5fd", "#a78bfa", "#8b5cf6"]],
+    roles: { sclera: "#f1f5fb", iris: "#2f8fd8", irisIn: "#7cc4f5", spec: "#ffffff", lidU: "#c7dbfb", lidL: "#dbeafe", lash: "#475a8a",
+             brow1: "#7c6cf0", brow2: "#a78bfa", lip1: "#f06a8d", lip2: "#f9a8c0", teeth: "#ffffff", tongue: "#f58fb0", mouthDark: "#b5557a" }
   }
 };
 function rampFrom(c, light) {
@@ -7129,142 +7128,6 @@ document.addEventListener('visibilitychange',()=>document.documentElement.classL
   } catch (e) {}
 })();
 
-/* ============ v11: escultura holográfica 3D — modelos GLB reais em wireframe branco sobre preto ============ */
-(function () {
-  const CFG = {
-    head: "models/head.glb", headFallback: "https://cdn.jsdelivr.net/gh/mrdoob/three.js@r160/examples/models/gltf/LeePerrySmith/LeePerrySmith.glb",
-    hand: "models/hand.glb", handFallback: "https://cdn.jsdelivr.net/npm/@webxr-input-profiles/assets@1.0/dist/profiles/generic-hand/right.glb", headH: 2.3, headYaw: .55, handH: 1.15, handPos: [1.05, -1.0, 1.2], handRot: [Math.PI / 2, Math.PI - .35, 0], handFlip: 1
-  };
-  const cl = (x, a, b) => Math.min(b, Math.max(a, x)), S = { ready: false, booting: false, msg: "CARREGANDO ESCULTURA 3D…", tx: 0, ty: 0, mx: 0, my: 0, morphs: [], bones: [], src: {}, ext: 0, extAt: -1e9, w: 0, h: 0 };
-  /* ---------- guarda os .glb do usuário no aparelho (IndexedDB) ---------- */
-  const idb = () => new Promise((res, rej) => { const r = indexedDB.open("jarvis3d", 1); r.onupgradeneeded = () => r.result.createObjectStore("m"); r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error); });
-  const idbGet = async k => { try { const d = await idb(); return await new Promise(res => { const q = d.transaction("m").objectStore("m").get(k); q.onsuccess = () => res(q.result || null); q.onerror = () => res(null); }); } catch (e) { return null; } };
-  const idbSet = async (k, v) => { const d = await idb(); return new Promise((res, rej) => { const tx = d.transaction("m", "readwrite"); v === null ? tx.objectStore("m").delete(k) : tx.objectStore("m").put(v, k); tx.oncomplete = res; tx.onerror = () => rej(tx.error); }); };
-  const isGlb = b => b && b.byteLength > 12 && new DataView(b).getUint32(0, true) === 0x46546C67;
-  async function getBuf(kind) {
-    let b = await idbGet(kind); if (isGlb(b)) return { b, src: "seu arquivo" };
-    for (const u of [CFG[kind], CFG[kind + "Fallback"]].filter(Boolean)) { try { const r = await fetch(u); if (!r.ok) continue; b = await r.arrayBuffer(); if (isGlb(b)) return { b, src: u.indexOf("http") === 0 ? "padrão online" : "pasta models/" }; } catch (e) {} }
-    return null;
-  }
-  /* ---------- cena ---------- */
-  async function boot() {
-    S.booting = true;
-    try {
-      const T = S.T = await import("three"), { GLTFLoader } = await import("three/addons/loaders/GLTFLoader.js");
-      const r = S.r = new T.WebGLRenderer({ antialias: true, alpha: false, powerPreference: "high-performance" }); r.setClearColor(0x000000, 1);
-      S.scene = new T.Scene(); S.cam = new T.PerspectiveCamera(28, 1, .1, 60); S.loader = new GLTFLoader();
-      S.wireMat = new T.MeshBasicMaterial({ color: 0xffffff, wireframe: true, transparent: true, opacity: .5, blending: T.AdditiveBlending, depthWrite: false });
-      S.occMat = new T.MeshBasicMaterial({ color: 0x000000, polygonOffset: true, polygonOffsetFactor: 1, polygonOffsetUnits: 1 });
-      await Promise.all([load("head"), load("hand")]); S.ready = !!S.head;
-      if (!S.head) S.msg = "SEM MODELO DE CABEÇA: Ajustes › Avatar › Modelos 3D";
-    } catch (e) { S.msg = "NÃO CONSEGUI INICIAR O 3D (precisa de internet na 1ª vez e de WebGL)"; console.warn("Jarvis3D", e); }
-  }
-  async function load(kind) {
-    const T = S.T, got = await getBuf(kind); if (S[kind]) { S.scene.remove(S[kind]); S[kind] = null; } S.src[kind] = got ? got.src : "nenhum"; if (!got) return;
-    const gltf = await new Promise((res, rej) => S.loader.parse(got.b, "", res, rej)), root = gltf.scene, meshes = []; root.traverse(m => { if (m.isMesh) meshes.push(m); });
-    S.morphs = S.morphs.filter(x => x.kind !== kind); S.bones = S.bones.filter(x => x.kind !== kind);
-    meshes.forEach(m => {
-      const o = m.isSkinnedMesh ? new T.SkinnedMesh(m.geometry, S.occMat) : new T.Mesh(m.geometry, S.occMat); if (m.isSkinnedMesh) o.bind(m.skeleton, m.bindMatrix);
-      if (m.morphTargetInfluences) { o.morphTargetInfluences = m.morphTargetInfluences; o.morphTargetDictionary = m.morphTargetDictionary; S.morphs.push({ kind, m }); }
-      m.material = S.wireMat; m.frustumCulled = false; o.frustumCulled = false; m.renderOrder = 1; o.renderOrder = -1; m.add(o);
-    });
-    root.traverse(b => { if (b.isBone && /thumb|index|middle|ring|pinky|little/i.test(b.name) && !/end|tip/i.test(b.name)) S.bones.push({ kind, b, r: b.rotation.clone(), k: S.bones.length }); });
-    const box = new T.Box3().setFromObject(root), size = box.getSize(new T.Vector3()), ctr = box.getCenter(new T.Vector3()), g = new T.Group(), H = kind === "head" ? CFG.headH : CFG.handH;
-    root.position.sub(ctr); g.add(root); g.userData.k = H / ((kind === "head" ? size.y : Math.max(size.x, size.y, size.z)) || 1); g.scale.setScalar(g.userData.k); S.scene.add(g); S[kind] = g; if (kind === "hand") g.rotation.order = "YXZ";
-  }
-  window.addEventListener("pointermove", e => { S.tx = (e.clientX / innerWidth) * 2 - 1; S.ty = -((e.clientY / innerHeight) * 2 - 1); }, { passive: true });
-  const MORPH = { jawOpen: P => P.mo, mouthOpen: P => P.mo, viseme_aa: P => P.mo * .8, mouthSmileLeft: P => Math.max(0, P.smile), mouthSmileRight: P => Math.max(0, P.smile), mouthFrownLeft: P => Math.max(0, -P.smile), mouthFrownRight: P => Math.max(0, -P.smile), browInnerUp: P => Math.max(0, P.brow), browDownLeft: P => Math.max(0, P.furrow), browDownRight: P => Math.max(0, P.furrow), eyeBlinkLeft: P => cl(1 - P.eye, 0, 1), eyeBlinkRight: P => cl(1 - P.eye, 0, 1) };
-  const TAU = Math.PI * 2, sq = v => v * v;
-  /* ---------- o que ele desenha ---------- */
-  const circ = (x, y, r, n = 28) => Array.from({ length: n + 1 }, (_, i) => [x + Math.cos(i / n * TAU) * r, y + Math.sin(i / n * TAU) * r]);
-  const heart = Array.from({ length: 41 }, (_, i) => { const t = i / 40 * TAU; return [.5 + .03 * 16 * Math.pow(Math.sin(t), 3), .45 - .03 * (13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t))]; });
-  const star = Array.from({ length: 11 }, (_, i) => { const r = i % 2 ? .18 : .42, a = i / 10 * TAU - Math.PI / 2; return [.5 + Math.cos(a) * r, .52 + Math.sin(a) * r]; });
-  const DRAW = [
-    [/camis|roupa|blusa|moletom|polo/, "CAMISA", [[[.3, .15], [.42, .1], [.5, .2], [.58, .1], [.7, .15], [.9, .35], [.78, .45], [.7, .38], [.7, .9], [.3, .9], [.3, .38], [.22, .45], [.1, .35], [.3, .15]]]],
-    [/calca|bermuda|jeans|short/, "CALÇA", [[[.3, .1], [.7, .1], [.75, .95], [.55, .95], [.5, .4], [.45, .95], [.25, .95], [.3, .1]]]],
-    [/tenis|sapato|sandalia|chinelo/, "CALÇADO", [[[.1, .7], [.1, .5], [.4, .45], [.55, .6], [.9, .65], [.9, .8], [.1, .8], [.1, .7]]]],
-    [/bone|chapeu|pesca/, "BONÉ", [[[.2, .6], [.25, .4], [.5, .28], [.75, .4], [.8, .6], [.2, .6]], [[.8, .6], [.95, .65], [.8, .68]]]],
-    [/loja|produto|sacola|compra|pedido|estoque/, "LOJA", [[[.2, .3], [.8, .3], [.85, .9], [.15, .9], [.2, .3]], [[.35, .3], [.35, .2], [.4, .1], [.6, .1], [.65, .2], [.65, .3]]]],
-    [/dinheiro|preco|lucro|reais|venda|faturamento|valor/, "DINHEIRO", [circ(.5, .5, .4, 30), circ(.5, .5, .32, 30), [[.6, .36], [.46, .32], [.4, .42], [.5, .5], [.6, .58], [.54, .68], [.4, .64]], [[.5, .24], [.5, .76]]]],
-    [/grafico|crescimento|meta|resultado|aument/, "GRÁFICO", [[[.1, .1], [.1, .9], [.9, .9]], [[.15, .75], [.35, .55], [.5, .65], [.7, .35], [.88, .2]], [[.78, .2], [.88, .2], [.88, .3]]]],
-    [/calendario|agenda|reuniao|compromisso/, "AGENDA", [[[.1, .2], [.9, .2], [.9, .9], [.1, .9], [.1, .2]], [[.1, .4], [.9, .4]], [[.3, .1], [.3, .28]], [[.7, .1], [.7, .28]], [[.25, .55], [.35, .55]], [[.45, .55], [.55, .55]], [[.65, .55], [.75, .55]], [[.25, .72], [.35, .72]]]],
-    [/relogio|horas?\b|tempo|prazo/, "TEMPO", [circ(.5, .5, .4, 32), [[.5, .5], [.5, .22]], [[.5, .5], [.7, .58]]]],
-    [/coracao|amor|carinho|saude/, "CORAÇÃO", [heart]],
-    [/casa|endereco|entrega|frete/, "CASA", [[[.1, .5], [.5, .12], [.9, .5]], [[.2, .45], [.2, .9], [.8, .9], [.8, .45]], [[.43, .9], [.43, .65], [.57, .65], [.57, .9]]]],
-    [/ideia|dica|sugest|pensei/, "IDEIA", [circ(.5, .38, .25), [[.4, .62], [.4, .78], [.6, .78], [.6, .62]], [[.43, .86], [.57, .86]], [[.5, .04], [.5, .1]], [[.15, .2], [.2, .25]], [[.85, .2], [.8, .25]]]],
-    [/estrela|otimo|parabens|sucesso/, "ESTRELA", [star]],
-    [/celular|telefone|whatsapp|mensagem/, "CELULAR", [[[.3, .08], [.7, .08], [.7, .92], [.3, .92], [.3, .08]], [[.3, .22], [.7, .22]], [[.3, .78], [.7, .78]], [[.46, .85], [.54, .85]]]],
-    [/computador|site|sistema|codigo|planilha/, "TELA", [[[.08, .18], [.92, .18], [.92, .7], [.08, .7], [.08, .18]], [[.4, .7], [.35, .88], [.65, .88], [.6, .7]], [[.25, .35], [.5, .35]], [[.25, .5], [.7, .5]]]]
-  ];
-  const mathOf = tx => {
-    const t = tx.replace(/\bmais\b/g, "+").replace(/\bmenos\b/g, "−").replace(/\bvezes\b/g, "×").replace(/dividido por/g, "÷").replace(/(?:^|\s)(?:igual a|d[áa]|resulta em|total de)(?=\s*(?:R\$\s*)?\d)/g, " =").replace(/(\d)\s*[x*]\s*(?=\d)/g, "$1 × ");
-    const m = t.match(/(?:R\$\s*)?\d[\d.,]*(?:\s*[+−×÷=]\s*(?:R\$\s*)?\d[\d.,]*)+/g); return m ? m.sort((a, b) => b.length - a.length)[0].replace(/\s+/g, " ").trim() : null;
-  };
-  const Stark = { items: [], until: 0, say(text) {
-    const raw = String(text).toLowerCase(), n = raw.normalize("NFD").replace(/[\u0300-\u036f]/g, ""), found = [], mt = mathOf(raw);
-    if (mt) found.push({ i: Math.max(0, raw.indexOf(mt.slice(0, 3))), label: "CONTA", text: mt });
-    DRAW.forEach(([re, label, strokes]) => { const m = re.exec(n); if (m) found.push({ i: m.index, label, strokes }); });
-    found.sort((a, b) => a.i - b.i); const now = performance.now();
-    this.items = found.slice(0, 3).map((f, k) => Object.assign(f, { start: now + 700 + k * 3300, dur: f.text ? 2600 : 2200 }));
-    this.until = this.items.length ? now + 700 + (this.items.length - 1) * 3300 + 7500 : 0;
-  } };
-  try { const _sw = Face.speakWith; Face.speakWith = function (text, fn) { try { Stark.say(text); } catch (e) {} return _sw.call(this, text, fn); }; } catch (e) {}
-
-  const frame = (c, x, y, w, h, col, G) => { c.strokeStyle = rgbaHex(col, .35 * G); c.lineWidth = 1; c.strokeRect(x, y, w, h); c.strokeStyle = rgbaHex(col, .95 * G); c.lineWidth = 2; const k = Math.min(w, h) * .09; [[x, y, 1, 1], [x + w, y, -1, 1], [x, y + h, 1, -1], [x + w, y + h, -1, -1]].forEach(([px, py, a, b]) => { c.beginPath(); c.moveTo(px + a * k, py); c.lineTo(px, py); c.lineTo(px, py + b * k); c.stroke(); }); };
-  const board = (A, bx, by, bw, bh, it, now) => {
-    const { c, c1, G } = A, p = cl((now - it.start) / it.dur, 0, 1); c.globalCompositeOperation = "lighter";
-    c.fillStyle = rgbaHex(c1, .05 * G); c.fillRect(bx, by, bw, bh); frame(c, bx, by, bw, bh, c1, G);
-    c.fillStyle = rgbaHex(c1, .9 * G); c.font = "600 " + Math.max(9, bh * .07) + "px monospace"; c.textBaseline = "top"; c.fillText("◉ " + it.label, bx + bw * .05, by + bh * .05);
-    if (it.text) {
-      const fs = Math.min(bh * .3, bw * .86 / (it.text.length * .55)), tw = Math.max(1, it.text.length * fs * .55); c.font = fs + 'px "Segoe Print","Bradley Hand","Noteworthy",cursive,monospace'; c.textBaseline = "middle";
-      const tx = bx + (bw - c.measureText(it.text).width) / 2, ty = by + bh * .55, W2 = c.measureText(it.text).width;
-      c.save(); c.beginPath(); c.rect(tx - 4, by, W2 * p + 8, bh); c.clip(); c.shadowColor = c1; c.shadowBlur = 14; c.fillStyle = mixCol(c1, "#ffffff", .75); c.fillText(it.text, tx, ty); c.restore();
-      if (p > .95) { c.strokeStyle = rgbaHex(c1, .8 * G); c.lineWidth = 2; c.beginPath(); c.moveTo(tx, ty + fs * .6); c.lineTo(tx + W2, ty + fs * .6); c.stroke(); }
-      if (p < 1) glowDot(A, tx + W2 * p, ty, fs * .5);
-      return;
-    }
-    const S = Math.min(bw * .76, bh * .7), ox = bx + (bw - S) / 2, oy = by + bh * .2; let left = p * it.strokes.reduce((t, pl) => t + pl.reduce((a, q, i) => a + (i ? Math.hypot(q[0] - pl[i - 1][0], q[1] - pl[i - 1][1]) : 0), 0), 0), tip = null;
-    [[7, .14], [2, .95]].forEach(([lw, al]) => { c.strokeStyle = rgbaHex(c1, al * G); c.lineWidth = lw; c.lineCap = "round"; let rem = left; it.strokes.forEach(pl => { if (rem <= 0) return; c.beginPath(); c.moveTo(ox + pl[0][0] * S, oy + pl[0][1] * S); for (let i = 1; i < pl.length; i++) { const d = Math.hypot(pl[i][0] - pl[i - 1][0], pl[i][1] - pl[i - 1][1]); if (rem >= d) { c.lineTo(ox + pl[i][0] * S, oy + pl[i][1] * S); rem -= d; tip = [pl[i][0], pl[i][1]]; } else { const f = rem / d, qx = pl[i - 1][0] + (pl[i][0] - pl[i - 1][0]) * f, qy = pl[i - 1][1] + (pl[i][1] - pl[i - 1][1]) * f; c.lineTo(ox + qx * S, oy + qy * S); tip = [qx, qy]; rem = 0; break; } } c.stroke(); }); });
-    if (tip && p < 1) glowDot(A, ox + tip[0] * S, oy + tip[1] * S, S * .06);
-  };
-  const glowDot = (A, x, y, r) => { const g = A.c.createRadialGradient(x, y, 0, x, y, r * 2.2); g.addColorStop(0, "rgba(255,255,255,.95)"); g.addColorStop(.3, rgbaHex(A.c1, .8)); g.addColorStop(1, rgbaHex(A.c1, 0)); A.c.fillStyle = g; A.c.beginPath(); A.c.arc(x, y, r * 2.2, 0, TAU); A.c.fill(); };
-  AVATARS.escultura = (o, now, dt) => {
-    const dim = prepCanvas(o); if (!dim) return; const { w, h, dpr } = dim, st = o.state(), t = now / 1000, pn = performance.now(); Face.update(now, dt, st, o.energy);
-    const P = Face.p, en = o.energy; o.energy *= Math.exp(-2.6 * dt); const c = o.ctx;
-    c.setTransform(dpr, 0, 0, dpr, 0, 0); c.globalCompositeOperation = "source-over"; c.fillStyle = "#000"; c.fillRect(0, 0, w, h);
-    if (!S.ready) { if (!S.booting) boot(); c.fillStyle = "rgba(255,255,255,.7)"; c.font = "600 11px monospace"; c.textAlign = "center"; c.fillText(S.msg, w / 2, h / 2); c.textAlign = "left"; return; }
-    const amp = pn - S.extAt < 300 ? S.ext : st === "speaking" ? .3 + P.mo * .9 : st === "listening" ? .2 + en * .8 : st === "thinking" ? .45 + .2 * Math.sin(t * 9) : .1;
-    const act = Stark.items.filter(i => i.start <= pn).pop(), want = act && pn < Stark.until ? 1 : 0; o._v = (o._v || 0) + (want - (o._v || 0)) * (1 - Math.exp(-dt * 4)); const vis = o._v, wide = w > h * 1.1;
-    const pw = Math.round(w * dpr), ph = Math.round(h * dpr); if (S.w !== pw || S.h !== ph) { S.r.setSize(pw, ph, false); S.w = pw; S.h = ph; S.cam.aspect = w / h; S.cam.updateProjectionMatrix(); }
-    const asp = w / h; S.cam.position.set(0, .05, 6.4 / Math.min(1, asp * 1.15)); S.cam.lookAt(0, 0, 0);
-    const k = 1 - Math.exp(-dt * 5); S.mx += (S.tx - S.mx) * k * .5; S.my += (S.ty - S.my) * k * .5;
-    const hd = S.head; hd.rotation.set(S.my * -.12 + Math.sin(t * .5) * .025 + (st === "speaking" ? Math.sin(t * 7) * .012 * amp : 0), CFG.headYaw + Math.sin(t * .35) * .12 + S.mx * .28, Math.sin(t * .27) * .02); hd.position.y = Math.sin(t * .8) * .02 + (wide ? 0 : vis * .55); hd.position.x = wide ? -vis * 1.1 : 0; hd.scale.setScalar(hd.userData.k * (1 + amp * .012) * (1 - .15 * vis));
-    S.morphs.forEach(({ m }) => { const d = m.morphTargetDictionary; if (d) for (const n in MORPH) if (d[n] !== undefined) m.morphTargetInfluences[d[n]] += (MORPH[n](P) - m.morphTargetInfluences[d[n]]) * .4; });
-    if (S.hand) { const hn = S.hand, hp = CFG.handPos, fx = Math.min(1, asp * 1.3); hn.position.set(hp[0] * fx - vis * (wide ? 1.7 : 0), hp[1] + Math.sin(t * 1.1) * .04, hp[2]); hn.rotation.set(CFG.handRot[0] + Math.sin(t * .9) * .05, CFG.handRot[1] + S.mx * .15, CFG.handRot[2] + Math.sin(t * .8) * .04); hn.scale.set(hn.userData.k * CFG.handFlip, hn.userData.k, hn.userData.k); S.bones.forEach(({ kind, b, r, k: i }) => { if (kind === "hand") b.rotation.x = r.x + .07 + .05 * Math.sin(t * 1.4 + i * .5); }); }
-    S.wireMat.opacity = .42 + amp * .3; S.r.render(S.scene, S.cam); c.drawImage(S.r.domElement, 0, 0, w, h);
-    if (vis > .02 && act) { c.globalAlpha = cl(vis * 1.4, 0, 1); const [bx, by, bw, bh] = wide ? [w * .56, h * .14, w * .4, h * .62] : [w * .06, h * .62, w * .88, h * .34]; board({ c, c1: "#ffffff", G: 1 }, bx, by, bw, bh, act, pn); c.globalAlpha = 1; c.globalCompositeOperation = "source-over"; }
-    if (!S.hand) { c.fillStyle = "rgba(255,255,255,.35)"; c.font = "10px monospace"; c.fillText("sem mão 3D: Ajustes › Avatar › Modelos 3D", 10, h - 10); }
-  };
-  window.Jarvis3D = { cfg: CFG, setVoice(v) { S.ext = cl(+v || 0, 0, 1); S.extAt = performance.now(); }, reload: kind => S.T ? load(kind) : null };
-  /* ---------- ajustes: enviar os modelos ---------- */
-  const box = $("uAvatar"), vs = $("vSettings"), cat = vs.querySelector('.cat[data-c="avatar"]');
-  if (box && !box.querySelector('[data-v="escultura"]')) { const b = document.createElement("button"); b.type = "button"; b.dataset.v = "escultura"; b.textContent = "Escultura 3D"; box.insertBefore(b, box.firstChild); bind.seg("uAvatar", "ui_avatar", "face", applyUI); }
-  if (cat) {
-    const g = document.createElement("div"); g.className = "grp";
-    g.innerHTML = '<div class="gt">Modelos 3D (cabeça e mão)</div><div class="gl">' +
-      '<label class="li col"><b>Cabeça (.glb)</b><input type="file" id="m3Head" accept=".glb"><small id="m3HeadS"></small></label>' +
-      '<label class="li col"><b>Mão (.glb)</b><input type="file" id="m3Hand" accept=".glb"><small id="m3HandS"></small></label>' +
-      '<div class="li col"><div class="seg"><button type="button" id="m3RmHead">Voltar à cabeça padrão</button><button type="button" id="m3RmHand">Remover mão</button></div><small>Já funciona sozinho, sem enviar nada: cabeça “3D Head Scan” de Lee Perry-Smith (triplegangers.com, CC BY 3.0) e mão do projeto WebXR Input Profiles (licença MIT). Enviar arquivos é opcional, só para trocar os modelos. Eles ficam salvos neste aparelho.</small></div></div>';
-    cat.insertBefore(g, cat.firstChild);
-    const say = () => { $("m3HeadS").textContent = "Em uso: " + (S.src.head || "carregando…"); $("m3HandS").textContent = "Em uso: " + (S.src.hand || "nenhuma"); }; say();
-    const up = (id, kind) => $(id).onchange = async e => { const f = e.target.files[0]; if (!f) return; const b = await f.arrayBuffer(); if (!isGlb(b)) { alert("Esse arquivo não é um .glb válido."); return; } await idbSet(kind, b); if (S.T) await load(kind); say(); S.ready = !!S.head; };
-    up("m3Head", "head"); up("m3Hand", "hand");
-    const rm = (id, kind) => $(id).onclick = async () => { await idbSet(kind, null); if (S.T) await load(kind); say(); S.ready = !!S.head; };
-    rm("m3RmHead", "head"); rm("m3RmHand", "hand"); setInterval(say, 2000);
-  }
-  if (LS.get("v11_migrated", "") !== "1") { LS.set("ui_avatar", "escultura"); LS.set("v11_migrated", "1"); try { applyUI(); } catch (e) {} }
-})();
-
 /* ============ v12: ligação mais rápida, próximo passo, ações no texto, briefing, tabela em CSV ============ */
 (function () {
   document.head.appendChild(Object.assign(document.createElement("style"), { textContent:
@@ -7344,6 +7207,99 @@ document.addEventListener('visibilitychange',()=>document.documentElement.classL
       return r;
     };
   } catch (e) {}
+})();
+
+/* ============ v13: desenhos ao vivo + mãos em QUALQUER avatar (rosto, orbe, reator, robô…) ============ */
+(function () {
+  const TAU = Math.PI * 2, cl = (x, a, b) => Math.min(b, Math.max(a, x)), sq = v => v * v;
+  /* ---------- o que ele desenha ---------- */
+  const circ = (x, y, r, n = 28) => Array.from({ length: n + 1 }, (_, i) => [x + Math.cos(i / n * TAU) * r, y + Math.sin(i / n * TAU) * r]);
+  const heart = Array.from({ length: 41 }, (_, i) => { const t = i / 40 * TAU; return [.5 + .03 * 16 * Math.pow(Math.sin(t), 3), .45 - .03 * (13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t))]; });
+  const star = Array.from({ length: 11 }, (_, i) => { const r = i % 2 ? .18 : .42, a = i / 10 * TAU - Math.PI / 2; return [.5 + Math.cos(a) * r, .52 + Math.sin(a) * r]; });
+  const DRAW = [
+    [/camis|roupa|blusa|moletom|polo/, "CAMISA", [[[.3, .15], [.42, .1], [.5, .2], [.58, .1], [.7, .15], [.9, .35], [.78, .45], [.7, .38], [.7, .9], [.3, .9], [.3, .38], [.22, .45], [.1, .35], [.3, .15]]]],
+    [/calca|bermuda|jeans|short/, "CALÇA", [[[.3, .1], [.7, .1], [.75, .95], [.55, .95], [.5, .4], [.45, .95], [.25, .95], [.3, .1]]]],
+    [/tenis|sapato|sandalia|chinelo/, "CALÇADO", [[[.1, .7], [.1, .5], [.4, .45], [.55, .6], [.9, .65], [.9, .8], [.1, .8], [.1, .7]]]],
+    [/bone|chapeu|pesca/, "BONÉ", [[[.2, .6], [.25, .4], [.5, .28], [.75, .4], [.8, .6], [.2, .6]], [[.8, .6], [.95, .65], [.8, .68]]]],
+    [/loja|produto|sacola|compra|pedido|estoque/, "LOJA", [[[.2, .3], [.8, .3], [.85, .9], [.15, .9], [.2, .3]], [[.35, .3], [.35, .2], [.4, .1], [.6, .1], [.65, .2], [.65, .3]]]],
+    [/dinheiro|preco|lucro|reais|venda|faturamento|valor/, "DINHEIRO", [circ(.5, .5, .4, 30), circ(.5, .5, .32, 30), [[.6, .36], [.46, .32], [.4, .42], [.5, .5], [.6, .58], [.54, .68], [.4, .64]], [[.5, .24], [.5, .76]]]],
+    [/grafico|crescimento|meta|resultado|aument/, "GRÁFICO", [[[.1, .1], [.1, .9], [.9, .9]], [[.15, .75], [.35, .55], [.5, .65], [.7, .35], [.88, .2]], [[.78, .2], [.88, .2], [.88, .3]]]],
+    [/calendario|agenda|reuniao|compromisso/, "AGENDA", [[[.1, .2], [.9, .2], [.9, .9], [.1, .9], [.1, .2]], [[.1, .4], [.9, .4]], [[.3, .1], [.3, .28]], [[.7, .1], [.7, .28]], [[.25, .55], [.35, .55]], [[.45, .55], [.55, .55]], [[.65, .55], [.75, .55]], [[.25, .72], [.35, .72]]]],
+    [/relogio|horas?\b|tempo|prazo/, "TEMPO", [circ(.5, .5, .4, 32), [[.5, .5], [.5, .22]], [[.5, .5], [.7, .58]]]],
+    [/coracao|amor|carinho|saude/, "CORAÇÃO", [heart]],
+    [/casa|endereco|entrega|frete/, "CASA", [[[.1, .5], [.5, .12], [.9, .5]], [[.2, .45], [.2, .9], [.8, .9], [.8, .45]], [[.43, .9], [.43, .65], [.57, .65], [.57, .9]]]],
+    [/ideia|dica|sugest|pensei/, "IDEIA", [circ(.5, .38, .25), [[.4, .62], [.4, .78], [.6, .78], [.6, .62]], [[.43, .86], [.57, .86]], [[.5, .04], [.5, .1]], [[.15, .2], [.2, .25]], [[.85, .2], [.8, .25]]]],
+    [/estrela|otimo|parabens|sucesso/, "ESTRELA", [star]],
+    [/celular|telefone|whatsapp|mensagem/, "CELULAR", [[[.3, .08], [.7, .08], [.7, .92], [.3, .92], [.3, .08]], [[.3, .22], [.7, .22]], [[.3, .78], [.7, .78]], [[.46, .85], [.54, .85]]]],
+    [/computador|site|sistema|codigo|planilha/, "TELA", [[[.08, .18], [.92, .18], [.92, .7], [.08, .7], [.08, .18]], [[.4, .7], [.35, .88], [.65, .88], [.6, .7]], [[.25, .35], [.5, .35]], [[.25, .5], [.7, .5]]]]
+  ];
+  const mathOf = tx => {
+    const t = tx.replace(/\bmais\b/g, "+").replace(/\bmenos\b/g, "−").replace(/\bvezes\b/g, "×").replace(/dividido por/g, "÷").replace(/(?:^|\s)(?:igual a|d[áa]|resulta em|total de)(?=\s*(?:R\$\s*)?\d)/g, " =").replace(/(\d)\s*[x*]\s*(?=\d)/g, "$1 × ");
+    const m = t.match(/(?:R\$\s*)?\d[\d.,]*(?:\s*[+−×÷=]\s*(?:R\$\s*)?\d[\d.,]*)+/g); return m ? m.sort((a, b) => b.length - a.length)[0].replace(/\s+/g, " ").trim() : null;
+  };
+  const Stark = { items: [], until: 0, say(text) {
+    const raw = String(text).toLowerCase(), n = raw.normalize("NFD").replace(/[\u0300-\u036f]/g, ""), found = [], mt = mathOf(raw);
+    if (mt) found.push({ i: Math.max(0, raw.indexOf(mt.slice(0, 3))), label: "CONTA", text: mt });
+    else { const m = /(total|resultado|soma|custa|fica|valor|deu)\D{0,25}?((?:R\$\s*)?\d[\d.,]*)/.exec(raw); if (m) found.push({ i: m.index, label: "RESULTADO", text: "= " + m[2].trim() }); }
+    DRAW.forEach(([re, label, strokes]) => { const m = re.exec(n); if (m) found.push({ i: m.index, label, strokes }); });
+    found.sort((a, b) => a.i - b.i); const now = performance.now();
+    this.items = found.slice(0, 3).map((f, k) => Object.assign(f, { start: now + 700 + k * 3300, dur: f.text ? 2600 : 2200 }));
+    this.until = this.items.length ? now + 700 + (this.items.length - 1) * 3300 + 7500 : 0;
+  } };
+  try { const _sw = Face.speakWith; Face.speakWith = function (text, fn) { try { Stark.say(text); } catch (e) {} return _sw.call(this, text, fn); }; } catch (e) {}
+  /* ---------- mãos holográficas ---------- */
+  const FL = [.45, .55, .62, .55, .42], FB = [[-.5, -.15, -.95], [-.38, -.55, -.1], [-.13, -.58, -.02], [.13, -.55, .05], [.38, -.5, .14]];
+  const hand = (c, x, y, s, ang, ext, side, col, G) => {
+    c.save(); c.translate(x, y); c.rotate(ang * side); c.scale(s * side, s); c.lineJoin = "round";
+    const path = () => {
+      c.beginPath(); c.moveTo(0, 2.4); c.lineTo(-.28, .42); c.lineTo(-.5, 0); c.lineTo(-.5, -.55); c.lineTo(.5, -.55); c.lineTo(.5, 0); c.lineTo(.28, .42); c.lineTo(0, 2.4);
+      FB.forEach(([bx, by, a0], k) => { let px = bx, py = by, a = a0; const e = ext[k], L = FL[k] * (.4 + .6 * e); c.moveTo(px, py); [.45, .33, .22].forEach(f => { px += Math.sin(a) * L * f; py -= Math.cos(a) * L * f; c.lineTo(px, py); a += (bx < 0 ? 1 : -1) * (1 - e) * .9; }); });
+    };
+    path(); c.fillStyle = rgbaHex(col, .07 * G); c.fill(); c.strokeStyle = rgbaHex(col, .16 * G); c.lineWidth = 6 / s; c.stroke(); path(); c.strokeStyle = rgbaHex(col, .95 * G); c.lineWidth = 1.7 / s; c.stroke(); c.restore();
+  };
+  const POSE = {
+    rest: (t, hx, hy, R, sd) => ({ x: hx + sd * R * 1.05, y: hy + R * 1.4, a: -.1, e: [.55, .55, .55, .55, .55] }),
+    explain: (t, hx, hy, R, sd) => ({ x: hx + sd * R * 1.2, y: hy + R * .55 + Math.sin(t * 2.2 + (sd < 0 ? 1.6 : 0)) * R * .07, a: -.5 + .08 * Math.sin(t * 2.2), e: [.9, .95, .95, .95, .95] }),
+    point: (t, hx, hy, R, sd, wide) => ({ x: hx + sd * R * 1.05, y: hy + R * .25, a: wide ? 1.15 : 2.5, e: [.45, 1, .12, .12, .12] }),
+    scratch: (t, hx, hy, R, sd) => ({ x: hx + sd * R * .72, y: hy - R * .8, a: -.35 + Math.sin(t * 15) * .2, e: [.5, .95, .95, .95, .95] })
+  };
+  const frame = (c, x, y, w, h, col, G) => { c.strokeStyle = rgbaHex(col, .35 * G); c.lineWidth = 1; c.strokeRect(x, y, w, h); c.strokeStyle = rgbaHex(col, .95 * G); c.lineWidth = 2; const k = Math.min(w, h) * .09; [[x, y, 1, 1], [x + w, y, -1, 1], [x, y + h, 1, -1], [x + w, y + h, -1, -1]].forEach(([px, py, a, b]) => { c.beginPath(); c.moveTo(px + a * k, py); c.lineTo(px, py); c.lineTo(px, py + b * k); c.stroke(); }); };
+  const board = (A, bx, by, bw, bh, it, now) => {
+    const { c, c1, G } = A, p = cl((now - it.start) / it.dur, 0, 1); c.globalCompositeOperation = "source-over";
+    c.fillStyle = A.light ? "rgba(255,255,255,.94)" : "rgba(0,8,16,.88)"; c.fillRect(bx, by, bw, bh); c.globalCompositeOperation = A.light ? "source-over" : "lighter"; frame(c, bx, by, bw, bh, c1, G);
+    c.fillStyle = rgbaHex(c1, .9 * G); c.font = "600 " + Math.max(9, bh * .07) + "px monospace"; c.textBaseline = "top"; c.fillText("◉ " + it.label, bx + bw * .05, by + bh * .05);
+    if (it.text) {
+      const fs = Math.min(bh * .3, bw * .86 / (it.text.length * .55)), tw = Math.max(1, it.text.length * fs * .55); c.font = fs + 'px "Segoe Print","Bradley Hand","Noteworthy",cursive,monospace'; c.textBaseline = "middle";
+      const tx = bx + (bw - c.measureText(it.text).width) / 2, ty = by + bh * .55, W2 = c.measureText(it.text).width;
+      c.save(); c.beginPath(); c.rect(tx - 4, by, W2 * p + 8, bh); c.clip(); c.shadowColor = c1; c.shadowBlur = 14; c.fillStyle = A.light ? mixCol(c1, "#000000", .3) : mixCol(c1, "#ffffff", .75); c.fillText(it.text, tx, ty); c.restore();
+      if (p > .95) { c.strokeStyle = rgbaHex(c1, .8 * G); c.lineWidth = 2; c.beginPath(); c.moveTo(tx, ty + fs * .6); c.lineTo(tx + W2, ty + fs * .6); c.stroke(); }
+      if (p < 1) glowDot(A, tx + W2 * p, ty, fs * .5);
+      return;
+    }
+    const S = Math.min(bw * .76, bh * .7), ox = bx + (bw - S) / 2, oy = by + bh * .2; let left = p * it.strokes.reduce((t, pl) => t + pl.reduce((a, q, i) => a + (i ? Math.hypot(q[0] - pl[i - 1][0], q[1] - pl[i - 1][1]) : 0), 0), 0), tip = null;
+    [[7, .14], [2, .95]].forEach(([lw, al]) => { c.strokeStyle = rgbaHex(c1, al * G); c.lineWidth = lw; c.lineCap = "round"; let rem = left; it.strokes.forEach(pl => { if (rem <= 0) return; c.beginPath(); c.moveTo(ox + pl[0][0] * S, oy + pl[0][1] * S); for (let i = 1; i < pl.length; i++) { const d = Math.hypot(pl[i][0] - pl[i - 1][0], pl[i][1] - pl[i - 1][1]); if (rem >= d) { c.lineTo(ox + pl[i][0] * S, oy + pl[i][1] * S); rem -= d; tip = [pl[i][0], pl[i][1]]; } else { const f = rem / d, qx = pl[i - 1][0] + (pl[i][0] - pl[i - 1][0]) * f, qy = pl[i - 1][1] + (pl[i][1] - pl[i - 1][1]) * f; c.lineTo(ox + qx * S, oy + qy * S); tip = [qx, qy]; rem = 0; break; } } c.stroke(); }); });
+    if (tip && p < 1) glowDot(A, ox + tip[0] * S, oy + tip[1] * S, S * .06);
+  };
+  const glowDot = (A, x, y, r) => { const g = A.c.createRadialGradient(x, y, 0, x, y, r * 2.2); g.addColorStop(0, A.light ? rgbaHex(A.c1, .95) : "rgba(255,255,255,.95)"); g.addColorStop(.3, rgbaHex(A.c1, .8)); g.addColorStop(1, rgbaHex(A.c1, 0)); A.c.fillStyle = g; A.c.beginPath(); A.c.arc(x, y, r * 2.2, 0, TAU); A.c.fill(); };
+
+  const overlay = (o, now, dt) => {
+    const dim = prepCanvas(o); if (!dim || dim.w < 220) return; const { w, h, dpr } = dim, c = o.ctx, st = o.state(), t = now / 1000, pn = performance.now(), light = isLightTheme(), c1 = light ? "#2563eb" : AV.c1, c2 = light ? "#7c3aed" : AV.c2, A = { c, c1, c2, G: 1, light };
+    c.setTransform(dpr, 0, 0, dpr, 0, 0); c.globalCompositeOperation = "source-over"; c.globalAlpha = 1;
+    const act = Stark.items.filter(i => i.start <= pn).pop(), want = act && pn < Stark.until ? 1 : 0; o._v = (o._v || 0) + (want - (o._v || 0)) * (1 - Math.exp(-dt * 4)); const vis = o._v;
+    const hx = w / 2, hy = h * .46, R = Math.min(w, h) * .3, k = 1 - Math.exp(-dt * 6), pointing = act && pn >= act.start && pn - act.start < 2800, alt = Math.floor(t / 5) % 2;
+    const H = o._h || (o._h = { r: { x: hx + R * 1.5, y: hy + R * 2.6, a: 0, e: [.55, .55, .55, .55, .55] }, l: { x: hx - R * 1.5, y: hy + R * 2.6, a: 0, e: [.55, .55, .55, .55, .55] } });
+    const gr = st === "thinking" ? "scratch" : st === "speaking" ? (pointing ? "point" : alt ? "rest" : "explain") : "rest", gl = st === "speaking" && !pointing && alt ? "explain" : "rest";
+    [["r", gr, 1], ["l", gl, -1]].forEach(([key, g, sd]) => {
+      let T = g === "rest" ? { x: hx + sd * R * 1.5, y: hy + R * 2.6, a: -.1, e: [.55, .55, .55, .55, .55] } : POSE[g](t, hx, hy, R, sd, false);
+      if (g === "point") T = Object.assign({}, T, { x: hx + sd * R * 1.15, y: hy + R * 1.0, a: -2.3 });
+      const s0 = H[key]; s0.x += (T.x - s0.x) * k; s0.y += (T.y - s0.y) * k; s0.a += (T.a - s0.a) * k; s0.e = s0.e.map((v, i) => v + (T.e[i] - v) * k);
+      hand(c, s0.x, s0.y, R * .42, s0.a, s0.e, sd, sd > 0 ? c1 : c2, 1);
+    });
+    if (vis > .02 && act) { c.globalAlpha = cl(vis * 1.4, 0, 1); board(A, w * .08, h * .66, w * .84, h * .3, act, pn); }
+    c.globalCompositeOperation = "source-over"; c.globalAlpha = 1;
+  };
+  Object.keys(AVATARS).forEach(key => { const f = AVATARS[key]; AVATARS[key] = function (o, now, dt) { f.call(this, o, now, dt); try { overlay(o, now, dt); } catch (e) {} }; });
+  if (LS.get("v13_migrated", "") !== "1") { LS.set("ui_avatar", "face"); LS.set("face_q", "high"); LS.set("v13_migrated", "1"); try { applyUI(); } catch (e) {} }
 })();
 </script>
 </body>
