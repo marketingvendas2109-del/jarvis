@@ -956,11 +956,11 @@ html[data-theme=light] #graph .ghint{color:rgba(205,215,255,.72)!important}
 <style id="v12c">
 #callCam{position:absolute;top:calc(env(safe-area-inset-top,0px) + 64px);right:14px;width:108px;height:148px;object-fit:cover;border-radius:18px;z-index:5;border:1px solid var(--line);box-shadow:0 0 0 1px rgba(130,160,255,.25),0 8px 30px rgba(59,130,246,.35)}
 #cStop.on{background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff}
-.v12{margin:6px 0 12px;border-radius:20px;overflow:hidden;border:1px solid var(--line);background:var(--glass);-webkit-backdrop-filter:blur(var(--blur));backdrop-filter:blur(var(--blur));animation:fi .35s ease both}
+.v12{margin:6px 0 12px;border-radius:20px;overflow:hidden;border:1px solid rgba(130,160,255,.28);color:#f4f6ff;background:#080c1e;-webkit-backdrop-filter:blur(var(--blur));backdrop-filter:blur(var(--blur));animation:fi .35s ease both}
 .v12 .h{display:flex;align-items:center;gap:8px;padding:10px 14px;font:600 13.5px var(--sans)}
 .v12 .h span{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.v12 .h small{color:var(--dim);font-weight:500}
-.v12 .h button{width:34px;height:34px;border-radius:50%;background:var(--glass2);display:grid;place-items:center;font-size:15px}
+.v12 .h small{color:#9aa3c7;font-weight:500}
+.v12 .h button{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.1);color:#f4f6ff;display:grid;place-items:center;font-size:15px}
 .v12 .bar{height:3px;background:var(--glass)}.v12 .bar i{display:block;height:100%;width:35%;background:linear-gradient(90deg,var(--acc),var(--acc2));animation:v12b 1.3s ease-in-out infinite}
 @keyframes v12b{0%{margin-left:-35%}100%{margin-left:100%}}
 .v12 .fr{height:62vh;background:#04050c;position:relative}.v12 iframe{width:100%;height:100%;border:0;background:#04050c}
@@ -5934,7 +5934,7 @@ async function sendMessage(text, opt) {
     const el = pushMsg("assistant", reply, { search: found || undefined, imgs: im.imgs, verify: vr && vr.report, extra, jobs: im.jobs, cue: CUE_RE.test(text) ? text : "", canvas: cards, exec: execs.length ? execs : undefined, casa: hm.acts });
     if (!streamed) animateReply(el, reply);
     if (!ctx.priv && !aborted) { try { V9.chips(el, text + " " + reply); } catch (e) {} }
-    if (!aborted) { try { V9.cut(el, reply); } catch (e) {} try { V11.chatPreview(el, reply); } catch (e) {} }
+    if (!aborted) { try { V9.cut(el, reply); } catch (e) {} try { V11.chatPreview(el, reply); } catch (e) {} try { V11.afterReply(reply, text); } catch (e) {} }
     Diag.end({ words: (reply.match(/\S+/g) || []).length, model: App.lastCall && App.lastCall.model, flags: [code ? "código" : "", urls.length ? "link" : "", (found && found.sources && found.sources.length) ? "busca" : "", (vr && vr.report && vr.report.revised) ? "revisão" : "", ctx.hasImage ? "imagem" : ""].filter(Boolean), ok: true });
     if (cards.length) Canvas.open(cards[cards.length - 1].id);
     Notif.fire("Jarvis respondeu", reply);
@@ -7695,20 +7695,35 @@ V9.cut = function (row, reply) {
 /* ===== v12: Jarvis cria apps/jogos/hologramas direto no chat + câmera na chamada ===== */
 const V11 = {
   last: null, id: "",
-  PAL: "PALETA E TOM (idêntico ao do Jarvis): fundo #04050c com dois brilhos radiais — radial-gradient(ellipse 90% 45% at 50% -8%, #1a2f66 0, transparent 65%) e radial-gradient(ellipse 70% 40% at 100% 100%, #2e1a66 0, transparent 70%); texto #f4f6ff; texto fraco #9aa3c7; destaque azul #3b82f6 → violeta #7c3aed (degradê 135deg); linhas rgba(130,160,255,.22); vidro rgba(255,255,255,.06) com backdrop-filter blur(22px); sucesso #10b981; erro #ef4444; ciano de apoio #22d3ee. Fonte system-ui. Cantos 18px. No máximo 2 cores de destaque por tela. ",
+  PAL: "REGRA ABSOLUTA: o visual é SEMPRE o escuro do Jarvis, mesmo que o pedido cite outro estilo (ex.: 'estilo Mario', retrô, colorido, infantil): aproveite só as mecânicas e traduza o visual para o escuro neon do Jarvis (céu noturno em degradê com estrelas, plataformas e peças com borda neon azul/violeta, partículas); NUNCA use fundo azul-claro, branco ou cores chapadas. Personagens e arte sempre ORIGINAIS, nunca de terceiros. PALETA E TOM (idêntico ao do Jarvis): fundo #04050c com dois brilhos radiais — radial-gradient(ellipse 90% 45% at 50% -8%, #1a2f66 0, transparent 65%) e radial-gradient(ellipse 70% 40% at 100% 100%, #2e1a66 0, transparent 70%); texto #f4f6ff; texto fraco #9aa3c7; destaque azul #3b82f6 → violeta #7c3aed (degradê 135deg); linhas rgba(130,160,255,.22); vidro rgba(255,255,255,.06) com backdrop-filter blur(22px); sucesso #10b981; erro #ef4444; ciano de apoio #22d3ee. Fonte system-ui. Cantos 18px. No máximo 2 cores de destaque por tela. ",
   UI: "ORGANIZAÇÃO (obrigatória): nada de tudo numa tela só. Use barra de abas flutuante embaixo (vidro, 3 a 5 abas com ícone SVG de traço 2px + rótulo) e telas separadas; cada tela com cabeçalho, uma ação principal em destaque, seções com títulos claros, espaçamento generoso (escala 4/8/12/16/24), hierarquia tipográfica (título 22px/700, corpo 15px, apoio 12px), cartões consistentes, estados vazios com ícone e frase, carregamento com skeleton, avisos em toast (nunca alert). Ícones só em SVG inline, nunca emoji. Animações suaves de 200ms e entrada em cascata. Rolagem sem barras feias e áreas de toque de no mínimo 44px. ",
   EXTRA: "SEM O USUÁRIO PEDIR, capriche além do pedido: adicione pelo menos 6 recursos úteis extras coerentes com o tema (ex.: busca, filtros, estatísticas com gráfico, metas, exportar, atalhos, tema, onboarding curto), dados de exemplo realistas em português, persistência em localStorage, e detalhes de acabamento (micro-interações, feedback tátil com navigator.vibrate, transições entre telas). Tudo precisa funcionar de verdade. Use só personagens, marcas e arte ORIGINAIS (nada de personagens ou logos de terceiros). ",
   BASE: "Você é um engenheiro sênior de front-end e diretor de arte. Entregue UM ÚNICO arquivo HTML completo (<!DOCTYPE html> … </html>) com CSS e JavaScript embutidos, funcionando sem servidor. Responda SÓ com o código em um bloco ```html. Proibido: placeholders, TODO, '...', funções vazias, botões sem função, texto de exemplo tipo 'Lorem'. Código organizado em seções comentadas, estado central, funções pequenas, validação de entradas e tratamento de erros, sem alert()/prompt()/confirm(), acessível e responsivo mobile-first (<meta viewport>, safe-area). Dados do usuário em localStorage dentro de try/catch (pode vir vazio). Bibliotecas só de cdnjs.cloudflare.com com versão fixa e só se ajudarem. Apps complexos podem ter milhares de linhas, sem repetir código à toa. ",
-  GAME: "TIPO: JOGO de qualidade comercial, em canvas, com 'game feel': escala por devicePixelRatio; passo de tempo fixo com requestAnimationFrame; fundo com parallax em 3 camadas; arte vetorial NEON feita por código (gradientes, shadowBlur de brilho, formas geométricas bem desenhadas, nada de quadrados simples); partículas em explosões e rastros; tremor de tela; números de pontos que sobem; combo e multiplicador; inimigos de vários tipos, chefe, power-ups e dificuldade que cresce; efeitos sonoros sintetizados com WebAudio (botão mudo); vibração no toque; tela inicial animada com título bonito, menu (jogar, dificuldade, som), pausa, game over com resumo e recorde salvo; controles de toque polidos (joystick virtual e botões translúcidos) e também teclado. Sem lag: reaproveite objetos, limite partículas. ",
+  GAME: "TIPO: JOGO de qualidade comercial, em canvas, com 'game feel': escala por devicePixelRatio; passo de tempo fixo com requestAnimationFrame; fundo com parallax em 3 camadas; arte vetorial NEON feita por código (gradientes, shadowBlur de brilho, formas geométricas bem desenhadas, nada de quadrados simples); partículas em explosões e rastros; tremor de tela; números de pontos que sobem; combo e multiplicador; inimigos de vários tipos, chefe, power-ups e dificuldade que cresce; efeitos sonoros sintetizados com WebAudio (botão mudo); vibração no toque; tela inicial animada com título em degradê e barra de abas inferior de vidro (Jogar, Missões, Recordes, Ajustes), pausa, game over com resumo e recorde salvo; controles de toque polidos (joystick virtual e botões translúcidos) e também teclado. Sem lag: reaproveite objetos, limite partículas. ",
   HOLO: "TIPO: HOLOGRAMA 3D com three.js r128 (https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js; NÃO use OrbitControls, CapsuleGeometry nem arquivos externos). Qualidade cinematográfica: (1) monte o assunto com 20 a 60 peças (Mesh) bem proporcionadas e fiéis à realidade, agrupadas por função, cada uma com nome, descrição curta em português e vetor de 'explodir'; (2) material holográfico por ShaderMaterial: vertex envia normal e direção da câmera; fragment com efeito Fresnel — rim = pow(1.0 - abs(dot(normalize(vN), normalize(vV))), 2.4); linhas de varredura = 0.5+0.5*sin(worldY*38.0 - time*2.5); alpha = rim*0.85 + 0.07 + scan*0.06; cor azul #3b82f6 misturada com ciano #22d3ee e toques violeta #7c3aed; transparent, depthWrite false, AdditiveBlending, DoubleSide; some a isso arestas com EdgesGeometry + LineSegments aditivos; (3) plataforma: disco com anéis concêntricos girando, grade no chão, feixe de luz vertical translúcido, poeira luminosa (Points, até 600) e uma faixa de luz que varre o modelo; (4) movimento que explica o funcionamento (ex.: pistões subindo e descendo, órbitas, batimento, rotação), com play/pausa; (5) câmera com órbita automática lenta; arrastar gira com inércia, pinça/scroll dá zoom limitado, toque duplo reseta; (6) rótulos HTML com linhas-guia em SVG ligando a peça ao rótulo, organizados em duas colunas sem sobreposição; tocar numa peça ou rótulo destaca (pulsa) e abre um painel de vidro embaixo com título, 2 a 3 frases e 3 'fatos rápidos'; (7) HUD discreto: título com efeito de digitação, colchetes nos cantos, botões de vidro (play/pausa, explodir, resetar) grandes para o dedo; (8) pause quando a aba some, trate resize, setPixelRatio(min(2,dpr)), alpha:true sobre o fundo da paleta. ",
   sys(m) { return V11.BASE + (m === "game" ? V11.GAME : m === "holo" ? V11.HOLO : "TIPO: APLICATIVO. " + V11.UI) + V11.PAL + V11.EXTRA; },
   mode(n) { return /\b(holograma|3d|tridimensional)\b/.test(n) ? "holo" : /\b(jogo|game)\b/.test(n) ? "game" : "app"; },
-  isCreate(n) { return n.length > 8 && /\b(cri[ae]r?|faz|fazer|faca|monte|montar|desenvolv\w*|programe|programar|constru\w*|gere|gerar)\b/.test(n) && /\b(app|aplicativo|site|jogo|game|landing|calculadora|dashboard|painel|sistema|ferramenta|holograma|3d|simulador|pagina)\b/.test(n); },
-  isTweak(n) { return !!V11.last && Date.now() - V11.last.t < 45 * 60000 && /\b(ajust\w*|muda\w*|mude|troca\w*|adicion\w*|coloca\w*|tira\w*|remov\w*|melhor\w*|corrig\w*|conserta\w*|deixa\w*|aument\w*|diminu\w*|bota\w*)\b/.test(n); },
+  isCreate(n) { if (n.length < 8 || /^(o que|qual|quais|quem|por que|porque|quando|onde|como|quanto)\b/.test(n)) return false; return /\b(app|aplicativo|site|jogo|game|landing|calculadora|dashboard|painel|sistema|ferramenta|holograma|3d|simulador|pagina|plataforma|agenda|kanban|crm)\b/.test(n) && /\b(cri[ae]r?|faz|fazer|faca|monte|montar|desenvolv\w*|programe|programar|constru\w*|gere|gerar|quero|preciso|gostaria|bota|me da|me de|desenha\w*|inventa\w*)\b/.test(n); },
+  isExplain(n) { return n.length > 10 && /\b(como (e que )?funciona\w*|como (e|sao) por dentro|como (e|sao) feit\w+|como se forma\w*|por dentro d\w+|explic\w+ (o )?funcionamento)\b/.test(n) && !/\b(app|site|codigo|python|javascript|imposto|lei|bolsa|dinheiro|banco|pix|empresa|receita|conta|cartao|internet)\b/.test(n); },
+  async afterReply(reply, text) {
+    const t = V11.wantHolo; V11.wantHolo = ""; if (!t || /```html/i.test(reply || "")) return;
+    try {
+      const r = await callAI([{ role: "user", parts: [{ text: "Assunto: " + t + "\nUm modelo 3D interativo ajudaria muito a entender isso? Responda SIM só se for objeto, máquina, organismo, órgão, molécula ou sistema físico/astronômico visual. NAO para finanças, leis, software, história ou opinião. Responda apenas SIM ou NAO." }] }], "Classificador.", { fast: true, maxTokens: 20, search: false });
+      if (/^\s*sim/i.test(String(r))) V11.build("Faça um holograma 3D didático que explique: " + t, null, { mode: "holo", silent: true });
+    } catch (e) {}
+  },
+  isTweak(n) { return !!V11.last && Date.now() - V11.last.t < 40 * 60000 && !/^(o que|qual|quais|quem|por que|porque|quando|onde|como|quanto)\b/.test(n) && /\b(ajust\w*|ajeit\w*|arrum\w*|muda\w*|mude|troca\w*|adicion\w*|coloca\w*|tira\w*|remov\w*|melhor\w*|corrig\w*|conserta\w*|deixa\w*|aument\w*|diminu\w*|bota\w*|bug|trav\w*)\b/.test(n); },
   intercept(text, opt) {
     if (!text || (opt && (opt.redo || opt.att))) return false; if (typeof App === "undefined" || App.sending || App.att) return false;
     const n = norm(text); if (V11.isCreate(n)) { V11.build(text, null); return true; }
-    if (V11.isTweak(n) && n.length > 6) { V11.build(text, V11.last.code); return true; } return false;
+    if (V11.isTweak(n) && n.length > 6) { V11.build(text, V11.last.code); return true; }
+    if (/\b(3d|holograma|tridimensional)\b/.test(n) && /\b(mostr\w+|ver|veja|visualiz\w+|explic\w+|como)\b/.test(n)) { V11.build(text, null, { mode: "holo" }); return true; }
+    V11.wantHolo = V11.isExplain(n) ? text : ""; return false;
+  },
+  applyEdits(code, resp) {
+    const re = /<<<<<<<\s*BUSCAR\s*\n([\s\S]*?)\n=======\n([\s\S]*?)\n>>>>>>>\s*SUBSTITUIR/g; let m, out = code, n = 0;
+    while ((m = re.exec(String(resp || "")))) { let a = m[1], i = out.indexOf(a); if (i < 0) { a = a.trim(); i = a ? out.indexOf(a) : -1; } if (i < 0) return ""; out = out.slice(0, i) + m[2].replace(/^\n+|\n+$/g, m2 => m2) + out.slice(i + a.length); n++; }
+    return n && /<\/html>/i.test(out) ? out : "";
   },
   code0(raw) { let t = String(raw || ""); const m = t.match(/```(?:html)?[ \t]*\n([\s\S]*?)(```|$)/i); if (m) t = m[1]; const i = t.search(/<!doctype|<html/i); if (i > 0) t = t.slice(i); return t.trim(); },
   lines: c => c ? c.split("\n").length : 0,
@@ -7728,24 +7743,28 @@ const V11 = {
     return d;
   },
   save(id, code) { try { const L = JSON.parse(localStorage.getItem("v12_apps") || "[]").filter(a => a.id !== id); L.unshift({ id, t: Date.now(), code }); while (L.length) { try { localStorage.setItem("v12_apps", JSON.stringify(L)); break; } catch (e) { L.pop(); } } } catch (e) {} },
-  async build(text, base) {
-    App.sending = true; App._t0 = Date.now(); const ctl = App.abort = new AbortController(); try { updateComposerButtons(); } catch (e) {}
-    Chats.log.push({ role: "user", content: text }); pushMsg("user", text); Chats.persist();
-    const n = norm(text), mode = base ? (V11.last.mode || "app") : V11.mode(n), title = { holo: "Holograma 3D", game: "Jogo", app: "App" }[mode];
+  async build(text, base, o0) {
+    o0 = o0 || {}; const ctl = new AbortController();
+    if (!o0.silent) { App.sending = true; App._t0 = Date.now(); App.abort = ctl; try { updateComposerButtons(); } catch (e) {} Chats.log.push({ role: "user", content: text }); pushMsg("user", text); Chats.persist(); }
+    const n = norm(text), mode = o0.mode || (base ? (V11.last.mode || "app") : V11.mode(n)), title = { holo: "Holograma 3D", game: "Jogo", app: "App" }[mode];
     const card = V11.card((base ? "Ajustando " : "Criando ") + title.toLowerCase()); $("msgs").appendChild(card); card.set("pensando…", true); scrollEnd();
-    let lastR = 0;
+    let lastR = 0; const wd = setTimeout(() => ctl.abort(), 300000);
     try {
       let plan = "";
       if (!base) plan = await callAI([{ role: "user", parts: [{ text: "Pedido do usuário: " + text + "\n\nVocê é diretor criativo e arquiteto. Expanda em uma especificação rica (até 18 linhas): nome e identidade, telas e fluxo, recursos principais E pelo menos 6 extras que impressionam, microinterações, dados de exemplo; para jogos: mecânicas, inimigos, power-ups, progressão e efeitos; para hologramas: lista das peças, movimento e fatos. Português." }] }], "Você é diretor criativo de produtos digitais.", { fast: true, maxTokens: 900, search: false, signal: ctl.signal }).catch(() => "");
       const user = base ? "CÓDIGO ATUAL:\n```html\n" + base + "\n```\nAJUSTE PEDIDO: " + text + "\nDevolva o arquivo COMPLETO atualizado, mantendo tudo que já funciona e o mesmo padrão visual." : "PEDIDO: " + text + (plan ? "\n\nESPECIFICAÇÃO:\n" + plan : "");
-      const u1 = { role: "user", parts: [{ text: user }] }; let acc = "";
-      for (let k = 0; k < 5; k++) {
+      const u1 = { role: "user", parts: [{ text: user }] }; let acc = "", edited = "";
+      if (base) {
+        card.set("ajustando…", true);
+        try { const er = await callAI([{ role: "user", parts: [{ text: "CÓDIGO ATUAL:\n```html\n" + base + "\n```\nPEDIDO: " + text + "\nFaça o MÍNIMO de mudança necessária e mantenha o visual escuro do Jarvis. Responda SÓ com blocos de edição neste formato exato (um ou mais):\n<<<<<<< BUSCAR\n(trecho EXATO copiado do código atual, curto e único)\n=======\n(trecho novo)\n>>>>>>> SUBSTITUIR\nSem nenhum texto fora dos blocos." }] }], V11.sys(mode), { fast: true, maxTokens: 12000, search: false, temp: .2, signal: ctl.signal }); edited = V11.applyEdits(base, er) || ""; } catch (e) { if (e && e.code === "aborted") throw e; }
+      }
+      for (let k = 0; k < 5 && !edited; k++) {
         const before = acc, turns = k ? [u1, { role: "model", parts: [{ text: acc }] }, { role: "user", parts: [{ text: "Continue EXATAMENTE de onde parou, sem repetir nada e sem texto fora do código, até fechar </html>." }] }] : [u1];
         const o = { fast: true, maxTokens: 60000, search: false, temp: .7, signal: ctl.signal, onDelta: r => { const c = V11.code0(before + r); card.set("escrevendo… " + V11.lines(c).toLocaleString("pt-BR") + " linhas", true); if (/<body/i.test(c) && Date.now() - lastR > 3500 && /<\/(script|style|div)>\s*$/i.test(c.trim())) { lastR = Date.now(); card.render(c); } } };
         let t; try { t = await callAI(turns, V11.sys(mode), o); } catch (e) { if (e && e.code === "aborted") throw e; o.maxTokens = 16000; t = await callAI(turns, V11.sys(mode), o); }
         acc += t; if (/<\/html>\s*(```)?\s*$/i.test(acc.trim())) break;
       }
-      let code = V11.code0(acc); if (code.length < 200) throw new Error("não consegui montar o app. Tente de novo com mais detalhes.");
+      let code = edited || V11.code0(acc); if (code.length < 200) throw new Error("não consegui montar o app. Tente de novo com mais detalhes.");
       card.render(code); card.set("conferindo…", true);
       await new Promise(r => setTimeout(r, 2800));
       if (card.errs.length && !ctl.signal.aborted) {
@@ -7753,13 +7772,14 @@ const V11 = {
         try { const t2 = await callAI([{ role: "user", parts: [{ text: "CÓDIGO:\n```html\n" + code + "\n```\nERROS DE EXECUÇÃO:\n" + card.errs.slice(0, 6).join("\n") + "\nCorrija sem mudar o visual nem remover recursos. Devolva o arquivo COMPLETO." }] }], V11.sys(mode), { fast: true, maxTokens: 60000, search: false, temp: .3, signal: ctl.signal }); const c2 = V11.code0(t2); if (c2.length > code.length * .6 && /<\/html>/i.test(c2)) { code = c2; card.errs = []; card.render(code); } } catch (e) {}
       }
       card.set(V11.lines(code).toLocaleString("pt-BR") + " linhas", false); V11.last = { code, t: Date.now(), mode }; V11.save(card.dataset.id, code);
-      Chats.log.push({ role: "assistant", content: "🛠 " + title + " criado (" + V11.lines(code).toLocaleString("pt-BR") + " linhas). Peça ajustes por aqui mesmo." }); Chats.persist();
+      if (!o0.silent) Chats.log.push({ role: "assistant", content: "🛠 " + title + " criado (" + V11.lines(code).toLocaleString("pt-BR") + " linhas). Peça ajustes por aqui mesmo." }); if (!o0.silent) Chats.persist();
       try { Notif.fire("Jarvis terminou", title + " pronto"); } catch (e) {}
-    } catch (e) { card.set(e && e.code === "aborted" ? "interrompido" : V10.err(e), false); if (!card.code) card.querySelector(".fr").classList.add("hidden"); }
-    finally { App.sending = false; try { updateComposerButtons(); } catch (e) {} scrollEnd(); }
+    } catch (e) { card.set(e && e.code === "aborted" ? "interrompido ou demorou demais. Tente de novo." : V10.err(e), false); if (!card.code) card.querySelector(".fr").classList.add("hidden"); }
+    finally { clearTimeout(wd); if (!o0.silent) { App.sending = false; try { updateComposerButtons(); } catch (e) {} } scrollEnd(); }
   },
   chatPreview(row, reply) {
     const m = String(reply || "").match(/```html[ \t]*\n([\s\S]*?)```/i); if (!m || m[1].length < 300 || !/<(body|script|canvas|svg)/i.test(m[1]) || !row || !row.insertAdjacentElement) return;
+    V11.last = { code: V11.code0(m[1]), t: Date.now(), mode: "app" };
     const b = document.createElement("button"); b.type = "button"; b.className = "v12pv"; b.textContent = "▶ Ver prévia";
     b.onclick = () => { const c = V11.code0(m[1]), card = V11.card("Prévia"); card.render(c); card.set(V11.lines(c).toLocaleString("pt-BR") + " linhas", false); b.replaceWith(card); V11.last = { code: c, t: Date.now(), mode: "app" }; };
     row.insertAdjacentElement("afterend", b);
