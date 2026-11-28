@@ -1291,7 +1291,7 @@ mark.v13d{background:color-mix(in srgb,#10b981 28%,transparent);border-radius:4p
   <nav class="tabs">
     <button class="tab on" data-v="vChat" type="button"><span class="e" data-ico="chat"></span>Chat</button>
     <button class="tab" data-v="vHud" type="button"><span class="e" data-ico="gauge"></span>Painel</button>
-    <button id="plus" type="button" aria-label="Abrir menu de criação" data-ico="plus" data-sw="2.6"></button>
+    <button id="plus" type="button" aria-label="Abrir ZENON Finance (segure para o menu de criação)" data-ico="calc" data-sw="1.9"></button>
     <button class="tab" data-v="vMemory" type="button"><span class="e" data-ico="brain"></span>Memória</button>
     <button class="tab" data-v="vSettings" type="button"><span class="e" data-ico="sliders"></span>Ajustes</button>
   </nav>
@@ -1431,6 +1431,7 @@ const ICONS = {
   menu: '<path d="M4 8h16M4 16h10"/>',
   x: '<path d="M6 6l12 12M18 6 6 18"/>',
   plus: '<path d="M12 5v14M5 12h14"/>',
+  calc: '<rect x="5" y="2.5" width="14" height="19" rx="3"/><rect x="8" y="5.8" width="8" height="3.4" rx="1"/><path d="M8.5 13h.01M12 13h.01M15.5 13h.01M8.5 16.8h.01M12 16.8h.01M15.5 16.8h.01" stroke-width="2.4"/>',
   chat: '<path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/>',
   compass: '<circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2 5-5 2 2-5 5-2Z"/>',
   brain: '<circle cx="6" cy="7" r="2.2"/><circle cx="18" cy="7" r="2.2"/><circle cx="12" cy="18" r="2.2"/><path d="M8 8l3 8M16 8l-3 8M8.3 7h7.4"/>',
@@ -2164,7 +2165,7 @@ function wantsWeb(turns) {
   const s = l ? (l.content || (l.parts || []).map(p => p.text || "").join(" ")) : "";
   return NEEDS_WEB.test(s);
 }
-const ACT_INTENT = /planilha|\baba\b|\babas\b|sheet|loja|estoque|produto|pedido|venda|cliente|calculadora|catalogo|agenda|evento|compromisso|reuniao|e-?mail|gmail|caixa de entrada|base44|faturamento|lucro|receita/;
+const ACT_INTENT = /planilha|\baba\b|\babas\b|sheet|loja|estoque|produto|pedido|venda|cliente|calculadora|catalogo|agenda|evento|compromisso|reuniao|e-?mail|gmail|caixa de entrada|base44|faturamento|lucro|receita|anota|margem|financ|precific|painel/;
 const SHEET_INTENT = /planilha|\baba\b|\babas\b|sheet|estoque|venda|faturamento|lucro|receita/;
 async function converse(turns, o) {
   o = Object.assign({ noWeb: !wantsWeb(turns) }, o || {});
@@ -2173,7 +2174,7 @@ async function converse(turns, o) {
   if (web) { Think.step("Pesquisando na internet…"); Think.later("Cruzando as fontes…", 2600); Think.later("Montando a resposta…", 5200); } else Think.later("Organizando a resposta…", 2500);
   let fast = Call.on || cfg("quality_mode") === "fast", think = cfg("quality_mode") === "deep" || !fast && cfg("quality_mode") === "balanced" && !V3.isComplex((o.ctx && o.ctx.text) || "", o);
   const recent = (turns || []).slice(-3).map(x => String(x.content || (x.parts || []).map(p => p.text || "").join(" "))).join(" ").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-  const integ = !Call.on && (gOn() || b44On() || Srv.storeOn()) && ACT_INTENT.test(recent);      /* pedido que mexe na planilha, na loja, na calculadora, na agenda ou no e-mail */
+  const integ = !Call.on && (gOn() || b44On() || Srv.storeOn() || (typeof finOn === "function" && finOn())) && ACT_INTENT.test(recent);      /* pedido que mexe na planilha, na loja, na calculadora, na agenda ou no e-mail */
   if (integ) { fast = false; think = true; }                                                      /* aqui precisão vale mais que velocidade: modelo completo e pouco "chute" */
   const deep = !Call.on && !!(o.ctx && o.ctx.brand) && String((o.ctx && o.ctx.text) || "").trim().length >= 12 && cfg("zenon_deep") !== "0";
   if (deep) { fast = false; think = false; Think.step("Pensando a fundo na ZENON…"); Think.later("Analisando e calculando…", 4000); Think.later("Buscando ideias fora da caixa…", 9000); }
@@ -2189,7 +2190,7 @@ async function converse(turns, o) {
   const ouvi = /\[\[OUVI:[\s\S]*?\]\]/;
   let raw = await callAI(turns, buildSystem(o), { fast, think, deep, firstMs: deep ? 45000 : undefined, maxTokens, temp, search: web, onDelta: crit ? undefined : wrapDelta, signal: o.signal, code: o.code, urls: o.urls }), rounds = 0, lastResult = "";
   const heard0 = o.audio ? ouvi.exec(raw) : null, maxRounds = integ ? 6 : 4;
-  while ((gOn() || b44On() || Srv.storeOn()) && rounds < maxRounds && !(o.signal && o.signal.aborted)) {
+  while ((gOn() || b44On() || Srv.storeOn() || (typeof finOn === "function" && finOn())) && rounds < maxRounds && !(o.signal && o.signal.aborted)) {
     const acts = scanActions(raw).acts;
     if (!acts.length) break;
     rounds++;
@@ -2212,7 +2213,7 @@ async function converse(turns, o) {
       if (call0) App.lastCall = Object.assign({}, App.lastCall || {}, { exec: call0.exec, toolDropped: call0.toolDropped, images: call0.images });
     } catch (e) { if (e && e.code === "aborted") throw e; }
   }
-  const pending = (gOn() || b44On() || Srv.storeOn()) && scanActions(raw).acts.length > 0;
+  const pending = (gOn() || b44On() || Srv.storeOn() || (typeof finOn === "function" && finOn())) && scanActions(raw).acts.length > 0;
   let out = scanActions(raw).clean;
   if (!out) out = rounds ? (pending ? "" : "Executei as ações, mas não consegui montar a resposta. Resultado:\n\n" + String(lastResult).slice(0, 1500)) : "Feito, " + ME.address + ".";
   if (pending) out = (out ? out + "\n\n" : "") + "⚠️ Parei no limite de passos antes de terminar tudo. Peça de novo, ou divida o pedido, que eu continuo.";
@@ -2731,6 +2732,8 @@ function showView(id) {
   if (id === "vMemory") renderBrain();
   if (id === "vHud") HudPanel.open();
   if (id === "vSettings") { updateStats(); updateGemUsage(); }
+  if (id === "vFin" && window.Fin) window.Fin.open(); else if (window.Fin && window.Fin.leave) window.Fin.leave();
+  try { $("plus").classList.toggle("finon", id === "vFin"); } catch (e) {}
   $("main").scrollTop = (id === "vChat" && Chats.log.length) ? $("main").scrollHeight : 0;
 }
 
@@ -4832,7 +4835,13 @@ function bindEvents() {
   document.querySelectorAll(".tab").forEach(t => t.addEventListener("click", () => showView(t.dataset.v)));
   $("provChip").onclick = () => showView("vSettings");
   $("modeChip").onclick = () => showView("vHud");
-  $("plus").onclick = () => V5.toggle();
+  (function () {
+    const b = $("plus"); let t = null, long = false;
+    b.onclick = () => { if (long) { long = false; return; } if (V5.isOpen) V5.close(); showView("vFin"); };
+    b.addEventListener("pointerdown", () => { long = false; clearTimeout(t); t = setTimeout(() => { long = true; V5.toggle(); try { navigator.vibrate && navigator.vibrate(12); } catch (e) {} }, 520); });
+    ["pointerup", "pointerleave", "pointercancel"].forEach(ev => b.addEventListener(ev, () => clearTimeout(t)));
+    b.addEventListener("contextmenu", e => e.preventDefault());
+  })();
 
   $("hMenu").onclick = () => setSide(true);
   $("sClose").onclick = scrim.onclick = () => setSide(false);
@@ -6767,7 +6776,8 @@ const V4 = {
     const text = (label, key, ph, type, small) => { const i = h("input", { type: type || "text", placeholder: ph || "", autocomplete: "off", spellcheck: "false" }); i.value = cfg(key); i.oninput = () => LS.set(key, i.value.trim()); return row(h("label", {}, h("b", { text: label })), i, small ? h("small", { text: small }) : null); };
     const sel = (label, key, opts, def) => { const s = h("select", {}, ...opts.map(o => h("option", { value: o[0], text: o[1] }))); s.value = cfg(key) || def; s.onchange = () => LS.set(key, s.value); return h("div", { class: "li" }, h("span", {}, h("b", { text: label })), s); };
     root.appendChild(grp("Imagens",
-      sel("Quem cria as imagens", "img_provider", [["free", "Grátis (sem chave)"], ["gemini", "Gemini"], ["openai", "OpenAI"]], "free"),
+      sel("Quem cria as imagens", "img_provider", [["free", "Grátis (automático)"], ["gemini", "Gemini (precisa de plano pago)"], ["openai", "OpenAI"]], "free"),
+      (() => { const st = h("small", { text: "Verificando..." }); const upd = () => (window.puterReady ? window.puterReady().then(p => { st.textContent = p ? "✓ Conectada: imagens realistas e sem marca d'água." : "Não conectada. Toque em Conectar e entre com uma conta gratuita da Puter (1 minuto)."; }) : null); upd(); return h("div", { class: "li col" }, h("span", {}, h("b", { text: "Imagens realistas (Puter)" }), st), h("div", { class: "btnrow" }, h("button", { type: "button", class: "go", text: "Conectar Puter", onclick: () => { if (window.connectPuter) window.connectPuter().then(upd); } }))); })(),
       text("Chave da OpenAI", "openai_key", "sk-...", "password", "Fica só neste aparelho. Cada imagem é cobrada na sua conta da OpenAI; o Jarvis não troca de conta nem promete geração ilimitada."),
       text("Modelo de imagem", "openai_model", "gpt-image-1", "text", "Use o modelo de imagem liberado na sua conta."),
       sel("Tamanho", "img_size", [["auto", "Automático"], ["1024x1024", "Quadrado"], ["1536x1024", "Paisagem"], ["1024x1536", "Retrato"]], "auto"),
@@ -7971,38 +7981,47 @@ V13.init();
 })();
 </script>
 <style>
-/* animação de criação de imagem (estilo ChatGPT): cores borradas que vão ficando nítidas */
-.gph{position:relative;width:min(100%,440px);aspect-ratio:1/1;border-radius:18px;overflow:hidden;margin:.7em 0 .3em;border:1px solid var(--line);background:linear-gradient(135deg,hsl(var(--h1) 60% 28%),hsl(var(--h2) 60% 22%));box-shadow:0 10px 34px rgba(0,0,0,.35);isolation:isolate}
-.gph-bg{position:absolute;inset:-25%;filter:blur(46px) saturate(1.5);animation:gphBlur 26s cubic-bezier(.2,.6,.2,1) forwards;z-index:0}
-.gph-bg i{position:absolute;width:62%;height:62%;border-radius:50%;opacity:.9}
-.gph-bg i:nth-child(1){left:2%;top:4%;background:hsl(var(--h1) 92% 60%);animation:gphA 6.5s ease-in-out infinite alternate}
-.gph-bg i:nth-child(2){right:0;top:18%;background:hsl(var(--h2) 92% 62%);animation:gphB 8.5s ease-in-out infinite alternate}
-.gph-bg i:nth-child(3){left:18%;bottom:-6%;background:hsl(var(--h3) 92% 58%);animation:gphC 7.5s ease-in-out infinite alternate}
-@keyframes gphBlur{from{filter:blur(46px) saturate(1.5)}to{filter:blur(14px) saturate(1.2)}}
-@keyframes gphA{to{transform:translate(45%,32%) scale(1.3)}}
-@keyframes gphB{to{transform:translate(-40%,28%) scale(.8)}}
-@keyframes gphC{to{transform:translate(30%,-38%) scale(1.25)}}
-.gph-shim{position:absolute;inset:0;z-index:1;background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.34) 50%,transparent 70%);background-size:260% 100%;animation:gphShim 2.1s linear infinite}
+/* animação de criação de imagem: usa as cores do tema em uso (Gemini, Neon, Escuro...) */
+.gph{position:relative;width:min(100%,420px);aspect-ratio:1/1;border-radius:22px;overflow:hidden;margin:.7em 0 .3em;border:1px solid var(--gline,rgba(120,140,255,.3));background:var(--gfill,rgba(120,140,255,.1));isolation:isolate;box-shadow:0 12px 32px rgba(70,90,200,.18)}
+.gph-bg{position:absolute;inset:-30%;z-index:0;filter:blur(38px) saturate(1.2);animation:gphBlur 22s cubic-bezier(.2,.6,.2,1) forwards}
+.gph-bg i{position:absolute;width:58%;height:58%;border-radius:50%;opacity:.85}
+.gph-bg i:nth-child(1){left:4%;top:6%;background:var(--acc,#4c8dff);animation:gphA 7s ease-in-out infinite alternate}
+.gph-bg i:nth-child(2){right:2%;top:24%;background:var(--acc2,#7c5cff);animation:gphB 9s ease-in-out infinite alternate}
+.gph-bg i:nth-child(3){left:22%;bottom:-4%;background:#9fd8ff;animation:gphC 8s ease-in-out infinite alternate}
+@keyframes gphBlur{from{filter:blur(44px) saturate(1.25)}to{filter:blur(18px) saturate(1.1)}}
+@keyframes gphA{to{transform:translate(42%,30%) scale(1.25)}}
+@keyframes gphB{to{transform:translate(-38%,26%) scale(.85)}}
+@keyframes gphC{to{transform:translate(30%,-34%) scale(1.2)}}
+.gph-shim{position:absolute;inset:0;z-index:1;background:linear-gradient(110deg,transparent 32%,rgba(255,255,255,.42) 50%,transparent 68%);background-size:260% 100%;animation:gphShim 2.4s linear infinite}
 @keyframes gphShim{from{background-position:160% 0}to{background-position:-100% 0}}
-.gph-txt{position:absolute;left:0;right:0;bottom:20px;z-index:2;text-align:center;font-weight:650;font-size:14.5px;letter-spacing:.2px;color:#fff;text-shadow:0 1px 10px rgba(0,0,0,.4)}
-.gph-shine{background:linear-gradient(90deg,rgba(255,255,255,.5) 0%,#fff 50%,rgba(255,255,255,.5) 100%);background-size:220% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;animation:gphTxt 1.7s linear infinite}
-@keyframes gphTxt{from{background-position:120% 0}to{background-position:-120% 0}}
-.gph-bar{position:absolute;left:0;right:0;bottom:0;height:3px;z-index:2;background:rgba(255,255,255,.18)}
-.gph-bar b{display:block;height:100%;width:6%;background:#fff;border-radius:0 3px 3px 0;animation:gphBar 32s cubic-bezier(.1,.6,.2,1) forwards}
-@keyframes gphBar{to{width:93%}}
-@keyframes gReveal{from{filter:blur(26px) saturate(1.5);transform:scale(1.05);opacity:.55}to{filter:none;transform:none;opacity:1}}
-.gimg img{animation:gReveal .9s ease-out both}
-@media (prefers-reduced-motion:reduce){.gph-bg,.gph-bg i,.gph-shim,.gph-shine,.gph-bar b,.gimg img{animation:none}}
+.gph-ic{position:absolute;left:50%;top:45%;width:46px;height:46px;margin:-23px 0 0 -23px;z-index:2;color:#fff;filter:drop-shadow(0 2px 12px rgba(40,60,160,.45));animation:gphPulse 2.2s ease-in-out infinite}
+@keyframes gphPulse{0%,100%{transform:scale(.88) rotate(0);opacity:.85}50%{transform:scale(1.08) rotate(8deg);opacity:1}}
+.gph-txt{position:absolute;left:0;right:0;bottom:20px;z-index:2;text-align:center;font-weight:600;font-size:14px;color:#fff;text-shadow:0 1px 10px rgba(20,30,100,.45)}
+.gph-bar{position:absolute;left:18px;right:18px;bottom:12px;height:3px;z-index:2;border-radius:3px;background:rgba(255,255,255,.28);overflow:hidden}
+.gph-bar b{display:block;height:100%;width:8%;border-radius:3px;background:#fff;animation:gphBar 40s cubic-bezier(.1,.6,.2,1) forwards}
+@keyframes gphBar{to{width:94%}}
+.gph-tip{display:block;margin:.1em 0 .5em;padding:.5em .9em;border-radius:14px;border:1px solid var(--gline,rgba(120,140,255,.3));background:var(--gfill,rgba(120,140,255,.1));color:var(--txt);font:inherit;font-size:.84em;text-align:left}
+@keyframes gReveal{from{filter:blur(22px) saturate(1.3);transform:scale(1.04);opacity:.55}to{filter:none;transform:none;opacity:1}}
+.gimg img{animation:gReveal .8s ease-out both}
+@media (prefers-reduced-motion:reduce){.gph-bg,.gph-bg i,.gph-shim,.gph-ic,.gph-bar b,.gimg img{animation:none}}
 </style>
 <script>
 /* Imagens grátis, sem chave (Pollinations) + animação de criação */
 function imgPlaceholder(prompt) {
-  var str = String(prompt || "ZENON"), hsh = 7;
-  for (var i = 0; i < str.length; i++) hsh = (hsh * 31 + str.charCodeAt(i)) >>> 0;
-  var h1 = hsh % 360, d = document.createElement("div");
-  d.className = "gph"; d.style.setProperty("--h1", h1); d.style.setProperty("--h2", (h1 + 55) % 360); d.style.setProperty("--h3", (h1 + 200) % 360);
-  d.innerHTML = '<div class="gph-bg"><i></i><i></i><i></i></div><div class="gph-shim"></div><div class="gph-txt"><span class="gph-shine">Criando sua imagem…</span></div><div class="gph-bar"><b></b></div>';
-  return d;
+  var w = document.createElement("div"), d = document.createElement("div");
+  d.className = "gph";
+  d.innerHTML = '<div class="gph-bg"><i></i><i></i><i></i></div><div class="gph-shim"></div><svg class="gph-ic" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l1.9 5.6L19.5 9.5l-5.6 1.9L12 17l-1.9-5.6L4.5 9.5l5.6-1.9L12 2zm7 11l.9 2.6 2.6.9-2.6.9L19 20l-.9-2.6-2.6-.9 2.6-.9L19 13z"/></svg><div class="gph-txt">Criando sua imagem…</div><div class="gph-bar"><b></b></div>';
+  w.appendChild(d);
+  try {
+    if (LS.get("puter_ok", "") !== "1" && Number(LS.get("puter_tip", "0")) < 3) {
+      LS.set("puter_tip", String(Number(LS.get("puter_tip", "0")) + 1));
+      var t = document.createElement("button"); t.type = "button"; t.className = "gph-tip";
+      t.textContent = "✨ Toque aqui para conectar a Puter (grátis): imagens realistas e sem marca d'água";
+      t.onclick = function () { window.connectPuter && window.connectPuter().then(function (ok) { if (ok) t.remove(); }); };
+      w.appendChild(t);
+    }
+  } catch (e) {}
+  return w;
 }
 function _fiSize(prompt) {
   var n = String(prompt || "").toLowerCase(), c = "";
@@ -8015,23 +8034,42 @@ function _fiSize(prompt) {
   return [1024, 1024];
 }
 function _fiErr(msg) { return Object.assign(new Error(msg), { userMsg: msg, code: "free" }); }
+function _realism(pr) {
+  var n = String(pr || "").toLowerCase();
+  if (/(illustration|illustrated|cartoon|anime|manga|vector|logo|icon|flat design|3d render|painting|watercolor|sketch|drawing|pixel art|mockup|typography|infographic|desenho|ilustra)/.test(n)) return pr;
+  return pr + ". Photorealistic candid photograph, natural light, real textures and small imperfections, shot on a full-frame camera with an 85mm lens, shallow depth of field, true-to-life colors, unretouched. Not an illustration, not CGI.";
+}
+async function _cropWm(blob, keep) {
+  /* o gerador grátis põe uma marca no rodapé: pedimos a imagem um pouco mais alta e cortamos esse rodapé */
+  try {
+    var url = URL.createObjectURL(blob);
+    var im = await new Promise(function (ok, no) { var i = new Image(); i.onload = function () { ok(i); }; i.onerror = no; i.src = url; });
+    var w = im.naturalWidth, h = Math.round(im.naturalHeight * keep), cv = document.createElement("canvas");
+    cv.width = w; cv.height = h; cv.getContext("2d").drawImage(im, 0, 0, w, h, 0, 0, w, h);
+    URL.revokeObjectURL(url);
+    return { mime: "image/jpeg", data: cv.toDataURL("image/jpeg", 0.93).split(",")[1] };
+  } catch (e) {
+    var d = await new Promise(function (ok, no) { var fr = new FileReader(); fr.onload = function () { ok(String(fr.result).split(",")[1] || ""); }; fr.onerror = no; fr.readAsDataURL(blob); });
+    return { mime: blob.type || "image/jpeg", data: d };
+  }
+}
 async function freeImage(prompt, fopt) {
   fopt = fopt || {};
   var pr = String(prompt || "").replace(/\s+/g, " ").trim().slice(0, 650);
   if (!pr) throw _fiErr("a descrição da imagem veio vazia");
-  var sz = _fiSize(pr), last = null, maxT = fopt.tries || 3;
+  var sz = _fiSize(pr), last = null, maxT = fopt.tries || 3, hh = Math.round(sz[1] * 1.1 / 16) * 16;
   for (var tent = 0; tent < maxT; tent++) {
     var seed = Math.floor(Math.random() * 1e9);
-    var url = (fopt.host || "https://image.pollinations.ai/prompt/") + encodeURIComponent(pr + ". Original artwork, no real brands or copyrighted characters.") + "?model=" + (fopt.model || "flux") + "&width=" + sz[0] + "&height=" + sz[1] + "&seed=" + seed + "&nologo=true&enhance=false&private=true";
-    var ctl = new AbortController(), tm = setTimeout(function () { ctl.abort(); }, 100000);
+    var url = (fopt.host || "https://image.pollinations.ai/prompt/") + encodeURIComponent(_realism(pr)) + "?model=" + (fopt.model || "flux") + "&width=" + sz[0] + "&height=" + hh + "&seed=" + seed + "&nologo=true&enhance=false&private=true";
+    var ctl = new AbortController(), tm = setTimeout(function () { ctl.abort(); }, 50000);
     try {
       var r = await fetch(url, { signal: ctl.signal });
       var ct = r.headers.get("content-type") || "";
       if (r.ok && /^image\//i.test(ct)) {
         var blob = await r.blob();
         if (blob.size > 4000) {
-          var data = await new Promise(function (ok, no) { var fr = new FileReader(); fr.onload = function () { ok(String(fr.result).split(",")[1] || ""); }; fr.onerror = no; fr.readAsDataURL(blob); });
-          if (data) return { mime: blob.type || "image/jpeg", data: data, model: "pollinations-flux" };
+          var cr = await _cropWm(blob, sz[1] / hh);
+          if (cr && cr.data) return { mime: cr.mime, data: cr.data, model: "pollinations-flux" };
         }
       }
       last = r.status || 0;
@@ -8112,28 +8150,77 @@ async function freeImageWithFallback(pr) {
     } catch (e) { return null; }
   }
 
+  /* ---- Puter: FLUX/GPT Image de verdade, sem marca d'água, sem chave (conta gratuita da Puter, conectada uma vez) ---- */
+  var _pp = null;
+  function loadPuter() {
+    if (window.puter) return Promise.resolve(window.puter);
+    if (_pp) return _pp;
+    _pp = new Promise(function (ok, no) {
+      var sc = document.createElement("script"); sc.src = "https://js.puter.com/v2/";
+      sc.onload = function () { ok(window.puter); };
+      sc.onerror = function () { _pp = null; no(new Error("puter")); };
+      document.head.appendChild(sc); setTimeout(function () { no(new Error("puter timeout")); }, 15000);
+    });
+    return _pp;
+  }
+  window.puterReady = async function () {
+    try {
+      if (LS.get("puter_ok", "") !== "1") return null;
+      var p = await loadPuter(), ok = p && p.auth && await p.auth.isSignedIn();
+      if (!ok) LS.set("puter_ok", "");
+      return ok ? p : null;
+    } catch (e) { return null; }
+  };
+  window.connectPuter = async function () {
+    try {
+      var p = await loadPuter(); await p.auth.signIn(); LS.set("puter_ok", "1");
+      toast("Puter conectada ✓ Agora as imagens saem realistas e sem marca d'água.", 4500); return true;
+    } catch (e) { toast("Não consegui conectar a Puter. Tente de novo.", 3500); return false; }
+  };
+  async function puterImage(pr) {
+    var p = await window.puterReady();
+    if (!p) throw fiErr("Puter não conectada");
+    var text = _realism(pr), last = null, models = ["black-forest-labs/flux-2-pro", null];
+    for (var k = 0; k < models.length; k++) {
+      try {
+        var opt = models[k] ? { model: models[k] } : {};
+        var el = await Promise.race([p.ai.txt2img(text, opt), new Promise(function (ok, no) { setTimeout(function () { no(new Error("timeout")); }, 70000); })]);
+        var src = el && el.src; if (!src) throw new Error("sem imagem");
+        if (/^data:/i.test(src)) { var m = /^data:([^;,]+)[^,]*,(.*)$/.exec(src); if (m) return { mime: m[1], data: m[2], model: "puter" }; }
+        var bl = await (await fetch(src)).blob();
+        return { mime: bl.type || "image/png", data: await toB64(bl), model: "puter" };
+      } catch (e) { last = e; }
+    }
+    var msg = String((last && (last.message || last.error)) || last || "");
+    throw fiErr(/credit|fund|quota|limit|balance/i.test(msg) ? "os créditos grátis da Puter acabaram por agora" : "a Puter não respondeu");
+  }
+
   window.freeImageWithFallback = async function (prompt) {
-    var pr0 = String(prompt || "").trim(), cur = pr0, regen = 0, errs = [], req = "";
+    var pr0 = String(prompt || "").trim(), cur = pr0, regen = 0, errs = [], req = "", t0 = Date.now();
     try { var lg = Chats.log; for (var q = lg.length - 1; q >= 0; q--) if (lg[q].role === "user") { req = String(lg[q].content || "").slice(0, 500); break; } } catch (e) {}
+    var today = new Date().toISOString().slice(0, 10);
     var chain = [
-      function (p) { return freeImage(p, { model: "flux", tries: 3 }); },
-      function (p) { return freeImage(p, { model: "turbo", tries: 2 }); },
-      function (p) { return freeImage(p, { model: "flux", tries: 2, host: "https://pollinations.ai/p/" }); },
-      function (p) { return hordeImage(p); },
-      function (p) { if (!cfg("gemini_key").trim()) return Promise.reject(fiErr("sem chave do Gemini")); return genImage(p); },
+      function (p) { return puterImage(p); },
+      function (p) { return freeImage(p, { model: "flux", tries: 2 }); },
+      function (p) { return freeImage(p, { model: "turbo", tries: 1 }); },
+      async function (p) {
+        if (!cfg("gemini_key").trim() || LS.get("gem_img_bad", "") === today) throw fiErr("Gemini de imagem indisponível");
+        try { return await genImage(p); } catch (e) { LS.set("gem_img_bad", today); throw e; }
+      },
       function (p) { return svgImage(p); }
     ];
     for (var i = 0; i < chain.length; i++) {
       var g = null;
-      try { g = await chain[i](cur); } catch (e) { errs.push(e); if (i < chain.length - 1) step("Tentando outro gerador…"); continue; }
+      try { g = await chain[i](cur); } catch (e) { errs.push(e); if (e && e.code === "aborted") throw e; if (i < chain.length - 1 && i > 0) step("Tentando outro gerador…"); continue; }
       if (i === chain.length - 1) return g;
+      if (Date.now() - t0 > 45000 || regen >= 1) return g;
       var v = await imgMatches(req, pr0, g);
-      if (!v || v.ok || regen >= 2) return g;
+      if (!v || v.ok) return g;
       regen++; step("Ajustando para ficar fiel ao seu pedido…");
       cur = pr0 + ". MUST clearly show: " + (v.why ? "fix this problem: " + v.why : "exactly what was requested") + ".";
       i--;
     }
-    var first = errs.find(function (e) { return e && e.userMsg; });
+    var first = errs.find(function (e) { return e && e.userMsg && !/Puter não conectada|Gemini de imagem/.test(e.userMsg); });
     throw first || fiErr("não consegui criar a imagem agora, mesmo tentando vários geradores. Confira a internet e tente de novo");
   };
 
@@ -8143,7 +8230,7 @@ async function freeImageWithFallback(pr) {
     imgPrompt = function () {
       var r = _ip.apply(this, arguments);
       if (!r) return r;
-      return r + " FIDELIDADE: a descrição dentro de [[IMG:...]] deve ser em inglês e conter EXATAMENTE o que o usuário pediu: assunto principal, quantidade, cores, estilo, enquadramento/formato e qualquer texto entre aspas, sem trocar, omitir nem inventar elementos importantes; termine com qualidade (highly detailed, sharp focus, beautiful lighting). Se o pedido citar um personagem, marca ou obra protegida, crie um personagem ORIGINAL inspirado no estilo, sem reproduzir o original.";
+      return r + " FIDELIDADE: a descrição dentro de [[IMG:...]] deve ser em inglês e conter EXATAMENTE o que o usuário pediu: assunto principal, quantidade, cores, estilo, enquadramento/formato e qualquer texto entre aspas, sem trocar, omitir nem inventar elementos importantes; por padrão peça uma FOTO realista (photorealistic photograph, natural light, 85mm lens, real textures), a menos que o usuário peça ilustração, desenho, logo ou outro estilo; NUNCA use termos como 8k, ultra detailed, masterpiece, perfect, trending on artstation, que dão cara de IA. Se o pedido citar um personagem, marca ou obra protegida, crie um personagem ORIGINAL inspirado no estilo, sem reproduzir o original.";
     };
   } catch (e) {}
 })();
@@ -8202,5 +8289,844 @@ html.neon .snav button.on{box-shadow:0 0 16px rgba(168,85,247,.45)}
 @media(prefers-reduced-motion:reduce){html.neon #gemini-fx::after,html.neon #gemini-fx::before,html.neon .hdr::after,html.neon .tabs::before{animation:none!important}}
 html.no-motion.neon #gemini-fx::after,html.no-motion.neon #gemini-fx::before,html.no-motion.neon .hdr::after,html.no-motion.neon .tabs::before{animation:none!important}
 </style>
+
+
+<style>
+/* ===== ZENON Finance v2: organizada, botões grandes, efeitos ===== */
+#plus.v5x{transform:translateY(-14px)}
+#plus.finon{box-shadow:0 0 0 6px color-mix(in srgb,var(--acc) 22%,transparent),0 10px 30px color-mix(in srgb,var(--acc) 55%,transparent)}
+#vFin{position:relative}
+#vFin .fin-wrap{position:relative;padding:6px 14px 170px;animation:finFade .35s both}
+@keyframes finFade{from{opacity:0}to{opacity:1}}
+@keyframes finUp{from{opacity:0;transform:translateY(16px) scale(.985)}to{opacity:1;transform:none}}
+@keyframes finPop{from{opacity:0;transform:scale(.4) rotate(-20deg)}to{opacity:1;transform:none}}
+@keyframes finGrow{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+@keyframes finRing{from{stroke-dashoffset:240}}
+@keyframes finShine{to{background-position:200% 0}}
+@keyframes finFloat{to{transform:translateY(18px) scale(1.06);opacity:.8}}
+@keyframes finSpin{to{transform:rotate(360deg)}}
+@keyframes finSheet{from{transform:translateY(100%)}to{transform:none}}
+.fin-a{animation:finUp .55s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--i,0)*55ms)}
+.fin-live,.fin-live *{animation:none!important;transition:none!important}
+.fin-glow{position:absolute;left:0;right:0;top:-40px;height:280px;pointer-events:none;z-index:0;background:radial-gradient(60% 80% at 18% 0%,color-mix(in srgb,var(--acc) 40%,transparent),transparent 70%),radial-gradient(50% 70% at 92% 8%,color-mix(in srgb,var(--acc2) 32%,transparent),transparent 70%);filter:blur(10px);animation:finFloat 9s ease-in-out infinite alternate}
+.fin-wrap>*:not(.fin-glow){position:relative;z-index:1}
+.fin-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:8px 2px 14px}
+.fin-ttl{font-size:31px;font-weight:800;letter-spacing:-.03em;line-height:1.05;background:linear-gradient(90deg,var(--acc),var(--acc2),var(--acc));background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:finShine 6s linear infinite}
+.fin-sub{font-size:13.5px;color:var(--dim);margin-top:4px}
+.fin-sync{width:54px;height:54px;border-radius:19px;border:1px solid var(--gline,var(--line));background:var(--gfill,transparent);color:var(--txt);display:grid;place-items:center;transition:transform .15s}
+.fin-sync svg{width:24px;height:24px}.fin-sync:active{transform:scale(.92)}.fin-sync.spin svg{animation:finSpin 1s linear infinite}
+.fin-seg{position:sticky;top:0;z-index:20;display:grid;grid-template-columns:repeat(5,1fr);gap:5px;padding:7px;margin:0 -2px 16px;border-radius:26px;background:var(--glass,rgba(20,25,45,.6));-webkit-backdrop-filter:blur(18px) saturate(1.5);backdrop-filter:blur(18px) saturate(1.5);border:1px solid var(--gline,var(--line));box-shadow:0 12px 32px rgba(10,20,60,.14)}
+.fin-seg button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-height:60px;padding:6px 0;border-radius:20px;border:0;background:transparent;color:var(--dim);font:inherit;font-size:11.5px;font-weight:700;transition:all .25s}
+.fin-seg button svg{width:23px;height:23px}
+.fin-seg button.on{color:#fff;background:linear-gradient(135deg,var(--acc),var(--acc2));box-shadow:0 8px 22px color-mix(in srgb,var(--acc) 45%,transparent);transform:translateY(-1px)}
+.fin-seg button:active{transform:scale(.94)}
+.fin-card{border:1px solid var(--gline,var(--line));background:var(--gfill,rgba(120,140,255,.08));border-radius:26px;padding:16px;margin-bottom:14px;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+.fin-card h3{display:flex;align-items:center;gap:9px;margin:0 0 12px;font-size:15.5px;font-weight:800;color:var(--txt)}
+.fin-card h3 svg{width:20px;height:20px;color:var(--acc)}
+.fin-hero{position:relative;overflow:hidden;border-radius:30px;padding:20px 18px;margin-bottom:14px;color:#fff;background:linear-gradient(135deg,var(--acc),var(--acc2) 70%,var(--acc));background-size:200% 200%;animation:finShine 10s linear infinite;box-shadow:0 18px 44px color-mix(in srgb,var(--acc) 40%,transparent)}
+.fin-hero:before,.fin-hero:after{content:"";position:absolute;border-radius:50%;pointer-events:none;background:rgba(255,255,255,.16);filter:blur(2px)}
+.fin-hero:before{width:170px;height:170px;right:-50px;top:-70px}.fin-hero:after{width:110px;height:110px;left:-30px;bottom:-60px;background:rgba(255,255,255,.1)}
+.fin-hero>*{position:relative;z-index:1}
+.fin-hero small{display:block;font-size:13.5px;opacity:.9;font-weight:600}
+.fin-hero .big{font-size:40px;font-weight:800;letter-spacing:-.03em;line-height:1.08;margin:4px 0}
+.fin-hrow{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.fin-ring{width:92px;height:92px;flex:0 0 92px;transform:rotate(-90deg)}
+.fin-ring circle{fill:none;stroke-width:9;stroke-linecap:round}
+.fin-ring .bg{stroke:rgba(255,255,255,.25)}
+.fin-ring .fg{stroke:#fff;stroke-dasharray:239;animation:finRing 1.2s cubic-bezier(.2,.8,.2,1) both .2s}
+.fin-ringw{position:relative;width:92px;height:92px;flex:0 0 92px}.fin-ringw b{position:absolute;inset:0;display:grid;place-items:center;font-size:16px;font-weight:800}
+.fin-pillw{display:inline-flex;align-items:center;gap:6px;padding:7px 13px;border-radius:999px;background:rgba(255,255,255,.2);font-size:13px;font-weight:700;margin-top:8px}
+.fin-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.fin-stat{border:1px solid var(--gline,var(--line));background:var(--gfill,rgba(120,140,255,.08));border-radius:24px;padding:15px;min-height:104px;position:relative;overflow:hidden}
+.fin-stat .ic{width:38px;height:38px;border-radius:13px;display:grid;place-items:center;margin-bottom:10px;color:#fff;background:linear-gradient(135deg,var(--acc),var(--acc2))}
+.fin-stat .ic svg{width:20px;height:20px}
+.fin-stat small{display:block;color:var(--dim);font-size:12.5px;font-weight:600}
+.fin-stat b{display:block;font-size:22px;margin-top:2px;letter-spacing:-.02em;color:var(--txt)}
+.fin-pos{color:#22c55e!important}.fin-neg{color:#ef4444!important}.fin-mid{color:#f59e0b!important}
+.fin-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.fin-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:54px;padding:0 22px;border-radius:19px;border:0;font:inherit;font-weight:800;font-size:16px;color:#fff;background:linear-gradient(135deg,var(--acc),var(--acc2));box-shadow:0 10px 26px color-mix(in srgb,var(--acc) 38%,transparent);transition:transform .15s,box-shadow .15s}
+.fin-btn svg{width:21px;height:21px}.fin-btn:active{transform:scale(.96)}
+.fin-btn.block{width:100%}.fin-btn.flex{flex:1 1 0}
+.fin-btn.ghost{background:var(--gfill,transparent);color:var(--txt);border:1px solid var(--gline,var(--line));box-shadow:none;font-weight:700}
+.fin-btn.red{background:rgba(239,68,68,.13);color:#ef4444;border:1px solid rgba(239,68,68,.35);box-shadow:none}
+.fin-btn.sm{min-height:48px;padding:0 16px;font-size:14.5px;border-radius:16px}
+.fin-asks{display:flex;gap:10px;overflow-x:auto;margin:0 -14px 14px;padding:2px 14px 6px;scrollbar-width:none}.fin-asks::-webkit-scrollbar{display:none}
+.fin-ask{flex:0 0 auto;display:flex;align-items:center;gap:10px;min-height:58px;padding:0 18px 0 14px;border-radius:20px;border:1px solid var(--gline,var(--line));background:var(--gfill,rgba(120,140,255,.08));color:var(--txt);font:inherit;font-size:14.5px;font-weight:700;transition:transform .15s}
+.fin-ask em{font-style:normal;font-size:22px}.fin-ask:active{transform:scale(.95)}
+.fin-chips{display:flex;gap:9px;flex-wrap:wrap;margin:0 0 14px}
+.fin-chips button{min-height:46px;padding:0 18px;border-radius:999px;border:1px solid var(--gline,var(--line));background:var(--gfill,transparent);color:var(--dim);font:inherit;font-size:14.5px;font-weight:700;transition:all .2s}
+.fin-chips button.on{color:#fff;border-color:transparent;background:linear-gradient(135deg,var(--acc),var(--acc2));box-shadow:0 8px 20px color-mix(in srgb,var(--acc) 38%,transparent)}
+.fin-chips button:active{transform:scale(.95)}
+.fin-modes{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+.fin-modes button{min-height:56px;border-radius:18px;border:1px solid var(--gline,var(--line));background:var(--gfill,transparent);color:var(--dim);font:inherit;font-size:13.5px;font-weight:800;line-height:1.15;padding:0 6px;transition:all .2s}
+.fin-modes button.on{color:#fff;border-color:transparent;background:linear-gradient(135deg,var(--acc),var(--acc2));box-shadow:0 8px 22px color-mix(in srgb,var(--acc) 40%,transparent)}
+.fin-f{display:block;margin:0 0 12px}.fin-f>span{display:block;font-size:13px;color:var(--dim);margin:0 0 6px;font-weight:600}
+.fin-f>div{position:relative}
+.fin-f input,.fin-f select,.fin-f textarea,.fin-in{width:100%;box-sizing:border-box;height:56px;padding:0 16px;border-radius:17px;border:1.5px solid var(--gline,var(--line));background:var(--gfill,rgba(120,140,255,.08));color:var(--txt);font:inherit;font-size:17px;font-weight:600;outline:0;transition:border-color .2s,box-shadow .2s}
+.fin-f textarea{height:auto;min-height:130px;padding:14px 16px;resize:vertical;font-weight:500;line-height:1.4}
+.fin-f input:focus,.fin-f select:focus,.fin-f textarea:focus,.fin-in:focus{border-color:var(--acc);box-shadow:0 0 0 4px color-mix(in srgb,var(--acc) 20%,transparent)}
+.fin-f i{position:absolute;right:16px;top:50%;transform:translateY(-50%);font-style:normal;color:var(--dim);font-size:14px;font-weight:700;pointer-events:none}
+.fin-f>div input{padding-right:42px}
+.fin-two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.fin-rng{-webkit-appearance:none;appearance:none;width:100%;height:12px;border-radius:8px;outline:0;background:linear-gradient(90deg,var(--acc),var(--acc2));margin:10px 0 6px}
+.fin-rng::-webkit-slider-thumb{-webkit-appearance:none;width:34px;height:34px;border-radius:50%;background:#fff;border:0;box-shadow:0 4px 14px rgba(0,0,0,.35),0 0 0 4px color-mix(in srgb,var(--acc) 35%,transparent)}
+.fin-rng::-moz-range-thumb{width:34px;height:34px;border-radius:50%;background:#fff;border:0;box-shadow:0 4px 14px rgba(0,0,0,.35)}
+.fin-mval{display:flex;justify-content:space-between;align-items:baseline;font-size:13px;color:var(--dim);font-weight:600}.fin-mval b{font-size:22px;color:var(--txt)}
+.fin-bar{display:flex;height:16px;border-radius:10px;overflow:hidden;margin:14px 0 10px;background:rgba(255,255,255,.22)}
+.fin-bar i{display:block;height:100%;transform-origin:left;animation:finGrow .8s cubic-bezier(.2,.8,.2,1) both}
+.fin-leg{display:flex;flex-wrap:wrap;gap:7px 14px;font-size:12.5px;color:var(--dim)}
+.fin-hero .fin-leg{color:rgba(255,255,255,.9)}
+.fin-leg span:before{content:"";display:inline-block;width:10px;height:10px;border-radius:4px;margin-right:6px;background:var(--c)}
+.fin-kpis{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.fin-kpi{border-radius:18px;padding:12px 13px;background:rgba(255,255,255,.17)}
+.fin-kpi small{display:block;font-size:12px;opacity:.9;font-weight:600}.fin-kpi b{display:block;font-size:18px;margin-top:2px}
+.fin-kv{display:flex;justify-content:space-between;gap:10px;padding:12px 0;border-bottom:1px solid var(--line);font-size:15px}
+.fin-kv:last-child{border-bottom:0}.fin-kv span{color:var(--dim)}.fin-kv b{color:var(--txt)}
+.fin-ch{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 0;border-bottom:1px solid var(--line)}.fin-ch:last-child{border-bottom:0}
+.fin-ch .fin-n{font-weight:800;font-size:15px;color:var(--txt)}.fin-ch .fin-p{font-size:12.5px;color:var(--dim);margin-top:2px}
+.fin-ch input{width:74px;height:46px;border-radius:14px;border:1.5px solid var(--gline,var(--line));background:var(--gfill);color:var(--txt);font:inherit;font-size:16px;font-weight:700;text-align:center}
+.fin-item{position:relative;border:1px solid var(--gline,var(--line));background:var(--gfill,rgba(120,140,255,.08));border-radius:24px;padding:15px 15px 15px 20px;margin-bottom:12px;overflow:hidden}
+.fin-item:before{content:"";position:absolute;left:0;top:14px;bottom:14px;width:5px;border-radius:0 5px 5px 0;background:var(--ac,var(--acc))}
+.fin-item .fin-t{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.fin-item .fin-n{font-weight:800;font-size:16.5px;color:var(--txt);word-break:break-word;line-height:1.25}
+.fin-item .fin-m{font-size:13.5px;color:var(--dim);margin-top:5px;line-height:1.4}
+.fin-badge{flex:0 0 auto;padding:6px 12px;border-radius:999px;font-size:13px;font-weight:800;color:#fff;background:var(--ac,var(--acc))}
+.fin-pill{display:inline-block;padding:5px 11px;border-radius:999px;font-size:12.5px;font-weight:700;background:color-mix(in srgb,var(--acc) 17%,transparent);color:var(--txt);white-space:nowrap}
+.fin-stock{height:8px;border-radius:6px;background:var(--line);margin:12px 0 4px;overflow:hidden}.fin-stock i{display:block;height:100%;border-radius:6px;background:var(--ac,var(--acc));transform-origin:left;animation:finGrow .9s cubic-bezier(.2,.8,.2,1) both}
+.fin-day{font-size:13px;font-weight:800;color:var(--dim);letter-spacing:.04em;text-transform:uppercase;margin:16px 4px 8px}
+.fin-date{flex:0 0 50px;text-align:center;border-radius:16px;padding:8px 0;color:#fff;background:linear-gradient(135deg,var(--acc),var(--acc2))}.fin-date b{display:block;font-size:20px;line-height:1}.fin-date small{font-size:11px;font-weight:700;text-transform:uppercase;opacity:.92}
+.fin-nrow{display:flex;gap:13px;align-items:flex-start}
+.fin-note{white-space:pre-wrap;font-size:15.5px;line-height:1.5;color:var(--txt);word-break:break-word}
+.fin-empty{padding:30px 14px;text-align:center;color:var(--dim);font-size:15px;line-height:1.45}
+.fin-empty .em{font-size:44px;display:block;margin-bottom:8px}
+.fin-alert{display:flex;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line);font-size:14.5px;color:var(--txt)}.fin-alert:last-child{border-bottom:0}.fin-alert em{font-style:normal;font-size:22px}
+.fin-search{position:relative;margin-bottom:14px}.fin-search svg{position:absolute;left:16px;top:50%;transform:translateY(-50%);width:21px;height:21px;color:var(--dim)}.fin-search input{padding-left:48px}
+.fin-fab{position:fixed;right:18px;bottom:calc(116px + env(safe-area-inset-bottom,0px));width:64px;height:64px;border-radius:23px;border:0;color:#fff;display:grid;place-items:center;z-index:30;background:linear-gradient(135deg,var(--acc),var(--acc2));box-shadow:0 14px 34px color-mix(in srgb,var(--acc) 55%,transparent);animation:finPop .5s cubic-bezier(.2,1.4,.4,1) both;transition:transform .15s}
+.fin-fab svg{width:30px;height:30px}.fin-fab:active{transform:scale(.9)}
+.fin-sw{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:58px;font-size:15px;color:var(--txt);font-weight:600}.fin-sw small{display:block;color:var(--dim);font-weight:500;font-size:12.5px;margin-top:2px}
+.fin-sw input{appearance:none;-webkit-appearance:none;width:58px;height:34px;flex:0 0 58px;border-radius:20px;background:var(--line);position:relative;transition:background .2s;border:0}
+.fin-sw input:after{content:"";position:absolute;left:3px;top:3px;width:28px;height:28px;border-radius:50%;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.3);transition:transform .2s}
+.fin-sw input:checked{background:linear-gradient(135deg,var(--acc),var(--acc2))}.fin-sw input:checked:after{transform:translateX(24px)}
+#finSheet{position:fixed;inset:0;z-index:9999;display:none}#finSheet.open{display:block}
+#finSheet .fin-bg{position:absolute;inset:0;background:rgba(5,8,25,.5);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);animation:finFade .25s both}
+#finSheet .fin-sh{display:block;position:absolute;left:0;right:0;bottom:0;max-height:90vh;overflow:auto;border-radius:32px 32px 0 0;padding:10px 18px calc(24px + env(safe-area-inset-bottom,0px));background:#121935;color:var(--txt);border-top:1px solid var(--gline,var(--line));box-shadow:0 -20px 60px rgba(0,0,0,.35);animation:finSheet .38s cubic-bezier(.2,.9,.25,1) both}
+html[data-theme="light"] #finSheet .fin-sh{background:#f5f7ff}
+#finSheet .fin-grab{width:46px;height:5px;border-radius:4px;background:var(--line);margin:4px auto 14px}
+#finSheet .fin-st{display:block;font-size:21px;font-weight:800;margin:0 0 14px;letter-spacing:-.02em}
+.fin-qty{display:flex;align-items:center;gap:10px}.fin-qty button{width:56px;height:56px;border-radius:18px;border:1px solid var(--gline,var(--line));background:var(--gfill);color:var(--txt);font-size:26px;font-weight:700}.fin-qty input{text-align:center}
+html.neon .fin-card,html.neon .fin-stat,html.neon .fin-item,html.neon .fin-seg{border-color:rgba(205,165,255,.3)}
+@media (prefers-reduced-motion:reduce){.fin-a,.fin-glow,.fin-hero,.fin-ttl,.fin-bar i,.fin-stock i,.fin-ring .fg,.fin-fab,#finSheet .fin-sh{animation:none!important}}
+</style>
+<script>
+/* ZENON Finance v2: resumo, calculadora, produtos, vendas e notas; o Jarvis consulta e registra pelas ações fin_* */
+(function () {
+  var KEY = "fin_v1", D = null, sec = null, shEl = null, fabEl = null, tab = "resumo", mode = "price", prodQ = "", noteQ = "", noteFilter = "year", saleMonth = "all", busy = false, saleCh = "Shopee", anim = 0, live = false, editId = null;
+  var TABS = [["resumo", "Resumo"], ["calc", "Calcular"], ["prod", "Produtos"], ["vend", "Vendas"], ["notas", "Notas"], ["tools", "Estúdio"]];
+  var FI = {
+    tools: '<rect x="3" y="3" width="7.5" height="7.5" rx="2"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="2"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="2"/><rect x="13.5" y="13.5" width="7.5" height="7.5" rx="2"/>',
+    resumo: '<path d="M4 20V11M10 20V4M16 20v-6M22 20H2"/>',
+    calc: '<rect x="5" y="2.5" width="14" height="19" rx="3"/><rect x="8" y="5.8" width="8" height="3.4" rx="1"/><path d="M8.5 13h.01M12 13h.01M15.5 13h.01M8.5 16.8h.01M12 16.8h.01M15.5 16.8h.01" stroke-width="2.4"/>',
+    prod: '<path d="M21 8l-9-5-9 5v8l9 5 9-5V8zM3 8l9 5 9-5M12 13v8"/>',
+    vend: '<path d="M6 2L4 6v14a2 2 0 002 2h12a2 2 0 002-2V6l-2-4H6zM4 6h16M9 10a3 3 0 006 0"/>',
+    notas: '<path d="M4 4h11l5 5v11H4V4zM15 4v5h5M8 13h8M8 17h5"/>',
+    plus: '<path d="M12 5v14M5 12h14"/>', sync: '<path d="M20 11a8 8 0 00-14-4l-2 2M4 13a8 8 0 0014 4l2-2M4 4v5h5M20 20v-5h-5"/>',
+    trash: '<path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/>', edit: '<path d="M4 20h4L19 9l-4-4L4 16v4zM13 7l4 4"/>', search: '<circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/>',
+    bolt: '<path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z"/>', box: '<path d="M21 8l-9-5-9 5v8l9 5 9-5V8z"/>', money: '<path d="M12 2v20M17 6.5C16 5 14.5 4.5 12 4.5c-3 0-4.5 1.4-4.5 3.2 0 4.8 9 2.4 9 7.3 0 2-1.8 3.5-4.5 3.5-2.6 0-4.3-.9-5.2-2.5"/>', chart: '<path d="M3 17l5-6 4 3 8-9M16 5h4v4"/>', note: '<path d="M4 4h11l5 5v11H4V4z"/>'
+  };
+  function svg(k, sw) { return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="' + (sw || 2) + '" stroke-linecap="round" stroke-linejoin="round">' + (FI[k] || "") + "</svg>"; }
+  var $q = function (id) { return document.getElementById(id); };
+  function fold(x) { return String(x == null ? "" : x).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]/g, ""); }
+  function esc2(x) { return String(x == null ? "" : x).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
+  function num(v) { if (typeof v === "number") return isFinite(v) ? v : 0; var s = String(v == null ? "" : v).replace(/[^\d,.\-]/g, ""); if (s.indexOf(",") > -1) s = s.replace(/\./g, "").replace(",", "."); var n = parseFloat(s); return isNaN(n) ? 0 : n; }
+  function brl(n) { return (isFinite(n) ? n : 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" }); }
+  function pct(n) { return (isFinite(n) ? n : 0).toLocaleString("pt-BR", { maximumFractionDigits: 1 }) + "%"; }
+  function r2(n) { return Math.round((isFinite(n) ? n : 0) * 100) / 100; }
+  function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 6); }
+  function ymd(ts) { var d = new Date(ts); return d.getFullYear() + "-" + ("0" + (d.getMonth() + 1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2); }
+  function dmy(ts) { var d = new Date(ts); return ("0" + d.getDate()).slice(-2) + "/" + ("0" + (d.getMonth() + 1)).slice(-2) + "/" + d.getFullYear(); }
+  function ymKey(ts) { return ymd(ts).slice(0, 7); }
+  var MES = ["jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez"];
+  function ymLabel(k) { var a = k.split("-"); return MES[+a[1] - 1] + "/" + a[0].slice(2); }
+  function parseTs(v) { var t = Date.parse(v); return isNaN(t) ? Date.now() : t; }
+  function st() { return 'style="--i:' + (anim++) + '"'; }
+
+  function load() {
+    var d = {}; try { d = LS.json(KEY, {}) || {}; } catch (e) {}
+    d.products = d.products || []; d.sales = d.sales || []; d.notes = d.notes || [];
+    d.calc = Object.assign({ cost: 0, extra: 0, fee: 20, tax: 0, ads: 0, margin: 40, price: 0, fixed: 0, qty: 50 }, d.calc || {});
+    d.ch = Object.assign({ shopee: 20, insta: 0, site: 4 }, d.ch || {});
+    return d;
+  }
+  function save() { try { LS.set(KEY, JSON.stringify(D)); } catch (e) {} }
+  D = load();
+
+  /* ---------- contas (as mesmas para a tela e para o Jarvis) ---------- */
+  function idealOf(c) { var base = c.cost + c.extra + c.ads, den = 1 - (c.fee + c.tax + c.margin) / 100; return den > 0.03 ? base / den : null; }
+  function calcOf(c, p, fee) {
+    var feeV = p * (fee == null ? c.fee : fee) / 100, taxV = p * c.tax / 100, cost = c.cost + c.extra, ads = c.ads, profit = p - feeV - taxV - cost - ads;
+    return { feeV: feeV, taxV: taxV, cost: cost, ads: ads, profit: profit, margin: p ? profit / p * 100 : 0, markup: (cost + ads) ? profit / (cost + ads) * 100 : 0 };
+  }
+  function ideal() { return idealOf(D.calc); }
+  function calc(p, fee) { return calcOf(D.calc, p, fee); }
+  function psych(p) { var f = Math.floor(p), c = f + 0.9; return c >= p ? c : f + 1.9; }
+  function pcost(name) { var f = fold(name), p = D.products.find(function (x) { return fold(x.name) === f; }); return p ? p.cost : 0; }
+  function sprofit(x) { var cost = x.cost != null ? x.cost : pcost(x.name); return x.price * x.qty - cost * x.qty - (x.fee || 0); }
+  function stats() {
+    var rev = 0, pr = 0, qty = 0;
+    D.sales.forEach(function (x) { rev += x.price * x.qty; pr += sprofit(x); qty += x.qty; });
+    var m = rev ? pr / rev * 100 : (D.products.length ? D.products.reduce(function (s, p) { return s + (p.price ? (p.price - p.cost) / p.price * 100 : 0); }, 0) / D.products.length : 0);
+    var sc = 0, su = 0; D.products.forEach(function (p) { var q = Math.max(0, p.stock); sc += p.cost * q; su += q; });
+    return { rev: rev, profit: pr, margin: m, qty: qty, stockCost: sc, stockUnits: su };
+  }
+  function monthsData(n) {
+    var out = [], now = new Date();
+    for (var i = n - 1; i >= 0; i--) { var d = new Date(now.getFullYear(), now.getMonth() - i, 1); out.push({ k: d.getFullYear() + "-" + ("0" + (d.getMonth() + 1)).slice(-2), rev: 0, profit: 0, qty: 0 }); }
+    D.sales.forEach(function (x) { var k = ymKey(x.ts), m = out.find(function (o) { return o.k === k; }); if (m) { m.rev += x.price * x.qty; m.profit += sprofit(x); m.qty += x.qty; } });
+    return out;
+  }
+  function mcls(m) { return m >= 40 ? "fin-pos" : m >= 25 ? "fin-mid" : "fin-neg"; }
+  function mcol(m) { return m >= 40 ? "#22c55e" : m >= 25 ? "#f59e0b" : "#ef4444"; }
+  function alerts() {
+    var al = [];
+    D.products.forEach(function (p) {
+      if (p.stock <= 0) al.push(["⛔", "<b>" + esc2(p.name) + "</b> está sem estoque.", p.name + " sem estoque"]);
+      else if (p.stock <= 3) al.push(["⚠️", "<b>" + esc2(p.name) + "</b>: só " + p.stock + " em estoque.", p.name + ": só " + p.stock + " em estoque"]);
+      var m = p.price ? (p.price - p.cost) / p.price * 100 : 0; if (p.price && m < 25) al.push(["📉", "<b>" + esc2(p.name) + "</b> tem margem baixa (" + pct(m) + ").", p.name + ": margem baixa " + pct(m)]);
+    });
+    return al;
+  }
+
+  /* ---------- peças visuais ---------- */
+  function ringHtml(p, extra) { var C = 239, v = Math.max(0, Math.min(100, p)) / 100; return '<div class="fin-ringw"><svg class="fin-ring" viewBox="0 0 92 92"><circle class="bg" cx="46" cy="46" r="38"/><circle class="fg" cx="46" cy="46" r="38" stroke-dashoffset="' + (C * (1 - v)).toFixed(1) + '"/></svg><b>' + (extra || pct(p)) + "</b></div>"; }
+  function barHtml(p, r) {
+    if (!(p > 0)) return "";
+    var seg = [["Custo", r.cost, "#475569"], ["Taxa + imposto", r.feeV + r.taxV, "#f59e0b"], ["Anúncio", r.ads, "#a78bfa"], ["Lucro", Math.max(0, r.profit), "#22c55e"]];
+    var tot = seg.reduce(function (s, x) { return s + x[1]; }, 0) || 1;
+    return '<div class="fin-bar">' + seg.map(function (x, i) { return '<i style="width:' + (x[1] / tot * 100).toFixed(2) + "%;background:" + x[2] + ";animation-delay:" + (i * 90) + 'ms"></i>'; }).join("") + '</div><div class="fin-leg">' + seg.map(function (x) { return '<span style="--c:' + x[2] + '">' + x[0] + " " + brl(x[1]) + "</span>"; }).join("") + "</div>";
+  }
+  function fld(label, key, suf) { return '<label class="fin-f"><span>' + label + '</span><div><input inputmode="decimal" data-calc="' + key + '" value="' + (D.calc[key] || "") + '" placeholder="0">' + (suf ? "<i>" + suf + "</i>" : "") + "</div></label>"; }
+
+  /* ---------- Calcular ---------- */
+  function calcHero() {
+    var c = D.calc, p, title;
+    if (mode === "price") { p = ideal(); title = "Preço ideal para " + pct(c.margin) + " de margem"; if (p === null) return '<div class="fin-hero"><small>Ops</small><div class="big" style="font-size:22px">As porcentagens somam 100% ou mais.</div><small>Reduza a taxa, o imposto ou a margem.</small></div>'; }
+    else if (mode === "ana") { p = c.price; title = "Vendendo a " + brl(p); }
+    else { p = c.price || ideal() || 0; title = "Canais com o preço de " + brl(p); }
+    if (!(p > 0)) return '<div class="fin-hero"><small>Calculadora</small><div class="big">R$ 0,00</div><small>Preencha o custo' + (mode === "price" ? "" : " e o preço") + " para ver o resultado.</small></div>";
+    var r = calcOf(c, p), be = r.profit > 0 && c.fixed > 0 ? Math.ceil(c.fixed / r.profit) : null;
+    return '<div class="fin-hero"><div class="fin-hrow"><div><small>' + title + '</small><div class="big" data-count="' + r2(p) + '">' + brl(p) + "</div>" + (mode === "price" ? '<div class="fin-pillw">Preço redondo: ' + brl(psych(p)) + "</div>" : "") + "</div>" + ringHtml(r.margin, pct(r.margin)) + "</div>" + barHtml(p, r) +
+      '<div class="fin-kpis"><div class="fin-kpi"><small>Lucro por peça</small><b>' + brl(r.profit) + '</b></div><div class="fin-kpi"><small>Markup</small><b>' + pct(r.markup) + '</b></div><div class="fin-kpi"><small>Com ' + (c.qty || 0) + ' peças</small><b>' + brl(r.profit * (c.qty || 0)) + '</b></div><div class="fin-kpi"><small>Cobrir custos fixos</small><b>' + (be ? be + " peças" : "—") + "</b></div></div></div>";
+  }
+  function chanCard() {
+    if (mode !== "chan") return "";
+    var c = D.calc, p = c.price || ideal() || 0, CH = [["shopee", "Shopee"], ["insta", "Instagram / WhatsApp"], ["site", "Site próprio"]];
+    return '<div class="fin-card fin-a" ' + st() + "><h3>" + svg("money") + "Lucro por canal</h3>" + CH.map(function (x) { var rr = calcOf(c, p, D.ch[x[0]]); return '<div class="fin-ch"><div><div class="fin-n">' + x[1] + '</div><div class="fin-p"><b class="' + (rr.profit >= 0 ? "fin-pos" : "fin-neg") + '">' + brl(rr.profit) + "</b> · margem " + pct(rr.margin) + '</div></div><div style="display:flex;align-items:center;gap:6px"><input inputmode="decimal" data-ch="' + x[0] + '" value="' + D.ch[x[0]] + '"><b>%</b></div></div>'; }).join("") + '<div class="fin-leg" style="margin-top:10px">As taxas são estimativas: ajuste para o que você paga em cada canal.</div></div>';
+  }
+  function calcView() {
+    var c = D.calc, h = '<div class="fin-modes fin-a" ' + st() + ">" + [["price", "Precificar"], ["ana", "Analisar margem"], ["chan", "Comparar canais"]].map(function (m) { return '<button data-fa="mode" data-m="' + m[0] + '" class="' + (mode === m[0] ? "on" : "") + '">' + m[1] + "</button>"; }).join("") + "</div>";
+    h += '<div id="finHero" class="fin-a" ' + st() + ">" + calcHero() + "</div>";
+    h += '<div class="fin-card fin-a" ' + st() + "><h3>" + svg("box") + "Custos da peça</h3>" + fld("Custo da peça", "cost", "R$") + '<div class="fin-two">' + fld("Frete + embalagem", "extra", "R$") + fld("Anúncio por venda", "ads", "R$") + "</div></div>";
+    h += '<div class="fin-card fin-a" ' + st() + "><h3>" + svg("money") + "Taxas</h3>" + '<div class="fin-two">' + fld("Taxa do canal", "fee", "%") + fld("Imposto", "tax", "%") + "</div></div>";
+    h += '<div class="fin-card fin-a" ' + st() + "><h3>" + svg("chart") + "Meta</h3>";
+    if (mode === "price") h += '<div class="fin-mval"><span>Margem desejada</span><b id="finMv">' + pct(c.margin) + '</b></div><input type="range" class="fin-rng" min="0" max="80" step="1" value="' + c.margin + '" data-rng="margin">';
+    else h += fld("Preço de venda", "price", "R$");
+    h += '<div class="fin-two" style="margin-top:8px">' + fld("Custos fixos do mês", "fixed", "R$") + fld("Meta (peças)", "qty", "") + "</div></div>";
+    h += chanCard();
+    h += '<div class="fin-row fin-a" ' + st() + '><button class="fin-btn flex" data-fa="saveprod">' + svg("plus") + 'Salvar produto</button><button class="fin-btn ghost flex" data-fa="askcalc">' + svg("bolt") + "Pedir ao Jarvis</button></div>";
+    return h;
+  }
+  function liveCalc() { live = true; var el = $q("finHero"); if (el) { el.classList.add("fin-live"); el.innerHTML = calcHero(); } var old = sec.querySelector(".fin-card.chan"); live = false; }
+
+  /* ---------- Resumo ---------- */
+  var ASKS = [["📊", "Analisar meu mês", "Analise meu mês na ZENON com os números reais do painel de finanças: o que vendeu, a margem, o estoque parado e 3 ações para vender mais, mostrando as contas."],
+    ["🛒", "Anúncio Shopee", "Escreva o título e a descrição de anúncio da Shopee para o produto mais vendido da ZENON, com palavras-chave e tabela de medidas."],
+    ["📅", "Stories da semana", "Monte o planejamento de stories e posts da semana para a ZENON, com roteiro curto e melhor horário para cada um."],
+    ["🎯", "O que priorizar", "Qual produto da ZENON devo priorizar e por quê? Compare margem, estoque e vendas com as contas do painel de finanças."],
+    ["📝", "Resumir anotações", "Resuma as minhas anotações deste ano da ZENON: o que aprendi, o que está pendente e o que fazer agora."]];
+  function resumoView() {
+    var s = stats(), md = monthsData(6), mx = Math.max.apply(null, md.map(function (m) { return Math.max(m.rev, 1); }));
+    var empty = !D.products.length && !D.sales.length && !D.notes.length;
+    var h = '<div class="fin-hero fin-a" ' + st() + '><div class="fin-hrow"><div><small>Lucro total calculado</small><div class="big" data-count="' + r2(s.profit) + '">' + brl(s.profit) + '</div><div class="fin-pillw">Margem média ' + pct(s.margin) + "</div></div>" + ringHtml(s.margin, pct(s.margin)) + "</div></div>";
+    h += '<div class="fin-asks fin-a" ' + st() + ">" + ASKS.map(function (a, i) { return '<button class="fin-ask" data-fa="ai" data-i="' + i + '"><em>' + a[0] + "</em>" + a[1] + "</button>"; }).join("") + "</div>";
+    h += '<div class="fin-grid">' + [["money", "Faturamento", brl(s.rev), s.rev, "brl"], ["bag", "Peças vendidas", String(s.qty), s.qty, "int"], ["box", "Estoque a custo", brl(s.stockCost), s.stockCost, "brl"], ["prod", "Produtos", String(D.products.length), D.products.length, "int"]].map(function (x) { return '<div class="fin-stat fin-a" ' + st() + '><div class="ic">' + svg(x[0] === "bag" ? "vend" : x[0]) + "</div><small>" + x[1] + '</small><b data-count="' + x[3] + '" data-fmt="' + x[4] + '">' + x[2] + "</b></div>"; }).join("") + "</div>";
+    var W = 320, H = 150, bw = 34, gap = (W - 6 * bw) / 7, bars = "";
+    md.forEach(function (m, i) { var x = gap + i * (bw + gap), hh = Math.max(4, m.rev / mx * 92), hp = Math.max(0, Math.min(hh, m.profit / mx * 92)), y = 112 - hh; bars += '<g style="transform-box:fill-box;transform-origin:50% 100%;animation:finGrow .8s ' + (i * 80) + 'ms cubic-bezier(.2,.8,.2,1) both"><rect x="' + x + '" y="' + y + '" width="' + bw + '" height="' + hh + '" rx="9" fill="url(#finG)" opacity="' + (m.rev ? 1 : .28) + '"/>' + (hp > 3 ? '<rect x="' + (x + 7) + '" y="' + (112 - hp) + '" width="' + (bw - 14) + '" height="' + hp + '" rx="5" fill="#22c55e" opacity=".9"/>' : "") + "</g>" + (m.rev ? '<text x="' + (x + bw / 2) + '" y="' + (y - 6) + '" text-anchor="middle" fill="currentColor" font-size="10" font-weight="700" opacity=".85">' + Math.round(m.rev) + "</text>" : "") + '<text x="' + (x + bw / 2) + '" y="132" text-anchor="middle" fill="currentColor" font-size="10.5" opacity=".6">' + ymLabel(m.k) + "</text>"; });
+    h += '<div class="fin-card fin-a" ' + st() + ' style="margin-top:14px"><h3>' + svg("chart") + 'Faturamento por mês</h3><svg viewBox="0 0 ' + W + " " + H + '" width="100%" style="color:var(--txt)"><defs><linearGradient id="finG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--acc)"/><stop offset="1" stop-color="var(--acc2)"/></linearGradient></defs>' + bars + '</svg><div class="fin-leg" style="margin-top:4px"><span style="--c:var(--acc)">Faturamento</span><span style="--c:#22c55e">Lucro</span></div></div>';
+    var al = alerts();
+    h += '<div class="fin-card fin-a" ' + st() + "><h3>" + svg("bolt") + "Alertas</h3>" + (al.length ? al.slice(0, 8).map(function (a) { return '<div class="fin-alert"><em>' + a[0] + "</em><span>" + a[1] + "</span></div>"; }).join("") : '<div class="fin-empty" style="padding:12px">Tudo certo por enquanto ✨</div>') + "</div>";
+    if (empty) h += '<div class="fin-card fin-a" ' + st() + '><div class="fin-empty"><span class="em">🚀</span>Ainda sem dados. Puxe do Base44 ou comece cadastrando.</div><div class="fin-row"><button class="fin-btn flex" data-fa="sync">' + svg("sync") + 'Puxar do Base44</button><button class="fin-btn ghost flex" data-fa="newP">' + svg("plus") + "Produto</button></div></div>";
+    h += '<div class="fin-card fin-a" ' + st() + '><label class="fin-sw"><span>Jarvis registra sem perguntar<small>Quando ele lançar venda, nota ou produto pelo chat</small></span><input type="checkbox" id="finAuto"' + (LS.get("fin_confirm", "1") === "0" ? " checked" : "") + "></label></div>";
+    return h;
+  }
+
+  /* ---------- Produtos ---------- */
+  function prodCard(p, mxStock) {
+    var m = p.price ? (p.price - p.cost) / p.price * 100 : 0, lp = p.price - p.cost, w = Math.min(100, Math.max(0, p.stock) / mxStock * 100), col = mcol(m);
+    return '<div class="fin-item fin-a" style="--i:' + (anim++) + ";--ac:" + col + '"><div class="fin-t"><div class="fin-n">' + esc2(p.name) + '</div><span class="fin-badge">' + pct(m) + '</span></div><div class="fin-m">Preço <b style="color:var(--txt)">' + brl(p.price) + "</b> · Custo " + brl(p.cost) + " · Lucro/peça <b class=\"" + (lp >= 0 ? "fin-pos" : "fin-neg") + '">' + brl(lp) + "</b>" + (p.src === "b44" ? " · Base44" : "") + '</div><div class="fin-stock"><i style="width:' + w.toFixed(1) + '%"></i></div><div class="fin-m" style="margin-top:2px">' + (p.stock <= 0 ? "⛔ Sem estoque" : p.stock + " em estoque") + '</div><div class="fin-row" style="margin-top:12px"><button class="fin-btn sm flex" data-fa="sell1" data-id="' + p.id + '">Vendi 1</button><button class="fin-btn sm ghost" data-fa="editP" data-id="' + p.id + '">' + svg("edit") + 'Editar</button><button class="fin-btn sm red" data-fa="delP" data-id="' + p.id + '" aria-label="Apagar">' + svg("trash") + "</button></div></div>";
+  }
+  function prodList() {
+    var q = fold(prodQ), l = D.products.filter(function (p) { return !q || fold(p.name).indexOf(q) > -1; });
+    if (!l.length) return '<div class="fin-empty"><span class="em">📦</span>Nenhum produto ainda.<br>Toque no + para cadastrar.</div>';
+    var mx = Math.max.apply(null, D.products.map(function (x) { return x.stock; }).concat([10]));
+    return l.map(function (p) { return prodCard(p, mx); }).join("");
+  }
+  function prodView() {
+    return '<div class="fin-search fin-a" ' + st() + ">" + svg("search") + '<input class="fin-in" id="finPQ" placeholder="Buscar produto" value="' + esc2(prodQ) + '"></div><div id="finList">' + prodList() + "</div>";
+  }
+
+  /* ---------- Vendas ---------- */
+  function salesMonths() { var set = {}; D.sales.forEach(function (x) { set[ymKey(x.ts)] = 1; }); return Object.keys(set).sort().reverse(); }
+  function dayLabel(ts) { var d = ymd(ts), t = ymd(Date.now()), y = ymd(Date.now() - 864e5); return d === t ? "Hoje" : d === y ? "Ontem" : dmy(ts); }
+  function saleList() {
+    var l = D.sales.filter(function (x) { return saleMonth === "all" || ymKey(x.ts) === saleMonth; }).sort(function (a, b) { return b.ts - a.ts; });
+    var rev = 0, pr = 0; l.forEach(function (x) { rev += x.price * x.qty; pr += sprofit(x); });
+    var h = '<div class="fin-grid" style="margin-bottom:6px"><div class="fin-stat"><div class="ic">' + svg("money") + "</div><small>Faturamento</small><b>" + brl(rev) + '</b></div><div class="fin-stat"><div class="ic" style="background:linear-gradient(135deg,#22c55e,#16a34a)">' + svg("chart") + "</div><small>Lucro</small><b class=\"" + (pr >= 0 ? "fin-pos" : "fin-neg") + '">' + brl(pr) + "</b></div></div>";
+    if (!l.length) return h + '<div class="fin-empty"><span class="em">🧾</span>Nenhuma venda neste período.<br>Toque no + para registrar.</div>';
+    var last = "";
+    l.slice(0, 100).forEach(function (x) { var dl = dayLabel(x.ts); if (dl !== last) { last = dl; h += '<div class="fin-day">' + dl + "</div>"; } var pf = sprofit(x); h += '<div class="fin-item" style="--ac:' + (pf >= 0 ? "#22c55e" : "#ef4444") + '"><div class="fin-t"><div class="fin-n">' + esc2(x.name) + " × " + x.qty + '</div><span class="fin-badge">' + brl(x.price * x.qty) + '</span></div><div class="fin-m">' + (x.channel ? esc2(x.channel) + " · " : "") + "Lucro <b class=\"" + (pf >= 0 ? "fin-pos" : "fin-neg") + '">' + brl(pf) + "</b>" + (x.src === "b44" ? " · Base44" : "") + '</div><div class="fin-row" style="margin-top:10px"><button class="fin-btn sm red" data-fa="delS" data-id="' + x.id + '">' + svg("trash") + "Apagar</button></div></div>"; });
+    return h;
+  }
+  function vendView() {
+    var months = salesMonths();
+    return '<div class="fin-chips fin-a" ' + st() + '><button data-fa="sm" data-m="all" class="' + (saleMonth === "all" ? "on" : "") + '">Tudo</button>' + months.slice(0, 8).map(function (k) { return '<button data-fa="sm" data-m="' + k + '" class="' + (saleMonth === k ? "on" : "") + '">' + ymLabel(k) + "</button>"; }).join("") + '</div><div id="finList" class="fin-a" ' + st() + ">" + saleList() + "</div>";
+  }
+
+  /* ---------- Notas ---------- */
+  function noteList() {
+    var yr = new Date().getFullYear(), mk = ymKey(Date.now()), q = fold(noteQ);
+    var l = D.notes.filter(function (n) { return (noteFilter === "all" || (noteFilter === "year" && new Date(n.ts).getFullYear() === yr) || (noteFilter === "month" && ymKey(n.ts) === mk)) && (!q || fold(n.text).indexOf(q) > -1); }).sort(function (a, b) { return b.ts - a.ts; });
+    if (!l.length) return '<div class="fin-empty"><span class="em">📝</span>Nenhuma anotação aqui.<br>Toque no + ou puxe do Base44 com ↻.</div>';
+    return '<div class="fin-leg" style="margin:0 4px 10px">' + l.length + " anotação(ões)</div>" + l.slice(0, 150).map(function (n, i) { var d = new Date(n.ts); return '<div class="fin-item fin-a" style="--i:' + Math.min(i, 8) + '"><div class="fin-nrow"><div class="fin-date"><b>' + ("0" + d.getDate()).slice(-2) + "</b><small>" + MES[d.getMonth()] + '</small></div><div style="flex:1;min-width:0"><div class="fin-note">' + esc2(n.text) + "</div>" + (n.src === "b44" ? '<div class="fin-m">Base44</div>' : '<div class="fin-row" style="margin-top:10px"><button class="fin-btn sm red" data-fa="delN" data-id="' + n.id + '">' + svg("trash") + "Apagar</button></div>") + "</div></div></div>"; }).join("");
+  }
+  function notasView() {
+    return '<div class="fin-chips fin-a" ' + st() + ">" + [["year", "Este ano"], ["month", "Este mês"], ["all", "Tudo"]].map(function (f) { return '<button data-fa="nf" data-f="' + f[0] + '" class="' + (noteFilter === f[0] ? "on" : "") + '">' + f[1] + "</button>"; }).join("") + '</div><div class="fin-search fin-a" ' + st() + ">" + svg("search") + '<input class="fin-in" id="finNQ" placeholder="Buscar nas anotações" value="' + esc2(noteQ) + '"></div><div id="finList">' + noteList() + '</div><div class="fin-leg" style="margin:6px 4px">O Jarvis lê estas anotações nas conversas.</div>';
+  }
+
+  /* ---------- sheets (formulários) ---------- */
+  function openSheet(title, body) { shEl.innerHTML = '<div class="fin-bg" data-fa="shclose"></div><div class="fin-sh"><div class="fin-grab"></div><div class="fin-st">' + title + "</div>" + body + "</div>"; shEl.classList.add("open"); }
+  function closeSheet() { if (shEl) { shEl.classList.remove("open"); shEl.innerHTML = ""; } editId = null; }
+  function prodSheet(id) {
+    editId = id || "new"; var p = id ? D.products.find(function (x) { return x.id === id; }) || {} : { name: "", cost: "", price: "", stock: "" };
+    openSheet(id ? "Editar produto" : "Novo produto", '<label class="fin-f"><span>Nome</span><input id="pf_n" value="' + esc2(p.name || "") + '" placeholder="Ex.: Camiseta Oversize GT-R"></label><div class="fin-two"><label class="fin-f"><span>Custo (R$)</span><input id="pf_c" inputmode="decimal" value="' + (p.cost || "") + '"></label><label class="fin-f"><span>Preço (R$)</span><input id="pf_p" inputmode="decimal" value="' + (p.price || "") + '"></label></div><label class="fin-f"><span>Estoque (peças)</span><input id="pf_s" inputmode="numeric" value="' + (p.stock === 0 || p.stock ? p.stock : "") + '"></label><div class="fin-leg" id="pf_m" style="margin:0 0 14px"></div><button class="fin-btn block" data-fa="saveP">Salvar</button>');
+    sheetMargin();
+  }
+  function sheetMargin() { var c = $q("pf_c"), p = $q("pf_p"), o = $q("pf_m"); if (!c || !p || !o) return; var pv = num(p.value), cv = num(c.value); o.innerHTML = pv ? "Lucro por peça <b>" + brl(pv - cv) + "</b> · margem <b>" + pct((pv - cv) / pv * 100) + "</b>" : ""; }
+  function saleSheet() {
+    var opts = D.products.map(function (p) { return '<option value="' + p.id + '">' + esc2(p.name) + "</option>"; }).join("") + '<option value="">(outro produto)</option>';
+    openSheet("Registrar venda", '<label class="fin-f"><span>Produto</span><select id="sf_p">' + opts + '</select></label><label class="fin-f" id="sf_nw" style="display:none"><span>Nome do produto</span><input id="sf_nm"></label><div class="fin-two"><div class="fin-f"><span>Quantidade</span><div class="fin-qty"><button type="button" data-fa="qty" data-d="-1">−</button><input id="sf_q" inputmode="numeric" value="1"><button type="button" data-fa="qty" data-d="1">+</button></div></div><label class="fin-f"><span>Preço unitário</span><input id="sf_v" inputmode="decimal"></label></div><div class="fin-f"><span>Canal</span><div class="fin-chips" id="sf_ch" style="margin:0">' + ["Shopee", "Instagram", "WhatsApp", "Site", "Presencial"].map(function (c) { return '<button type="button" data-fa="ch" data-c="' + c + '" class="' + (saleCh === c ? "on" : "") + '">' + c + "</button>"; }).join("") + '</div></div><label class="fin-f"><span>Data</span><input id="sf_d" type="date" value="' + ymd(Date.now()) + '"></label><label class="fin-sw" style="margin-bottom:10px"><span>Baixar do estoque</span><input type="checkbox" id="sf_b" checked></label><button class="fin-btn block" data-fa="addS">Registrar venda</button>');
+    var sp = $q("sf_p"), fill = function () { var p = D.products.find(function (x) { return x.id === sp.value; }); $q("sf_nw").style.display = sp.value ? "none" : "block"; if (p) $q("sf_v").value = p.price || ""; }; sp.onchange = fill; fill();
+  }
+  function noteSheet() { openSheet("Nova anotação", '<label class="fin-f"><textarea id="nt_t" placeholder="O que aconteceu, uma ideia, uma decisão..."></textarea></label><label class="fin-f"><span>Data</span><input id="nt_d" type="date" value="' + ymd(Date.now()) + '"></label><button class="fin-btn block" data-fa="addN">Salvar anotação</button>'); }
+
+  /* ---------- tela ---------- */
+  function countUp(root) {
+    root.querySelectorAll("[data-count]").forEach(function (el) {
+      var to = +el.dataset.count, kind = el.dataset.fmt || "brl", t0 = performance.now(), dur = 900;
+      var f = function (n) { return kind === "int" ? String(Math.round(n)) : kind === "pct" ? pct(n) : brl(n); };
+      (function stp(t) { var k = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - k, 3); el.textContent = f(to * e); if (k < 1) requestAnimationFrame(stp); else el.textContent = f(to); })(t0);
+    });
+  }
+  function fabFor() { if (tab === "prod") return '<button class="fin-fab" data-fa="newP" aria-label="Novo produto">' + svg("plus", 2.6) + "</button>"; if (tab === "vend") return '<button class="fin-fab" data-fa="newS" aria-label="Registrar venda">' + svg("plus", 2.6) + "</button>"; if (tab === "notas") return '<button class="fin-fab" data-fa="newN" aria-label="Nova anotação">' + svg("plus", 2.6) + "</button>"; return ""; }
+  function render() {
+    if (!sec) return; anim = 0;
+    $q("finSeg").innerHTML = TABS.map(function (t) { return '<button data-fa="tab" data-t="' + t[0] + '" class="' + (tab === t[0] ? "on" : "") + '">' + svg(t[0] === "calc" ? "calc" : t[0]) + t[1] + "</button>"; }).join("");
+    $q("finSub").textContent = D.products.length + " produtos · " + D.sales.length + " vendas · " + D.notes.length + " notas";
+    $q("finBody").innerHTML = (tab === "tools" ? '<div id="ftHold"></div>' : tab === "resumo" ? resumoView() : tab === "calc" ? calcView() : tab === "prod" ? prodView() : tab === "vend" ? vendView() : notasView());
+    if (tab === "tools" && window.FinTools) window.FinTools.mount($q("ftHold"));
+    if (fabEl) fabEl.innerHTML = fabFor();
+    countUp($q("finBody"));
+  }
+
+  /* ---------- Base44 ---------- */
+  function pick(r, keys) { for (var i = 0; i < keys.length; i++) { var k = fold(keys[i]); for (var rk in r) if (fold(rk) === k && r[rk] !== null && r[rk] !== undefined && r[rk] !== "") return r[rk]; } return undefined; }
+  async function pullB44(silent) {
+    if (busy) return "já está sincronizando";
+    if (!(typeof b44On === "function" && b44On())) { if (!silent) toast("Conecte o Base44 em Ajustes → Loja para puxar seus dados.", 4200); return "Base44 não conectado (Ajustes → Loja)"; }
+    busy = true; var sb = $q("finSync"); if (sb) sb.classList.add("spin"); var msg = "";
+    try {
+      var sc = LS.json("b44_schema", {}); if (!Object.keys(sc).length) { try { await b44Detect(); sc = LS.json("b44_schema", {}); } catch (e) {} }
+      var apps = b44Apps(), P = [], S = [], N = [], used = [];
+      for (var a = 0; a < apps.length; a++) {
+        var ents = Object.keys((sc[apps[a].name] && sc[apps[a].name].entities) || {});
+        for (var e = 0; e < ents.length; e++) {
+          var en = ents[e], f = fold(en), kind = /anota|nota|note|memo/.test(f) ? "n" : /venda|sale|pedido|order/.test(f) ? "s" : /produto|product|item|estoque|stock/.test(f) ? "p" : "";
+          if (!kind) continue;
+          var got; try { got = await b44All(apps[a], en, { sort: "-created_date" }, 3000); } catch (er) { continue; }
+          used.push(en + " (" + got.items.length + ")");
+          got.items.forEach(function (r) {
+            if (kind === "p") { P.push({ id: "b" + (r.id || uid()), src: "b44", name: String(pick(r, ["nome", "name", "titulo", "title", "produto", "product_name"]) || "Produto"), cost: num(pick(r, ["custo", "cost", "preco_custo", "custo_unitario", "cost_price"])), price: num(pick(r, ["preco", "price", "preco_venda", "valor", "sale_price"])), stock: num(pick(r, ["estoque", "stock", "quantidade", "quantity", "qtd", "estoque_atual"])), ts: parseTs(r.created_date) }); }
+            else if (kind === "s") { var qty = num(pick(r, ["quantidade", "qty", "quantity", "qtd"])) || 1, unit = pick(r, ["preco_unitario", "unit_price", "preco", "price", "valor"]), tot = pick(r, ["total", "valor_total", "amount"]); var price = unit !== undefined ? num(unit) : (tot !== undefined ? num(tot) / qty : 0); S.push({ id: "b" + (r.id || uid()), src: "b44", ts: parseTs(pick(r, ["data", "date", "created_date"]) || r.created_date), name: String(pick(r, ["produto", "product", "nome", "name", "item", "produto_nome"]) || "Venda"), qty: qty, price: price, channel: String(pick(r, ["canal", "origem", "plataforma", "channel", "source"]) || "") }); }
+            else { var tx = pick(r, ["anotacao", "nota", "texto", "conteudo", "content", "note", "descricao", "description", "observacao", "obs", "mensagem"]), ti = pick(r, ["titulo", "title", "assunto"]); if (tx === undefined) { var parts = []; for (var k in r) if (typeof r[k] === "string" && !/^(id|created_by|updated_date|created_date|_.*|entity.*|app_id)$/i.test(k) && r[k].length > 1) parts.push(r[k]); tx = parts.join(" — "); } var text = (ti ? ti + ": " : "") + String(tx || ""); if (text.trim()) N.push({ id: "b" + (r.id || uid()), src: "b44", ts: parseTs(pick(r, ["data", "date", "created_date"]) || r.created_date), text: text }); }
+          });
+        }
+      }
+      D.products = D.products.filter(function (x) { return x.src !== "b44"; }).concat(P);
+      D.sales = D.sales.filter(function (x) { return x.src !== "b44"; }).concat(S);
+      D.notes = D.notes.filter(function (x) { return x.src !== "b44"; }).concat(N);
+      save(); LS.set("fin_last_sync", String(Date.now())); render();
+      msg = used.length ? "Importei " + P.length + " produtos, " + S.length + " vendas e " + N.length + " anotações do Base44." : "Conectei, mas não achei tabelas de produtos, vendas ou anotações no Base44.";
+      if (!silent) toast(msg, 5200);
+    } catch (e) { msg = "Não consegui puxar do Base44: " + String(e && e.message || e).slice(0, 120); if (!silent) toast(msg, 5000); }
+    busy = false; sb = $q("finSync"); if (sb) sb.classList.remove("spin");
+    return msg;
+  }
+
+  /* ---------- toques ---------- */
+  function ask(prompt) {
+    try { closeSheet(); showView("vChat"); } catch (e) {}
+    setTimeout(function () { if (typeof sendMessage === "function") sendMessage(prompt); else { var t = $q("txt"); if (t) { t.value = prompt; t.focus(); } } }, 60);
+  }
+  function onClick(ev) {
+    var b = ev.target.closest("[data-fa]"); if (!b) return;
+    var a = b.dataset.fa, id = b.dataset.id;
+    if (a === "tab") { tab = b.dataset.t; render(); $q("main").scrollTop = 0; }
+    else if (a === "sync") pullB44(false);
+    else if (a === "mode") { mode = b.dataset.m; render(); }
+    else if (a === "saveprod") { var nm = window.prompt("Nome do produto:"); if (nm) { var p = mode === "price" ? ideal() : D.calc.price; D.products.unshift({ id: uid(), name: nm.trim(), cost: D.calc.cost + D.calc.extra, price: Math.round((p || 0) * 100) / 100, stock: 0, ts: Date.now() }); save(); toast("Produto salvo ✓", 2200); } }
+    else if (a === "askcalc") { var pp = mode === "price" ? ideal() : (D.calc.price || ideal() || 0), r = calc(pp || 0); ask("Analise esta conta da ZENON e diga se vale a pena, o que ajustar e como vender mais: custo da peça " + brl(D.calc.cost) + ", frete e embalagem " + brl(D.calc.extra) + ", taxa do canal " + D.calc.fee + "%, imposto " + D.calc.tax + "%, anúncio por venda " + brl(D.calc.ads) + ", preço de venda " + brl(pp || 0) + ", lucro por peça " + brl(r.profit) + ", margem " + pct(r.margin) + "."); }
+    else if (a === "ai") ask(ASKS[+b.dataset.i][2]);
+    else if (a === "newP") prodSheet(null);
+    else if (a === "editP") prodSheet(id);
+    else if (a === "shclose") closeSheet();
+    else if (a === "saveP") { var n = ($q("pf_n").value || "").trim(); if (!n) { toast("Digite o nome do produto.", 1800); return; } var o = { name: n, cost: num($q("pf_c").value), price: num($q("pf_p").value), stock: Math.round(num($q("pf_s").value)) }; if (editId === "new") D.products.unshift(Object.assign({ id: uid(), ts: Date.now() }, o)); else { var x = D.products.find(function (q) { return q.id === editId; }); if (x) Object.assign(x, o, { src: x.src === "b44" ? "" : x.src }); } closeSheet(); save(); render(); toast("Produto salvo ✓", 1800); }
+    else if (a === "delP") { if (confirm("Apagar este produto?")) { D.products = D.products.filter(function (x) { return x.id !== id; }); save(); render(); } }
+    else if (a === "sell1") { var pr = D.products.find(function (x) { return x.id === id; }); if (pr) { D.sales.unshift({ id: uid(), ts: Date.now(), name: pr.name, qty: 1, price: pr.price, cost: pr.cost, channel: "" }); pr.stock = Math.max(0, pr.stock - 1); save(); render(); toast("Venda registrada ✓", 1800); } }
+    else if (a === "newS") saleSheet();
+    else if (a === "qty") { var qi = $q("sf_q"); qi.value = Math.max(1, Math.round(num(qi.value)) + (+b.dataset.d)); }
+    else if (a === "ch") { saleCh = b.dataset.c; $q("sf_ch").querySelectorAll("button").forEach(function (x) { x.classList.toggle("on", x.dataset.c === saleCh); }); }
+    else if (a === "addS") { var sp = $q("sf_p"), pd = D.products.find(function (x) { return x.id === sp.value; }), qty = Math.max(1, Math.round(num($q("sf_q").value)) || 1), pv = num($q("sf_v").value), name = pd ? pd.name : ($q("sf_nm").value || "").trim(); if (!name) { toast("Escolha ou digite o produto.", 2000); return; } D.sales.unshift({ id: uid(), ts: parseTs($q("sf_d").value + "T12:00:00"), name: name, qty: qty, price: pv, cost: pd ? pd.cost : null, channel: saleCh }); if (pd && $q("sf_b").checked) pd.stock = Math.max(0, pd.stock - qty); closeSheet(); save(); render(); toast("Venda registrada ✓", 1800); }
+    else if (a === "delS") { if (confirm("Apagar esta venda?")) { D.sales = D.sales.filter(function (x) { return x.id !== id; }); save(); render(); } }
+    else if (a === "sm") { saleMonth = b.dataset.m; render(); }
+    else if (a === "newN") noteSheet();
+    else if (a === "addN") { var tx = ($q("nt_t").value || "").trim(); if (!tx) { toast("Escreva a anotação.", 1800); return; } D.notes.unshift({ id: uid(), ts: parseTs($q("nt_d").value + "T12:00:00"), text: tx }); closeSheet(); save(); render(); toast("Anotação salva ✓", 1800); }
+    else if (a === "delN") { if (confirm("Apagar esta anotação?")) { D.notes = D.notes.filter(function (x) { return x.id !== id; }); save(); render(); } }
+    else if (a === "nf") { noteFilter = b.dataset.f; render(); }
+  }
+  function onInput(ev) {
+    var t = ev.target;
+    if (t.dataset && t.dataset.calc) { D.calc[t.dataset.calc] = num(t.value); save(); liveCalc(); var cc = sec.querySelector(".fin-card[data-chan]"); if (mode === "chan") refreshChan(); }
+    else if (t.dataset && t.dataset.rng) { D.calc[t.dataset.rng] = +t.value; save(); var mv = $q("finMv"); if (mv) mv.textContent = pct(+t.value); liveCalc(); }
+    else if (t.dataset && t.dataset.ch) { D.ch[t.dataset.ch] = num(t.value); save(); liveCalc(); refreshChan(t.dataset.ch); }
+    else if (t.id === "finPQ") { prodQ = t.value; $q("finList").innerHTML = prodList(); }
+    else if (t.id === "finNQ") { noteQ = t.value; $q("finList").innerHTML = noteList(); }
+    else if (t.id === "pf_c" || t.id === "pf_p") sheetMargin();
+  }
+  function refreshChan(keep) {
+    var card = null; sec.querySelectorAll(".fin-card").forEach(function (c) { if (c.querySelector("[data-ch]")) card = c; }); if (!card) return;
+    var c = D.calc, p = c.price || ideal() || 0, CH = ["shopee", "insta", "site"];
+    card.querySelectorAll(".fin-ch").forEach(function (row, i) { var rr = calcOf(c, p, D.ch[CH[i]]), pe = row.querySelector(".fin-p"); if (pe) pe.innerHTML = '<b class="' + (rr.profit >= 0 ? "fin-pos" : "fin-neg") + '">' + brl(rr.profit) + "</b> · margem " + pct(rr.margin); });
+  }
+  function onChange(ev) { var t = ev.target; if (t.id === "finAuto") { LS.set("fin_confirm", t.checked ? "0" : "1"); toast(t.checked ? "Ok: o Jarvis registra direto." : "Ok: o Jarvis vai pedir sua confirmação.", 2600); } }
+
+  /* ---------- Jarvis consulta e registra ---------- */
+  function findProd(n) { var f = fold(n); if (!f) return { err: "informe o produto" }; var l = D.products.filter(function (p) { return fold(p.name) === f; }); if (!l.length) l = D.products.filter(function (p) { var pf = fold(p.name); return pf.indexOf(f) > -1 || f.indexOf(pf) > -1; }); if (l.length === 1) return { p: l[0] }; if (!l.length) return { err: 'não achei o produto "' + n + '". Produtos: ' + D.products.map(function (p) { return p.name; }).join(", ") }; return { err: "vários produtos combinam: " + l.map(function (p) { return p.name; }).join(", ") + ". Use o nome completo" }; }
+  function okWrite(msg) { if (LS.get("fin_confirm", "1") === "0") return true; try { return confirm(msg); } catch (e) { return true; } }
+  var NO = "O usuário NÃO autorizou. Nada foi alterado.";
+  function touch() { save(); try { if (sec && !sec.classList.contains("hidden")) render(); } catch (e) {} }
+  function parseDay(v) { return v ? parseTs(String(v).length <= 10 ? v + "T12:00:00" : v) : Date.now(); }
+  GOOGLE_ACTIONS.fin_resumo = async function () { var s = stats(); return JSON.stringify({ produtos: D.products.length, vendas: D.sales.length, pecas_vendidas: s.qty, faturamento: r2(s.rev), lucro_total: r2(s.profit), margem_media_pct: r2(s.margin), estoque_pecas: s.stockUnits, estoque_a_custo: r2(s.stockCost), anotacoes: D.notes.length, meses: monthsData(6).map(function (m) { return { mes: m.k, faturamento: r2(m.rev), lucro: r2(m.profit), pecas: m.qty }; }), alertas: alerts().map(function (x) { return x[2]; }) }); };
+  GOOGLE_ACTIONS.fin_produtos = async function (a) { var q = fold(a.q || ""), l = D.products.filter(function (p) { return !q || fold(p.name).indexOf(q) > -1; }).slice(0, Math.min(+a.limit || 40, 100)); return JSON.stringify(l.map(function (p) { var m = p.price ? (p.price - p.cost) / p.price * 100 : 0; return { nome: p.name, custo: p.cost, preco: p.price, lucro_por_peca: r2(p.price - p.cost), margem_pct: r2(m), estoque: p.stock }; })); };
+  GOOGLE_ACTIONS.fin_vendas = async function (a) { var mes = a.mes && a.mes !== "tudo" ? String(a.mes).slice(0, 7) : "", q = fold(a.q || ""), l = D.sales.filter(function (x) { return (!mes || ymKey(x.ts) === mes) && (!q || fold(x.name).indexOf(q) > -1); }).sort(function (x, y) { return y.ts - x.ts; }), rev = 0, pr = 0, qt = 0; l.forEach(function (x) { rev += x.price * x.qty; pr += sprofit(x); qt += x.qty; }); return JSON.stringify({ total_vendas: l.length, pecas: qt, faturamento: r2(rev), lucro: r2(pr), itens: l.slice(0, Math.min(+a.limit || 40, 100)).map(function (x) { return { data: ymd(x.ts), produto: x.name, qtd: x.qty, preco: x.price, canal: x.channel || "", lucro: r2(sprofit(x)) }; }) }); };
+  GOOGLE_ACTIONS.fin_notas = async function (a) { var q = fold(a.q || ""), de = a.de ? parseDay(a.de) : 0, ate = a.ate ? parseDay(a.ate) + 864e5 : Infinity, l = D.notes.filter(function (n) { return n.ts >= de && n.ts < ate && (!q || fold(n.text).indexOf(q) > -1); }).sort(function (x, y) { return y.ts - x.ts; }); return JSON.stringify({ total: l.length, notas: l.slice(0, Math.min(+a.limit || 40, 120)).map(function (n) { return { data: ymd(n.ts), texto: String(n.text).slice(0, 400) }; }) }); };
+  GOOGLE_ACTIONS.fin_calc = async function (a) {
+    var c = { cost: num(a.custo), extra: num(a.extra), fee: a.taxa === undefined ? D.calc.fee : num(a.taxa), tax: a.imposto === undefined ? D.calc.tax : num(a.imposto), ads: num(a.anuncio), margin: a.margem === undefined ? D.calc.margin : num(a.margem), fixed: num(a.fixos), qty: num(a.qtd) };
+    var p = a.preco ? num(a.preco) : idealOf(c); if (!p) return "ERRO: informe 'preco' para analisar ou 'margem' (com as taxas) para achar o preço ideal.";
+    var r = calcOf(c, p); return JSON.stringify({ preco: r2(p), preco_redondo: r2(psych(p)), lucro_por_peca: r2(r.profit), margem_pct: r2(r.margin), markup_pct: r2(r.markup), taxa_canal: r2(r.feeV), imposto: r2(r.taxV), custo_total: r2(r.cost + r.ads), lucro_na_meta: c.qty ? r2(r.profit * c.qty) : undefined, pecas_para_cobrir_fixos: r.profit > 0 && c.fixed > 0 ? Math.ceil(c.fixed / r.profit) : undefined });
+  };
+  GOOGLE_ACTIONS.fin_sync = async function () { return await pullB44(true); };
+  GOOGLE_ACTIONS.fin_add_venda = async function (a) {
+    var f = findProd(a.produto), name = f.p ? f.p.name : String(a.produto || "").trim(); if (!f.p && !name) return "ERRO: " + f.err;
+    var qtd = Math.max(1, Math.round(num(a.qtd)) || 1), pv = a.preco ? num(a.preco) : (f.p ? f.p.price : 0), canal = String(a.canal || "");
+    if (!okWrite("O Jarvis quer REGISTRAR uma venda:\n" + name + " × " + qtd + " a " + brl(pv) + (canal ? " (" + canal + ")" : "") + "\n\nConfirmar?")) return NO;
+    D.sales.unshift({ id: uid(), ts: parseDay(a.data), name: name, qty: qtd, price: pv, cost: f.p ? f.p.cost : null, channel: canal });
+    if (f.p && a.baixar !== false) f.p.stock = Math.max(0, f.p.stock - qtd); touch();
+    return "Venda registrada: " + name + " × " + qtd + " a " + brl(pv) + (f.p ? ". Estoque agora: " + f.p.stock : ".");
+  };
+  GOOGLE_ACTIONS.fin_add_nota = async function (a) { var tx = String(a.texto || "").trim(); if (!tx) return "ERRO: falta o texto da anotação."; if (!okWrite("O Jarvis quer SALVAR esta anotação:\n" + tx.slice(0, 300) + "\n\nConfirmar?")) return NO; D.notes.unshift({ id: uid(), ts: parseDay(a.data), text: tx }); touch(); return "Anotação salva."; };
+  GOOGLE_ACTIONS.fin_add_produto = async function (a) { var n = String(a.nome || "").trim(); if (!n) return "ERRO: falta o nome."; if (!okWrite("O Jarvis quer CADASTRAR o produto:\n" + n + "\nCusto " + brl(num(a.custo)) + " · Preço " + brl(num(a.preco)) + " · Estoque " + (Math.round(num(a.estoque)) || 0) + "\n\nConfirmar?")) return NO; D.products.unshift({ id: uid(), name: n, cost: num(a.custo), price: num(a.preco), stock: Math.round(num(a.estoque)) || 0, ts: Date.now() }); touch(); return "Produto cadastrado: " + n + "."; };
+  GOOGLE_ACTIONS.fin_edit_produto = async function (a) {
+    var f = findProd(a.produto); if (!f.p) return "ERRO: " + f.err; var ch = [];
+    if (a.nome) ch.push("nome → " + a.nome); if (a.custo !== undefined) ch.push("custo → " + brl(num(a.custo))); if (a.preco !== undefined) ch.push("preço → " + brl(num(a.preco))); if (a.estoque !== undefined) ch.push("estoque → " + Math.round(num(a.estoque)));
+    if (!ch.length) return "ERRO: diga o que mudar (nome, custo, preco ou estoque).";
+    if (!okWrite("O Jarvis quer ALTERAR " + f.p.name + ":\n" + ch.join("\n") + "\n\nConfirmar?")) return NO;
+    if (a.nome) f.p.name = String(a.nome); if (a.custo !== undefined) f.p.cost = num(a.custo); if (a.preco !== undefined) f.p.price = num(a.preco); if (a.estoque !== undefined) f.p.stock = Math.round(num(a.estoque)); f.p.src = ""; touch();
+    return "Produto atualizado: " + f.p.name + " (custo " + brl(f.p.cost) + ", preço " + brl(f.p.price) + ", estoque " + f.p.stock + ").";
+  };
+  try { Object.assign(ACT_LABELS, { fin_resumo: "Consultando o ZENON Finance…", fin_produtos: "Lendo seus produtos…", fin_vendas: "Lendo suas vendas…", fin_notas: "Lendo suas anotações…", fin_calc: "Fazendo a conta…", fin_sync: "Sincronizando com o Base44…", fin_add_venda: "Registrando a venda…", fin_add_nota: "Salvando a anotação…", fin_add_produto: "Cadastrando o produto…", fin_edit_produto: "Atualizando o produto…" }); } catch (e) {}
+  var FIN_ACTIONS_TEXT = '\nAÇÕES DO PAINEL ZENON FINANCE (uma linha [[G:{json}]] por ação; só afirme algo depois de receber o resultado; para contas use fin_calc, nunca faça de cabeça; os dados ao lado são só um resumo, consulte as ações para o detalhe): ' +
+    '{"a":"fin_resumo"} totais, margem, estoque, meses e alertas; {"a":"fin_produtos","q":"","limit":40}; {"a":"fin_vendas","mes":"2026-11","q":"","limit":40} (mes opcional; "tudo" = todas); {"a":"fin_notas","q":"palavra","de":"2026-01-01","ate":"2026-12-31","limit":40} lista as anotações com data (use "de" para pegar tudo desde o começo do ano); {"a":"fin_calc","custo":0,"extra":0,"taxa":20,"imposto":0,"anuncio":0,"margem":40,"preco":0,"fixos":0,"qtd":0} (com "margem" acha o preço ideal; com "preco" analisa o lucro); {"a":"fin_sync"} puxa produtos, vendas e anotações do Base44. ESCRITA (o app pede confirmação ao usuário): {"a":"fin_add_venda","produto":"","qtd":1,"preco":0,"canal":"Shopee","data":"2026-11-27","baixar":true}; {"a":"fin_add_nota","texto":"","data":""}; {"a":"fin_add_produto","nome":"","custo":0,"preco":0,"estoque":0}; {"a":"fin_edit_produto","produto":"","nome":"","custo":0,"preco":0,"estoque":0} (só os campos que mudam).';
+  function finBlock() {
+    if (!D.products.length && !D.sales.length && !D.notes.length) return "";
+    var s = stats(), t = "FINANÇAS DA ZENON (resumo do painel ZENON Finance): produtos " + D.products.length + "; vendas " + D.sales.length + " (" + s.qty + " peças); faturamento " + brl(s.rev) + "; lucro total " + brl(s.profit) + "; margem média " + pct(s.margin) + "; estoque a custo " + brl(s.stockCost) + " (" + s.stockUnits + " peças).";
+    if (D.products.length) t += " PRODUTOS: " + D.products.slice(0, 12).map(function (p) { var m = p.price ? (p.price - p.cost) / p.price * 100 : 0; return p.name + " (custo " + brl(p.cost) + ", preço " + brl(p.price) + ", margem " + pct(m) + ", estoque " + p.stock + ")"; }).join("; ") + ".";
+    var md = monthsData(4).filter(function (m) { return m.rev; }); if (md.length) t += " MESES: " + md.map(function (m) { return ymLabel(m.k) + " fat " + brl(m.rev) + " lucro " + brl(m.profit); }).join("; ") + ".";
+    var yr = new Date().getFullYear(), ny = D.notes.filter(function (n) { return new Date(n.ts).getFullYear() === yr; }).length;
+    if (D.notes.length) t += " ANOTAÇÕES (" + ny + " em " + yr + ", " + D.notes.length + " no total; as mais recentes): " + D.notes.slice().sort(function (a, b) { return b.ts - a.ts; }).slice(0, 8).map(function (n) { return dmy(n.ts) + ": " + String(n.text).replace(/\s+/g, " ").slice(0, 140); }).join(" | ") + ".";
+    return t.slice(0, 3000);
+  }
+  try {
+    var _b = buildSystem;
+    buildSystem = function () {
+      var r = _b.apply(this, arguments);
+      try {
+        var o = arguments[0] || {}, txt = String((o.ctx && o.ctx.text) || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        if (!(o.ctx && o.ctx.priv) && /venda|lucro|margem|estoque|produto|anota|preco|financ|caixa|custo|faturamento|zenon|camisa|camiseta|loja|stories|shopee|painel|calcul|nota\b|mes\b/.test(txt)) { var fb = finBlock(); r += "\n\n" + (fb ? fb + " " : "") + FIN_ACTIONS_TEXT.trim(); }
+      } catch (e) {}
+      return r;
+    };
+  } catch (e) {}
+  window.finOn = function () { return true; };
+
+  /* ---------- montagem ---------- */
+  function mount() {
+    var anchor = $q("vSettings"); if (!anchor || $q("vFin")) return;
+    sec = document.createElement("section"); sec.id = "vFin"; sec.className = "view hidden";
+    sec.innerHTML = '<div class="fin-wrap"><div class="fin-glow"></div><div class="fin-top"><div><div class="fin-ttl">ZENON Finance</div><div class="fin-sub" id="finSub"></div></div><button class="fin-sync" id="finSync" type="button" data-fa="sync" aria-label="Puxar dados do Base44">' + svg("sync") + '</button></div><div class="fin-seg" id="finSeg"></div><div id="finBody"></div></div>';
+    anchor.insertAdjacentElement("afterend", sec);
+    shEl = document.createElement("div"); shEl.id = "finSheet"; document.body.appendChild(shEl);
+    fabEl = document.createElement("div"); fabEl.id = "finFab"; fabEl.style.display = "none"; document.body.appendChild(fabEl); fabEl.addEventListener("click", onClick);
+    [sec, shEl].forEach(function (e) { e.addEventListener("click", onClick); e.addEventListener("input", onInput); e.addEventListener("change", onChange); });
+    try { if (VIEWS.indexOf("vFin") < 0) VIEWS.push("vFin"); } catch (e) {}
+    render();
+  }
+  window.Fin = { leave: function () { if (fabEl) fabEl.style.display = "none"; closeSheet(); }, open: function () { D = load(); if (!sec) mount(); if (fabEl) fabEl.style.display = ""; render(); var last = Number(LS.get("fin_last_sync", "0")); if (!last || Date.now() - last > 6 * 3600 * 1000) { try { if (typeof b44On === "function" && b44On()) pullB44(true); } catch (e) {} } }, data: function () { return D; }, pull: pullB44 };
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", mount); else mount();
+})();
+</script>
+<style>
+/* ZENON Estúdio (aba extra do Finance) */
+.fin-seg{grid-template-columns:repeat(6,1fr)!important;gap:3px!important;padding:6px!important}
+.fin-seg button{font-size:10.5px!important;letter-spacing:-.01em}
+#ftRoot [hidden]{display:none!important}
+#ftRoot .fin-chips{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}#ftRoot .fin-chips::-webkit-scrollbar{display:none}
+#ftRoot .fin-chips button{flex:0 0 auto;white-space:nowrap}
+#ftRoot #ftTabs button{flex:1 1 0;padding:0 8px}
+#ftRoot .ft-th{width:64px;height:64px;flex:0 0 64px;border-radius:14px;overflow:hidden;background:repeating-conic-gradient(#cfd3e6 0 25%,#fff 0 50%) 0 0/14px 14px}
+#ftRoot .ft-th canvas{width:100%;height:100%;display:block}
+#ftRoot .ft-wrap{max-height:70vh;overflow:auto;border-radius:18px;border:1px solid var(--line);-webkit-overflow-scrolling:touch}
+#ftRoot .ft-cv{display:block;width:100%;height:auto}
+#ftRoot #htWrap .ft-cv{margin:0 auto}
+#ftRoot .fin-btn:disabled{opacity:.5}
+</style>
+<script>
+/* ZENON Estúdio: Otimizador de DTF, Custo por Estampa e Aplicador de Half Tone (aba "Estúdio" do ZENON Finance) */
+(function () {
+  "use strict";
+  const KEY = "fin_tools_v1";
+  const DEF = { roll: 58, gap: 5, mar: 5, rot: 1, pm: 0, dpi: 300,
+    cost: { fw: 28, fh: 30, bw: 0, bh: 0, eff: 100 },
+    ht: { mode: "d", lpi: 40, int: 0, thr: 5, solid: 0, col: "#ffffff", w: 28, bg: "#111111", zoom: 0 } };
+  const mrg = (a, b) => { const r = {}; for (const k in a) r[k] = a[k] && typeof a[k] === "object" ? mrg(a[k], (b && b[k]) || {}) : (b && b[k] !== undefined ? b[k] : a[k]); return r; };
+  let S, root = null, tool = "dtf", arts = [], lay = null, htSrc = null, htName = "", busy = false, uidn = 0, mapC = null;
+  const urls = {}, tm = {};
+  try { S = mrg(DEF, typeof LS !== "undefined" && LS.json ? LS.json(KEY, {}) : JSON.parse(localStorage.getItem(KEY) || "{}")); } catch (e) { S = mrg(DEF, {}); }
+  const save = () => { try { const s = JSON.stringify(S); if (typeof LS !== "undefined" && LS.set) LS.set(KEY, s); else localStorage.setItem(KEY, s); } catch (e) {} };
+  const gp = k => k.split(".").reduce((o, p) => o[p], S);
+  const sp = (k, v) => { const p = k.split("."), l = p.pop(); p.reduce((o, q) => o[q], S)[l] = v; };
+  const num = v => { if (typeof v === "number") return isFinite(v) ? v : 0; let s = String(v == null ? "" : v).replace(/[^\d,.\-]/g, ""); if (s.indexOf(",") > -1) s = s.replace(/\./g, "").replace(",", "."); const n = parseFloat(s); return isNaN(n) ? 0 : n; };
+  const brl = n => (isFinite(n) ? n : 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+  const f1 = n => (isFinite(n) ? n : 0).toLocaleString("pt-BR", { maximumFractionDigits: 1 });
+  const esc = x => String(x == null ? "" : x).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const $ = id => root && root.querySelector("#" + id);
+  const toastS = (m, ms) => { try { toast(m, ms || 2600); } catch (e) {} };
+  const later = (k, fn, ms) => { clearTimeout(tm[k]); tm[k] = setTimeout(fn, ms || 140); };
+  const tick = () => new Promise(r => setTimeout(r, 0));
+
+  /* ================= 1. ENCAIXE (MaxRects) ================= */
+  function split(free, r) {
+    const n = [];
+    for (const f of free) {
+      if (r.x >= f.x + f.w - 1e-9 || r.x + r.w <= f.x + 1e-9 || r.y >= f.y + f.h - 1e-9 || r.y + r.h <= f.y + 1e-9) { n.push(f); continue; }
+      if (r.x > f.x + 1e-9) n.push({ x: f.x, y: f.y, w: r.x - f.x, h: f.h });
+      if (r.x + r.w < f.x + f.w - 1e-9) n.push({ x: r.x + r.w, y: f.y, w: f.x + f.w - r.x - r.w, h: f.h });
+      if (r.y > f.y + 1e-9) n.push({ x: f.x, y: f.y, w: f.w, h: r.y - f.y });
+      if (r.y + r.h < f.y + f.h - 1e-9) n.push({ x: f.x, y: r.y + r.h, w: f.w, h: f.y + f.h - r.y - r.h });
+    }
+    const m = n.filter(a => a.w > 0.01 && a.h > 0.01);
+    return m.filter((a, i) => { for (let j = 0; j < m.length; j++) { if (i === j) continue; const b = m[j]; if (a.x >= b.x - 1e-9 && a.y >= b.y - 1e-9 && a.x + a.w <= b.x + b.w + 1e-9 && a.y + a.h <= b.y + b.h + 1e-9 && (a.w < b.w - 1e-9 || a.h < b.h - 1e-9 || j < i)) return false; } return true; });
+  }
+  function run(arr, W, gap, rot, hh) {
+    let free = [{ x: 0, y: 0, w: W, h: 1e6 }], maxY = 0; const pl = [];
+    for (const it of arr) {
+      const iw = it.w + gap, ih = it.h + gap; let b = null;
+      for (const f of free) for (let o = 0; o < (rot && Math.abs(iw - ih) > 1e-9 ? 2 : 1); o++) {
+        const w = o ? ih : iw, h = o ? iw : ih;
+        if (w <= f.w + 1e-9 && h <= f.h + 1e-9) { const s1 = f.y + h, s2 = hh ? f.w - w : f.x; if (!b || s1 < b.s1 - 1e-9 || (Math.abs(s1 - b.s1) < 1e-9 && s2 < b.s2)) b = { s1, s2, x: f.x, y: f.y, w, h, o }; }
+      }
+      if (!b) return null;
+      pl.push({ it, x: b.x, y: b.y, w: b.w - gap, h: b.h - gap, rot: b.o });
+      maxY = Math.max(maxY, b.y + b.h); free = split(free, { x: b.x, y: b.y, w: b.w, h: b.h });
+    }
+    return { pl, len: maxY - gap };
+  }
+  function packAll(L, us, gap, rot) {
+    let best = null;
+    const sorts = [a => -a.w * a.h, a => -Math.max(a.w, a.h), a => -a.h];
+    for (const r of rot ? [1, 0] : [0]) for (const sf of sorts) for (const hh of [0, 1]) {
+      const res = run(L.slice().sort((a, b) => sf(a) - sf(b)), us + gap, gap, r, hh);
+      if (res && (!best || res.len < best.len - 1e-9)) best = res;
+    }
+    return best;
+  }
+  function items() {
+    const us = S.roll - 2 * S.mar / 10, gap = S.gap / 10, L = [], notes = [];
+    if (!(S.roll > 0) || us <= 0.5) return { err: "Informe a largura do rolo (e uma margem menor que ela)." };
+    for (const a of arts) {
+      let w = a.wcm, h = a.wcm * a.h / a.w;
+      const ok = S.rot ? Math.min(w, h) <= us + 1e-9 : w <= us + 1e-9;
+      if (!ok) { const k = (S.rot ? us / Math.min(w, h) : us / w); w *= k; h *= k; notes.push(esc(a.name) + " ficou larga demais e foi reduzida para " + f1(w) + " × " + f1(h) + " cm."); }
+      a.fw = w; a.fh = h;
+      for (let i = 0; i < Math.max(1, Math.round(a.qty)); i++) L.push({ a, w, h });
+    }
+    if (L.length > 400) return { err: "Muitas estampas (" + L.length + "). O limite é 400 por arquivo." };
+    return { L, us, gap, notes };
+  }
+
+  /* ================= PNG em faixas (sem estourar a memória) ================= */
+  let CRC = null;
+  const crc32 = buf => { if (!CRC) { CRC = new Uint32Array(256); for (let n = 0; n < 256; n++) { let c = n; for (let k = 0; k < 8; k++) c = c & 1 ? 0xedb88320 ^ (c >>> 1) : c >>> 1; CRC[n] = c >>> 0; } } let c = 0xffffffff; for (let i = 0; i < buf.length; i++) c = CRC[(c ^ buf[i]) & 255] ^ (c >>> 8); return (c ^ 0xffffffff) >>> 0; };
+  function chunk(type, data) { const n = data.length, o = new Uint8Array(12 + n), dv = new DataView(o.buffer); dv.setUint32(0, n); for (let i = 0; i < 4; i++) o[4 + i] = type.charCodeAt(i); o.set(data, 8); dv.setUint32(8 + n, crc32(o.subarray(4, 8 + n))); return o; }
+  async function pngStream(W, H, dpi, rowsFn, bandN, prog) {
+    const cs = new CompressionStream("deflate"), wr = cs.writable.getWriter(), rd = cs.readable.getReader(), parts = [];
+    const ihdr = new Uint8Array(13), dv = new DataView(ihdr.buffer); dv.setUint32(0, W); dv.setUint32(4, H); ihdr[8] = 8; ihdr[9] = 6;
+    const ppm = Math.round(dpi / 0.0254), ph = new Uint8Array(9), pd = new DataView(ph.buffer); pd.setUint32(0, ppm); pd.setUint32(4, ppm); ph[8] = 1;
+    parts.push(new Uint8Array([137, 80, 78, 71, 13, 10, 26, 10]), chunk("IHDR", ihdr), chunk("pHYs", ph));
+    const reading = (async () => { for (;;) { const r = await rd.read(); if (r.done) break; parts.push(chunk("IDAT", r.value)); } })();
+    const rl = W * 4;
+    for (let y = 0; y < H; y += bandN) {
+      const n = Math.min(bandN, H - y), px = await rowsFn(y, n), buf = new Uint8Array(n * (rl + 1));
+      for (let r = 0; r < n; r++) buf.set(px.subarray(r * rl, r * rl + rl), r * (rl + 1) + 1);
+      await wr.write(buf); if (prog) prog((y + n) / H); await tick();
+    }
+    await wr.close(); await reading; parts.push(chunk("IEND", new Uint8Array(0)));
+    return new Blob(parts, { type: "image/png" });
+  }
+  async function makePNG(W, H, dpi, rowsFn, bandN, prog, fb) {
+    if (typeof CompressionStream !== "undefined") return pngStream(W, H, dpi, rowsFn, bandN, prog);
+    const c = await fb(Math.min(1, Math.sqrt(16e6 / (W * H)))); return new Promise(r => c.toBlob(r, "image/png"));
+  }
+  function showDl(id, blob, name, extra) {
+    const box = $(id); if (!box) return; if (urls[id]) URL.revokeObjectURL(urls[id]); urls[id] = URL.createObjectURL(blob);
+    box.innerHTML = '<a class="fin-btn block" style="margin-top:10px;text-decoration:none" href="' + urls[id] + '" download="' + esc(name) + '">⬇ Baixar PNG (' + f1(blob.size / 1048576) + " MB)</a>" + (extra ? '<div class="fin-sub" style="margin-top:8px">' + extra + "</div>" : "");
+  }
+  const clearDl = id => { const b = $(id); if (b) b.innerHTML = ""; if (urls[id]) { URL.revokeObjectURL(urls[id]); delete urls[id]; } };
+  const setProg = (id, p, t) => { const e = $(id); if (e) e.innerHTML = p == null ? "" : '<div class="fin-bar" style="margin:12px 0 4px;background:var(--line)"><i style="width:' + Math.round(p * 100) + '%;background:var(--acc);transition:width .2s"></i></div><div class="fin-sub">' + (t || "Gerando…") + " " + Math.round(p * 100) + "%</div>"; };
+
+  /* ================= imagens ================= */
+  function loadImg(file) { return new Promise((res, rej) => { const u = URL.createObjectURL(file), im = new Image(); im.onload = () => { URL.revokeObjectURL(u); res(im); }; im.onerror = () => { URL.revokeObjectURL(u); rej(new Error("img")); }; im.src = u; }); }
+  function toCanvas(im, cap) { let w = im.naturalWidth, h = im.naturalHeight; const k = Math.min(1, cap / Math.max(w, h)); w = Math.max(1, Math.round(w * k)); h = Math.max(1, Math.round(h * k)); const c = document.createElement("canvas"); c.width = w; c.height = h; c.getContext("2d").drawImage(im, 0, 0, w, h); return c; }
+  function trim(c) {
+    const w = c.width, h = c.height, d = c.getContext("2d").getImageData(0, 0, w, h).data; let x0 = w, y0 = h, x1 = -1, y1 = -1;
+    for (let y = 0; y < h; y++) { let o = y * w * 4 + 3; for (let x = 0; x < w; x++, o += 4) if (d[o] > 8) { if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y; } }
+    if (x1 < 0) return null; if (!x0 && !y0 && x1 === w - 1 && y1 === h - 1) return c;
+    const n = document.createElement("canvas"); n.width = x1 - x0 + 1; n.height = y1 - y0 + 1; n.getContext("2d").drawImage(c, x0, y0, n.width, n.height, 0, 0, n.width, n.height); return n;
+  }
+  function hasAlpha(c) { const s = Math.max(1, Math.floor(Math.max(c.width, c.height) / 200)), w = Math.ceil(c.width / s), h = Math.ceil(c.height / s), t = document.createElement("canvas"); t.width = w; t.height = h; const x = t.getContext("2d"); x.drawImage(c, 0, 0, w, h); const d = x.getImageData(0, 0, w, h).data; for (let i = 3; i < d.length; i += 4) if (d[i] < 250) return true; return false; }
+  function thumb(c) { const t = document.createElement("canvas"); t.width = 64; t.height = 64; const k = Math.min(64 / c.width, 64 / c.height), w = c.width * k, h = c.height * k; t.getContext("2d").drawImage(c, (64 - w) / 2, (64 - h) / 2, w, h); return t; }
+
+  /* ================= 1. OTIMIZADOR DTF ================= */
+  async function addArts(files) {
+    let bad = 0;
+    for (const f of files) {
+      try {
+        const c = trim(toCanvas(await loadImg(f), 4096)); if (!c) { bad++; continue; }
+        const us = Math.max(1, S.roll - 2 * S.mar / 10);
+        arts.push({ id: "a" + (++uidn), name: f.name.replace(/\.[^.]+$/, "") || "Estampa", cv: c, w: c.width, h: c.height, wcm: Math.round(Math.min(28, us) * 10) / 10, qty: 1, th: thumb(c) });
+      } catch (e) { bad++; }
+    }
+    if (bad) toastS(bad + " arquivo(s) não puderam ser lidos (use PNG/JPG com a arte visível).", 3600);
+    dtfList(); dtfNow();
+  }
+  function dtfList() {
+    const L = $("dtfList"); if (!L) return;
+    if (!arts.length) { L.innerHTML = '<div class="fin-empty" style="padding:14px"><span class="em">🖨️</span>Adicione as estampas em PNG (de preferência com fundo transparente). O espaço transparente em volta é cortado automaticamente.</div>'; return; }
+    L.innerHTML = arts.map(a => '<div class="fin-item" data-id="' + a.id + '"><div class="fin-nrow"><div class="ft-th"></div><div style="flex:1;min-width:0"><div class="fin-t"><div class="fin-n">' + esc(a.name) + '</div><button class="fin-btn red sm" style="min-height:40px;padding:0 12px" data-ft="del" data-id="' + a.id + '" aria-label="Remover">✕</button></div><div class="fin-m">' + a.w + " × " + a.h + " px</div></div></div>" +
+      '<div class="fin-two" style="margin-top:12px"><label class="fin-f"><span>Largura</span><div><input inputmode="decimal" data-a="w" data-id="' + a.id + '" value="' + f1(a.wcm).replace(/\./g, "") + '"><i>cm</i></div></label><label class="fin-f"><span>Altura</span><div><input inputmode="decimal" data-a="h" data-id="' + a.id + '" value="' + f1(a.wcm * a.h / a.w).replace(/\./g, "") + '"><i>cm</i></div></label></div>' +
+      '<label class="fin-f" style="margin:0"><span>Quantidade</span><input inputmode="numeric" data-a="q" data-id="' + a.id + '" value="' + a.qty + '"></label></div>').join("") + '<button class="fin-btn ghost block" data-ft="clear">Limpar todas</button>';
+    L.querySelectorAll(".fin-item").forEach((el, i) => { el.querySelector(".ft-th").appendChild(arts[i].th); });
+  }
+  function dtfNow() {
+    const res = $("dtfRes"); clearDl("dtfDl"); if (!res) return;
+    res.hidden = !arts.length; lay = null; if (!arts.length) return;
+    const r = items(), st = $("dtfStats"), cv = $("dtfCv"), btn = $("dtfGo");
+    if (r.err) { st.innerHTML = '<div class="fin-alert"><em>⚠️</em><span>' + r.err + "</span></div>"; cv.width = cv.height = 1; btn.disabled = true; return; }
+    const best = packAll(r.L, r.us, r.gap, S.rot);
+    if (!best) { st.innerHTML = '<div class="fin-alert"><em>⚠️</em><span>Não foi possível encaixar. Confira as medidas.</span></div>'; btn.disabled = true; return; }
+    const len = best.len + 2 * S.mar / 10, area = r.L.reduce((s, x) => s + x.w * x.h, 0), occ = area / (S.roll * len) * 100;
+    lay = { pl: best.pl, len, occ };
+    st.innerHTML = '<div class="fin-kv"><span>Estampas no arquivo</span><b>' + r.L.length + '</b></div><div class="fin-kv"><span>Rolo</span><b>' + f1(S.roll) + " cm × " + f1(len) + ' cm</b></div><div class="fin-kv"><span>Aproveitamento da área</span><b class="' + (occ >= 70 ? "fin-pos" : "fin-mid") + '">' + f1(occ) + "%</b></div>" + (S.pm > 0 ? '<div class="fin-kv"><span>Custo do rolo (' + (len / 100).toLocaleString("pt-BR", { maximumFractionDigits: 2 }) + " m)</span><b>" + brl(len / 100 * S.pm) + "</b></div>" : "") + r.notes.map(n => '<div class="fin-alert"><em>⚠️</em><span>' + n + "</span></div>").join("");
+    btn.disabled = false; drawPrev();
+  }
+  function drawLay(ctx, k, y0, y1) {
+    ctx.imageSmoothingEnabled = true; ctx.imageSmoothingQuality = "high";
+    for (const p of lay.pl) {
+      const x = (S.mar / 10 + p.x) * k, y = (S.mar / 10 + p.y) * k, w = p.w * k, h = p.h * k;
+      if (y1 != null && (y + h < y0 || y > y1)) continue;
+      if (!p.rot) ctx.drawImage(p.it.a.cv, x, y, w, h); else { ctx.save(); ctx.translate(x + w, y); ctx.rotate(Math.PI / 2); ctx.drawImage(p.it.a.cv, 0, 0, h, w); ctx.restore(); }
+    }
+  }
+  function drawPrev() {
+    const cv = $("dtfCv"), k = Math.min(900 / S.roll, 3200 / lay.len); cv.width = Math.max(1, Math.round(S.roll * k)); cv.height = Math.max(1, Math.round(lay.len * k));
+    const x = cv.getContext("2d"); x.fillStyle = "#fff"; x.fillRect(0, 0, cv.width, cv.height); x.fillStyle = "#dfe3f3";
+    const q = 16; for (let yy = 0; yy * q < cv.height; yy++) for (let xx = 0; xx * q < cv.width; xx++) if ((xx + yy) & 1) x.fillRect(xx * q, yy * q, q, q);
+    drawLay(x, k);
+  }
+  async function expDtf() {
+    if (busy || !lay) return; busy = true; const btn = $("dtfGo"); btn.disabled = true; clearDl("dtfDl");
+    try {
+      const dpi = S.dpi, k = dpi / 2.54, W = Math.round(S.roll * k), H = Math.round(lay.len * k), bandN = Math.max(16, Math.floor(2e6 / W));
+      const cv = document.createElement("canvas"); cv.width = W; cv.height = bandN; const cx = cv.getContext("2d", { willReadFrequently: true });
+      const blob = await makePNG(W, H, dpi, async (y0, n) => { cx.setTransform(1, 0, 0, 1, 0, 0); cx.clearRect(0, 0, W, bandN); cx.setTransform(1, 0, 0, 1, 0, -y0); drawLay(cx, k, y0, y0 + n); return cx.getImageData(0, 0, W, n).data; }, bandN, p => setProg("dtfProg", p, "Gerando o PNG"), s => { const c = document.createElement("canvas"); c.width = Math.round(W * s); c.height = Math.round(H * s); drawLay(c.getContext("2d"), k * s); return c; });
+      setProg("dtfProg", null); showDl("dtfDl", blob, "dtf_" + f1(S.roll).replace(/\D/g, "") + "cm_x_" + Math.round(lay.len) + "cm_" + dpi + "dpi.png", W + " × " + H + " px · " + dpi + " DPI · fundo transparente");
+    } catch (e) { setProg("dtfProg", null); toastS("Não consegui gerar o PNG: " + (e && e.message || e), 4200); }
+    busy = false; btn.disabled = !lay;
+  }
+
+  /* ================= 2. CUSTO POR ESTAMPA ================= */
+  function costNow() {
+    const o = $("costOut"); if (!o) return; const c = S.cost, eff = c.eff > 0 && c.eff <= 100 ? c.eff / 100 : 1, cm2 = S.roll > 0 ? S.pm / (S.roll * 100) / eff : 0;
+    const fa = Math.max(0, c.fw) * Math.max(0, c.fh), ba = Math.max(0, c.bw) * Math.max(0, c.bh), fc = fa * cm2, bc = ba * cm2, big = (w, h) => w > 0 && h > 0 && Math.min(w, h) > S.roll;
+    const warn = big(c.fw, c.fh) || big(c.bw, c.bh) ? '<div class="fin-alert"><em>⚠️</em><span>Uma das estampas é maior que a largura do rolo.</span></div>' : "";
+    o.innerHTML = '<div class="fin-hero"><small>Custo de impressão por peça (frente + costas)</small><div class="big">' + brl(fc + bc) + "</div><small>" + (S.pm > 0 && S.roll > 0 ? "Metro a " + brl(S.pm) + " · rolo de " + f1(S.roll) + " cm" : "Informe o valor pago pelo metro para ver o custo.") + "</small></div>" +
+      '<div class="fin-card"><div class="fin-kv"><span>Frente (' + f1(c.fw) + " × " + f1(c.fh) + " cm · " + f1(fa) + ' cm²)</span><b>' + brl(fc) + '</b></div><div class="fin-kv"><span>Costas (' + f1(c.bw) + " × " + f1(c.bh) + " cm · " + f1(ba) + ' cm²)</span><b>' + brl(bc) + '</b></div><div class="fin-kv"><span>Custo por cm²</span><b>R$ ' + cm2.toLocaleString("pt-BR", { maximumFractionDigits: 4 }) + "</b></div>" + warn + "</div>";
+  }
+
+  /* ================= 3. HALF TONE ================= */
+  const hs = (a, b) => { let h = Math.imul(a | 0, 73856093) ^ Math.imul(b | 0, 19349663); h = Math.imul(h ^ (h >>> 13), 1274126177); h ^= h >>> 16; return (h >>> 0) / 4294967296; };
+  function shrink(src, tw, th) {
+    let cur = src;
+    while (cur.width > tw * 2 || cur.height > th * 2) { const n = document.createElement("canvas"); n.width = Math.max(tw, Math.ceil(cur.width / 2)); n.height = Math.max(th, Math.ceil(cur.height / 2)); const x = n.getContext("2d"); x.imageSmoothingQuality = "high"; x.drawImage(cur, 0, 0, n.width, n.height); cur = n; }
+    const f = document.createElement("canvas"); f.width = tw; f.height = th; const g = f.getContext("2d", { willReadFrequently: true }); g.imageSmoothingQuality = "high"; g.drawImage(cur, 0, 0, tw, th); return g.getImageData(0, 0, tw, th);
+  }
+  function buildMap(src, Wo, Ho, cs) {
+    const key = [Wo, Ho, cs.toFixed(3)].join("|"); if (mapC && mapC.key === key && mapC.src === src) return mapC.m;
+    const mw = Math.max(2, Math.min(2000, Math.ceil(Wo / (cs / 2)))), mh = Math.max(2, Math.min(2000, Math.ceil(Ho / (cs / 2)))), d = shrink(src, mw, mh).data, N = mw * mh;
+    const m = { w: mw, h: mh, A: new Float32Array(N), V: new Float32Array(N), R: new Float32Array(N), G: new Float32Array(N), B: new Float32Array(N) };
+    for (let i = 0; i < N; i++) { const a = d[i * 4 + 3] / 255, r = d[i * 4], g = d[i * 4 + 1], b = d[i * 4 + 2]; m.A[i] = a; m.V[i] = Math.max(r, g, b) / 255 * a; m.R[i] = r * a; m.G[i] = g * a; m.B[i] = b * a; }
+    mapC = { key, src, m }; return m;
+  }
+  function hex(c) { const v = parseInt(String(c).replace("#", ""), 16) || 0; return [(v >> 16) & 255, (v >> 8) & 255, v & 255]; }
+  function htOpts(src, Wo, Ho, Wr) {
+    const h = S.ht, s = Wo / Wr, cs = Math.max(2, 300 / Math.max(5, h.lpi) * s);
+    return { W: Wo, H: Ho, cs, ang: (h.mode === "d" ? 45 : 15) * Math.PI / 180, vint: h.mode === "v", off: h.int / 200, thr: h.thr / 100, solid: !!h.solid, col: hex(h.col), m: buildMap(src, Wo, Ho, cs) };
+  }
+  function htRegion(o, x0, y0, w, n, out) {
+    const cs = o.cs, ca = Math.cos(o.ang), sa = Math.sin(o.ang), M = o.m, mw = M.w, mh = M.h, kx = mw / o.W, ky = mh / o.H;
+    let li = NaN, lj = NaN, R = 0, G = 0, B = 0, rr = 0;
+    for (let y = 0; y < n; y++) {
+      const Y = y0 + y + 0.5, ro = y * w * 4;
+      for (let x = 0; x < w; x++) {
+        const X = x0 + x + 0.5, u = (X * ca + Y * sa) / cs, v = (Y * ca - X * sa) / cs, i = Math.floor(u), j = Math.floor(v);
+        if (i !== li || j !== lj) {
+          li = i; lj = j; rr = 0;
+          const cu = i + 0.5, cv = j + 0.5, cx = (cu * ca - cv * sa) * cs, cy = (cu * sa + cv * ca) * cs;
+          const fx = Math.min(mw - 1, Math.max(0, cx * kx - 0.5)), fy = Math.min(mh - 1, Math.max(0, cy * ky - 0.5)), x1 = Math.floor(fx), y1 = Math.floor(fy), x2 = Math.min(mw - 1, x1 + 1), y2 = Math.min(mh - 1, y1 + 1), tx = fx - x1, ty = fy - y1;
+          const i11 = y1 * mw + x1, i21 = y1 * mw + x2, i12 = y2 * mw + x1, i22 = y2 * mw + x2, w11 = (1 - tx) * (1 - ty), w21 = tx * (1 - ty), w12 = (1 - tx) * ty, w22 = tx * ty;
+          const bl = a => a[i11] * w11 + a[i21] * w21 + a[i12] * w12 + a[i22] * w22, A = bl(M.A);
+          if (A >= 0.02) {
+            const c = Math.min(1, Math.max(0, bl(M.V) / A + o.off)) * A;
+            if (c >= 0.004 && c >= o.thr) {
+              rr = c <= 0.785 ? Math.sqrt(c / Math.PI) : 0.5 + (c - 0.785) / 0.215 * 0.2071;
+              if (o.vint && c < 0.97) rr *= 1 + 0.35 * (1 - c) * (hs(i, j) * 2 - 1);
+              if (c >= 0.97) rr = 0.75;
+              if (o.solid) { R = o.col[0]; G = o.col[1]; B = o.col[2]; } else { R = Math.min(255, bl(M.R) / A); G = Math.min(255, bl(M.G) / A); B = Math.min(255, bl(M.B) / A); }
+            }
+          }
+        }
+        if (rr <= 0) continue;
+        const du = u - i - 0.5, dv = v - j - 0.5; let d = Math.sqrt(du * du + dv * dv), a;
+        if (o.vint) { d += (hs(X | 0, Y | 0) - 0.5) * 0.16; if (hs((X | 0) + 7919, (Y | 0) + 104729) < 0.05) continue; }
+        a = (rr - d) * cs + 0.5; if (a <= 0) continue; if (a > 1) a = 1;
+        const p = ro + x * 4; out[p] = R; out[p + 1] = G; out[p + 2] = B; out[p + 3] = a * 255 + 0.5;
+      }
+    }
+  }
+  const htDims = () => { const Wr = Math.max(1, Math.round(Math.max(1, S.ht.w) / 2.54 * 300)); return { Wr, Hr: Math.max(1, Math.round(Wr * htSrc.height / htSrc.width)) }; };
+  function htDraw() {
+    const res = $("htRes"), ctl = $("htCtl"); if (res) res.hidden = !htSrc; if (ctl) ctl.hidden = !htSrc; if (!htSrc) return;
+    clearDl("htDl"); const { Wr, Hr } = htDims(), cv = $("htCv"); let w, h, x0 = 0, y0 = 0, o;
+    if (S.ht.zoom) { w = Math.min(Wr, 700); h = Math.min(Hr, 700); x0 = (Wr - w) >> 1; y0 = (Hr - h) >> 1; o = htOpts(htSrc, Wr, Hr, Wr); }
+    else { w = Math.min(Wr, 900); h = Math.max(1, Math.round(w * Hr / Wr)); o = htOpts(htSrc, w, h, Wr); }
+    const out = new Uint8ClampedArray(w * h * 4); htRegion(o, x0, y0, w, h, out); cv.width = w; cv.height = h; cv.getContext("2d").putImageData(new ImageData(out, w, h), 0, 0);
+    $("htDim").textContent = "Arquivo final: " + Wr + " × " + Hr + " px (" + f1(S.ht.w) + " × " + f1(S.ht.w * htSrc.height / htSrc.width) + " cm a 300 DPI)";
+  }
+  async function expHt() {
+    if (busy || !htSrc) return; const { Wr, Hr } = htDims(); if (Wr * Hr > 220e6) { toastS("Tamanho grande demais. Reduza a largura da estampa.", 3600); return; }
+    busy = true; const btn = $("htGo"); btn.disabled = true; clearDl("htDl");
+    try {
+      const o = htOpts(htSrc, Wr, Hr, Wr), bandN = Math.max(8, Math.floor(1.5e6 / Wr));
+      const blob = await makePNG(Wr, Hr, 300, async (y0, n) => { const out = new Uint8ClampedArray(Wr * n * 4); htRegion(o, 0, y0, Wr, n, out); return out; }, bandN, p => setProg("htProg", p, "Aplicando half tone"), async s => { const w = Math.round(Wr * s), h = Math.round(Hr * s), oo = htOpts(htSrc, w, h, Wr), out = new Uint8ClampedArray(w * h * 4); htRegion(oo, 0, 0, w, h, out); const c = document.createElement("canvas"); c.width = w; c.height = h; c.getContext("2d").putImageData(new ImageData(out, w, h), 0, 0); return c; });
+      setProg("htProg", null); showDl("htDl", blob, (htName || "arte") + "_halftone_300dpi.png", Wr + " × " + Hr + " px · 300 DPI · fundo transparente");
+    } catch (e) { setProg("htProg", null); toastS("Não consegui gerar o PNG: " + (e && e.message || e), 4200); }
+    busy = false; btn.disabled = false;
+  }
+  async function loadHt(f) {
+    try {
+      const c = toCanvas(await loadImg(f), 4096); htSrc = c; htName = f.name.replace(/\.[^.]+$/, "").replace(/[^\w\-]+/g, "_") || "arte"; mapC = null;
+      $("htInfo").innerHTML = esc(f.name) + " · " + c.width + " × " + c.height + " px" + (hasAlpha(c) ? "" : '<br><span class="fin-mid">⚠️ Esta imagem não tem fundo transparente: as áreas claras viram tinta. Prefira PNG com fundo transparente.</span>');
+      htDraw();
+    } catch (e) { toastS("Não consegui abrir essa imagem.", 3000); }
+  }
+
+  /* ================= interface ================= */
+  const fld = (l, k, suf) => '<label class="fin-f"><span>' + l + '</span><div><input inputmode="decimal" data-k="' + k + '" value="' + (gp(k) || "").toString().replace(".", ",") + '" placeholder="0">' + (suf ? "<i>" + suf + "</i>" : "") + "</div></label>";
+  const sld = (l, k, mn, mx) => '<div style="margin-bottom:14px"><div class="fin-mval"><span>' + l + '</span><b data-v="' + k + '"></b></div><input class="fin-rng" type="range" data-k="' + k + '" min="' + mn + '" max="' + mx + '" step="1" value="' + gp(k) + '"></div>';
+  const fmtV = (k, v) => k === "ht.lpi" ? v + " LPI" : k === "ht.int" ? (v > 0 ? "+" : "") + v : v + "%";
+  const chips = (id, arr) => '<div class="fin-chips" id="' + id + '">' + arr.map(a => '<button type="button" data-ft="' + a[0] + '" data-v="' + a[1] + '">' + a[2] + "</button>").join("") + "</div>";
+  function build() {
+    root = document.createElement("div"); root.id = "ftRoot";
+    root.innerHTML = chips("ftTabs", [["tool", "dtf", "DTF"], ["tool", "cost", "Custo"], ["tool", "ht", "Half Tone"]]) +
+      '<section data-p="dtf"><div class="fin-card"><h3>Otimizador de DTF</h3><div class="fin-sub" style="margin:-4px 0 14px">Organiza várias estampas em um único arquivo, preenchendo os espaços vazios, e gera o PNG para o fornecedor.</div>' +
+      '<div class="fin-two">' + fld("Largura do rolo", "roll", "cm") + fld("Valor do metro", "pm", "R$") + '</div><div class="fin-two">' + fld("Espaço entre estampas", "gap", "mm") + fld("Margem da borda", "mar", "mm") + '</div>' +
+      '<label class="fin-sw"><span>Girar estampas em 90°<small>Encaixa melhor e economiza rolo</small></span><input type="checkbox" data-k="rot"' + (S.rot ? " checked" : "") + "></label></div>" +
+      '<div class="fin-card"><h3>Estampas</h3><label class="fin-btn block" for="dtfFile" style="cursor:pointer">+ Adicionar estampas</label><input type="file" id="dtfFile" accept="image/*" multiple style="display:none"><div id="dtfList" style="margin-top:12px"></div></div>' +
+      '<div class="fin-card" id="dtfRes" hidden><h3>Resultado</h3><div id="dtfStats"></div><div class="ft-wrap"><canvas id="dtfCv" class="ft-cv"></canvas></div><div class="fin-sub" style="margin:14px 0 8px">Qualidade do PNG</div>' + chips("dtfDpi", [["dpi", 300, "300 DPI"], ["dpi", 200, "200 DPI"], ["dpi", 150, "150 DPI"]]) + '<button class="fin-btn block" id="dtfGo" data-ft="expDtf">Gerar PNG para o fornecedor</button><div id="dtfProg"></div><div id="dtfDl"></div></div></section>' +
+      '<section data-p="cost" hidden><div class="fin-card"><h3>Custo por Estampa</h3><div class="fin-sub" style="margin:-4px 0 14px">Calcula quanto cada estampa custa na peça final, pelo valor pago no metro da impressão.</div><div class="fin-two">' + fld("Valor pago no metro", "pm", "R$") + fld("Largura do rolo", "roll", "cm") + '</div>' +
+      '<div class="fin-sub" style="margin:2px 0 8px"><b>Frente</b></div><div class="fin-two">' + fld("Largura", "cost.fw", "cm") + fld("Altura", "cost.fh", "cm") + '</div><div class="fin-sub" style="margin:2px 0 8px"><b>Costas</b> (deixe 0 se não tiver)</div><div class="fin-two">' + fld("Largura", "cost.bw", "cm") + fld("Altura", "cost.bh", "cm") + "</div>" + fld("Aproveitamento do rolo (100% = sem perda)", "cost.eff", "%") + '</div><div id="costOut"></div></section>' +
+      '<section data-p="ht" hidden><div class="fin-card"><h3>Aplicador de Half Tone</h3><div class="fin-sub" style="margin:-4px 0 14px">Aplica retículas para suavizar a estampa em peças escuras e baixa o PNG em 300 DPI.</div><label class="fin-btn block" for="htFile" style="cursor:pointer">Subir a arte</label><input type="file" id="htFile" accept="image/*" style="display:none"><div class="fin-sub" id="htInfo" style="margin-top:10px">PNG com fundo transparente funciona melhor.</div></div>' +
+      '<div class="fin-card" id="htCtl" hidden><h3>Ajustes</h3>' + chips("htMode", [["mode", "d", "Peça escura detalhe"], ["mode", "v", "Peça escura vintage"]]) + sld("Frequência (pontos menores e mais juntos)", "ht.lpi", 10, 80) + sld("Intensidade (− escurece · + clareia)", "ht.int", -100, 100) + sld("Limite de intensidade (remove o que está abaixo)", "ht.thr", 0, 60) +
+      '<label class="fin-sw"><span>Cor sólida<small>Pinta todos os pontos com uma só cor</small></span><input type="checkbox" data-k="ht.solid"' + (S.ht.solid ? " checked" : "") + '></label><div id="htColW" style="margin:8px 0" ' + (S.ht.solid ? "" : "hidden") + '><input type="color" data-k="ht.col" value="' + S.ht.col + '" style="width:100%;height:50px;border:0;border-radius:14px;padding:0;background:none"></div>' + fld("Largura da estampa no arquivo final", "ht.w", "cm") + "</div>" +
+      '<div class="fin-card" id="htRes" hidden><h3>Pré-visualização</h3>' + chips("htView", [["zoom", 0, "Geral"], ["zoom", 1, "Zoom 300 DPI"]]) + '<div class="fin-chips" id="htBg">' + ["#111111", "#2b2f3a", "#14213d", "#4a1c28"].map(c => '<button type="button" data-ft="bg" data-v="' + c + '" style="min-width:46px;background:' + c + '"> </button>').join("") + '</div><div class="ft-wrap" id="htWrap"><canvas id="htCv" class="ft-cv"></canvas></div><div class="fin-sub" id="htDim" style="margin:10px 0"></div><button class="fin-btn block" id="htGo" data-ft="expHt">Gerar PNG 300 DPI</button><div id="htProg"></div><div id="htDl"></div></div></section>';
+    root.addEventListener("input", onInp); root.addEventListener("change", onChg); root.addEventListener("click", onClk);
+  }
+  function setOn() {
+    const mark = (id, key, val) => { const b = $(id); if (b) b.querySelectorAll("button").forEach(x => x.classList.toggle("on", String(x.dataset.v) === String(val))); };
+    mark("ftTabs", "tool", tool); mark("dtfDpi", "dpi", S.dpi); mark("htMode", "mode", S.ht.mode); mark("htView", "zoom", S.ht.zoom); mark("htBg", "bg", S.ht.bg);
+    root.querySelectorAll("[data-v]").forEach(e => { if (e.tagName === "B" && e.dataset.v.indexOf("ht.") === 0) e.textContent = fmtV(e.dataset.v, gp(e.dataset.v)); });
+    const w = $("htWrap"); if (w) w.style.background = S.ht.bg;
+  }
+  function showTool(t) { tool = t; root.querySelectorAll("[data-p]").forEach(s => { s.hidden = s.dataset.p !== t; }); setOn(); if (t === "dtf") { dtfList(); dtfNow(); } else if (t === "cost") costNow(); else htDraw(); }
+  function onInp(e) {
+    const t = e.target, d = t.dataset || {};
+    if (d.a) { const a = arts.find(x => x.id === d.id); if (!a) return; const v = num(t.value), item = t.closest(".fin-item");
+      if (d.a === "q") a.qty = Math.min(400, Math.max(1, Math.round(v))); else if (v > 0) { if (d.a === "w") a.wcm = v; else a.wcm = v * a.w / a.h; const o = item.querySelector(d.a === "w" ? '[data-a="h"]' : '[data-a="w"]'); o.value = f1(d.a === "w" ? a.wcm * a.h / a.w : a.wcm).replace(/\./g, ""); }
+      later("dtf", dtfNow); return; }
+    const k = d.k; if (!k) return; const v = t.type === "checkbox" ? (t.checked ? 1 : 0) : t.type === "color" ? t.value : t.type === "range" ? +t.value : num(t.value);
+    sp(k, v); save();
+    root.querySelectorAll('input[data-k="' + k + '"]').forEach(x => { if (x !== t && x.type !== "checkbox" && x.type !== "range") x.value = String(v).replace(".", ","); });
+    root.querySelectorAll('b[data-v="' + k + '"]').forEach(x => { x.textContent = fmtV(k, v); });
+    if (k === "ht.solid") $("htColW").hidden = !v;
+    if (/^(roll|gap|mar|rot|pm)$/.test(k)) { later("dtf", dtfNow); costNow(); } else if (k.indexOf("cost.") === 0) costNow(); else if (k.indexOf("ht.") === 0) later("ht", htDraw, 120);
+  }
+  function onChg(e) {
+    const t = e.target, fl = t.files && Array.from(t.files); if (!fl || !fl.length) return;
+    if (t.id === "dtfFile") addArts(fl); else if (t.id === "htFile") loadHt(fl[0]); t.value = "";
+  }
+  function onClk(e) {
+    const b = e.target.closest("[data-ft]"); if (!b) return; const a = b.dataset.ft, v = b.dataset.v;
+    if (a === "tool") showTool(v);
+    else if (a === "dpi") { S.dpi = +v; save(); setOn(); clearDl("dtfDl"); }
+    else if (a === "mode") { S.ht.mode = v; S.ht.lpi = v === "d" ? 40 : 22; save(); root.querySelector('[data-k="ht.lpi"]').value = S.ht.lpi; setOn(); htDraw(); }
+    else if (a === "zoom") { S.ht.zoom = +v; save(); setOn(); htDraw(); }
+    else if (a === "bg") { S.ht.bg = v; save(); setOn(); }
+    else if (a === "del") { arts = arts.filter(x => x.id !== b.dataset.id); dtfList(); dtfNow(); }
+    else if (a === "clear") { if (confirm("Remover todas as estampas?")) { arts = []; dtfList(); dtfNow(); } }
+    else if (a === "expDtf") expDtf();
+    else if (a === "expHt") expHt();
+  }
+  window.FinTools = { mount(hold) { if (!root) build(); hold.appendChild(root); showTool(tool); }, _t: { packAll, run, split, htRegion, htOpts, pngStream, hs, S: () => S } };
+})();
+
+</script>
 </body>
 </html>
