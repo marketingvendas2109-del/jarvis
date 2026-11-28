@@ -8801,6 +8801,7 @@ html.neon .fin-card,html.neon .fin-stat,html.neon .fin-item,html.neon .fin-seg{b
 #ftRoot .fin-chips{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}#ftRoot .fin-chips::-webkit-scrollbar{display:none}
 #ftRoot .fin-chips button{flex:0 0 auto;white-space:nowrap}
 #ftRoot #ftTabs button{flex:1 1 0;padding:0 8px}
+#ftRoot #htRm button,#ftRoot #htView button,#ftRoot #htMode button,#ftRoot #dtfDpi button{flex:1 1 0;padding:0 6px;font-size:13px}
 #ftRoot .ft-th{width:64px;height:64px;flex:0 0 64px;border-radius:14px;overflow:hidden;background:repeating-conic-gradient(#cfd3e6 0 25%,#fff 0 50%) 0 0/14px 14px}
 #ftRoot .ft-th canvas{width:100%;height:100%;display:block}
 #ftRoot .ft-wrap{max-height:70vh;overflow:auto;border-radius:18px;border:1px solid var(--line);-webkit-overflow-scrolling:touch}
@@ -8815,9 +8816,9 @@ html.neon .fin-card,html.neon .fin-stat,html.neon .fin-item,html.neon .fin-seg{b
   const KEY = "fin_tools_v1";
   const DEF = { roll: 58, gap: 5, mar: 5, rot: 1, pm: 0, dpi: 300,
     cost: { fw: 28, fh: 30, bw: 0, bh: 0, eff: 100 },
-    ht: { mode: "d", lpi: 40, int: 0, thr: 5, solid: 0, col: "#ffffff", w: 28, bg: "#111111", zoom: 0 } };
+    ht: { mode: "d", lpi: 40, int: 0, thr: 5, lev: 30, rm: "black", tol: 18, inn: 0, solid: 0, col: "#ffffff", w: 28, bg: "#111111", zoom: 0 } };
   const mrg = (a, b) => { const r = {}; for (const k in a) r[k] = a[k] && typeof a[k] === "object" ? mrg(a[k], (b && b[k]) || {}) : (b && b[k] !== undefined ? b[k] : a[k]); return r; };
-  let S, root = null, tool = "dtf", arts = [], lay = null, htSrc = null, htName = "", busy = false, uidn = 0, mapC = null;
+  let S, root = null, tool = "dtf", arts = [], lay = null, htSrc = null, htWork = null, inkOrig = 1, htName = "", busy = false, uidn = 0, mapC = null;
   const urls = {}, tm = {};
   try { S = mrg(DEF, typeof LS !== "undefined" && LS.json ? LS.json(KEY, {}) : JSON.parse(localStorage.getItem(KEY) || "{}")); } catch (e) { S = mrg(DEF, {}); }
   const save = () => { try { const s = JSON.stringify(S); if (typeof LS !== "undefined" && LS.set) LS.set(KEY, s); else localStorage.setItem(KEY, s); } catch (e) {} };
@@ -8992,6 +8993,36 @@ html.neon .fin-card,html.neon .fin-stat,html.neon .fin-item,html.neon .fin-seg{b
   }
 
   /* ================= 3. HALF TONE ================= */
+  function meanAlpha(c) { const k = Math.min(1, 200 / Math.max(c.width, c.height)), w = Math.max(1, Math.round(c.width * k)), h = Math.max(1, Math.round(c.height * k)), t = document.createElement("canvas"); t.width = w; t.height = h; const x = t.getContext("2d"); x.drawImage(c, 0, 0, w, h); const d = x.getImageData(0, 0, w, h).data; let s = 0; for (let i = 3; i < d.length; i += 4) s += d[i]; return s / 255 / (w * h); }
+  /* tira o fundo a partir das bordas (só o que está ligado à borda e parece fundo); o que está dentro da arte é preservado */
+  function removeBg(src, mode, tolPct, inner) {
+    if (mode === "none") return { cv: src, msg: "" };
+    const w = src.width, h = src.height, id = src.getContext("2d").getImageData(0, 0, w, h), d = id.data, N = w * h; let key = [0, 0, 0];
+    if (mode === "auto") {
+      const R = [], G = [], B = [], st = Math.max(1, Math.floor((w + h) / 400)); const add = (x, y) => { const i = (y * w + x) * 4; if (d[i + 3] > 200) { R.push(d[i]); G.push(d[i + 1]); B.push(d[i + 2]); } };
+      for (let x = 0; x < w; x += st) { add(x, 0); add(x, h - 1); } for (let y = 0; y < h; y += st) { add(0, y); add(w - 1, y); }
+      if (R.length < 20) return { cv: src, msg: '<span class="fin-mid">⚠️ A borda já é transparente: não há fundo para remover.</span>' };
+      const med = a => a.slice().sort((p, q) => p - q)[a.length >> 1]; key = [med(R), med(G), med(B)];
+      let near = 0; for (let i = 0; i < R.length; i++) if (Math.max(Math.abs(R[i] - key[0]), Math.abs(G[i] - key[1]), Math.abs(B[i] - key[2])) < 40) near++;
+      if (near < R.length * 0.55) return { cv: src, msg: '<span class="fin-mid">⚠️ Não achei um fundo de cor uniforme nas bordas. Nada foi removido (para não apagar coisa errada).</span>' };
+    }
+    const tol = tolPct * 2.55, fe = Math.max(8, tol * 0.6), lim = tol + fe, black = mode === "black";
+    const dist = i => { if (d[i * 4 + 3] < 8) return 0; const r = d[i * 4], g = d[i * 4 + 1], b = d[i * 4 + 2]; return black ? Math.max(r, g, b) : Math.max(Math.abs(r - key[0]), Math.abs(g - key[1]), Math.abs(b - key[2])); };
+    const mask = new Uint8Array(N), stk = new Int32Array(N); let sp = 0;
+    const push = (x, y) => { const i = y * w + x; if (!mask[i] && dist(i) <= lim) { mask[i] = 1; stk[sp++] = i; } };
+    for (let x = 0; x < w; x++) { push(x, 0); push(x, h - 1); } for (let y = 0; y < h; y++) { push(0, y); push(w - 1, y); }
+    while (sp) { const i = stk[--sp], x = i % w, y = (i - x) / w; if (x > 0) push(x - 1, y); if (x < w - 1) push(x + 1, y); if (y > 0) push(x, y - 1); if (y < h - 1) push(x, y + 1); }
+    let before = 0, after = 0;
+    for (let i = 0; i < N; i++) {
+      const o = d[i * 4 + 3]; before += o; let f = 1;
+      if (mask[i]) { const dd = dist(i); f = dd <= tol ? 0 : (dd - tol) / fe; } else if (black && inner) { const v = dist(i); if (v < lim) f = v <= tol ? 0 : (v - tol) / fe; }
+      const a = o * f; d[i * 4 + 3] = a; after += a; if (a < 1) { d[i * 4] = d[i * 4 + 1] = d[i * 4 + 2] = 0; }
+    }
+    const c = document.createElement("canvas"); c.width = w; c.height = h; c.getContext("2d").putImageData(id, 0, 0);
+    const rem = before > 0 ? 1 - after / before : 0, pc = Math.round(rem * 100);
+    const msg = rem > 0.9 ? '<span class="fin-mid">⚠️ Removi ' + pc + '% da arte, quase tudo. Diminua a tolerância.</span>' : rem < 0.005 ? '<span class="fin-mid">Nada foi removido. Se tem fundo, aumente a tolerância.</span>' : '<span class="fin-pos">✓ Removi ' + pc + '% da imagem (fundo ligado às bordas' + (black && inner ? " + pretos de dentro" : "") + ").</span>";
+    return { cv: c, msg };
+  }
   const hs = (a, b) => { let h = Math.imul(a | 0, 73856093) ^ Math.imul(b | 0, 19349663); h = Math.imul(h ^ (h >>> 13), 1274126177); h ^= h >>> 16; return (h >>> 0) / 4294967296; };
   function shrink(src, tw, th) {
     let cur = src;
@@ -9008,7 +9039,7 @@ html.neon .fin-card,html.neon .fin-stat,html.neon .fin-item,html.neon .fin-seg{b
   function hex(c) { const v = parseInt(String(c).replace("#", ""), 16) || 0; return [(v >> 16) & 255, (v >> 8) & 255, v & 255]; }
   function htOpts(src, Wo, Ho, Wr) {
     const h = S.ht, s = Wo / Wr, cs = Math.max(2, 300 / Math.max(5, h.lpi) * s);
-    return { W: Wo, H: Ho, cs, ang: (h.mode === "d" ? 45 : 15) * Math.PI / 180, vint: h.mode === "v", off: h.int / 200, thr: h.thr / 100, solid: !!h.solid, col: hex(h.col), m: buildMap(src, Wo, Ho, cs) };
+    return { W: Wo, H: Ho, cs, ang: (h.mode === "d" ? 45 : 15) * Math.PI / 180, vint: h.mode === "v", off: h.int / 200, thr: h.thr / 100, gam: 1 + h.lev / 40, mx: 1 - h.lev / 100 * 0.35, solid: !!h.solid, col: hex(h.col), m: buildMap(src, Wo, Ho, cs) };
   }
   function htRegion(o, x0, y0, w, n, out) {
     const cs = o.cs, ca = Math.cos(o.ang), sa = Math.sin(o.ang), M = o.m, mw = M.w, mh = M.h, kx = mw / o.W, ky = mh / o.H;
@@ -9024,11 +9055,12 @@ html.neon .fin-card,html.neon .fin-stat,html.neon .fin-item,html.neon .fin-seg{b
           const i11 = y1 * mw + x1, i21 = y1 * mw + x2, i12 = y2 * mw + x1, i22 = y2 * mw + x2, w11 = (1 - tx) * (1 - ty), w21 = tx * (1 - ty), w12 = (1 - tx) * ty, w22 = tx * ty;
           const bl = a => a[i11] * w11 + a[i21] * w21 + a[i12] * w12 + a[i22] * w22, A = bl(M.A);
           if (A >= 0.02) {
-            const c = Math.min(1, Math.max(0, bl(M.V) / A + o.off)) * A;
+            let c = Math.min(1, Math.max(0, bl(M.V) / A + o.off)) * A;
             if (c >= 0.004 && c >= o.thr) {
+              c = Math.pow(c, o.gam) * o.mx;
               rr = c <= 0.785 ? Math.sqrt(c / Math.PI) : 0.5 + (c - 0.785) / 0.215 * 0.2071;
               if (o.vint && c < 0.97) rr *= 1 + 0.35 * (1 - c) * (hs(i, j) * 2 - 1);
-              if (c >= 0.97) rr = 0.75;
+              if (c >= 0.97) rr = 0.75; if (c < 0.004) rr = 0;
               if (o.solid) { R = o.col[0]; G = o.col[1]; B = o.col[2]; } else { R = Math.min(255, bl(M.R) / A); G = Math.min(255, bl(M.G) / A); B = Math.min(255, bl(M.B) / A); }
             }
           }
@@ -9041,30 +9073,36 @@ html.neon .fin-card,html.neon .fin-stat,html.neon .fin-item,html.neon .fin-seg{b
       }
     }
   }
+  const cur = () => htWork || htSrc;
   const htDims = () => { const Wr = Math.max(1, Math.round(Math.max(1, S.ht.w) / 2.54 * 300)); return { Wr, Hr: Math.max(1, Math.round(Wr * htSrc.height / htSrc.width)) }; };
   function htDraw() {
     const res = $("htRes"), ctl = $("htCtl"); if (res) res.hidden = !htSrc; if (ctl) ctl.hidden = !htSrc; if (!htSrc) return;
-    clearDl("htDl"); const { Wr, Hr } = htDims(), cv = $("htCv"); let w, h, x0 = 0, y0 = 0, o;
-    if (S.ht.zoom) { w = Math.min(Wr, 700); h = Math.min(Hr, 700); x0 = (Wr - w) >> 1; y0 = (Hr - h) >> 1; o = htOpts(htSrc, Wr, Hr, Wr); }
-    else { w = Math.min(Wr, 900); h = Math.max(1, Math.round(w * Hr / Wr)); o = htOpts(htSrc, w, h, Wr); }
-    const out = new Uint8ClampedArray(w * h * 4); htRegion(o, x0, y0, w, h, out); cv.width = w; cv.height = h; cv.getContext("2d").putImageData(new ImageData(out, w, h), 0, 0);
+    clearDl("htDl"); const { Wr, Hr } = htDims(), cv = $("htCv"), v = S.ht.zoom; let w, h, x0 = 0, y0 = 0, o; $("htInk").textContent = "";
+    if (v === 2) { w = Math.min(Wr, 1100); h = Math.max(1, Math.round(w * Hr / Wr)); cv.width = w; cv.height = h; const x = cv.getContext("2d"); x.clearRect(0, 0, w, h); x.drawImage(htSrc, 0, 0, w, h); }
+    else {
+      if (v === 1) { w = Math.min(Wr, 700); h = Math.min(Hr, 700); x0 = (Wr - w) >> 1; y0 = (Hr - h) >> 1; o = htOpts(cur(), Wr, Hr, Wr); }
+      else { w = Math.min(Wr, 1100); h = Math.max(1, Math.round(w * Hr / Wr)); o = htOpts(cur(), w, h, Wr); }
+      const out = new Uint8ClampedArray(w * h * 4); htRegion(o, x0, y0, w, h, out); cv.width = w; cv.height = h; cv.getContext("2d").putImageData(new ImageData(out, w, h), 0, 0);
+      if (!v) { let t = 0; for (let i = 3; i < out.length; i += 4) t += out[i]; const r = t / 255 / (w * h) / Math.max(0.001, inkOrig); $("htInk").textContent = r < 0.995 ? "Tinta: " + Math.round(r * 100) + "% da arte original (" + Math.round((1 - r) * 100) + "% mais leve)" : "Sem economia de tinta. Aumente a leveza ou tire o fundo."; }
+    }
     $("htDim").textContent = "Arquivo final: " + Wr + " × " + Hr + " px (" + f1(S.ht.w) + " × " + f1(S.ht.w * htSrc.height / htSrc.width) + " cm a 300 DPI)";
   }
+  function htProc() { if (!htSrc) return; const r = removeBg(htSrc, S.ht.rm, S.ht.tol, S.ht.inn); htWork = r.cv; mapC = null; $("htRmInfo").innerHTML = r.msg; htDraw(); }
   async function expHt() {
     if (busy || !htSrc) return; const { Wr, Hr } = htDims(); if (Wr * Hr > 220e6) { toastS("Tamanho grande demais. Reduza a largura da estampa.", 3600); return; }
     busy = true; const btn = $("htGo"); btn.disabled = true; clearDl("htDl");
     try {
-      const o = htOpts(htSrc, Wr, Hr, Wr), bandN = Math.max(8, Math.floor(1.5e6 / Wr));
-      const blob = await makePNG(Wr, Hr, 300, async (y0, n) => { const out = new Uint8ClampedArray(Wr * n * 4); htRegion(o, 0, y0, Wr, n, out); return out; }, bandN, p => setProg("htProg", p, "Aplicando half tone"), async s => { const w = Math.round(Wr * s), h = Math.round(Hr * s), oo = htOpts(htSrc, w, h, Wr), out = new Uint8ClampedArray(w * h * 4); htRegion(oo, 0, 0, w, h, out); const c = document.createElement("canvas"); c.width = w; c.height = h; c.getContext("2d").putImageData(new ImageData(out, w, h), 0, 0); return c; });
+      const o = htOpts(cur(), Wr, Hr, Wr), bandN = Math.max(8, Math.floor(1.5e6 / Wr));
+      const blob = await makePNG(Wr, Hr, 300, async (y0, n) => { const out = new Uint8ClampedArray(Wr * n * 4); htRegion(o, 0, y0, Wr, n, out); return out; }, bandN, p => setProg("htProg", p, "Aplicando half tone"), async s => { const w = Math.round(Wr * s), h = Math.round(Hr * s), oo = htOpts(cur(), w, h, Wr), out = new Uint8ClampedArray(w * h * 4); htRegion(oo, 0, 0, w, h, out); const c = document.createElement("canvas"); c.width = w; c.height = h; c.getContext("2d").putImageData(new ImageData(out, w, h), 0, 0); return c; });
       setProg("htProg", null); showDl("htDl", blob, (htName || "arte") + "_halftone_300dpi.png", Wr + " × " + Hr + " px · 300 DPI · fundo transparente");
     } catch (e) { setProg("htProg", null); toastS("Não consegui gerar o PNG: " + (e && e.message || e), 4200); }
     busy = false; btn.disabled = false;
   }
   async function loadHt(f) {
     try {
-      const c = toCanvas(await loadImg(f), 4096); htSrc = c; htName = f.name.replace(/\.[^.]+$/, "").replace(/[^\w\-]+/g, "_") || "arte"; mapC = null;
-      $("htInfo").innerHTML = esc(f.name) + " · " + c.width + " × " + c.height + " px" + (hasAlpha(c) ? "" : '<br><span class="fin-mid">⚠️ Esta imagem não tem fundo transparente: as áreas claras viram tinta. Prefira PNG com fundo transparente.</span>');
-      htDraw();
+      const c = toCanvas(await loadImg(f), 3200); htSrc = c; inkOrig = meanAlpha(c); htName = f.name.replace(/\.[^.]+$/, "").replace(/[^\w\-]+/g, "_") || "arte"; mapC = null;
+      $("htInfo").innerHTML = esc(f.name) + " · " + c.width + " × " + c.height + " px" + (hasAlpha(c) ? "" : '<br><span class="fin-sub">Imagem sem fundo transparente: use "Tirar o preto" ou "Fundo (auto)" abaixo.</span>');
+      htProc();
     } catch (e) { toastS("Não consegui abrir essa imagem.", 3000); }
   }
 
@@ -9084,14 +9122,14 @@ html.neon .fin-card,html.neon .fin-stat,html.neon .fin-item,html.neon .fin-seg{b
       '<section data-p="cost" hidden><div class="fin-card"><h3>Custo por Estampa</h3><div class="fin-sub" style="margin:-4px 0 14px">Calcula quanto cada estampa custa na peça final, pelo valor pago no metro da impressão.</div><div class="fin-two">' + fld("Valor pago no metro", "pm", "R$") + fld("Largura do rolo", "roll", "cm") + '</div>' +
       '<div class="fin-sub" style="margin:2px 0 8px"><b>Frente</b></div><div class="fin-two">' + fld("Largura", "cost.fw", "cm") + fld("Altura", "cost.fh", "cm") + '</div><div class="fin-sub" style="margin:2px 0 8px"><b>Costas</b> (deixe 0 se não tiver)</div><div class="fin-two">' + fld("Largura", "cost.bw", "cm") + fld("Altura", "cost.bh", "cm") + "</div>" + fld("Aproveitamento do rolo (100% = sem perda)", "cost.eff", "%") + '</div><div id="costOut"></div></section>' +
       '<section data-p="ht" hidden><div class="fin-card"><h3>Aplicador de Half Tone</h3><div class="fin-sub" style="margin:-4px 0 14px">Aplica retículas para suavizar a estampa em peças escuras e baixa o PNG em 300 DPI.</div><label class="fin-btn block" for="htFile" style="cursor:pointer">Subir a arte</label><input type="file" id="htFile" accept="image/*" style="display:none"><div class="fin-sub" id="htInfo" style="margin-top:10px">PNG com fundo transparente funciona melhor.</div></div>' +
-      '<div class="fin-card" id="htCtl" hidden><h3>Ajustes</h3>' + chips("htMode", [["mode", "d", "Peça escura detalhe"], ["mode", "v", "Peça escura vintage"]]) + sld("Frequência (pontos menores e mais juntos)", "ht.lpi", 10, 80) + sld("Intensidade (− escurece · + clareia)", "ht.int", -100, 100) + sld("Limite de intensidade (remove o que está abaixo)", "ht.thr", 0, 60) +
+      '<div class="fin-card" id="htCtl" hidden><h3>Ajustes</h3>' + '<div class="fin-sub" style="margin:0 0 8px"><b>1. Remover fundo</b></div>' + chips("htRm", [["rm", "black", "Tirar o preto"], ["rm", "auto", "Fundo (auto)"], ["rm", "none", "Nenhum"]]) + sld("Tolerância do fundo", "ht.tol", 0, 45) + '<label class="fin-sw"><span>Tirar pretos de dentro também<small>Deixa a estampa mais leve (o preto vira a cor da peça)</small></span><input type="checkbox" data-k="ht.inn"' + (S.ht.inn ? " checked" : "") + '></label><div class="fin-sub" id="htRmInfo" style="margin:8px 0 16px"></div><div class="fin-sub" style="margin:0 0 8px"><b>2. Half tone</b></div>' + chips("htMode", [["mode", "d", "Peça escura detalhe"], ["mode", "v", "Peça escura vintage"]]) + sld("Leveza (menos tinta)", "ht.lev", 0, 100) + sld("Frequência (pontos menores e mais juntos)", "ht.lpi", 10, 80) + sld("Intensidade (− escurece · + clareia)", "ht.int", -100, 100) + sld("Limite de intensidade (remove o que está abaixo)", "ht.thr", 0, 60) +
       '<label class="fin-sw"><span>Cor sólida<small>Pinta todos os pontos com uma só cor</small></span><input type="checkbox" data-k="ht.solid"' + (S.ht.solid ? " checked" : "") + '></label><div id="htColW" style="margin:8px 0" ' + (S.ht.solid ? "" : "hidden") + '><input type="color" data-k="ht.col" value="' + S.ht.col + '" style="width:100%;height:50px;border:0;border-radius:14px;padding:0;background:none"></div>' + fld("Largura da estampa no arquivo final", "ht.w", "cm") + "</div>" +
-      '<div class="fin-card" id="htRes" hidden><h3>Pré-visualização</h3>' + chips("htView", [["zoom", 0, "Geral"], ["zoom", 1, "Zoom 300 DPI"]]) + '<div class="fin-chips" id="htBg">' + ["#111111", "#2b2f3a", "#14213d", "#4a1c28"].map(c => '<button type="button" data-ft="bg" data-v="' + c + '" style="min-width:46px;background:' + c + '"> </button>').join("") + '</div><div class="ft-wrap" id="htWrap"><canvas id="htCv" class="ft-cv"></canvas></div><div class="fin-sub" id="htDim" style="margin:10px 0"></div><button class="fin-btn block" id="htGo" data-ft="expHt">Gerar PNG 300 DPI</button><div id="htProg"></div><div id="htDl"></div></div></section>';
+      '<div class="fin-card" id="htRes" hidden><h3>Pré-visualização</h3>' + chips("htView", [["zoom", 2, "Original"], ["zoom", 0, "Half tone"], ["zoom", 1, "Zoom 300 DPI"]]) + '<div class="fin-chips" id="htBg">' + ["#111111", "#2b2f3a", "#14213d", "#4a1c28"].map(c => '<button type="button" data-ft="bg" data-v="' + c + '" style="min-width:46px;background:' + c + '"> </button>').join("") + '</div><div class="ft-wrap" id="htWrap"><canvas id="htCv" class="ft-cv"></canvas></div><div class="fin-pos" id="htInk" style="margin:10px 0 0;font-weight:700"></div><div class="fin-sub" id="htDim" style="margin:6px 0 10px"></div><button class="fin-btn block" id="htGo" data-ft="expHt">Gerar PNG 300 DPI</button><div id="htProg"></div><div id="htDl"></div></div></section>';
     root.addEventListener("input", onInp); root.addEventListener("change", onChg); root.addEventListener("click", onClk);
   }
   function setOn() {
     const mark = (id, key, val) => { const b = $(id); if (b) b.querySelectorAll("button").forEach(x => x.classList.toggle("on", String(x.dataset.v) === String(val))); };
-    mark("ftTabs", "tool", tool); mark("dtfDpi", "dpi", S.dpi); mark("htMode", "mode", S.ht.mode); mark("htView", "zoom", S.ht.zoom); mark("htBg", "bg", S.ht.bg);
+    mark("ftTabs", "tool", tool); mark("dtfDpi", "dpi", S.dpi); mark("htMode", "mode", S.ht.mode); mark("htRm", "rm", S.ht.rm); mark("htView", "zoom", S.ht.zoom); mark("htBg", "bg", S.ht.bg);
     root.querySelectorAll("[data-v]").forEach(e => { if (e.tagName === "B" && e.dataset.v.indexOf("ht.") === 0) e.textContent = fmtV(e.dataset.v, gp(e.dataset.v)); });
     const w = $("htWrap"); if (w) w.style.background = S.ht.bg;
   }
@@ -9106,7 +9144,7 @@ html.neon .fin-card,html.neon .fin-stat,html.neon .fin-item,html.neon .fin-seg{b
     root.querySelectorAll('input[data-k="' + k + '"]').forEach(x => { if (x !== t && x.type !== "checkbox" && x.type !== "range") x.value = String(v).replace(".", ","); });
     root.querySelectorAll('b[data-v="' + k + '"]').forEach(x => { x.textContent = fmtV(k, v); });
     if (k === "ht.solid") $("htColW").hidden = !v;
-    if (/^(roll|gap|mar|rot|pm)$/.test(k)) { later("dtf", dtfNow); costNow(); } else if (k.indexOf("cost.") === 0) costNow(); else if (k.indexOf("ht.") === 0) later("ht", htDraw, 120);
+    if (/^(roll|gap|mar|rot|pm)$/.test(k)) { later("dtf", dtfNow); costNow(); } else if (k.indexOf("cost.") === 0) costNow(); else if (k === "ht.tol" || k === "ht.inn") later("htp", htProc, 220); else if (k.indexOf("ht.") === 0) later("ht", htDraw, 120);
   }
   function onChg(e) {
     const t = e.target, fl = t.files && Array.from(t.files); if (!fl || !fl.length) return;
@@ -9117,6 +9155,7 @@ html.neon .fin-card,html.neon .fin-stat,html.neon .fin-item,html.neon .fin-seg{b
     if (a === "tool") showTool(v);
     else if (a === "dpi") { S.dpi = +v; save(); setOn(); clearDl("dtfDl"); }
     else if (a === "mode") { S.ht.mode = v; S.ht.lpi = v === "d" ? 40 : 22; save(); root.querySelector('[data-k="ht.lpi"]').value = S.ht.lpi; setOn(); htDraw(); }
+    else if (a === "rm") { S.ht.rm = v; save(); setOn(); htProc(); }
     else if (a === "zoom") { S.ht.zoom = +v; save(); setOn(); htDraw(); }
     else if (a === "bg") { S.ht.bg = v; save(); setOn(); }
     else if (a === "del") { arts = arts.filter(x => x.id !== b.dataset.id); dtfList(); dtfNow(); }
@@ -9124,7 +9163,7 @@ html.neon .fin-card,html.neon .fin-stat,html.neon .fin-item,html.neon .fin-seg{b
     else if (a === "expDtf") expDtf();
     else if (a === "expHt") expHt();
   }
-  window.FinTools = { mount(hold) { if (!root) build(); hold.appendChild(root); showTool(tool); }, _t: { packAll, run, split, htRegion, htOpts, pngStream, hs, S: () => S } };
+  window.FinTools = { mount(hold) { if (!root) build(); hold.appendChild(root); showTool(tool); }, _t: { work: () => htWork, packAll, run, split, htRegion, htOpts, pngStream, hs, S: () => S } };
 })();
 
 </script>
